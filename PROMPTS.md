@@ -22,3 +22,9 @@ Starting with this one, save all of my prompts in a document called PROMPTS.md.
 
 This year we will compete in Battlecode 2021.  Store all results in a new Github repository called battlecode21-vibe.  Download the rules and begin.
 ```
+
+## Prompt 2: Push everything
+
+```text
+Make sure everything is pushed to the repository
+```

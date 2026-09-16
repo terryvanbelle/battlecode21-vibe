@@ -115,3 +115,30 @@ units on their flag, expose slanderers, and sit next to the enemy EC. Flags:
 **Instrument**: `tools/replay-dump.sh <replay> --logs '@econ|@scout' --logs-team A`
 gives the EC's 50-round economy line and every scout goal; `--robot ID` tracks
 one unit; `--bytecode` prints per-type peaks from the engine's own counters.
+
+**Smoke tests, congestion and captures (2026-09-16, later).** Two further
+findings from traced replays, both about bodies rather than logic:
+
+- A 269-influence capture politician built at r105 on `Gridlock` never moved
+  for 1400 rounds: boxed in on the spawn ring by 12 idle slanderers and 30
+  idle guards (ring d^2 4-18 around a single EC holds ~40 tiles). Same for a
+  freshly built scout on `maptestsmall`. Fixes: slanderer ring widened to
+  d^2 8-45, guards hold outside it (d^2 20-80), any unit with more than two
+  adjacent friends (or occasionally with one) steps to the emptiest
+  neighbouring tile, capturers spawn on the target's side, guard cap cut
+  from 30 to 4 + slanderers/2 (max 10). Fewer bodies is the real fix.
+- With 30 guards the EC never held more than ~100 influence on `Gridlock`, so
+  none of the six known neutral ECs (150-250 influence, all located by r250)
+  was ever affordable to capture. Production priority must leave room for
+  captures; the guard cap does that, and a rich EC with a known enemy EC now
+  spends everything above reserve on capture politicians.
+- Edge discovery: scouts now head for edges nobody has found (split by id);
+  `Gridlock` bounds were complete by r250 (v1f) versus never in v1c. Enemy EC
+  contact on `maptestsmall` moved from r537 (heading-walk scouts) to r60
+  (waypoint scouts). Symmetry on `maptestsmall` still unresolved in v1e because
+  the top edge was never probed; being tested with edge-seeking scouts.
+- `--navstats`: our A-B-A oscillation rate 0.1-3.4% of moves versus the
+  example bot's 5.1-5.5%; coverage 25-33% of tiles visited (the example bot
+  49-72%, but it wanders with 3-10x more moves).
+- Bytecode after the distance cache: POL peak 8.5k, EC 7.4k, SLA 4.5k, MUC
+  4.1k; zero overruns in every game so far.

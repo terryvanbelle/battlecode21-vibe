@@ -110,13 +110,13 @@ public strictfp class EC extends Robot {
     // ---------------------------------------------------------------- bidding
     private void doBid() throws GameActionException {
         int votes = rc.getTeamVotes();
+        if (votes > 751) { lastVotes = votes; return; }        // majority secured, stop paying and stop adapting
         if (round > 1) { if (votes > lastVotes) { votesWon++; bid = Math.max(1, bid - (bid / 8 + 1) / 2); } else { votesLost++; bid = bid + bid / 3 + 1; } }
         lastVotes = votes;
         int inf = rc.getInfluence();
         int cap = Math.max(1, inf / C.BID_CAP_DIV);
         if (round < 20) cap = Math.min(cap, 3);
         if (bid > cap) bid = cap;
-        if (votes > 751) { return; }        // majority secured, stop paying
         if (rc.canBid(bid) && bid > 0) rc.bid(bid);
     }
 

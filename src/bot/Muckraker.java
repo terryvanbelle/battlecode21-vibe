@@ -59,38 +59,50 @@ public strictfp class Muckraker extends Robot {
         return b;
     }
 
+    private int lastMoveRound = 0; private MapLocation lastLoc;
     private void wander() throws GameActionException {
-        // bounds known: aim at the candidate enemy EC positions (one per surviving hypothesis), scouts split by id
-        if (MapState.boundsKnown() && MapState.home != null && MapState.nEnemy == 0) {
-            if (explore == null || loc.distanceSquaredTo(explore) <= 8 || (rc.canSenseLocation(explore) && !isEC(explore))) {
-                if (explore != null && rc.canSenseLocation(explore)) MapState.pruneWithEmptyTile(explore);
-                explore = null;
-                for (int h = 0; h < 3; h++) if ((MapState.sym & (1 << h)) != 0) { MapLocation c = MapState.image(MapState.home, h); if (explore == null || (id + h) % 3 == 0) explore = c; }
-                if (explore == null) explore = MapState.center();
-            }
-            nav.setTarget(explore); if (nav.step()) return;
+        if (lastLoc == null || !lastLoc.equals(loc)) { lastLoc = loc; lastMoveRound = round; }
+        boolean reached = explore != null && (Nav.cheb(loc, explore) <= 2
+            || (rc.canSenseLocation(explore) && (MapState.boundsKnown() ? isEC(explore) == false && MapState.nEnemy == 0 && explore.equals(candidateFor(explore)) : !rc.onTheMap(explore))));
+        if (explore == null || reached || round - lastMoveRound > 12) {
+            if (explore != null && MapState.boundsKnown() && rc.canSenseLocation(explore) && !isEC(explore)) MapState.pruneWithEmptyTile(explore);
+            explore = pickExplore(); lastMoveRound = round;
+            Debug.log("@scout goal=" + (explore.x - MapState.minX) + "," + (explore.y - MapState.minY) + " sym=" + MapState.sym + " bounds=" + MapState.boundsKnown());
         }
-        // bounds unknown: walk the heading, but bias toward the far side of the map from home once any edge is known
-        if (!MapState.boundsKnown() && MapState.home != null && (round - birth) % 25 == 0) {
-            // re-aim: away from home, preferring axes whose far edge is still unknown
-            int dx = heading.getDeltaX(), dy = heading.getDeltaY();
-            if (MapState.maxX >= 0 && dx > 0 && MapState.maxX - loc.x < 6) dx = -1;
-            if (MapState.minX >= 0 && dx < 0 && loc.x - MapState.minX < 6) dx = 1;
-            if (MapState.maxY >= 0 && dy > 0 && MapState.maxY - loc.y < 6) dy = -1;
-            if (MapState.minY >= 0 && dy < 0 && loc.y - MapState.minY < 6) dy = 1;
-            if (dx == 0 && dy == 0) dx = 1;
-            heading = new MapLocation(0, 0).directionTo(new MapLocation(dx, dy));
-        }
-        MapLocation n = loc.add(heading);
-        boolean off = MapState.boundsKnown() ? (n.x < MapState.minX || n.x > MapState.maxX || n.y < MapState.minY || n.y > MapState.maxY) : !rc.onTheMap(n);
-        if (off) { heading = nextInt(2) == 0 ? heading.rotateLeft().rotateLeft().rotateLeft() : heading.rotateRight().rotateRight().rotateRight(); n = loc.add(heading); }
-        if (rc.canMove(heading)) { rc.move(heading); return; }
-        // blocked by a robot or swamp: sidestep
-        Direction l = heading.rotateLeft(), r = heading.rotateRight();
-        if (rc.canMove(l) && rc.canMove(r)) { if (rc.sensePassability(loc.add(l)) >= rc.sensePassability(loc.add(r))) rc.move(l); else rc.move(r); }
-        else if (rc.canMove(l)) rc.move(l); else if (rc.canMove(r)) rc.move(r);
-        else heading = nextInt(2) == 0 ? heading.rotateLeft().rotateLeft() : heading.rotateRight().rotateRight();
+        nav.setTarget(explore); nav.step();
     }
+    private MapLocation candidateFor(MapLocation e) { return e; }
+
+    /** Next exploration waypoint. */
+    private MapLocation pickExplore() {
+        if (MapState.boundsKnown() && MapState.home != null) {
+            // candidate enemy-EC positions under surviving hypotheses, split among scouts by id; else a far random point
+            int n = MapState.symCount();
+            if (n > 0 && MapState.nEnemy == 0) {
+                int k = (id + visits) % n; visits++;
+                for (int h = 0; h < 3; h++) if ((MapState.sym & (1 << h)) != 0) { if (k-- == 0) return MapState.image(MapState.home, h); }
+            }
+            int x = MapState.minX + nextInt(MapState.width()), y = MapState.minY + nextInt(MapState.height());
+            return new MapLocation(x, y);
+        }
+        // bounds unknown: go far along the heading, steering away from edges we already know
+        int dx = heading.getDeltaX(), dy = heading.getDeltaY();
+        if (MapState.maxX >= 0 && dx > 0 && MapState.maxX - loc.x < 8) dx = -1;
+        if (MapState.minX >= 0 && dx < 0 && loc.x - MapState.minX < 8) dx = 1;
+        if (MapState.maxY >= 0 && dy > 0 && MapState.maxY - loc.y < 8) dy = -1;
+        if (MapState.minY >= 0 && dy < 0 && loc.y - MapState.minY < 8) dy = 1;
+        if (dx == 0 && dy == 0) { dx = nextInt(2) == 0 ? 1 : -1; }
+        // rotate the heading 90 degrees for next time (per-robot handedness) so scouts sweep rather than shuttle
+        heading = new MapLocation(0, 0).directionTo(new MapLocation(dx, dy));
+        MapLocation t = new MapLocation(loc.x + dx * 24, loc.y + dy * 24);
+        if (MapState.minX >= 0 && t.x < MapState.minX) t = new MapLocation(MapState.minX, t.y);
+        if (MapState.maxX >= 0 && t.x > MapState.maxX) t = new MapLocation(MapState.maxX, t.y);
+        if (MapState.minY >= 0 && t.y < MapState.minY) t = new MapLocation(t.x, MapState.minY);
+        if (MapState.maxY >= 0 && t.y > MapState.maxY) t = new MapLocation(t.x, MapState.maxY);
+        heading = nextInt(2) == 0 ? heading.rotateLeft().rotateLeft() : heading.rotateRight().rotateRight();
+        return t;
+    }
+    private int visits = 0;
 
     private boolean isEC(MapLocation l) throws GameActionException { RobotInfo r = rc.senseRobotAtLocation(l); return r != null && r.type == RobotType.ENLIGHTENMENT_CENTER; }
 }

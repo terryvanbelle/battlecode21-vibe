@@ -191,3 +191,11 @@ run is in flight. Killing the old run also killed the shell issuing `pkill -f`
 twice more (exit 144): the fix is to kill by PID after inspecting
 `/proc/<pid>/cmdline`, never by pattern. The scan was relaunched at 16:15 UTC
 as `gauntlet/*-ladder-scan1`.
+
+**Maze (2 ECs per side, rotation) vs example bot, sibling-sharing build:** won
+on votes; captured 4 neutral ECs by r500 (two FLIP speeches, several chips).
+But no EC ever completed its bounds (one knew minY, another maxY) and sibling
+IDs did not propagate in time, so nobody resolved the symmetry. Sibling-ID
+reports are now sent as soon as a scout sees a sibling EC. A single Maze game
+took 18 minutes with the scan running beside it: development tests must be
+rationed while the scan is in flight.

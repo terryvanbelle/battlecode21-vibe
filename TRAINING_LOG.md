@@ -401,6 +401,29 @@ tiles only: an attacker on a diagonal still shares with 2+ walls). Counters as
 before, plus slanderers at r50 (must equal the baseline's 4) and the round the
 wall completes (expect < r160, the earliest first hit seen). Gate unchanged.
 
+**Refinement 1 Stage 0 (`gauntlet/20260916-194808-wall-r1`, `-194838-wall-r2`),
+vs `iyzg.sbot17`, `maptestsmall`, both sides.** Opening restored in both
+arms: 4 slanderers at r50 (= baseline). Wall complete at r93 (7) / r74 (4),
+before the first hit (r199-237). `wall_r1` (7): lost both (r687, r800); as B
+the EC took eight hits of 800-1750 at d2=4 with n=4-5 (loss ratios
+0.18-0.36, one 0.74) and fell at r524 against r353 in the baseline -- the
+dilution holds until the wall is depleted (a 1600 speech kills every
+1-conviction wall unit in range; the rebuild takes 6 rounds per unit and the
+next attacker arrives first). `wall_r2` (4): won both (r963, r1495), but not
+through the wall: its home EC fell at r237 / r441 and the wins came from EC
+swaps afterwards; with only 4 units the attackers stood orthogonally adjacent
+(d2=1, n=2, ratios 0.72-0.77) because a wall unit holds whichever tile it
+spawned on, diagonals included. Fix applied to both arms (mechanism
+completeness, not a new mechanism): wall units move from a diagonal to a free
+orthogonal tile, and the EC spawns them on orthogonal tiles first.
+
+*Decision:* a single opponent that fields 1600-conviction politicians every
+50 rounds cannot decide the candidate; it measures the mechanism, which is
+now as pre-registered (walls up before r100, attackers pushed to d2=4, per-hit
+ratio ~0.2-0.35). Both arms go to the head-to-head vs `g_iter2` (quick set,
+both sides, 24 games each); the arm that clears +4 and shows no
+one-directional regression goes to the roster gauntlet.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

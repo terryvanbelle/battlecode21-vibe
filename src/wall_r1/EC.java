@@ -1,4 +1,4 @@
-package bot;
+package wall_r1;
 
 import battlecode.common.*;
 

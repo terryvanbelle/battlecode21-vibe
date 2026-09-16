@@ -9,7 +9,8 @@ public final class C {
 
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
-    public static final int MAX_GUARDS = 30;
+    public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
+    public static final int GUARD_BASE = 4;
     public static final int EARLY_SCOUTS = 4;
     public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // bid at most influence / this

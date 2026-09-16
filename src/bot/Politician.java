@@ -86,7 +86,8 @@ public strictfp class Politician extends Robot {
             if (out.equals(loc)) { nav.fleeFrom(home); return; }
             nav.setTarget(out); if (nav.step()) return; nav.fleeFrom(home); return;
         }
-        if (crowd() > C.CROWD_MAX) { spreadOut(home, C.GUARD_RING_MIN, C.GUARD_LEASH_D2); return; }
+        int cr = crowd();
+        if (cr > C.CROWD_MAX || (cr > 0 && nextInt(3) == 0)) { spreadOut(home, C.GUARD_RING_MIN, C.GUARD_LEASH_D2); return; }
     }
 
     private void capture() throws GameActionException {

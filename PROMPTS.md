@@ -28,3 +28,9 @@ This year we will compete in Battlecode 2021.  Store all results in a new Github
 ```text
 Make sure everything is pushed to the repository
 ```
+
+## Prompt 3: Make the session visible in the apps
+
+```text
+This session doesn't seem to be visible in the web or desktop app.  Can you make sure it's visible there?
+```

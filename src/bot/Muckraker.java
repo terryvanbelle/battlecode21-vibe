@@ -104,21 +104,22 @@ public strictfp class Muckraker extends Robot {
             int x = MapState.minX + nextInt(MapState.width()), y = MapState.minY + nextInt(MapState.height());
             return new MapLocation(x, y);
         }
-        // bounds unknown: go far along the heading, steering away from edges we already know
-        int dx = heading.getDeltaX(), dy = heading.getDeltaY();
-        if (MapState.maxX >= 0 && dx > 0 && MapState.maxX - loc.x < 8) dx = -1;
-        if (MapState.minX >= 0 && dx < 0 && loc.x - MapState.minX < 8) dx = 1;
-        if (MapState.maxY >= 0 && dy > 0 && MapState.maxY - loc.y < 8) dy = -1;
-        if (MapState.minY >= 0 && dy < 0 && loc.y - MapState.minY < 8) dy = 1;
-        if (dx == 0 && dy == 0) { dx = nextInt(2) == 0 ? 1 : -1; }
-        // rotate the heading 90 degrees for next time (per-robot handedness) so scouts sweep rather than shuttle
+        // bounds unknown: head for an edge nobody has found yet (scouts split by id), far along that axis
+        int unknown = (MapState.minX < 0 ? 1 : 0) | (MapState.maxX < 0 ? 2 : 0) | (MapState.minY < 0 ? 4 : 0) | (MapState.maxY < 0 ? 8 : 0);
+        int dx = 0, dy = 0;
+        if (unknown != 0) {
+            int n = Integer.bitCount(unknown), k = (id + visits++) % n;
+            for (int e = 0; e < 4; e++) if ((unknown & (1 << e)) != 0 && k-- == 0) { dx = e == 0 ? -1 : e == 1 ? 1 : 0; dy = e == 2 ? -1 : e == 3 ? 1 : 0; }
+            // add a sideways component so two scouts on the same edge sweep different columns
+            if (dx == 0) dx = (nextInt(3) - 1); else dy = (nextInt(3) - 1);
+        } else { dx = heading.getDeltaX(); dy = heading.getDeltaY(); }
+        if (dx == 0 && dy == 0) dx = 1;
         heading = new MapLocation(0, 0).directionTo(new MapLocation(dx, dy));
-        MapLocation t = new MapLocation(loc.x + dx * 24, loc.y + dy * 24);
+        MapLocation t = new MapLocation(loc.x + dx * 30, loc.y + dy * 30);
         if (MapState.minX >= 0 && t.x < MapState.minX) t = new MapLocation(MapState.minX, t.y);
         if (MapState.maxX >= 0 && t.x > MapState.maxX) t = new MapLocation(MapState.maxX, t.y);
         if (MapState.minY >= 0 && t.y < MapState.minY) t = new MapLocation(t.x, MapState.minY);
         if (MapState.maxY >= 0 && t.y > MapState.maxY) t = new MapLocation(t.x, MapState.maxY);
-        heading = nextInt(2) == 0 ? heading.rotateLeft().rotateLeft() : heading.rotateRight().rotateRight();
         return t;
     }
     private int visits = 0;

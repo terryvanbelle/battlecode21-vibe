@@ -52,3 +52,9 @@ Oh thank Christ.  OK, please resume
 ```text
 You can kill all jobs on the VM belonging to 2025 and release the resources for your use
 ```
+
+## Prompt 7: Pick a gauntlet subset
+
+```text
+Since we have an abundance of benchmark bots (good work there!), it makes sense to find a subset of them that best simulates the scrimmage.  Choose ones that are just slightly better than us to use as the gauntlet (20-50% of games won).  There are way too many of them to run every time
+```

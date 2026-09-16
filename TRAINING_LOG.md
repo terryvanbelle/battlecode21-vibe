@@ -210,6 +210,26 @@ by r300-r660), 0-2 vs JasonYe4273. Losses to 0% opponents are locked: no replay
 opened. The visible shape of the losses is early annihilation, i.e. our EC is
 converted within 300-700 rounds.
 
+**Gauntlet policy change (user, 18:40 UTC):** the standing gauntlet is the
+20-50% band only (`tools/gauntlet-select.py` -> `tools/roster.txt`); the full
+external set is a scan, played after accepts. The running scan is the first
+tiering pass. With 4 games per opponent the band is coarse (1-2 wins of 4);
+band-edge opponents get more games in the next scan.
+
+**Probe (pre-registered, 18:40 UTC): can the EC survive our own rushes?** The
+losses so far are annihilations by r300-660 and their replays are locked, so
+the allowed measurement is an own-archetype probe on `maptestsmall`:
+(a) `arch_muck` (archetype 1: 4 slanderers then 1-influence muckrakers at us),
+(b) `arch_polrush` (archetype 3, new: 2 scouts, 2 small slanderers, then every
+100+ influence becomes a capture politician at our EC). Counters read from the
+replay: EC influence per round, slanderer count, `@speech role=guard` count
+and what the guards spoke at, round and cause of any EC conversion. Gates: a
+loss to either archetype, or EC influence pinned under 100 while enemy
+politicians of >100 conviction are within 5 tiles, names the defence as the
+target. Not a candidate: no code in `bot` changes for this probe. Runner:
+`tools/run-dev.sh` (private compile; `gauntlet.sh` wipes `build/classes`, so
+compiling there mid-scan could dud a scan game).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

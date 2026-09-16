@@ -16,7 +16,9 @@ Everything runs locally with bare `java` (JDK 8 at `~/jdk/jdk8u504-b01`, see
 | `bench-compile.sh` | compile every benchmark repo without displaying source; writes `manifest.tsv` |
 | `bench-select.py [--all|--table]` | name-only pick of each repo's final bot |
 | `bench-roster.py` | regenerate the roster table in `BENCHMARK.md` |
-| `ladder.sh` | benchmark run + history + charts + roster in one go |
+| `gauntlet-select.py results.csv... [--write tools/roster.txt]` | tier every opponent from scan results; writes the standing roster (the 20-50% band) |
+| `run-dev.sh A B map [replay]` | like `run-match.sh` but from a private compile (`build/dev-classes`): safe while a gauntlet owns `build/classes` |
+| `ladder.sh` | roster run (default) or `SCAN=1` re-tiering scan + history + charts + roster table in one go |
 | `track_history.py run [--label]` | append per-opponent win rates to `progress/history.csv` |
 | `plot_history.py` | `progress/vs_roster.png` (frozen snapshots) and `progress/ladder.png` (external bots) |
 | `plot_progress.py` | `progress/cumulative_iterations.png` |

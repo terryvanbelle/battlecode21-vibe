@@ -1,4 +1,4 @@
-package bot;
+package arch_muck;
 
 import battlecode.common.*;
 
@@ -53,14 +53,7 @@ public strictfp class EC extends Robot {
             if (role == Roles.ECON) slanderers++; else scouts++;
             pendingOrder = Comms.encode(Comms.ORDER, role, loc); pendingOrderRound = round + 1; return;
         }
-        if (C.ARCHETYPE == 3) {   // politician rush: 2 scouts, 2 small slanderers, then every 100+ influence becomes a capture politician aimed at the enemy EC
-            if (scouts < 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
-            else if (slanderers < 2 && Econ.bestSize(inf - 5) >= 21 && !danger) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 85)); role = Roles.ECON; }
-            else if (MapState.nEnemy > 0 && inf >= 100) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - 5; role = Roles.CAPTURE; }
-            else if (MapState.nEnemy == 0 && scouts < 4 && inf >= 30) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
-            else return;
-        }
-        else if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
+        if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
         else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }

@@ -126,6 +126,16 @@ cheap screens, and the same subset is then pinned for every arm of that screen.
 | **peer** | 50-90% | regression check; gates acceptance |
 | **solved** | > 90% in two consecutive evaluations | leaves the gate; stays in the fixed roster |
 
+**The standing gauntlet is the target tier.** With 60+ external bots, playing
+all of them per candidate is too slow to be the loop's instrument, and bots we
+beat 0% or 100% of the time resolve nothing. `tools/gauntlet-select.py` reads
+the last scan's results and writes `tools/roster.txt`: every opponent in the
+20-50% band (min 2 decided games). That roster is what every candidate plays
+(`tools/ladder.sh` uses it by default). The full external set is played only
+in a **scan** (`SCAN=1 tools/ladder.sh`), after every accept, and any bot whose
+rate crosses a band edge is re-tiered then. Peers stay in the fixed roster;
+locked bots wait for the next scan.
+
 Re-tier after every full evaluation. The **ladder position** -- the strongest
 external bot in *target* or better -- is the headline progress number, and the
 locked tier is the scoreboard we are climbing towards. Unlocking a bot is a
@@ -234,7 +244,7 @@ One change per candidate; never bundle. Then:
 1. **Head-to-head** vs. the last accepted snapshot, full corpus, both sides.
    Report win count, margin, swept maps each way, and the arm-to-arm identity
    count (how many cells are byte-identical; all-identical voids the run).
-2. **Peer and target gauntlet** on the same map set. Diff game by game against
+2. **Roster gauntlet** (`tools/roster.txt`, the target tier) on the same map set. Diff game by game against
    the baseline run and read the **shape**: scattered mixed-direction flips are
    churn; one-directional flips, or flips concentrated on one map or side across
    several opponents, are a real effect to trace before deciding.

@@ -505,6 +505,19 @@ branch already fires and the diagnosis is wrong) or units do not increase.
 Attempt count: 4th incremental in a row (census, wall, wall refinement,
 spend); the next attempt must be structural (SwingEvery = 4).
 
+**Stage 0, spend (`gauntlet/20260916-220154-spend-s0`, first three games):
+mechanism engaged.** `spend=` 68 / 166 / 227 builds by r250-450 (baseline 0);
+`idle=` 47 / 53 / 9 (baseline: hundreds); slanderers pinned at the spare cap
+24, guards 24-32, hunters 40-50. `unitsLived100`: Gridlock as B 181 (baseline
+74 on the same cell), Maze as A 400 (baseline 230 vs another opponent);
+mean moves per unit unchanged (61-72). All three still lost (EC converted at
+r406, r761, r908): the opponent still fields 3-7x the units. One gap in the
+counters: on Maze at r400-450 the EC held 2575 -> 7021 influence with idle=9,
+i.e. it was building every cooldown but 1-influence hunters, because guards
+already exceeded slanderers + 2 and `danger` blocked slanderers. Completeness
+tweak, same mechanism: a spare bank >= 300 buys a guard (cost spare/3)
+regardless of the guard:slanderer ratio. Next: head-to-head vs `g_iter2`.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

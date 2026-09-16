@@ -76,7 +76,7 @@ public abstract strictfp class Robot {
         nEnemy = nFriend = nNeutral = 0; nearestEnemy = null; nearestEnemyD2 = 1 << 30; nearestEnemyMuck = null; nearestEnemyMuckD2 = 1 << 30;
         for (int i = nearby.length; --i >= 0;) {
             RobotInfo r = nearby[i];
-            if (r.team == us) { if (nFriend < 64) friends[nFriend++] = r; if (r.type == RobotType.ENLIGHTENMENT_CENTER) MapState.addOwnEC(r.location); }
+            if (r.team == us) { if (nFriend < 64) friends[nFriend++] = r; if (r.type == RobotType.ENLIGHTENMENT_CENTER) { MapState.addOwnEC(r.location); MapState.addOwnEcId(r.ID); } }
             else if (r.team == them) {
                 if (nEnemy < 64) enemies[nEnemy++] = r;
                 int d = loc.distanceSquaredTo(r.location);
@@ -109,6 +109,7 @@ public abstract strictfp class Robot {
             case Comms.NEUTRAL_EC: MapState.addNeutralEC(Comms.loc(f, ref), Comms.unbucket8(Comms.extra(f))); break;
             case Comms.MAP_EDGE: { MapLocation l = Comms.loc(f, ref); int e = Comms.extra(f); MapState.edgeFound(e, e < 2 ? l.x : l.y); break; }
             case Comms.OWN_EC: MapState.addOwnEC(Comms.loc(f, ref)); break;
+            case Comms.OWN_EC_ID: MapState.addOwnEcId(Comms.payload(f)); break;
             default: break;
         }
     }

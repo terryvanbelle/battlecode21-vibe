@@ -66,7 +66,8 @@ public strictfp class Muckraker extends Robot {
                 case 3: if (MapState.maxY >= 0) return Comms.encode(Comms.MAP_EDGE, 3, new MapLocation(loc.x, MapState.maxY)); break;
                 case 4: case 5: if (MapState.nEnemy > 0) return Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(i + round) % MapState.nEnemy]); break;
                 case 6: if (MapState.nNeutral > 0) { int j = (round / 2) % MapState.nNeutral; return Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[j]), MapState.neutralEC[j]); } break;
-                default: if (MapState.nOwn > 1) return Comms.encode(Comms.OWN_EC, 0, MapState.ownEC[(round / 2) % MapState.nOwn]); break;
+                default: if (MapState.nOwnId > 0) return Comms.encodeRaw(Comms.OWN_EC_ID, MapState.ownEcId[(round / 2) % MapState.nOwnId]);
+                         if (MapState.nOwn > 1) return Comms.encode(Comms.OWN_EC, 0, MapState.ownEC[(round / 2) % MapState.nOwn]); break;
             }
         }
         return 0;

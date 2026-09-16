@@ -23,6 +23,13 @@ public final class MapState {
     public static final MapLocation[] neutralEC = new MapLocation[MAX_ECS]; public static int nNeutral = 0;
     public static final int[] neutralInf = new int[MAX_ECS];
     public static final MapLocation[] ownEC = new MapLocation[MAX_ECS];     public static int nOwn = 0;
+    public static final int[] ownEcId = new int[MAX_ECS];                   public static int nOwnId = 0;   // sibling EC ids (not home)
+    public static boolean addOwnEcId(int id) {
+        if (id == homeId) return false;
+        for (int i = nOwnId; --i >= 0;) if (ownEcId[i] == id) return false;
+        if (nOwnId >= MAX_ECS) return false;
+        ownEcId[nOwnId++] = id; return true;
+    }
 
     public static boolean boundsKnown() { return minX >= 0 && maxX >= 0 && minY >= 0 && maxY >= 0; }
     public static int width()  { return maxX - minX + 1; }

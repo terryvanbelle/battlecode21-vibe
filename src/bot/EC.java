@@ -30,6 +30,7 @@ public strictfp class EC extends Robot {
         sense();
         probeEdges();
         readChildren();
+        readSiblings();
         int inf = rc.getInfluence();
         boolean danger = nearestEnemyD2 < 1 << 30;   // any enemy in our 40 r2 sensor range
         if (rc.isReady()) build(inf, danger);
@@ -151,6 +152,16 @@ public strictfp class EC extends Robot {
     @Override protected void absorb(int f, MapLocation ref) {
         super.absorb(f, ref);
         if (Comms.type(f) == Comms.ENEMY_EC && Comms.extra(f) > 0) enemyEcInf = Comms.unbucket(Comms.extra(f));
+    }
+
+    /** ECs can read any flag: absorb what sibling ECs broadcast (bounds, enemy ECs, neutrals). */
+    private void readSiblings() throws GameActionException {
+        for (int i = MapState.nOwnId; --i >= 0;) {
+            int sid = MapState.ownEcId[i];
+            if (!rc.canGetFlag(sid)) { MapState.nOwnId--; MapState.ownEcId[i] = MapState.ownEcId[MapState.nOwnId]; continue; }   // sibling lost (converted)
+            int f = rc.getFlag(sid);
+            if (Comms.type(f) != Comms.IDLE && Comms.type(f) != Comms.ORDER && Comms.type(f) != Comms.STATUS) absorb(f, loc);
+        }
     }
 
     private void updateBroadcast(boolean danger) throws GameActionException {

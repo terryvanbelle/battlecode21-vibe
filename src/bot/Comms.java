@@ -21,6 +21,10 @@ public final class Comms {
     public static final int ORDER = 5;        // extra = role; loc = target
     public static final int STATUS = 6;       // extra = bits: [sym:2][bounds known:1][danger:1] ; loc = home EC
     public static final int OWN_EC = 7;       // extra = influence bucket
+    public static final int OWN_EC_ID = 8;    // payload20 = robot id of a friendly EC (so ECs can read each other's flags)
+
+    public static int encodeRaw(int type, int payload20) { return (type << 20) | (payload20 & 0xFFFFF); }
+    public static int payload(int f) { return f & 0xFFFFF; }
 
     public static int encode(int type, int extra, MapLocation l) {
         return (type << 20) | ((extra & 63) << 14) | ((l.x & 127) << 7) | (l.y & 127);

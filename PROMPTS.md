@@ -46,3 +46,9 @@ Idiot copy/paste failed to work.  Can you please write instructions to make this
 ```text
 Oh thank Christ.  OK, please resume
 ```
+
+## Prompt 6: Free the VM
+
+```text
+You can kill all jobs on the VM belonging to 2025 and release the resources for your use
+```

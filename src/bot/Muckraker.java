@@ -11,7 +11,6 @@ public strictfp class Muckraker extends Robot {
     private Direction heading;
     private int report = 0; private int reportRound = -10; private int lastSiblingReported = -1;
     private MapLocation explore;   // current exploration waypoint
-    private int role = Roles.SCOUT; private boolean orderRead = false;
 
     Muckraker(RobotController rc) { super(rc); }
 
@@ -24,8 +23,6 @@ public strictfp class Muckraker extends Robot {
 
     @Override protected void turn() throws GameActionException {
         sense();
-        if (!orderRead) { int f = readHome(); orderRead = true; if (f >= 0 && Comms.type(f) == Comms.ORDER) role = Comms.extra(f); }
-        if (role == Roles.WALL) { wall(); return; }
         int edge = probeEdges();
         if (round % 3 == 0) readHome();
         // report: enemy EC seen this turn > neutral EC > edge found > idle
@@ -55,31 +52,6 @@ public strictfp class Muckraker extends Robot {
         }
         // explore: keep heading; bounce off edges and obstacles
         wander();
-    }
-
-    /** WALL: hold a tile adjacent to home. Expose what comes within reach; never wander. */
-    private boolean inPlace = false;
-    private void wall() throws GameActionException {
-        setFlag(0);
-        MapLocation home = MapState.home; if (home == null) return;
-        if (rc.isReady()) {
-            for (int i = nEnemy; --i >= 0;) { RobotInfo r = enemies[i]; if (r.type == RobotType.SLANDERER && rc.canExpose(r.ID)) { rc.expose(r.ID); return; } }
-        }
-        if (loc.isAdjacentTo(home)) {
-            // prefer the four orthogonal tiles: an attacker on one of them speaks at radius 1 and shares with almost nothing
-            if (loc.distanceSquaredTo(home) == 2 && rc.isReady()) {
-                for (int i = 8; --i >= 0;) { Direction d = DIRS[i]; MapLocation n = loc.add(d); if (n.distanceSquaredTo(home) == 1 && rc.canMove(d)) { rc.move(d); inPlace = false; return; } }
-            }
-            if (!inPlace) { inPlace = true; Debug.log("@wall placed d2=" + loc.distanceSquaredTo(home)); }
-            return;
-        }
-        inPlace = false;
-        if (!rc.isReady()) return;
-        // step to a free adjacent-to-home tile, nearest first
-        Direction best = null; int bd = 1 << 30;
-        for (int i = 8; --i >= 0;) { Direction d = DIRS[i]; if (!rc.canMove(d)) continue; MapLocation n = loc.add(d); int dd = n.distanceSquaredTo(home); if (dd < bd) { bd = dd; best = d; } }
-        if (best != null && bd < loc.distanceSquaredTo(home)) { rc.move(best); return; }
-        nav.setTarget(home); nav.step();
     }
 
     /** Slowly cycle every durable fact we hold (edges, ECs) so the EC eventually hears all of them. */

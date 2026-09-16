@@ -447,6 +447,26 @@ space left)`), after which the game crawled into the 1200 s cap. Both runners
 now pass `-XX:ReservedCodeCacheSize=512m`. Unknown cells are not decided, so
 the incremental scan replays them on its next pass.
 
+**Iteration 3 REJECTED (21:50 UTC): the EC wall.** Target gauntlet,
+`wall_r2` vs the 9 stage-2 opponents, screen set, both sides
+(`gauntlet/20260916-202019-tgt-wall-r2`): 9/72 (12.5%) against the
+baseline's 13/72 on the same cells. Cell diff: 58 loss->loss, 8 win->win, 5
+win->loss (four of them on `maptestsmall` as B, one Arena), 1 loss->win
+(iliao2345, Arena A). One-directional and concentrated on the small map,
+where four units parked on the EC's orthogonal tiles cost the most: a real
+regression, not churn. Per opponent: 0/8 vs Scott-Poole, VittalT,
+aidan-mundy and anshgs; 4/8 vs iliao2345 (a muckraker rusher, the one
+opponent the wall was not designed for and the one it helped). The +10
+head-to-head vs `g_iter2` did not survive contact with politician-using
+opponents: the head-to-head is a partial derivative (principle 7). Reverted
+fully: `src/bot` is byte-identical to `g_iter2` again; `wall_r1`/`wall_r2`
+removed. What the run bought: the per-hit dilution is real (0.2-0.35 of the
+attacker's conviction instead of 1.0) but a 1000+ speech kills every
+1-conviction wall unit in range and the rebuild (one EC build per 6 rounds)
+loses the race to the next attacker, while the wall's build slots and
+crowding cost more than the absorbed damage is worth. `--hits` stays as an
+instrument. Defence area: 1 reject.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -458,6 +478,7 @@ the incremental scan replays them on its next pass.
 | scouting / map knowledge | edge-seeking waypoints, fact cycling, sibling IDs | symmetry still often unresolved on multi-EC maps |
 | navigation | greedy + bug + oscillation guard | aba 1-3% of moves; boxed-in-by-friends failure seen and mitigated by jitter |
 | combat micro (politician speech) | radius/value evaluation, chip rule vs ECs | works vs example bot; unmeasured vs real opponents |
+| EC defence vs politician streams | Iteration 3 wall (rejected) | target-tier losses are EC conversions r300-600 by 500-1750-conviction speeches; 1 reject |
 | slanderer safety | flee any enemy, ring 8-45 | unmeasured vs hunters |
 | muckraker hunting / blocking | expose nearest slanderer, sit at enemy EC | unmeasured |
 
@@ -467,6 +488,7 @@ the incremental scan replays them on its next pass.
 |---|---|---|---|
 | short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
 | one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |
+| EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap
 influence/2), `maptestsmall`, bot as A:** win on votes 750 to ~70. The

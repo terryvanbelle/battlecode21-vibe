@@ -20,6 +20,13 @@ session. A lesson without a measurement is a belief -- mark it as such.
   Read from `GameWorld.getAllLocationsWithinRadiusSquared`.
 - **Robots act in spawn order**; initial ECs act first every round. Flags set
   this turn are visible to everyone who acts later in the same round.
+- **A robot built this round takes its first turn NEXT round**: the engine
+  iterates a snapshot of the execution order taken at the start of the round
+  (`ObjectInfo.eachDynamicBodyByExecOrder`). A one-round "order" flag set by
+  the EC at build time is therefore gone before the newborn can read it: every
+  v1 capture politician silently ran as a guard for two smoke tests (traced:
+  a 221-influence capturer idling 400 rounds by home). Orders must persist
+  through the following round.
 - **The only non-determinism is the final coin flip** (`Math.random` in
   `GameWorld.setWinnerArbitrary`) when votes, EC count and influence all tie.
   Two identical Iteration-0 mirror games differed only there. A bot that bids

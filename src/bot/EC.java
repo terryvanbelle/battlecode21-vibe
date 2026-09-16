@@ -50,7 +50,7 @@ public strictfp class EC extends Robot {
             rc.buildRobot(t, d0, cost); RobotInfo nb0 = rc.senseRobotAtLocation(loc.add(d0));
             if (nb0 != null && nChild < MAX_CHILDREN) { childId[nChild] = nb0.ID; childType[nChild] = role; nChild++; }
             if (role == Roles.ECON) slanderers++; else scouts++;
-            pendingOrder = Comms.encode(Comms.ORDER, role, loc); pendingOrderRound = round; return;
+            pendingOrder = Comms.encode(Comms.ORDER, role, loc); pendingOrderRound = round + 1; return;
         }
         if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
@@ -73,7 +73,9 @@ public strictfp class EC extends Robot {
         lastBuildRound = round;
         // tell the newborn its role via our flag for one round: ORDER with target
         MapLocation tgt = role == Roles.CAPTURE ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : MapState.enemyEC[0]) : loc;
-        pendingOrder = Comms.encode(Comms.ORDER, role, tgt); pendingOrderRound = round;
+        // a robot spawned this round takes its FIRST turn next round (the engine iterates a snapshot of the
+        // spawn order), so the order must still be on the flag next round; the EC cannot build again before that
+        pendingOrder = Comms.encode(Comms.ORDER, role, tgt); pendingOrderRound = round + 1;
         Debug.log("@spawn t=" + t.ordinal() + " inf=" + cost + " role=" + role + " dir=" + d + " ecInf=" + rc.getInfluence());
     }
     private int pendingOrder = 0, pendingOrderRound = -10;
@@ -154,7 +156,7 @@ public strictfp class EC extends Robot {
     private void updateBroadcast(boolean danger) throws GameActionException {
         // priority: a fresh spawn order (1 round) > enemy EC > neutral EC > status
         int f;
-        if (round == pendingOrderRound) f = pendingOrder;
+        if (round == pendingOrderRound || round + 1 == pendingOrderRound) f = pendingOrder;
         else if (MapState.nEnemy > 0 && (round / 3) % 2 == 0) f = Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(round / 6) % MapState.nEnemy]);
         else if (MapState.nNeutral > 0 && (round / 3) % 2 == 1) f = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[(round / 6) % MapState.nNeutral]), MapState.neutralEC[(round / 6) % MapState.nNeutral]);
         else {

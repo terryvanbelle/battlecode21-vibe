@@ -48,6 +48,7 @@ session. A lesson without a measurement is a belief -- mark it as such.
   `RobotPlayer.java`; a root must never escape the repo (one bot with
   `RobotPlayer.java` at the repo top level made the root the whole benchmarks
   directory and the compile ran for 15 minutes at the heap limit).
+- **Map files carry no round limit**: `GameMapIO` deserialises with `GAME_MAX_NUMBER_OF_ROUNDS`, so a "short" map written with `rounds=400` still plays 1500 rounds (measured). Smoke tests cannot be shortened that way.
 - **Never `pkill -f` a pattern that appears in your own command line.** It
   killed the shell issuing it (exit 144) once.
 

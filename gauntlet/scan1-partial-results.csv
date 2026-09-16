@@ -1,0 +1,23 @@
+opponent,map,bot_side,winner_side,rounds,bot_result,reason
+123kevinlee.atomFinalQualifier,maptestsmall,B,A,1167,unknown,OUR bot failed to instrument
+123kevinlee.atomFinalQualifier,maptestsmall,A,B,1500,loss,The winning team won by having more votes.
+123kevinlee.atomFinalQualifier,Gridlock,A,B,818,loss,The winning team won by annihilating the enemy team.
+Aryan34.bot,maptestsmall,A,A,1310,win,The winning team won by annihilating the enemy team.
+Aryan34.bot,maptestsmall,B,B,1500,win,The winning team won by having more votes.
+Aryan34.bot,Gridlock,A,A,1500,win,The winning team won by having more votes.
+Aryan34.bot,Gridlock,B,B,1500,win,The winning team won by having more votes.
+Aryo-Patel.finalBot,maptestsmall,A,A,330,win,The winning team won by annihilating the enemy team.
+Aryo-Patel.finalBot,maptestsmall,B,B,246,win,The winning team won by annihilating the enemy team.
+Aryo-Patel.finalBot,Gridlock,A,A,1500,win,The winning team won by having more votes.
+123kevinlee.atomFinalQualifier,Gridlock,B,A,1121,loss,The winning team won by annihilating the enemy team.
+BSreenivas0713.musketeerplayerfinal,maptestsmall,A,B,660,loss,The winning team won by annihilating the enemy team.
+Aryo-Patel.finalBot,Gridlock,B,B,1500,win,The winning team won by having more votes.
+BSreenivas0713.musketeerplayerfinal,maptestsmall,B,A,857,loss,The winning team won by annihilating the enemy team.
+BSreenivas0713.musketeerplayerfinal,Gridlock,A,B,540,loss,The winning team won by annihilating the enemy team.
+IvanGeffner.thirtyone,maptestsmall,A,B,294,loss,The winning team won by annihilating the enemy team.
+IvanGeffner.thirtyone,maptestsmall,B,A,462,loss,The winning team won by annihilating the enemy team.
+BSreenivas0713.musketeerplayerfinal,Gridlock,B,A,598,loss,The winning team won by annihilating the enemy team.
+IvanGeffner.thirtyone,Gridlock,A,B,290,loss,The winning team won by annihilating the enemy team.
+IvanGeffner.thirtyone,Gridlock,B,A,311,loss,The winning team won by annihilating the enemy team.
+JasonYe4273.finals,maptestsmall,A,B,1458,loss,The winning team won by annihilating the enemy team.
+JasonYe4273.finals,maptestsmall,B,A,1451,loss,The winning team won by annihilating the enemy team.

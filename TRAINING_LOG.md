@@ -292,6 +292,21 @@ which roughly halves a scan. A larger VM is the only real speed-up: 8 GB RAM
 would allow 4-5 concurrent games. The census head-to-head is queued behind
 the scan; two runs at once thrash.
 
+**Games moved to `battlecode-dev` (19:40 UTC, user instruction: the driver
+runs only Claude).** The VM (e2-standard-8, 8 vCPU / 31 GB) mirrors the
+driver's layout (`~/jdk/jdk8u504-b01`, `~/projects/vibe/2021`,
+`~/projects/vibe/bc21-benchmarks/{_classes,manifest.tsv}`) so `tools/lib.sh`
+and `gauntlet.sh` run unchanged there; `tools/vm.sh`, `vm-sync.sh`, `vm-run.sh`
+(detached run), `vm-tail.sh`, `vm-collect.sh`, `vm-stop.sh` are the driver-side
+handles. Smoke test on the VM: `bot` vs `examplefuncsplayer`, `maptestsmall`,
+1500 rounds in 15 s (the same game took minutes on the swapping driver). The
+driver scan was killed at 22/128 (results kept in
+`gauntlet/scan1-partial-results.csv`). Relaunched on the VM as `scan1`: all 32
+name-selected opponents on the 4-map screen set, both sides (256 games, 5
+jobs), and the census head-to-head `h2h-census` (quick set, 24 games, 2 jobs)
+beside it. The VM's disk was 87% full of 2025 replays; the user authorised
+deleting old projects' games.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

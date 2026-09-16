@@ -58,3 +58,25 @@ You can kill all jobs on the VM belonging to 2025 and release the resources for 
 ```text
 Since we have an abundance of benchmark bots (good work there!), it makes sense to find a subset of them that best simulates the scrimmage.  Choose ones that are just slightly better than us to use as the gauntlet (20-50% of games won).  There are way too many of them to run every time
 ```
+
+## Prompt 8: Speed
+
+```text
+Wow, 10 more hours?  Is there any way to speed that up?
+```
+
+## Prompt 9: Use battlecode-dev for games
+
+```text
+You're not running the games on claude-driver, are you?  We have a bigger VM called battlecode-dev that you should be using
+```
+
+```text
+claude-driver should only be used to run the Claude instance
+```
+
+## Prompt 10: Disk on battlecode-dev
+
+```text
+You can free up disk space on battlecode-dev by deleting games from previous projects
+```

@@ -424,6 +424,21 @@ ratio ~0.2-0.35). Both arms go to the head-to-head vs `g_iter2` (quick set,
 both sides, 24 games each); the arm that clears +4 and shows no
 one-directional regression goes to the roster gauntlet.
 
+**Head-to-head vs `g_iter2`, quick set, both sides.** `wall_r1` (7 walls
+after 4 slanderers): 12/24, 7 as A, 5 as B; four maps swept each way, four
+split; churn, below the +4 gate -> rejected. `wall_r2` (4 walls, orthogonal
+tiles, after 4 slanderers): **17/24, +10**, 8 as A and 9 as B; against arm 1
+six cells flipped to wins (Arena x2, Saturn x2, Circles B, Gridlock B) and one
+to a loss (Blotches A): one-directional, spread over maps and sides. The
+only map swept against it is `maptestsmall` (32x32), where four units
+parked on the EC's orthogonal tiles crowd the spawn ring most. Attribution:
+the opponent fields no large politicians, so the wall's dilution is not what
+wins these; the likely mechanism is the 4 cheap units themselves (blocking
+enemy muckrakers from the EC's neighbourhood and exposing early). Recorded as
+OPEN, not back-filled. Next per 4.5: the target gauntlet, `wall_r2` vs the 9
+stage-2 opponents on the screen set, diffed cell by cell against the scan's
+record for `bot` (9-9 on maptestsmall, 1-34 on the larger maps).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -21,8 +21,10 @@ source "$REPO/tools/lib.sh"
 BOT="${BOT:-bot}"; OPPONENTS="${OPPONENTS:-examplefuncsplayer}"
 MAXJOBS="${MAXJOBS:-2}"; MAPSET="${MAPSET:-full}"; TAG="${TAG:-}"
 QUICK_MAPS="maptestsmall Andromeda Arena Blotches Circles Corridor CrossStitch Gridlock Maze Radial Saturn Snowflake"
+SCREEN_MAPS="maptestsmall Arena Maze Gridlock"
 if [ -n "${MAPS:-}" ]; then :
 elif [ "$MAPSET" = quick ]; then MAPS="$QUICK_MAPS"
+elif [ "$MAPSET" = screen ]; then MAPS="$SCREEN_MAPS"
 else MAPS="$(grep -v '^Cow$' "$REPO/tools/bc21-maps.txt" | tr '\n' ' ')"; fi
 MAPS="$(printf '%s ' $MAPS)"
 

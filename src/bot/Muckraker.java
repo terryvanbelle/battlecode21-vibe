@@ -9,7 +9,7 @@ import battlecode.common.*;
  */
 public strictfp class Muckraker extends Robot {
     private Direction heading;
-    private int report = 0; private int reportRound = -10;
+    private int report = 0; private int reportRound = -10; private int lastSiblingReported = -1;
     private MapLocation explore;   // current exploration waypoint
 
     Muckraker(RobotController rc) { super(rc); }
@@ -30,7 +30,7 @@ public strictfp class Muckraker extends Robot {
         for (int i = nearby.length; --i >= 0;) { RobotInfo r = nearby[i]; if (r.type == RobotType.ENLIGHTENMENT_CENTER) { if (r.team == them) eEC = r; else if (r.team == Team.NEUTRAL) nEC = r; else if (!r.location.equals(MapState.home)) oEC = r; } }
         if (eEC != null) { report = Comms.encode(Comms.ENEMY_EC, Comms.bucket(eEC.influence), eEC.location); reportRound = round; }
         else if (nEC != null) { report = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(nEC.influence), nEC.location); reportRound = round; }
-        else if (oEC != null && round - reportRound > 6) { report = Comms.encode(Comms.OWN_EC, 0, oEC.location); reportRound = round; }
+        else if (oEC != null && oEC.ID != lastSiblingReported) { report = Comms.encodeRaw(Comms.OWN_EC_ID, oEC.ID); reportRound = round; lastSiblingReported = oEC.ID; }
         else if (nearestEnemy != null && round - reportRound > 6) { report = Comms.encode(Comms.ENEMY_UNIT, nearestEnemy.type.ordinal(), nearestEnemy.location); reportRound = round; }
         else if (edge >= 0) { report = Comms.encode(Comms.MAP_EDGE, edge, edge == 0 ? new MapLocation(MapState.minX, loc.y) : edge == 1 ? new MapLocation(MapState.maxX, loc.y) : edge == 2 ? new MapLocation(loc.x, MapState.minY) : new MapLocation(loc.x, MapState.maxY)); reportRound = round; }
         if (round - reportRound <= 6 && (round & 1) == 0) setFlag(report);

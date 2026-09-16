@@ -77,6 +77,13 @@ An EC reads the flags of the units it built (it knows their IDs) each round,
 within a bytecode budget, and re-broadcasts the most useful fact on its own
 flag, which every unit can read for 5 bytecodes.
 
+**Timing rule.** A robot built in round N takes its first turn in round N+1
+(the engine iterates a snapshot of the spawn order), so an ORDER for a
+newborn is held on the EC flag for rounds N and N+1. The EC cannot build twice
+in that window (its cooldown is at least 2), so orders never collide. Scouts
+cycle their durable facts (known edges, ECs) on odd rounds and their fresh
+sighting on even rounds, so a fact found once is still delivered.
+
 ## Map knowledge (`MapState`)
 
 Each robot keeps: known bounds (min/max x/y, `-1` when unknown), its home EC

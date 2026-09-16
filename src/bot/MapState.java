@@ -50,7 +50,9 @@ public final class MapState {
     }
     public static boolean addOwnEC(MapLocation l) {
         if (known(ownEC, nOwn, l) || nOwn >= MAX_ECS) return false;
-        ownEC[nOwn++] = l; removeNeutral(l); removeEnemy(l); return true;
+        ownEC[nOwn++] = l; removeNeutral(l); removeEnemy(l);
+        if (boundsKnown()) for (int i = nEnemy; --i >= 0;) pruneWithEnemyEC(enemyEC[i]);
+        return true;
     }
 
     /** Image of l under hypothesis bit (0 rot, 1 mirror-x, 2 mirror-y). Needs bounds. */
@@ -64,12 +66,15 @@ public final class MapState {
 
     /** Record that a tile is/is not on the map (from rc.onTheMap probing). */
     public static void edgeFound(int edge, int coord) {
+        boolean before = boundsKnown();
         switch (edge) {
             case 0: if (minX < 0 || coord > minX) minX = coord; break;
             case 1: if (maxX < 0 || coord < maxX) maxX = coord; break;
             case 2: if (minY < 0 || coord > minY) minY = coord; break;
             default: if (maxY < 0 || coord < maxY) maxY = coord; break;
         }
+        // bounds just became complete: evidence gathered earlier can now prune the hypotheses
+        if (!before && boundsKnown()) for (int i = nEnemy; --i >= 0;) pruneWithEnemyEC(enemyEC[i]);
     }
 
     /**

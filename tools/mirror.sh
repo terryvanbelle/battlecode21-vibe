@@ -3,5 +3,5 @@
 #   tools/mirror.sh            # regenerates src/mirror from src/bot every time (a stale mirror is not a null)
 set -euo pipefail
 cd "$(dirname "$0")/.."
-rm -rf src/mirror; tools/snapshot.sh mirror 0 >/dev/null
+rm -rf src/mirror; tools/snapshot.sh mirror 0 >/dev/null; sed -i "s/DEBUG = true;/DEBUG = false;/" src/mirror/C.java
 BOT=bot OPPONENTS=mirror MAPSET="${MAPSET:-quick}" TAG="${TAG:-mirror}" tools/gauntlet.sh

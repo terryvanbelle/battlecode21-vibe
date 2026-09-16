@@ -34,3 +34,15 @@ Make sure everything is pushed to the repository
 ```text
 This session doesn't seem to be visible in the web or desktop app.  Can you make sure it's visible there?
 ```
+
+## Prompt 4: Write Remote Control instructions to a file
+
+```text
+Idiot copy/paste failed to work.  Can you please write instructions to make this session remote control into a file where I can access it via a real operating system?
+```
+
+## Prompt 5: Resume (after `/remote-control vibe-bc21`)
+
+```text
+Oh thank Christ.  OK, please resume
+```

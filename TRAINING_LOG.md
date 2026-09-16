@@ -202,6 +202,14 @@ rationed while the scan is in flight.
 
 ---
 
+**Session resumed 18:25 UTC (Remote Control on).** Ladder scan at 22/128 after
+2 h 28 m: 6.7 min per game throughput at 2 jobs, so ~12 h remain, worse while a
+job from the 2025 project shares the two CPUs. So far: 4-0 vs Aryan34, 4-0 vs
+Aryo-Patel; 0-4 vs 123kevinlee, BSreenivas0713, IvanGeffner (all annihilations
+by r300-r660), 0-2 vs JasonYe4273. Losses to 0% opponents are locked: no replay
+opened. The visible shape of the losses is early annihilation, i.e. our EC is
+converted within 300-700 rounds.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -209,7 +217,7 @@ rationed while the scan is in flight.
 | area | last attempt | status |
 |---|---|---|
 | economy / production mix | Iteration 1 dev (guard cap 4+sl/2, slanderer cap 12, breakpoint sizes) | unmeasured vs real opponents |
-| bidding | bidding v2 (phase-aware cap, enemy-vote estimate) | test vs `arch_bidder` pending |
+| bidding | bidding v2 + overflow/reserve fix | smoke-tested vs `arch_bidder` (win 750 votes); unmeasured vs real bidders |
 | scouting / map knowledge | edge-seeking waypoints, fact cycling, sibling IDs | symmetry still often unresolved on multi-EC maps |
 | navigation | greedy + bug + oscillation guard | aba 1-3% of moves; boxed-in-by-friends failure seen and mitigated by jitter |
 | combat micro (politician speech) | radius/value evaluation, chip rule vs ECs | works vs example bot; unmeasured vs real opponents |

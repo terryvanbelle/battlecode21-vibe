@@ -7,6 +7,7 @@
 #   MAPS="maptestsmall Maze" MAXJOBS=2 tools/gauntlet.sh
 #   MAPSET=quick tools/gauntlet.sh                     # the 12-map quick set
 #   TAG=h2h-iter3 tools/gauntlet.sh                    # run-id suffix
+#   CLASSES=build/h2h-classes tools/gauntlet.sh       # private compile dir (run beside another gauntlet)
 #
 # Opponent names: a package under src/ (ours), or a benchmark name from
 # ~/projects/vibe/bc21-benchmarks/manifest.tsv (owner.package). The opponent's
@@ -40,7 +41,7 @@ MAPS="$(printf '%s ' $MAPS)"
 MANIFEST="$BENCH_CLASSES/../manifest.tsv"
 resolve () {  # name -> "package url" ; our packages first, then manifest
   local n="$1"
-  if [ -d "$REPO/build/classes/$n" ]; then echo "$n $REPO/build/classes"; return; fi
+  if [ -d "$CLASSES/$n" ]; then echo "$n $CLASSES"; return; fi
   if [ -f "$MANIFEST" ]; then
     local line; line=$(awk -F'\t' -v n="$n" '$1==n{print $2" "$3; exit}' "$MANIFEST")
     [ -n "$line" ] && { echo "$line"; return; }
@@ -49,7 +50,8 @@ resolve () {  # name -> "package url" ; our packages first, then manifest
 }
 
 # compile our sources once, fresh
-rm -rf "$REPO/build/classes" && compile_src "$REPO/src" "$REPO/build/classes" || { echo "!! compile failed" >&2; exit 1; }
+CLASSES="${CLASSES:-$REPO/build/classes}"   # CLASSES=build/other lets a second gauntlet run beside one that owns build/classes
+rm -rf "$CLASSES" && compile_src "$REPO/src" "$CLASSES" || { echo "!! compile failed" >&2; exit 1; }
 for o in $BOT $OPPONENTS; do resolve "$o" >/dev/null || exit 1; done
 
 RUN_ID="$(date +%Y%m%d-%H%M%S)${TAG:+-$TAG}"
@@ -88,7 +90,7 @@ game () {  # opp map side
   [ "$res" = loss ] && mv "$REPLAY" "$OUT/losses/" 2>/dev/null
   printf '  [%3d/%d] %-4s %-28s %-24s r%s\n' "$(wc -l < "$OUT/results.raw")" "$NG" "$res" "$MAP" "$OPP" "$RND"
 }
-export -f game resolve parse_result engine_cp; export OUT BOT ENGINE_DIR REPO MANIFEST GAME_XMX KEEP_ALL NG BENCH_CLASSES
+export -f game resolve parse_result engine_cp; export OUT BOT ENGINE_DIR REPO MANIFEST GAME_XMX KEEP_ALL NG BENCH_CLASSES CLASSES
 for OPP in $OPPONENTS; do for MAP in $MAPS; do for SIDE in A B; do echo "$OPP $MAP $SIDE"; done; done; done \
   | xargs -P "$MAXJOBS" -L 1 bash -c 'game "$0" "$1" "$2"'
 

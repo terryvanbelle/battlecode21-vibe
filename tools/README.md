@@ -8,7 +8,7 @@ Everything runs locally with bare `java` (JDK 8 at `~/jdk/jdk8u504-b01`, see
 | `build-engine.sh` | clone/patch/build the 2021 engine from `battlecode/battlecode21`, stage `engine/` (jar, deps, 76 maps, `bc21-maps.txt`) |
 | `lib.sh` | shared: JDK/classpath, `run_game`, `parse_result`, `compile_src` |
 | `run-match.sh A B map [replay]` | one headless game, prints `RESULT <winner> <round> <reason>` |
-| `gauntlet.sh` | BOT vs OPPONENTS on MAPS/MAPSET (`full`, `quick` 12, `screen` 4), both sides, parallel; writes `gauntlet/<run>/results.csv`, `summary.txt`, `losses/`; opponents may be our packages or `owner.package` benchmark names; duds (opponent failed to instrument) are recorded, not counted as wins |
+| `gauntlet.sh` | BOT vs OPPONENTS on MAPS/MAPSET (`full`, `quick` 12, `screen` 4), both sides, parallel; writes `gauntlet/<run>/results.csv`, `summary.txt`, `losses/`; opponents may be our packages or `owner.package` benchmark names; duds (opponent failed to instrument) are recorded, not counted as wins; `CLASSES=build/x` compiles privately so two gauntlets can run at once |
 | `mirror.sh` | bot vs a byte-identical copy (the null) |
 | `snapshot.sh name [archetype]` | freeze `src/bot` as `src/<name>` (archetype 1 = muck rush, 2 = aggressive bidder) |
 | `compare.py base cand` | game-by-game diff of two runs: identical cells, flips, sweeps, by side/map |

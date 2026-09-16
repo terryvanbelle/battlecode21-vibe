@@ -317,13 +317,34 @@ sides. Opponents already decided by the two partial scans
 are skipped and their results are included in the final selection. Expected:
 a coarse roster in ~1 h, the refined one in <2 h.
 
+## Iteration 2 -- ACCEPTED: EC census counts aged slanderers as guards; snapshot `g_iter2` (2026-09-16 19:40 UTC)
+
+**Head-to-head vs `g_iter1`, quick 12-map set, both sides
+(`gauntlet/20260916-192408-h2h-census`, on the VM): 24/24, 12 as A and 12 as
+B; 19 on votes, 5 by annihilation.** Gate was +4 games; the margin is +24, so
+the noise floor (still unmeasured) cannot be the explanation. Shape: no
+losses at all, so no flip analysis; the five annihilations are new (Iteration
+1 never annihilated its own predecessor) and come from the influence the
+re-opened slanderer cycle produces. Attribution: as pre-registered (the
+mechanism engaged at Stage 0: slanderer spawns continue in a 12-per-300-round
+cycle; belief tracks per-EC truth). Arm-to-arm identity count: 0 of 24 cells
+identical (every game differs from round ~300 on).
+
+Post-accept: `src/g_iter2` snapshotted; `progress/history.csv` has the row;
+`progress/vs_roster.png` redrawn. Re-tiering waits for the running scan; the
+roster gauntlet for this build runs as soon as `tools/roster.txt` exists.
+Open from the Stage 0 read: EC influence still hoards (34755 at r1500 in the
+probe) -- the slanderer cap (12) and guard cap (10) are now the binding
+constraints; that is the next economy candidate. The `arch_polrush` archetype
+needs rebuilding before it is used as a rush opponent.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
 
 | area | last attempt | status |
 |---|---|---|
-| economy / production mix | Iteration 1 dev (guard cap 4+sl/2, slanderer cap 12, breakpoint sizes) | unmeasured vs real opponents |
+| economy / production mix | Iteration 2: census fix (aged slanderers -> guards), 24/24 vs g_iter1 | caps (12 slanderers, 10 guards) now bind: influence hoards late |
 | bidding | bidding v2 + overflow/reserve fix | smoke-tested vs `arch_bidder` (win 750 votes); unmeasured vs real bidders |
 | scouting / map knowledge | edge-seeking waypoints, fact cycling, sibling IDs | symmetry still often unresolved on multi-EC maps |
 | navigation | greedy + bug + oscillation guard | aba 1-3% of moves; boxed-in-by-friends failure seen and mitigated by jitter |

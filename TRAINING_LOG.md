@@ -266,6 +266,18 @@ AcceptMargin = +4 games (the noise floor is not yet measured; recorded as such).
 Falsifier: `A_sla` still 0 after r800 with the fix in (some other branch
 starves slanderers), or a head-to-head loss.
 
+**Stage 0, census candidate vs `arch_muck`, `maptestsmall`
+(`matches/census_s0_muck.bc21`): won on votes, mechanism engaged.** Slanderer
+spawns per 100 rounds: baseline `0 9 5 1 20 4 0 0 0 0 ...` (nothing after
+r500); candidate `9 5 1 20 4 - 8 4 - 8 4 - 8 4` (a 12-slanderer cycle every
+300 rounds for the rest of the game). Belief `sl=12` now matches per-EC truth;
+the team total of 24 in r400-600 is two ECs (the archetype's EC was captured at
+r~300 and runs our code). Unit influence at r1500: 29110 vs 4781 baseline.
+Shared pool read beside the outcome: EC influence still hoards (34755 at r1500
+vs 11822) because the slanderer cap and the guard cap hold while income is
+now ~5x -- idle influence is the next economy target, not part of this
+candidate. Proceeding to the head-to-head vs `g_iter1`, quick set, both sides.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

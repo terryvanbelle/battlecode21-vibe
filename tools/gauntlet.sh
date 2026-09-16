@@ -74,7 +74,7 @@ game () {  # opp map side
   if [ "$SIDE" = A ]; then TA=$PB; TB=$PA; UAA=$UB; UBB=$UA; silence=-Dbc.engine.silence-b=true
   else TA=$PA; TB=$PB; UAA=$UA; UBB=$UB; silence=-Dbc.engine.silence-a=true; fi
   local REPLAY="$OUT/replays/${OPP}__${MAP}__bot${SIDE}.bc21"
-  local LOG TO=0; LOG=$(timeout "${GAME_TIMEOUT:-1800}" java -Xmx${GAME_XMX:-512m} -XX:+UseSerialGC \
+  local LOG TO=0; LOG=$(timeout "${GAME_TIMEOUT:-1800}" java -Xmx${GAME_XMX:-512m} -XX:+UseSerialGC -XX:ReservedCodeCacheSize=512m \
     -Dbc.server.mode=headless -Dbc.server.map-path="$ENGINE_DIR/maps" -Dbc.game.map-path="$ENGINE_DIR/maps" \
     -Dbc.server.robot-player-to-system-out=false -Dbc.server.debug=false \
     -Dbc.engine.debug-methods=false -Dbc.engine.enable-profiler=false -Dbc.engine.show-indicators=false \

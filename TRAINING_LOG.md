@@ -439,6 +439,14 @@ OPEN, not back-filled. Next per 4.5: the target gauntlet, `wall_r2` vs the 9
 stage-2 opponents on the screen set, diffed cell by cell against the scan's
 record for `bot` (9-9 on maptestsmall, 1-34 on the larger maps).
 
+**Engine fact (21:10 UTC): heavy bots exhaust the JIT code cache.** Two
+`unknown` cells in the three-map scan (JasonYe4273 and StoneT2000 on
+Gridlock) were games where the JVM's 240 MB code cache filled with
+instrumented methods (`compilation: disabled (not enough contiguous free
+space left)`), after which the game crawled into the 1200 s cap. Both runners
+now pass `-XX:ReservedCodeCacheSize=512m`. Unknown cells are not decided, so
+the incremental scan replays them on its next pass.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

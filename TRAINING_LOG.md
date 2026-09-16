@@ -222,3 +222,14 @@ rationed while the scan is in flight.
 |---|---|---|---|
 | short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
 | one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |
+
+**Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap
+influence/2), `maptestsmall`, bot as A:** win on votes 750 to ~70. The
+archetype bankrupted itself early (eVotes~70 by r150 and nothing after); our
+bid stayed at 2-8. Two defects surfaced: after the safe-stop condition fired
+at 750 votes the bid kept adapting on rounds we did not bid, overflowed `int`,
+and through `reserve()` (2x bid) blocked all production for 600 rounds (EC
+hoarded 4390 influence, unit counts frozen). Fixed: adapt only after a round
+in which we bid, clamp the bid to influence, cap the reserve at half the
+influence. A result against our own archetype is a smoke test, not evidence
+of bidding strength.

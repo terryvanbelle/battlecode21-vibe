@@ -82,7 +82,7 @@ public strictfp class EC extends Robot {
     private int pendingOrder = 0, pendingOrderRound = -10;
     private int enemyEcInf = 0;   // last reported influence of the enemy EC we target (bucketed)
 
-    private int reserve() { return Math.max(bid * 2, 10); }   // keep enough to bid next round
+    private int reserve() { return Math.min(Math.max(bid * 2, 10), Math.max(10, rc.getInfluence() / 2)); }   // keep enough to bid next round, never more than half
 
     private int captureAffordable(int inf) {
         int best = -1, bestCost = 1 << 30;
@@ -126,14 +126,16 @@ public strictfp class EC extends Robot {
     private int enemyVotesEst = 0;   // rounds in which we did not gain a vote after round 1 (assumes the opponent bid; conservative)
     private void doBid() throws GameActionException {
         int votes = rc.getTeamVotes();
-        if (votes > 751) { lastVotes = votes; return; }        // majority secured, stop paying and stop adapting
-        if (round > 1) {
-            if (votes > lastVotes) { votesWon++; bid = Math.max(1, bid - bid / 10); }
-            else { votesLost++; enemyVotesEst++; bid = bid + bid / 4 + 1; }
-        }
-        lastVotes = votes;
         int inf = rc.getInfluence();
         int remaining = 1500 - round;
+        // Adapt only on rounds where we actually bid last round (otherwise a lost vote says nothing about our bid).
+        if (round > 1 && bidLastRound) {
+            if (votes > lastVotes) { votesWon++; bid = Math.max(1, bid - bid / 10); }
+            else { votesLost++; bid = Math.min(bid + bid / 4 + 1, Math.max(1, inf)); }
+        }
+        if (round > 1 && votes == lastVotes) enemyVotesEst++;
+        lastVotes = votes; bidLastRound = false;
+        if (votes > 751) return;                                // majority secured
         // Are we safe without bidding? If the opponent cannot catch up even winning every remaining vote, stop.
         if (votes > enemyVotesEst + remaining) return;
         // Influence is worth more early (it compounds through slanderers), so the cap ramps up over the game and
@@ -144,8 +146,9 @@ public strictfp class EC extends Robot {
         if (C.ARCHETYPE == 2 && round > 1 && votes == lastVotes) bid = bid * 2 + 1;
         if (round < 20) cap = Math.min(cap, 3);
         if (bid > cap) bid = cap;
-        if (rc.canBid(bid) && bid > 0) rc.bid(bid);
+        if (bid > 0 && rc.canBid(bid)) { rc.bid(bid); bidLastRound = true; }
     }
+    private boolean bidLastRound = false;
 
     // ---------------------------------------------------------------- comms
     private void readChildren() throws GameActionException {

@@ -42,6 +42,16 @@ public strictfp class EC extends Robot {
     private void build(int inf, boolean danger) throws GameActionException {
         RobotType t; int cost; int role = 0;
         int alive = countAlive();
+        if (C.ARCHETYPE == 1) {   // muckraker rush: a few slanderers for income, everything else 1-influence muckrakers sent at the enemy
+            if (slanderers < 4 && Econ.bestSize(inf - 5) >= 21 && !danger) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 130)); role = Roles.ECON; }
+            else if (inf >= 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }
+            else return;
+            Direction d0 = spawnDir(t, cost, role); if (d0 == null) return;
+            rc.buildRobot(t, d0, cost); RobotInfo nb0 = rc.senseRobotAtLocation(loc.add(d0));
+            if (nb0 != null && nChild < MAX_CHILDREN) { childId[nChild] = nb0.ID; childType[nChild] = role; nChild++; }
+            if (role == Roles.ECON) slanderers++; else scouts++;
+            pendingOrder = Comms.encode(Comms.ORDER, role, loc); pendingOrderRound = round; return;
+        }
         if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
         else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
@@ -115,7 +125,8 @@ public strictfp class EC extends Robot {
         if (round > 1) { if (votes > lastVotes) { votesWon++; bid = Math.max(1, bid - (bid / 8 + 1) / 2); } else { votesLost++; bid = bid + bid / 3 + 1; } }
         lastVotes = votes;
         int inf = rc.getInfluence();
-        int cap = Math.max(1, inf / C.BID_CAP_DIV);
+        int cap = Math.max(1, inf / (C.ARCHETYPE == 2 ? 2 : C.BID_CAP_DIV));
+        if (C.ARCHETYPE == 2 && round > 1 && votes == lastVotes) bid = bid * 2 + 1;
         if (round < 20) cap = Math.min(cap, 3);
         if (bid > cap) bid = cap;
         if (rc.canBid(bid) && bid > 0) rc.bid(bid);

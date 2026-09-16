@@ -26,7 +26,7 @@ run_game () {
   local TA="$1" TB="$2" MAP="$3" REPLAY="$4"; shift 4
   local UA UB; UA="$(team_url "$TA")" || return 1; UB="$(team_url "$TB")" || return 1
   java -Xmx${GAME_XMX:-512m} -XX:+UseSerialGC \
-    -Dbc.server.mode=headless -Dbc.server.map-path="$ENGINE_DIR/maps" \
+    -Dbc.server.mode=headless -Dbc.server.map-path="$ENGINE_DIR/maps" -Dbc.game.map-path="$ENGINE_DIR/maps" \
     -Dbc.server.robot-player-to-system-out=false -Dbc.server.debug=false \
     -Dbc.engine.debug-methods=false -Dbc.engine.enable-profiler=false \
     -Dbc.engine.show-indicators=true \

@@ -58,7 +58,7 @@ game () {  # opp map side
   else TA=$PA; TB=$PB; UAA=$UA; UBB=$UB; silence=-Dbc.engine.silence-a=true; fi
   local REPLAY="$OUT/replays/${OPP}__${MAP}__bot${SIDE}.bc21"
   local LOG; LOG=$(java -Xmx${GAME_XMX:-512m} -XX:+UseSerialGC \
-    -Dbc.server.mode=headless -Dbc.server.map-path="$ENGINE_DIR/maps" \
+    -Dbc.server.mode=headless -Dbc.server.map-path="$ENGINE_DIR/maps" -Dbc.game.map-path="$ENGINE_DIR/maps" \
     -Dbc.server.robot-player-to-system-out=false -Dbc.server.debug=false \
     -Dbc.engine.debug-methods=false -Dbc.engine.enable-profiler=false -Dbc.engine.show-indicators=false \
     "$silence" -Dbc.game.team-a="$TA" -Dbc.game.team-b="$TB" \

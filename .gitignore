@@ -1,0 +1,15 @@
+# build artefacts
+build/
+.gradle/
+client/
+client32/
+matches/
+logs/
+gauntlet/
+access.txt
+*.class
+tools/.venv/
+__pycache__/
+# engine jars are built locally, see SETUP.md
+engine/
+# benchmark bots live outside the repo (see BENCHMARK.md)

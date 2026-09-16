@@ -1,0 +1,24 @@
+# Prompt record
+
+User task prompts for this project, in chronological order, recorded verbatim
+(spelling, punctuation and whitespace preserved). Append-only: never edit an
+existing entry. Headings and code fences are record metadata, not prompt text.
+
+## Prompt 1: Build a Battlecode 2021 champion bot
+
+```text
+We are going to build a world-class champion Battlecode bot.  Battlecode is a contest where the contestants implement bots to play against other bots in an arena.  Each year’s rules are different from prior years, but they all share some common features.  We have built bots for several prior years already (Github repositories, in order of attempt:  battlecode22-vibe, battlecode26-vibe, and battlecode25-vibe.  Each attempt was built on previous attempts).  Read through the code and documentation for these projects thoroughly to learn what has already been attempted.  Pay particular attention to files called RESEARCH.md, LEARNINGS.md, DESIGN.md, TRAINING_LOG.md, and TRAINING_ALGORITHM.md.  Also review all code and documentation from the github repository anicolao/bcenv.  Feel free to steal any code that might be useful to you.
+
+We’re not participating in an actual Battlecode tournament, we’re practicing.  In an actual tournament, you would have two sources of data:  local fights against old versions of yourself, and online scrimmages against a variety of opponents in the tournament standings.  We can’t perfectly replicate this latter source of data, but we should try to get as close as possible. 
+Please do a thorough check of the web, especially github, for competitor bots from the relevant year that are publicly accessible.  Download all of them to serve as your benchmark.  You may not read their code.  To avoid over-indexing on bots out of your league, you may not review games against any bot until you can defeat it at least 20% of the time.
+
+When you have thoroughly read all recommended repositories, formulate your own TRAINING_ALGORITHM.md file.  This file should be concise, complete, and formulated in year-agnostic terms.  Please do not simply copy a previous year’s TRAINING_ALGORITHM file.  You are forbidden from reading port-mortems from the current year.  Post-mortems from any other year are fair game.
+
+You should start by building a strong, robust foundation in the basics:  good economy management; ensuring that your bots can move freely and efficiently to their destinations; board exploration; exploiting map symmetries; effective combat (e.g. kite and strike); and ensuring no bytecode overruns.  Also invest time at the beginning in building a good code architecture and good tools for understanding everything that happens in a game replay file.  Generate graphs that illustrate your progress, and keep them up to date.
+
+Make sure that your attempts are a good combination of incremental tweaks and big swings.  If you get stuck for ideas, review principles that have worked in other years.  There will be times when no attempts are successful for a long period.  At those times, it’s important to keep trying new things, and to not give up.  If you believe that a complete rewrite will help, then you should do so.
+
+Starting with this one, save all of my prompts in a document called PROMPTS.md.
+
+This year we will compete in Battlecode 2021.  Store all results in a new Github repository called battlecode21-vibe.  Download the rules and begin.
+```

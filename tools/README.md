@@ -1,0 +1,30 @@
+# tools/
+
+Everything runs locally with bare `java` (JDK 8 at `~/jdk/jdk8u504-b01`, see
+`tools/lib.sh`). The engine is built from source once: `tools/build-engine.sh`.
+
+| script | purpose |
+|---|---|
+| `build-engine.sh` | clone/patch/build the 2021 engine from `battlecode/battlecode21`, stage `engine/` (jar, deps, 76 maps, `bc21-maps.txt`) |
+| `lib.sh` | shared: JDK/classpath, `run_game`, `parse_result`, `compile_src` |
+| `run-match.sh A B map [replay]` | one headless game, prints `RESULT <winner> <round> <reason>` |
+| `gauntlet.sh` | BOT vs OPPONENTS on MAPS/MAPSET (`full`, `quick` 12, `screen` 4), both sides, parallel; writes `gauntlet/<run>/results.csv`, `summary.txt`, `losses/`; opponents may be our packages or `owner.package` benchmark names; duds (opponent failed to instrument) are recorded, not counted as wins |
+| `mirror.sh` | bot vs a byte-identical copy (the null) |
+| `snapshot.sh name [archetype]` | freeze `src/bot` as `src/<name>` (archetype 1 = muck rush, 2 = aggressive bidder) |
+| `compare.py base cand` | game-by-game diff of two runs: identical cells, flips, sweeps, by side/map |
+| `replay-dump.sh replay [flags]` | replay -> text: aggregates, `--from/--to` events, `--robot`, `--map-at`, `--logs REGEX --logs-team A`, `--metrics` CSV, `--bytecode`, `--navstats` |
+| `bench-compile.sh` | compile every benchmark repo without displaying source; writes `manifest.tsv` |
+| `bench-select.py [--all|--table]` | name-only pick of each repo's final bot |
+| `bench-roster.py` | regenerate the roster table in `BENCHMARK.md` |
+| `ladder.sh` | benchmark run + history + charts + roster in one go |
+| `track_history.py run [--label]` | append per-opponent win rates to `progress/history.csv` |
+| `plot_history.py` | `progress/vs_roster.png` (frozen snapshots) and `progress/ladder.png` (external bots) |
+| `plot_progress.py` | `progress/cumulative_iterations.png` |
+| `unit-tests.sh` | compile and run `test/bot/*Test.java` (plain mains, no JUnit) |
+| `mapinfo/MapInfo.java` | the map corpus table `tools/mapdata.csv` |
+
+Rules of the road: never read benchmark source (`BENCHMARK.md`); never review a
+game against a bot we beat under 20%; never `pkill -f` a pattern that appears in
+your own command line; do not edit `gauntlet.sh` while a run is in flight (it
+re-executes from a private copy, so edits are safe, but the collation of an
+older run uses the copy it started with).

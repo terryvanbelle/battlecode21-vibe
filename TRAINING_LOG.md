@@ -179,3 +179,15 @@ economy/production (guard cap, slanderer cap, capture sizing), scouting
 congestion (rings, jitter), combat micro (speech radius evaluation) -- none of
 these has yet been measured against a real opponent. Bidding is untested
 against a bidder.
+
+**Scan restarted (16:15 UTC).** The first result of the scan was `unknown`
+with no engine output. Cause: the engine is invoked with `-c=-` (configuration
+from stdin) and the games were spawned by `xargs`, whose children inherit the
+job pipe as stdin. `tools/gauntlet.sh` now gives every game `</dev/null`,
+keeps the engine log for any unknown result, records a `dud` when the
+opponent's package failed to instrument (an opponent that never ran is not a
+win), and re-executes from a private copy so the script can be edited while a
+run is in flight. Killing the old run also killed the shell issuing `pkill -f`
+twice more (exit 144): the fix is to kill by PID after inspecting
+`/proc/<pid>/cmdline`, never by pattern. The scan was relaunched at 16:15 UTC
+as `gauntlet/*-ladder-scan1`.

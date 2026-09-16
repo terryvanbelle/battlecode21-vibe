@@ -80,3 +80,38 @@ box (engine overhead per round dominates), the example bot with ~100 units
 ~2 min with the compile job competing for the two cores. Full-corpus runs (150
 games per opponent) are therefore hours, not minutes: use the 12-map quick set
 for screens and reserve the full corpus for accept decisions.
+
+## Iteration 1 (in development) -- the foundation bot (2026-09-16)
+
+Written after Iteration 0 proved the pipeline. Not yet evaluated on the
+corpus; this entry records the design and the smoke tests.
+
+**Design** (`DESIGN.md`): EC produces 4 cheap scouts early, then breakpoint-
+sized slanderers (`Econ.BREAK`) when no enemy is in sight, guard politicians
+in proportion, capture politicians for known neutral ECs (cost = influence +
+14, rounded up from the flag bucket) and, when rich, for the enemy EC; adaptive
+bid (grow a third on a lost vote, shrink slowly on a won one, cap influence/6,
+frozen once 752 votes are held). Slanderers hold a ring 2-4 tiles from home on
+the far side from the enemy and flee anything hostile; when camouflage turns
+them into politicians the same controller hands over to the guard logic.
+Politicians pick the empower radius maximising kill/convert value per speech;
+guards chase muckrakers near home. Muckrakers scout, report ECs/edges/enemy
+units on their flag, expose slanderers, and sit next to the enemy EC. Flags:
+`[type:4][extra:6][x%128:7][y%128:7]`, decoded relative to the reader.
+
+**Smoke tests vs `examplefuncsplayer` on `maptestsmall`** (wins by votes,
+752-0, every time; that opponent never bids):
+
+- v1a: 24 slanderers by r250 (cap not enforced in one branch), 9000 influence
+  hoarded by r500, enemy EC never found, symmetry never resolved, politician
+  bytecode peak 14233/15000.
+- v1b (cap enforced, distance cache in the speech evaluator, 4 scouts, more
+  guards): bounds known r300, symmetry resolved to mirror-x (correct) and enemy
+  EC located r~520; still no capture (enemy EC influence outgrew our reserve).
+  Scout trace: heading-based wandering spent 10 rounds on a 0.1 tile and
+  needed 150 rounds to cross the map -> replaced by passability-aware
+  waypoints (`Muckraker.pickExplore`), under test.
+
+**Instrument**: `tools/replay-dump.sh <replay> --logs '@econ|@scout' --logs-team A`
+gives the EC's 50-round economy line and every scout goal; `--robot ID` tracks
+one unit; `--bytecode` prints per-type peaks from the engine's own counters.

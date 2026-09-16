@@ -12,6 +12,7 @@ public final class C {
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;
     public static final int EARLY_SCOUTS = 4;
+    public static final int WALL_SIZE = 7;               // wall muckrakers on the 8 tiles around home (dose ladder 0/4/7); 7 leaves one spawn tile free
     public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // bid at most influence / this
 

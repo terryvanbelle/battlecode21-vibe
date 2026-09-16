@@ -8,4 +8,5 @@ public final class Roles {
     public static final int ECON = 3;
     public static final int CAPTURE = 4;
     public static final int HUNT = 5;
+    public static final int WALL = 6;    // 1-influence muckraker that holds a tile adjacent to home: an attacker cannot stand there, and its speech is split
 }

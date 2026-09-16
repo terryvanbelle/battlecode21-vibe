@@ -338,6 +338,44 @@ probe) -- the slanderer cap (12) and guard cap (10) are now the binding
 constraints; that is the next economy candidate. The `arch_polrush` archetype
 needs rebuilding before it is used as a rush opponent.
 
+## Iteration 3 (in development) -- EC wall (2026-09-16 19:50 UTC)
+
+**Target: a losing game vs a target-tier opponent.** Stage 1 of the scan put
+9 opponents at 1-1 on `maptestsmall` (provisional roster); 8 of their 9 wins
+over us end the same way: our EC is converted between r300 and r600 by single
+enemy politicians of 500-1750 conviction speaking at radius 1 from a tile
+adjacent to the EC, with the enemy's expose buff at 1.2-1.9x. Trace, iyzg.sbot17
+as A vs us as B (`gauntlet/20260916-192830-scan-s1/losses/iyzg...botB.bc21`):
+our EC held 4125 at r241 when a 1614 speech landed from (26,4); two of our
+politicians happened to stand in its radius, so the hit split three ways and
+the EC lost 608. At r293 a 1725 speech from (27,5) had nothing else in range:
+the EC lost 3190 in one round (3595 -> 405). At r353 a 1749 speech converted
+it. Same shape in VittalT (669, 751 then a buffed finisher), anshgs, jmerle,
+Scott-Poole, iyzg, aidan-mundy, Victoriano. The EC cannot bank faster than
+1700-conviction politicians arrive; what decides the damage is `n`, the
+number of robots inside the speech radius.
+
+*Pre-registration, candidate "wall":* the EC builds `WALL_SIZE` 1-influence
+muckrakers (role WALL) from r12 that hold the tiles adjacent to home (leaving
+one spawn tile free). An attacker can then not stand orthogonally adjacent,
+and any speech that reaches the EC also covers several wall units, so the
+EC's share is conv/n instead of conv. Decision-point counters: `@wall placed`
+count (expect 7 by r~40 and after every loss); for every enemy speech that
+reaches our EC, `EC influence lost / attacker conviction` from the event
+stream (baseline 1.0 or 0.33 in the trace; expect <= 0.25) and the attacker's
+distance to the EC (baseline 1; expect >= 4). Reachability: 8 of 9 target-tier
+losses have adjacent-tile speeches. Trigger frequency: every game against a
+politician-using opponent. Price: 7 influence, 7 of 96 child slots, one spawn
+tile instead of eight (the EC's build cooldown, 2-10 rounds, is longer than a
+newborn's exit), and units routing around the wall. History: nothing in the
+ledger. Dose ladder: WALL_SIZE 0 (byte-identical to g_iter2 apart from the
+constant) / 4 / 7. Gate: Stage 0 re-runs the motivating game on the VM
+(`iyzg.sbot17` vs bot, `maptestsmall`, both sides); then head-to-head vs
+`g_iter2` on the quick set (+4 games) and the roster gauntlet (PeerFloor 55%
+on peers, and the roster win rate must not fall). Falsifier: fewer than 6
+walls in place when the first adjacent speech lands, or a per-hit loss ratio
+unchanged, or the EC still converted by adjacent speeches.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

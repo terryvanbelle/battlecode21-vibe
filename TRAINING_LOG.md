@@ -467,6 +467,44 @@ loses the race to the next attacker, while the wall's build slots and
 crowding cost more than the absorbed damage is worth. `--hits` stays as an
 instrument. Defence area: 1 reject.
 
+## Iteration 4 (in development) -- never idle (2026-09-16 22:05 UTC)
+
+**Target: an absolute degeneracy in our own replays.** New `--navstats`
+fields (units that lived >= 100 rounds, idle units, mean moves per unit,
+moves onto swamp) on two target-tier losses: Maze vs Sihal3 -- units 230 vs
+1612, mean moves/unit 56 vs 76, coverage 48% vs 99.5%, the opponent walks
+onto swamp for 44% of its moves; Gridlock vs iyzg -- units 74 vs 1167, mean
+moves 49 vs 118. Our units move about as much each; there are 7-15x fewer of
+them. The capture survey over the 9 opponents' losses showed 12-40 capture
+politicians per Maze game that never spoke: they were built late into a
+corner pocket already jammed. The EC's production is the bottleneck: every
+branch has a hard cap (12 slanderers, 10 guards, 3 capturers, scouts by
+round) and once they bind the EC idles and hoards (34755 influence unspent at
+r1500 in the Stage 0 probe; `@econ` shows `cap=3 g=10 sl=12` pinned for a
+thousand rounds).
+
+*Pre-registration, candidate "spend":* a last branch in `EC.build`: when
+every capped branch declines and `inf - reserve() >= SPARE_MIN` (60), build
+anyway -- a guard politician while guards trail slanderers, else a slanderer
+up to a spare cap of 24, else a 1-influence hunter muckraker. Decision-point
+counters in the `@econ` line: `idle=` (rounds the EC was ready with >= 21
+influence and built nothing; baseline hundreds per game) and `spend=` (builds
+through the new branch; baseline 0). Outcome counters: `unitsLived100` and
+`meanMoves` from `--navstats`; EC influence at r1500. Reachability: the
+branch is reached whenever the caps bind, i.e. every game past ~r300.
+Trigger frequency: all games. Price: influence leaves the EC (its
+conviction): the reserve is unchanged, and the spare branch never spends
+below it; more bodies also means more congestion around home (ring/jitter
+logic unchanged). History: no ledger entry. Dose ladder: SPARE_MIN = off
+(byte-identical to g_iter2) / 60 / 20. Gate: Stage 0 = the two motivating
+games on the VM (Gridlock vs iyzg, Maze vs Sihal3, both sides): `idle` must
+drop by 5x and `unitsLived100` at least double; then head-to-head vs
+`g_iter2` (quick set, +4) and the roster gauntlet (no regression on the
+roster; peers above 55%). Falsifier: `spend` stays near 0 (some earlier
+branch already fires and the diagnosis is wrong) or units do not increase.
+Attempt count: 4th incremental in a row (census, wall, wall refinement,
+spend); the next attempt must be structural (SwingEvery = 4).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

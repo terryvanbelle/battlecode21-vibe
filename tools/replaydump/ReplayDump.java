@@ -71,7 +71,8 @@ public class ReplayDump {
     static int[][] bcMax = new int[3][4];
     // navigation statistics (--navstats): A-B-A oscillations, coverage of visited tiles, first contact with an enemy EC
     static boolean navStats = false;
-    static long[] aba = new long[3]; static boolean[][] visited; static int[] firstContact = {-1, -1, -1};
+    static long[] unitsLong = new long[3], unitsIdle = new long[3], unitMoves = new long[3]; static int lastRound = 0;
+    static long[] aba = new long[3]; static boolean[][] visited; static int[] firstContact = {-1, -1, -1}; static long[] swampMoves = new long[3];
     static Map<Integer, int[]> prev2 = new HashMap<>();   // id -> {x2,y2,x1,y1}
     static long[][] bcOverByType = new long[3][4];
     static int[] winnerByMatch = new int[0];
@@ -165,6 +166,11 @@ public class ReplayDump {
         return s.length() == 0 ? "none?" : s.toString().trim();
     }
 
+    /** navstats: units (not ECs) that lived >= 100 rounds; how many made < 5 moves in that time. */
+    static void tallyUnit(Robot r, int round) {
+        if (r.type == 0 || r.team == 0 || round - r.spawnRound < 100) return;
+        unitsLong[r.team]++; unitMoves[r.team] += r.moves; if (r.moves < 5) unitsIdle[r.team]++;
+    }
     static int d2(Robot a, Robot b) { return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y); }
 
     static void spawnBodies(SpawnedBodyTable sb, int round) {
@@ -186,6 +192,7 @@ public class ReplayDump {
     // ------------------------------------------------------------------ rounds
     static void onRound(Round rd) {
         int round = rd.roundID();
+        lastRound = round;
         if (hits) { ecInfStart.clear(); for (Robot b : bots.values()) if (b.type == 0) ecInfStart.put(b.id, b.influence); }
         // team info
         for (int i = 0; i < rd.teamIDsLength(); i++) {
@@ -203,6 +210,7 @@ public class ReplayDump {
                 if (pv == null) { pv = new int[4]; prev2.put(r.id, pv); }
                 pv[0] = pv[2]; pv[1] = pv[3]; pv[2] = r.x; pv[3] = r.y;
                 r.x = ml.xs(i); r.y = ml.ys(i); r.moves++; moves[r.team]++; markVisit(r);
+                if (navStats) { int px = r.x - minX, py = r.y - minY; if (px >= 0 && py >= 0 && px < width && py < height && pass[py * width + px] < 0.35) swampMoves[r.team]++; }
                 if (navStats && firstContact[r.team] < 0 && r.team > 0) for (Robot e : bots.values()) if (e.type == 0 && e.team != r.team && e.team > 0 && (e.x - r.x) * (e.x - r.x) + (e.y - r.y) * (e.y - r.y) <= 30) { firstContact[r.team] = round; break; }
                 if (r.id == trackId && inWindow(round)) System.out.printf("  r%d MOVE #%d -> (%d,%d)%n", round, r.id, r.x - minX, r.y - minY); }
         }
@@ -253,7 +261,7 @@ public class ReplayDump {
         // deaths
         for (int i = 0; i < rd.diedIDsLength(); i++) {
             Robot r = bots.get(rd.diedIDs(i));
-            if (r != null) { r.alive = false; died[r.team]++;
+            if (r != null) { r.alive = false; died[r.team]++; if (navStats) tallyUnit(r, round);
                 if (inWindow(round)) System.out.printf("  r%d DIED %s (lived %d rounds)%n", round, desc(r), round - r.spawnRound);
                 bots.remove(r.id); }
         }
@@ -282,7 +290,7 @@ public class ReplayDump {
         if (metrics) { if (f.totalRounds() % every != 0) printMetricsRow(f.totalRounds()); System.out.printf("# winner=%s rounds=%d%n", teamName[w], f.totalRounds()); return; }
         if (every <= 0 || f.totalRounds() % every != 0) printAggregate(f.totalRounds());
         System.out.printf("RESULT winner=%s (%s) after %d rounds  votes A=%d B=%d%n", w == 1 ? "A" : w == 2 ? "B" : "?", teamName[w], f.totalRounds(), votes[1], votes[2]);
-        if (navStats) printNavStats();
+        if (navStats) { for (Robot r : bots.values()) tallyUnit(r, lastRound); printNavStats(); }
         if (bytecodeSummary) for (int t = 1; t <= 2; t++) {
             StringBuilder s = new StringBuilder("  bytecode " + teamName[t] + ":");
             for (int k = 0; k < 4; k++) s.append(String.format(" %s max=%d over=%d", TYPE[k], bcMax[t][k], bcOverByType[t][k]));
@@ -298,7 +306,7 @@ public class ReplayDump {
     static void printNavStats() {
         for (int t = 1; t <= 2; t++) {
             int cov = 0; for (boolean b : visited[t]) if (b) cov++;
-            System.out.printf("  nav %s: moves=%d aba=%d (%.1f%%) coverage=%.1f%% firstEnemyECContact=r%d%n", teamName[t], moves[t], aba[t], moves[t] > 0 ? 100.0 * aba[t] / moves[t] : 0, 100.0 * cov / (width * height), firstContact[t]);
+            System.out.printf("  nav %s: moves=%d aba=%d (%.1f%%) ontoSwamp=%d (%.1f%%) coverage=%.1f%% firstEnemyECContact=r%d unitsLived100=%d idle(<5 moves)=%d meanMoves=%.1f%n", teamName[t], moves[t], aba[t], moves[t] > 0 ? 100.0 * aba[t] / moves[t] : 0, swampMoves[t], moves[t] > 0 ? 100.0 * swampMoves[t] / moves[t] : 0, 100.0 * cov / (width * height), firstContact[t], unitsLong[t], unitsIdle[t], unitsLong[t] > 0 ? (double) unitMoves[t] / unitsLong[t] : 0);
         }
     }
 

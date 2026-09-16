@@ -154,3 +154,28 @@ enemy EC then failed only because capturers aborted as "too weak" against a
 2200-influence EC; since EC damage is permanent, capturers now speak whenever
 most of the speech lands on hostile targets, and the EC sizes them from a
 recent estimate rather than requiring the whole amount.
+
+## Iteration 1 -- ACCEPTED by construction; snapshot `g_iter1` (2026-09-16 15:50 UTC)
+
+The foundation bot (economy, scouting, symmetry inference, navigation, guard
+and capture politicians, adaptive bidding, flag comms, anti-congestion) is
+frozen as `src/g_iter1/`. There is no meaningful head-to-head against
+`g_iter0` (a one-unit bot); Iteration 1 is the first real baseline, and every
+later candidate is measured against it. It beats `examplefuncsplayer` 752-0 on
+votes on every map tried and captured all six neutral ECs on `Gridlock`.
+
+**First external ladder scan launched**: `g_iter1` vs the 65 name-selected
+primary benchmark bots (`tools/bench-select.py`), maps `maptestsmall` and
+`Gridlock`, both sides (260 games, ~9 h at two parallel games on this box).
+Purpose: a coarse first tiering (locked / target / peer) and the first
+`progress/ladder.png` point. Run id `gauntlet/*-ladder-scan1/`, log
+`gauntlet/ladder-scan1.log`. Per the 20% rule no replay of a game against a
+locked-tier bot will be opened; the scan writes losses to `losses/` and the
+reader checks the tier table first.
+
+**Functional-area map** (attempts so far, all in Iteration 1's development):
+economy/production (guard cap, slanderer cap, capture sizing), scouting
+(waypoints, unknown-edge seeking, fact cycling), comms timing (order fix),
+congestion (rings, jitter), combat micro (speech radius evaluation) -- none of
+these has yet been measured against a real opponent. Bidding is untested
+against a bidder.

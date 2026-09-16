@@ -518,6 +518,17 @@ already exceeded slanderers + 2 and `danger` blocked slanderers. Completeness
 tweak, same mechanism: a spare bank >= 300 buys a guard (cost spare/3)
 regardless of the guard:slanderer ratio. Next: head-to-head vs `g_iter2`.
 
+**Stage 0 complete (8 games): 1/8**, the one win a cell the baseline lost
+(Sihal3, Gridlock, as B); no cell flipped the other way.
+
+**Head-to-head vs `g_iter2`, quick set, both sides
+(`gauntlet/20260916-220756-h2h-spend`): 20/24, +16, 11 as A and 9 as B.**
+Nine maps swept for the candidate, two split (Arena, CrossStitch), one swept
+against (Maze: the extra bodies jam the corner pocket the capture survey
+found). 9 annihilations against 5 for the census build. One-directional:
+the number stands. Target gauntlet launched on the wall's 72 cells
+(`tgt-spend`), to be read against the baseline's 13/72 and the wall's 9/72.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

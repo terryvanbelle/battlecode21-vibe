@@ -19,7 +19,8 @@ Everything runs with bare `java` (JDK 8 at `~/jdk/jdk8u504-b01`, see
 | `bench-roster.py` | regenerate the roster table in `BENCHMARK.md` |
 | `gauntlet-select.py results.csv... [--write tools/roster.txt]` | tier every opponent from scan results; writes the standing roster (the 20-50% band) |
 | `run-dev.sh A B map [replay]` | like `run-match.sh` but from a private compile (`build/dev-classes`): safe while a gauntlet owns `build/classes` |
-| `scan.sh` | two-stage tiering scan: every opponent on one map both sides, then a second map only for split results; `SKIP=<results.csv>` reuses decided opponents; writes `tools/roster.txt` |
+| `scan.sh` | incremental two-stage tiering scan: every opponent on 3 maps both sides, then 4 more maps for the in-band ones; `DONE="<results.csv ...>"` cells are never replayed; writes `tools/roster.txt` |
+| `scan-cells.py` | the cells (opponent map side) a stage still needs, given results files; `--band` keeps only in-band opponents |
 | `vm.sh` | sourced helpers: VM name/zone, `ensure_vm`, `gssh`, `gscp` |
 | `vm-sync.sh` | push repo tree (+ JDK, engine, benchmark classes when missing) to the VM |
 | `vm-run.sh <log> '<cmd>'` | sync, then run `<cmd>` detached on the VM, log to `gauntlet/<log>.log` |

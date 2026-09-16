@@ -93,3 +93,9 @@ Make sure to document the VM setup so that future work doesn't make the same mis
 task check
 Consider doing a preliminary pass on the benchmark selection using a subset of boards to speed things up.  You should be able to eliminate some bots as either too weak or too strong that way
 ```
+
+## Prompt 13: More maps in scan stage 1
+
+```text
+Maybe try more maps for scan stage 1
+```

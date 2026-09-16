@@ -130,7 +130,12 @@ cheap screens, and the same subset is then pinned for every arm of that screen.
 all of them per candidate is too slow to be the loop's instrument, and bots we
 beat 0% or 100% of the time resolve nothing. `tools/gauntlet-select.py` reads
 the last scan's results and writes `tools/roster.txt`: every opponent in the
-20-50% band (min 2 decided games). That roster is what every candidate plays
+20-50% band (min 2 decided games). A scan is two-stage and incremental
+(`tools/scan.sh`): every opponent on three maps of different sizes, both
+sides; then four more maps for whoever is neither 0% nor 100%; cells already
+decided on disk are never replayed. One small map is not a stage: on
+2026-09-16 nine opponents at 1-1 on `maptestsmall` went 1-34 on three larger
+maps. That roster is what every candidate plays
 (`tools/ladder.sh` uses it by default). The full external set is played only
 in a **scan** (`SCAN=1 tools/ladder.sh`), after every accept, and any bot whose
 rate crosses a band edge is re-tiered then. Peers stay in the fixed roster;

@@ -8,6 +8,7 @@
 #   MAPSET=quick tools/gauntlet.sh                     # the 12-map quick set
 #   TAG=h2h-iter3 tools/gauntlet.sh                    # run-id suffix
 #   CLASSES=build/h2h-classes tools/gauntlet.sh       # private compile dir (run beside another gauntlet)
+#   CELLS=cells.txt tools/gauntlet.sh                 # play exactly the "opponent map side" lines in the file
 #   GAME_TIMEOUT=1200 tools/gauntlet.sh               # wall-clock cap per game in seconds (default 1800); a capped game is recorded as unknown
 #
 # Opponent names: a package under src/ (ours), or a benchmark name from
@@ -53,13 +54,15 @@ resolve () {  # name -> "package url" ; our packages first, then manifest
 # compile our sources once, fresh
 CLASSES="${CLASSES:-$REPO/build/classes}"   # CLASSES=build/other lets a second gauntlet run beside one that owns build/classes
 rm -rf "$CLASSES" && compile_src "$REPO/src" "$CLASSES" || { echo "!! compile failed" >&2; exit 1; }
-for o in $BOT $OPPONENTS; do resolve "$o" >/dev/null || exit 1; done
 
 RUN_ID="$(date +%Y%m%d-%H%M%S)${TAG:+-$TAG}"
 while ! mkdir -p "$REPO/gauntlet" && mkdir "$REPO/gauntlet/$RUN_ID" 2>/dev/null; do RUN_ID="$(date +%Y%m%d-%H%M%S)-$$"; done
 OUT="$REPO/gauntlet/$RUN_ID"; mkdir -p "$OUT/losses" "$OUT/replays"
 printf '%s\n' $MAPS > "$OUT/maps.txt"
-NG=$(( $(echo $OPPONENTS | wc -w) * $(echo $MAPS | wc -w) * 2 ))
+# CELLS=<file>: play exactly these "opponent map side" lines instead of the OPPONENTS x MAPS x sides product
+if [ -n "${CELLS:-}" ]; then NG=$(grep -c . "$CELLS"); OPPONENTS="$(awk '{print $1}' "$CELLS" | sort -u | tr '\n' ' ')"; MAPS="$(awk '{print $2}' "$CELLS" | sort -u | tr '\n' ' ')"
+else NG=$(( $(echo $OPPONENTS | wc -w) * $(echo $MAPS | wc -w) * 2 )); fi
+for o in $BOT $OPPONENTS; do resolve "$o" >/dev/null || exit 1; done
 echo "gauntlet $RUN_ID bot=$BOT opponents=[$OPPONENTS] maps=$(echo $MAPS | wc -w) games=$NG jobs=$MAXJOBS"
 : > "$OUT/results.raw"
 
@@ -93,7 +96,7 @@ game () {  # opp map side
   printf '  [%3d/%d] %-4s %-28s %-24s r%s\n' "$(wc -l < "$OUT/results.raw")" "$NG" "$res" "$MAP" "$OPP" "$RND"
 }
 export -f game resolve parse_result engine_cp; export OUT BOT ENGINE_DIR REPO MANIFEST GAME_XMX KEEP_ALL NG BENCH_CLASSES CLASSES
-for OPP in $OPPONENTS; do for MAP in $MAPS; do for SIDE in A B; do echo "$OPP $MAP $SIDE"; done; done; done \
+{ if [ -n "${CELLS:-}" ]; then cat "$CELLS"; else for OPP in $OPPONENTS; do for MAP in $MAPS; do for SIDE in A B; do echo "$OPP $MAP $SIDE"; done; done; done; fi; } \
   | xargs -P "$MAXJOBS" -L 1 bash -c 'game "$0" "$1" "$2"'
 
 { echo "opponent,map,bot_side,winner_side,rounds,bot_result,reason"; sort "$OUT/results.raw"; } > "$OUT/results.csv"

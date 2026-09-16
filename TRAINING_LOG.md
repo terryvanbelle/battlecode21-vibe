@@ -376,6 +376,31 @@ on peers, and the roster win rate must not fall). Falsifier: fewer than 6
 walls in place when the first adjacent speech lands, or a per-hit loss ratio
 unchanged, or the EC still converted by adjacent speeches.
 
+**Stage 0, wall (7 from r12) vs `iyzg.sbot17`, `maptestsmall`, both sides
+(`gauntlet/20260916-194443-wall-s0`): lost both (r602 as A, r730 as B);
+mechanism engaged, price too high.** New instrument `replay-dump.sh --hits`
+prints every enemy speech that reaches an EC with the attacker's conviction,
+distance, `n` (robots sharing it), `wall` (our units on the EC's 8 adjacent
+tiles) and the EC's influence before -> after. Walls: 7 in place by r62 (one
+build every 6 rounds). Hits as B: 964, 1101, 1075, 1017, 1070, 847, 662
+conviction at d2 = 4, 1, 4, 2, 4, 1, 5 with n = 3-4; per-hit loss ratio
+0.25-0.45 (baseline trace 0.38, 1.86, 0.44) -- the dilution is real, and the
+attackers at d2=1 stood on the free spawn tile. But the EC still lost 2376
+over seven hits against a bank that peaked at 2141. As A the EC fell at r174
+with 262 influence to hits of 463 and 325: the seven wall builds occupied the
+EC's build slots from r12 to r62 (the EC's cooldown, ~6 rounds per build on
+this tile, is the scarce resource, not the 7 influence), so at r50 we had 0
+slanderers against the baseline's 4, and that game, a win in the scan, flipped
+to a loss. Classification: still lost, mechanism engaged, evidenced reason
+(opening delay + a 7-politician stream) -- a near miss.
+
+*Refinement 1 (pre-registered, two arms, same mechanism):* walls are built
+only after `WALL_AFTER_SLANDERERS` = 4 slanderers exist (or r150), so income
+comes first; arm `wall_r1` keeps WALL_SIZE 7, arm `wall_r2` uses 4 (orthogonal
+tiles only: an attacker on a diagonal still shares with 2+ walls). Counters as
+before, plus slanderers at r50 (must equal the baseline's 4) and the round the
+wall completes (expect < r160, the earliest first hit seen). Gate unchanged.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

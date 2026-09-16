@@ -31,6 +31,8 @@ import java.util.zip.GZIPInputStream;
  *   --metrics        CSV of per-round team aggregates instead of the narrative
  *   --bytecode       per-type bytecode summary (max used, rounds over limit)
  *   --quiet          suppress aggregates (use with --map or --logs)
+ *   --hits           every enemy speech that reaches an EC: attacker conviction, distance, n (robots
+ *                    sharing the speech), wall (that EC's own units on its 8 adjacent tiles), influence before -> after
  *
  * Team ids in the file: 0 neutral, 1 = A, 2 = B. Locations are absolute (the
  * map origin is random per map); the board is drawn relative to minCorner.
@@ -39,6 +41,7 @@ public class ReplayDump {
     // ---- flags ----
     static int every = 50, mapEvery = 0, fromRound = -1, toRound = -1, trackId = -1;
     static boolean metrics = false, quiet = false, bytecodeSummary = false;
+    static boolean hits = false; static final List<int[]> pendingHits = new ArrayList<>(); static final Map<Integer, Integer> ecInfStart = new HashMap<>();
     static Pattern logPat = null; static int logsTeam = -1;
     static TreeSet<Integer> mapAt = new TreeSet<>();
 
@@ -88,6 +91,7 @@ public class ReplayDump {
                 case "--metrics": metrics = true; quiet = true; every = Math.max(every, 1); break;
                 case "--bytecode": bytecodeSummary = true; break;
                 case "--quiet": quiet = true; break;
+                case "--hits": hits = true; quiet = true; break;
                 case "--navstats": navStats = true; break;
                 default: System.err.println("unknown flag " + args[i]); System.exit(2);
             }
@@ -161,6 +165,8 @@ public class ReplayDump {
         return s.length() == 0 ? "none?" : s.toString().trim();
     }
 
+    static int d2(Robot a, Robot b) { return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y); }
+
     static void spawnBodies(SpawnedBodyTable sb, int round) {
         if (sb == null) return;
         VecTable locs = sb.locs();
@@ -180,6 +186,7 @@ public class ReplayDump {
     // ------------------------------------------------------------------ rounds
     static void onRound(Round rd) {
         int round = rd.roundID();
+        if (hits) { ecInfStart.clear(); for (Robot b : bots.values()) if (b.type == 0) ecInfStart.put(b.id, b.influence); }
         // team info
         for (int i = 0; i < rd.teamIDsLength(); i++) {
             int t = rd.teamIDs(i);
@@ -208,6 +215,11 @@ public class ReplayDump {
             int team = r == null ? 0 : r.team;
             switch (a) {
                 case Action.EMPOWER: empowers[team]++; if (r != null) r.empowers++;
+                    if (hits && r != null) for (Robot e : bots.values()) if (e.type == 0 && e.team > 0 && e.team != r.team && d2(e, r) <= tgt) {
+                        int n = 0, wall = 0;
+                        for (Robot b : bots.values()) { if (b != r && b.alive && b.spawnRound < round && d2(b, r) <= tgt) n++; if (b.team == e.team && b.type != 0 && b.alive && Math.max(Math.abs(b.x - e.x), Math.abs(b.y - e.y)) == 1) wall++; }
+                        pendingHits.add(new int[]{round, r.team, r.conviction, tgt, d2(e, r), n, e.id, ecInfStart.getOrDefault(e.id, e.influence), wall});
+                    }
                     if (inWindow(round)) System.out.printf("  r%d EMPOWER %s radius2=%d%n", round, desc(r), tgt); break;
                 case Action.EXPOSE: exposes[team]++; if (r != null) r.exposes++;
                     if (inWindow(round)) System.out.printf("  r%d EXPOSE %s -> #%d %s%n", round, desc(r), tgt, desc(bots.get(tgt))); break;
@@ -255,6 +267,11 @@ public class ReplayDump {
             }
         }
         if (trackId >= 0 && inWindowOrAll(round)) { Robot r = bots.get(trackId); if (r != null) System.out.printf("  r%d TRACK %s bc=%d%n", round, desc(r), r.bytecodes); }
+        if (hits && !pendingHits.isEmpty()) {
+            for (int[] h : pendingHits) { Robot e = bots.get(h[6]); String after = e == null ? "CONVERTED" : Integer.toString(e.influence); int loss = e == null ? h[7] : h[7] - e.influence;
+                System.out.printf("  r%d HIT by %s conv=%d r2=%d d2=%d n=%d wall=%d ec#%d inf %d -> %s loss=%d ratio=%.2f%n", h[0], teamName[h[1]], h[2], h[3], h[4], h[5], h[8], h[6], h[7], after, loss, h[2] > 10 ? (double) loss / (h[2] - 10) : 0.0); }
+            pendingHits.clear();
+        }
         if (metrics) { if (round % every == 0) printMetricsRow(round); return; }
         if (!quiet && every > 0 && round % every == 0) printAggregate(round);
         if ((mapEvery > 0 && round % mapEvery == 0) || mapAt.contains(round)) printBoard(round);

@@ -67,3 +67,16 @@ in. Snapshot `src/g_iter0/`.
   build one). Bytecode: EC max 460 / 20000, muckraker max 127 / 15000, zero
   overruns.
 - Determinism and speed check: see the next entry.
+
+**Determinism and speed (Iteration 0 vs its own snapshot, `maptestsmall`).**
+Two identical runs both reached round 1500 with nothing to separate the sides
+(no votes, one EC each, equal influence) and the engine's coin flip
+(`Math.random`) picked A once and B once. So: the *play* is deterministic and
+the only randomness in the engine is the final tiebreak, which any bot that
+bids even once will never reach. Consequence for the mirror harness: a mirror
+that ends in coin flips is not measuring anything; the mirror needs the real
+bot. A trivial 1500-round game with two units takes ~17 s wall-clock on this
+box (engine overhead per round dominates), the example bot with ~100 units
+~2 min with the compile job competing for the two cores. Full-corpus runs (150
+games per opponent) are therefore hours, not minutes: use the 12-map quick set
+for screens and reserve the full corpus for accept decisions.

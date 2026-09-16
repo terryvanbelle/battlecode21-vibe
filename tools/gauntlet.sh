@@ -15,6 +15,15 @@
 # Output gauntlet/<run-id>/: results.csv (opponent,map,bot_side,winner_side,
 # rounds,bot_result,reason), summary.txt, maps.txt, losses/*.bc21, and every
 # replay under replays/ (deleted at the end unless KEEP_ALL=1, losses kept).
+# Run from a private copy: bash reads a script lazily by byte offset, so editing this file while a
+# gauntlet is in flight would corrupt the run (a predecessor project lost a finished 450-game
+# tournament's collation this way). The copy is unlinked immediately; the open fd keeps it alive.
+if [ -z "${BC21_REEXEC:-}" ]; then
+  _self="$(dirname "${BASH_SOURCE[0]}")/.reexec-gauntlet.$$"
+  cat "${BASH_SOURCE[0]}" > "$_self" || exit 1
+  BC21_REEXEC="$_self" exec bash "$_self" "$@"
+fi
+rm -f "$BC21_REEXEC"
 set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$REPO/tools/lib.sh"
@@ -66,10 +75,14 @@ game () {  # opp map side
     "$silence" -Dbc.game.team-a="$TA" -Dbc.game.team-b="$TB" \
     -Dbc.game.team-a.url="$UAA" -Dbc.game.team-b.url="$UBB" \
     -Dbc.game.maps="$MAP" -Dbc.server.save-file="$REPLAY" \
-    -cp "$(engine_cp)" battlecode.server.Main -c=- 2>&1 || true)
+    -cp "$(engine_cp)" battlecode.server.Main -c=- 2>&1 </dev/null || true)
   local R; R=$(parse_result "$LOG")   # RESULT W round reason
   set -- $R; local W="$2" RND="$3"; shift 3; local RE="$*"
   local res; if [ "$W" = "$SIDE" ]; then res=win; elif [ "$W" = "?" ]; then res=unknown; else res=loss; fi
+  # an opponent whose code the sandbox refused never played: record the game as a dud, not a win
+  if printf '%s\n' "$LOG" | grep -q "Error instrumenting ${PA}\."; then res=dud; RE="opponent failed to instrument"; fi
+  if printf '%s\n' "$LOG" | grep -q "Error instrumenting ${PB}\."; then res=unknown; RE="OUR bot failed to instrument"; fi
+  if [ "$res" = unknown ] || [ "$res" = dud ]; then printf '%s\n' "$LOG" | grep -v '^\s*at ' | head -60 > "$OUT/${res}__${OPP}__${MAP}__bot${SIDE}.log"; fi
   printf '%s,%s,%s,%s,%s,%s,%s\n' "$OPP" "$MAP" "$SIDE" "$W" "$RND" "$res" "$RE" >> "$OUT/results.raw"
   [ "$res" = win ] && [ "${KEEP_ALL:-0}" != 1 ] && rm -f "$REPLAY"
   [ "$res" = loss ] && mv "$REPLAY" "$OUT/losses/" 2>/dev/null
@@ -90,7 +103,7 @@ rm -f "$OUT/results.raw"; rmdir "$OUT/replays" 2>/dev/null || true
     sa=$(awk -F, -v o="$OPP" 'NR>1&&$1==o&&$3=="A"&&$6=="win"' "$OUT/results.csv" | wc -l); sb=$(awk -F, -v o="$OPP" 'NR>1&&$1==o&&$3=="B"&&$6=="win"' "$OUT/results.csv" | wc -l)
     awk -v o="$OPP" -v w="$w" -v t="$t" -v a="$sa" -v b="$sb" 'BEGIN{printf "  vs %-40s %3d/%-3d (%5.1f%%)  asA=%d asB=%d\n", o, w, t, (t>0)?100*w/t:0, a, b}'
   done
-  echo "unknown results: $(awk -F, 'NR>1&&$6=="unknown"' "$OUT/results.csv" | wc -l)"
+  echo "unknown results: $(awk -F, 'NR>1&&$6=="unknown"' "$OUT/results.csv" | wc -l)   duds (opponent never ran): $(awk -F, 'NR>1&&$6=="dud"' "$OUT/results.csv" | wc -l)"
   echo "reasons: $(awk -F, 'NR>1{print $7}' "$OUT/results.csv" | sort | uniq -c | sort -rn | tr '\n' ';')"
 } | tee "$OUT/summary.txt"
 echo "wrote $OUT/"

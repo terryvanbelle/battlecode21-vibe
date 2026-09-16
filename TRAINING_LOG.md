@@ -199,3 +199,26 @@ IDs did not propagate in time, so nobody resolved the symmetry. Sibling-ID
 reports are now sent as soon as a scout sees a sibling EC. A single Maze game
 took 18 minutes with the scan running beside it: development tests must be
 rationed while the scan is in flight.
+
+---
+
+## Standing tables (updated in place)
+
+### Functional-area map
+
+| area | last attempt | status |
+|---|---|---|
+| economy / production mix | Iteration 1 dev (guard cap 4+sl/2, slanderer cap 12, breakpoint sizes) | unmeasured vs real opponents |
+| bidding | bidding v2 (phase-aware cap, enemy-vote estimate) | test vs `arch_bidder` pending |
+| scouting / map knowledge | edge-seeking waypoints, fact cycling, sibling IDs | symmetry still often unresolved on multi-EC maps |
+| navigation | greedy + bug + oscillation guard | aba 1-3% of moves; boxed-in-by-friends failure seen and mitigated by jitter |
+| combat micro (politician speech) | radius/value evaluation, chip rule vs ECs | works vs example bot; unmeasured vs real opponents |
+| slanderer safety | flee any enemy, ring 8-45 | unmeasured vs hunters |
+| muckraker hunting / blocking | expose nearest slanderer, sit at enemy EC | unmeasured |
+
+### Closed-directions ledger
+
+| direction | kind | measurement | re-open if |
+|---|---|---|---|
+| short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
+| one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |

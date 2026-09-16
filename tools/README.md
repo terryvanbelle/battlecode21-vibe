@@ -1,6 +1,7 @@
 # tools/
 
-Everything runs locally with bare `java` (JDK 8 at `~/jdk/jdk8u504-b01`, see
+**Games run on the `battlecode-dev` VM, never on the driver** (see `SETUP.md`; `vm-run.sh` below).
+Everything runs with bare `java` (JDK 8 at `~/jdk/jdk8u504-b01`, see
 `tools/lib.sh`). The engine is built from source once: `tools/build-engine.sh`.
 
 | script | purpose |
@@ -19,6 +20,10 @@ Everything runs locally with bare `java` (JDK 8 at `~/jdk/jdk8u504-b01`, see
 | `gauntlet-select.py results.csv... [--write tools/roster.txt]` | tier every opponent from scan results; writes the standing roster (the 20-50% band) |
 | `run-dev.sh A B map [replay]` | like `run-match.sh` but from a private compile (`build/dev-classes`): safe while a gauntlet owns `build/classes` |
 | `scan.sh` | two-stage tiering scan: every opponent on one map both sides, then a second map only for split results; `SKIP=<results.csv>` reuses decided opponents; writes `tools/roster.txt` |
+| `vm.sh` | sourced helpers: VM name/zone, `ensure_vm`, `gssh`, `gscp` |
+| `vm-sync.sh` | push repo tree (+ JDK, engine, benchmark classes when missing) to the VM |
+| `vm-run.sh <log> '<cmd>'` | sync, then run `<cmd>` detached on the VM, log to `gauntlet/<log>.log` |
+| `vm-tail.sh <log>` / `vm-collect.sh <run-id>` / `vm-stop.sh` | follow a run, fetch its results, stop the idle VM |
 | `ladder.sh` | roster run (default) or `SCAN=1` re-tiering scan + history + charts + roster table in one go |
 | `track_history.py run [--label]` | append per-opponent win rates to `progress/history.csv` |
 | `plot_history.py` | `progress/vs_roster.png` (frozen snapshots) and `progress/ladder.png` (external bots) |

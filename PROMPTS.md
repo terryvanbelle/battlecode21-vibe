@@ -80,3 +80,9 @@ claude-driver should only be used to run the Claude instance
 ```text
 You can free up disk space on battlecode-dev by deleting games from previous projects
 ```
+
+## Prompt 11: Document the VM setup
+
+```text
+Make sure to document the VM setup so that future work doesn't make the same mistake
+```

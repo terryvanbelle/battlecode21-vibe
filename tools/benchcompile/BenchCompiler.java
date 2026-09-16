@@ -30,7 +30,9 @@ public class BenchCompiler {
         Set<Path> roots = new TreeSet<>();
         try (Stream<Path> s = Files.walk(repo)) {
             s.filter(p -> p.getFileName().toString().equals("RobotPlayer.java") && !p.toString().contains("/.git/") && !p.toString().contains("/test/"))
-             .forEach(p -> roots.add(p.getParent().getParent()));
+             .forEach(p -> { Path r = p.getParent().equals(repo) ? repo : p.getParent().getParent(); roots.add(r.startsWith(repo) ? r : repo); });
+        // a root that contains another root is redundant (and would double-count files)
+        for (Iterator<Path> it = roots.iterator(); it.hasNext();) { Path r = it.next(); for (Path o : roots) if (!o.equals(r) && r.startsWith(o)) { it.remove(); break; } }
         }
         List<Path> files = new ArrayList<>();
         for (Path root : roots) try (Stream<Path> s = Files.walk(root)) {

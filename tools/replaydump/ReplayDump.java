@@ -66,6 +66,10 @@ public class ReplayDump {
                   camouflages = new long[3], embezzled = new long[3], moves = new long[3],
                   bcOverRounds = new long[3];
     static int[][] bcMax = new int[3][4];
+    // navigation statistics (--navstats): A-B-A oscillations, coverage of visited tiles, first contact with an enemy EC
+    static boolean navStats = false;
+    static long[] aba = new long[3]; static boolean[][] visited; static int[] firstContact = {-1, -1, -1};
+    static Map<Integer, int[]> prev2 = new HashMap<>();   // id -> {x2,y2,x1,y1}
     static long[][] bcOverByType = new long[3][4];
     static int[] winnerByMatch = new int[0];
 
@@ -84,6 +88,7 @@ public class ReplayDump {
                 case "--metrics": metrics = true; quiet = true; every = Math.max(every, 1); break;
                 case "--bytecode": bytecodeSummary = true; break;
                 case "--quiet": quiet = true; break;
+                case "--navstats": navStats = true; break;
                 default: System.err.println("unknown flag " + args[i]); System.exit(2);
             }
         }
@@ -126,6 +131,7 @@ public class ReplayDump {
         for (int i = 0; i < pass.length; i++) pass[i] = m.passability(i);
         bots.clear();
         Arrays.fill(votes, 0); Arrays.fill(buffs, 0);
+        visited = new boolean[3][width * height]; prev2.clear();
         SpawnedBodyTable sb = m.bodies();
         spawnBodies(sb, 0);
         if (metrics) { printMetricsHeader(); return; }
@@ -165,6 +171,7 @@ public class ReplayDump {
             r.conviction = r.type == 3 ? (int) Math.ceil(0.7 * r.influence) : r.influence;
             r.spawnRound = round;
             bots.put(r.id, r);
+            markVisit(r);
             spawned[r.team]++; spawnInfluence[r.team] += r.influence;
             if (inWindow(round)) System.out.printf("  r%d SPAWN %s%n", round, desc(r));
         }
@@ -183,7 +190,13 @@ public class ReplayDump {
         VecTable ml = rd.movedLocs();
         for (int i = 0; i < rd.movedIDsLength(); i++) {
             Robot r = bots.get(rd.movedIDs(i));
-            if (r != null) { r.x = ml.xs(i); r.y = ml.ys(i); r.moves++; moves[r.team]++;
+            if (r != null) {
+                int[] pv = prev2.get(r.id);
+                if (pv != null && pv[0] == ml.xs(i) && pv[1] == ml.ys(i)) aba[r.team]++;   // returned to where it was two moves ago
+                if (pv == null) { pv = new int[4]; prev2.put(r.id, pv); }
+                pv[0] = pv[2]; pv[1] = pv[3]; pv[2] = r.x; pv[3] = r.y;
+                r.x = ml.xs(i); r.y = ml.ys(i); r.moves++; moves[r.team]++; markVisit(r);
+                if (navStats && firstContact[r.team] < 0 && r.team > 0) for (Robot e : bots.values()) if (e.type == 0 && e.team != r.team && e.team > 0 && (e.x - r.x) * (e.x - r.x) + (e.y - r.y) * (e.y - r.y) <= 30) { firstContact[r.team] = round; break; }
                 if (r.id == trackId && inWindow(round)) System.out.printf("  r%d MOVE #%d -> (%d,%d)%n", round, r.id, r.x - minX, r.y - minY); }
         }
         // spawns
@@ -252,10 +265,23 @@ public class ReplayDump {
         if (metrics) { if (f.totalRounds() % every != 0) printMetricsRow(f.totalRounds()); System.out.printf("# winner=%s rounds=%d%n", teamName[w], f.totalRounds()); return; }
         if (every <= 0 || f.totalRounds() % every != 0) printAggregate(f.totalRounds());
         System.out.printf("RESULT winner=%s (%s) after %d rounds  votes A=%d B=%d%n", w == 1 ? "A" : w == 2 ? "B" : "?", teamName[w], f.totalRounds(), votes[1], votes[2]);
+        if (navStats) printNavStats();
         if (bytecodeSummary) for (int t = 1; t <= 2; t++) {
             StringBuilder s = new StringBuilder("  bytecode " + teamName[t] + ":");
             for (int k = 0; k < 4; k++) s.append(String.format(" %s max=%d over=%d", TYPE[k], bcMax[t][k], bcOverByType[t][k]));
             System.out.println(s);
+        }
+    }
+
+    static void markVisit(Robot r) {
+        if (visited == null) return;
+        int x = r.x - minX, y = r.y - minY;
+        if (x >= 0 && x < width && y >= 0 && y < height) visited[r.team][x + y * width] = true;
+    }
+    static void printNavStats() {
+        for (int t = 1; t <= 2; t++) {
+            int cov = 0; for (boolean b : visited[t]) if (b) cov++;
+            System.out.printf("  nav %s: moves=%d aba=%d (%.1f%%) coverage=%.1f%% firstEnemyECContact=r%d%n", teamName[t], moves[t], aba[t], moves[t] > 0 ? 100.0 * aba[t] / moves[t] : 0, 100.0 * cov / (width * height), firstContact[t]);
         }
     }
 

@@ -80,10 +80,13 @@ public strictfp class Politician extends Robot {
         if (nearestEnemy != null && nearestEnemy.type != RobotType.ENLIGHTENMENT_CENTER && (home == null || nearestEnemy.location.distanceSquaredTo(home) <= C.GUARD_LEASH_D2)) { nav.setTarget(nearestEnemy.location); nav.step(); return; }
         if (home == null) return;
         int d2 = loc.distanceSquaredTo(home);
-        if (d2 < 5) { nav.fleeFrom(home); return; }                        // never sit on the spawn ring
         if (d2 > C.GUARD_LEASH_D2) { nav.setTarget(home); nav.step(); return; }
-        // face the enemy side: sit between home and the known enemy EC
-        if (MapState.nEnemy > 0 && d2 < 16) { Direction d = home.directionTo(MapState.enemyEC[0]); if (rc.canMove(d)) rc.move(d); }
+        if (d2 < C.GUARD_RING_MIN) {                                       // get out of the slanderer ring, toward the enemy side if known
+            MapLocation out = MapState.nEnemy > 0 ? MapState.enemyEC[0] : (MapState.boundsKnown() ? MapState.center() : loc.add(home.directionTo(loc)).add(home.directionTo(loc)));
+            if (out.equals(loc)) { nav.fleeFrom(home); return; }
+            nav.setTarget(out); if (nav.step()) return; nav.fleeFrom(home); return;
+        }
+        if (crowd() > C.CROWD_MAX) { spreadOut(home, C.GUARD_RING_MIN, C.GUARD_LEASH_D2); return; }
     }
 
     private void capture() throws GameActionException {

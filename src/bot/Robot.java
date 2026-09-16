@@ -128,5 +128,25 @@ public abstract strictfp class Robot {
         return found;
     }
 
+    /** Count friendly units adjacent (d^2 <= CROWD_D2). */
+    protected int crowd() {
+        int c = 0; for (int i = nFriend; --i >= 0;) if (friends[i].type != RobotType.ENLIGHTENMENT_CENTER && loc.distanceSquaredTo(friends[i].location) <= C.CROWD_D2) c++;
+        return c;
+    }
+    /** Step to the free adjacent tile with the fewest friendly neighbours (and decent passability), staying within [minD2,maxD2] of anchor. */
+    protected boolean spreadOut(MapLocation anchor, int minD2, int maxD2) throws GameActionException {
+        Direction best = null; double bs = 1e9;
+        for (int i = 8; --i >= 0;) {
+            Direction d = DIRS[i]; if (!rc.canMove(d)) continue;
+            MapLocation n = loc.add(d); int ad = n.distanceSquaredTo(anchor);
+            if (ad < minD2 || ad > maxD2) continue;
+            int c = 0; for (int k = nFriend; --k >= 0;) if (friends[k].type != RobotType.ENLIGHTENMENT_CENTER && n.distanceSquaredTo(friends[k].location) <= C.CROWD_D2) c++;
+            double sc = c * 2 + 1.0 / rc.sensePassability(n) + n.distanceSquaredTo(anchor) * 0.01;
+            if (sc < bs) { bs = sc; best = d; }
+        }
+        if (best == null) return false;
+        rc.move(best); return true;
+    }
+
     protected void setFlag(int f) throws GameActionException { if (rc.getFlag(id) != f && rc.canSetFlag(f)) rc.setFlag(f); }
 }

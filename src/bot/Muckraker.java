@@ -33,7 +33,8 @@ public strictfp class Muckraker extends Robot {
         else if (oEC != null && round - reportRound > 6) { report = Comms.encode(Comms.OWN_EC, 0, oEC.location); reportRound = round; }
         else if (nearestEnemy != null && round - reportRound > 6) { report = Comms.encode(Comms.ENEMY_UNIT, nearestEnemy.type.ordinal(), nearestEnemy.location); reportRound = round; }
         else if (edge >= 0) { report = Comms.encode(Comms.MAP_EDGE, edge, edge == 0 ? new MapLocation(MapState.minX, loc.y) : edge == 1 ? new MapLocation(MapState.maxX, loc.y) : edge == 2 ? new MapLocation(loc.x, MapState.minY) : new MapLocation(loc.x, MapState.maxY)); reportRound = round; }
-        if (round - reportRound <= 6) setFlag(report); else setFlag(0);
+        if (round - reportRound <= 6 && (round & 1) == 0) setFlag(report);
+        else setFlag(cycleFacts());
 
         if (!rc.isReady()) return;
         // expose the most valuable slanderer in range
@@ -51,6 +52,24 @@ public strictfp class Muckraker extends Robot {
         }
         // explore: keep heading; bounce off edges and obstacles
         wander();
+    }
+
+    /** Slowly cycle every durable fact we hold (edges, ECs) so the EC eventually hears all of them. */
+    private int factI = 0;
+    private int cycleFacts() {
+        for (int k = 0; k < 8; k++) {
+            int i = factI++ % 8;
+            switch (i) {
+                case 0: if (MapState.minX >= 0) return Comms.encode(Comms.MAP_EDGE, 0, new MapLocation(MapState.minX, loc.y)); break;
+                case 1: if (MapState.maxX >= 0) return Comms.encode(Comms.MAP_EDGE, 1, new MapLocation(MapState.maxX, loc.y)); break;
+                case 2: if (MapState.minY >= 0) return Comms.encode(Comms.MAP_EDGE, 2, new MapLocation(loc.x, MapState.minY)); break;
+                case 3: if (MapState.maxY >= 0) return Comms.encode(Comms.MAP_EDGE, 3, new MapLocation(loc.x, MapState.maxY)); break;
+                case 4: case 5: if (MapState.nEnemy > 0) return Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(i + round) % MapState.nEnemy]); break;
+                case 6: if (MapState.nNeutral > 0) { int j = (round / 2) % MapState.nNeutral; return Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[j]), MapState.neutralEC[j]); } break;
+                default: if (MapState.nOwn > 1) return Comms.encode(Comms.OWN_EC, 0, MapState.ownEC[(round / 2) % MapState.nOwn]); break;
+            }
+        }
+        return 0;
     }
 
     private MapLocation nearestEnemyEC() {

@@ -30,7 +30,8 @@ public strictfp class Slanderer extends Robot {
         int d2 = loc.distanceSquaredTo(home);
         if (d2 < C.SLANDERER_RING_MIN) { nav.fleeFrom(home); return; }      // clear the spawn ring
         if (d2 > C.SLANDERER_RING_MAX) { nav.setTarget(home); nav.step(); return; }
-        // in the ring: drift away from the known enemy direction, and away from crowding friends
+        // in the ring: relieve crowding first (a packed ring blocks everyone, including capturers leaving home)
+        if (crowd() > C.CROWD_MAX && spreadOut(home, C.SLANDERER_RING_MIN, C.SLANDERER_RING_MAX)) return;
         MapLocation away = null;
         if (MapState.nEnemy > 0) away = MapState.enemyEC[0];
         if (away != null) {

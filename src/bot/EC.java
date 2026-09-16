@@ -91,6 +91,7 @@ public strictfp class EC extends Robot {
             if (role == Roles.ECON && MapState.nEnemy > 0) s += Math.sqrt(n.distanceSquaredTo(MapState.enemyEC[0])) * 0.3;
             if (role == Roles.SCOUT) s += nextInt(3);   // spread scouts
             if (role == Roles.GUARD && nearestEnemy != null) s -= Math.sqrt(n.distanceSquaredTo(nearestEnemy.location)) * 0.5;
+            if (role == Roles.CAPTURE) { MapLocation tg = captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : (MapState.nEnemy > 0 ? MapState.enemyEC[0] : null); if (tg != null) s -= Math.sqrt(n.distanceSquaredTo(tg)) * 0.7; }
             if (s > bs) { bs = s; best = d; }
         }
         return best;
@@ -135,7 +136,7 @@ public strictfp class EC extends Robot {
 
     @Override protected void absorb(int f, MapLocation ref) {
         super.absorb(f, ref);
-        if (Comms.type(f) == Comms.ENEMY_EC) enemyEcInf = Comms.unbucket(Comms.extra(f));
+        if (Comms.type(f) == Comms.ENEMY_EC && Comms.extra(f) > 0) enemyEcInf = Comms.unbucket(Comms.extra(f));
     }
 
     private void updateBroadcast(boolean danger) throws GameActionException {
@@ -144,9 +145,17 @@ public strictfp class EC extends Robot {
         if (round == pendingOrderRound) f = pendingOrder;
         else if (MapState.nEnemy > 0 && (round / 3) % 2 == 0) f = Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(round / 6) % MapState.nEnemy]);
         else if (MapState.nNeutral > 0 && (round / 3) % 2 == 1) f = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[(round / 6) % MapState.nNeutral]), MapState.neutralEC[(round / 6) % MapState.nNeutral]);
-        else if (MapState.boundsKnown() && (round % 4) < 2) f = Comms.encode(Comms.MAP_EDGE, round % 4, round % 4 == 0 ? new MapLocation(MapState.minX, loc.y) : new MapLocation(MapState.maxX, loc.y));
-        else if (MapState.boundsKnown()) f = Comms.encode(Comms.MAP_EDGE, round % 4, round % 4 == 2 ? new MapLocation(loc.x, MapState.minY) : new MapLocation(loc.x, MapState.maxY));
-        else f = Comms.encode(Comms.STATUS, (danger ? 1 : 0), loc);
+        else {
+            f = -1;
+            for (int k = 0; k < 4 && f < 0; k++) {
+                int e = (round + k) % 4;
+                if (e == 0 && MapState.minX >= 0) f = Comms.encode(Comms.MAP_EDGE, 0, new MapLocation(MapState.minX, loc.y));
+                if (e == 1 && MapState.maxX >= 0) f = Comms.encode(Comms.MAP_EDGE, 1, new MapLocation(MapState.maxX, loc.y));
+                if (e == 2 && MapState.minY >= 0) f = Comms.encode(Comms.MAP_EDGE, 2, new MapLocation(loc.x, MapState.minY));
+                if (e == 3 && MapState.maxY >= 0) f = Comms.encode(Comms.MAP_EDGE, 3, new MapLocation(loc.x, MapState.maxY));
+            }
+            if (f < 0) f = Comms.encode(Comms.STATUS, (danger ? 1 : 0), loc);
+        }
         setFlag(f);
     }
 }

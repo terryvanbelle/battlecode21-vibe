@@ -142,3 +142,15 @@ findings from traced replays, both about bodies rather than logic:
   49-72%, but it wanders with 3-10x more moves).
 - Bytecode after the distance cache: POL peak 8.5k, EC 7.4k, SLA 4.5k, MUC
   4.1k; zero overruns in every game so far.
+
+**Order-timing bug found and fixed (v1i, `Gridlock`).** Tracing a 221-influence
+capture politician showed it idling by home for 400 rounds: it had run as a
+guard because the EC's one-round ORDER flag was set in the spawn round, and a
+robot built in round N first acts in round N+1 (engine iterates a snapshot of
+the spawn order). Every capturer in every earlier smoke test had this defect.
+With the order held for two rounds, the same map went from 0 captured ECs to
+**all six neutral ECs captured by r700** (seven ECs owned). Attacks on the
+enemy EC then failed only because capturers aborted as "too weak" against a
+2200-influence EC; since EC damage is permanent, capturers now speak whenever
+most of the speech lands on hostile targets, and the EC sizes them from a
+recent estimate rather than requiring the whole amount.

@@ -96,14 +96,26 @@ public strictfp class Politician extends Robot {
         RobotInfo t = null;
         if (rc.canSenseLocation(target)) { t = rc.senseRobotAtLocation(target); if (t == null || t.type != RobotType.ENLIGHTENMENT_CENTER || t.team == us) { MapState.removeNeutral(target); MapState.removeEnemy(target); if (t != null && t.team == us) MapState.addOwnEC(target); role = Roles.GUARD; Debug.log("@capture abort target gone/ours"); return; } targetInf = t.influence; }
         if (rc.isReady() && t != null && loc.isAdjacentTo(target)) {
-            // speak if we flip it at the tightest radius that includes it
-            int r2 = loc.distanceSquaredTo(target);
-            int n = 0; for (int i = nearby.length; --i >= 0;) if (nearby[i].location.distanceSquaredTo(loc) <= r2) n++;
-            int share = (int) ((rc.getConviction() - 10) / (double) n * (t.team == them ? rc.getEmpowerFactor(us, 0) : 1.0));
-            if (share > t.conviction && rc.canEmpower(r2)) { Debug.log("@speech role=capture r2=" + r2 + " conv=" + rc.getConviction() + " n=" + n + " tgt=" + t.conviction); rc.empower(r2); return; }
-            // not enough: wait next to it for a second speaker unless enemies threaten, else fall back to guard
-            if (share <= t.conviction && n > 1) { nav.fleeFrom(target); return; }   // step aside to reduce n? (someone else adjacent)
-            if (rc.getConviction() - 10 <= t.conviction) { role = Roles.GUARD; Debug.log("@capture abort too weak conv=" + rc.getConviction() + " need>" + t.conviction); return; }
+            // Damage to an EC is permanent (it never heals except by income), so a speech that lands
+            // mostly on the EC is worth giving even when it cannot flip it alone: the next capturer
+            // finishes the job. Pick the radius that maximises conviction delivered to the EC and
+            // to enemies; speak if at least 60% of it lands on non-friendly targets.
+            int bestR = -1; double bestUseful = -1; int bestN = 0;
+            for (int ri = 0; ri < RADII.length; ri++) {
+                int r2 = RADII[ri]; if (loc.distanceSquaredTo(target) > r2) continue;
+                int n = 0, hostile = 0;
+                for (int i = nearby.length; --i >= 0;) { RobotInfo r = nearby[i]; if (r.location.distanceSquaredTo(loc) <= r2) { n++; if (r.team != us) hostile++; } }
+                if (n == 0) continue;
+                double useful = (double) hostile / n;
+                if (useful > bestUseful) { bestUseful = useful; bestR = r2; bestN = n; }
+            }
+            if (bestR > 0 && bestUseful >= 0.6 && rc.canEmpower(bestR)) {
+                int share = (int) ((rc.getConviction() - 10) / (double) bestN * (t.team == them ? rc.getEmpowerFactor(us, 0) : 1.0));
+                Debug.log("@speech role=capture r2=" + bestR + " conv=" + rc.getConviction() + " n=" + bestN + " tgt=" + t.conviction + (share > t.conviction ? " FLIP" : " chip"));
+                rc.empower(bestR); return;
+            }
+            // too many friendlies would soak the speech: step back and wait for a cleaner shot
+            if (bestUseful >= 0 && bestUseful < 0.6) { nav.fleeFrom(target); return; }
         }
         // opportunistic kill on the way
         if (rc.isReady()) { int r2 = bestSpeech(Math.max(40, rc.getConviction())); if (r2 > 0 && rc.canEmpower(r2)) { rc.empower(r2); return; } }

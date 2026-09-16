@@ -307,6 +307,16 @@ jobs), and the census head-to-head `h2h-census` (quick set, 24 games, 2 jobs)
 beside it. The VM's disk was 87% full of 2025 replays; the user authorised
 deleting old projects' games.
 
+**Scan restructured as a two-stage screen (19:28 UTC, user suggestion).** The
+520-game screen-set scan ran at 2.4 games/min on the VM (3.6 h); it was
+stopped at 22 games. `tools/scan.sh` now runs on the VM: stage 1 = every
+remaining opponent on `maptestsmall`, both sides (2-0 = peer for now, 0-2 =
+locked for now); stage 2 = the 1-1 splits on `Arena Maze Gridlock`, both
+sides. Opponents already decided by the two partial scans
+(`gauntlet/scan1-driver-partial-results.csv`, `scan1-vm-partial-results.csv`)
+are skipped and their results are included in the final selection. Expected:
+a coarse roster in ~1 h, the refined one in <2 h.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -86,3 +86,10 @@ You can free up disk space on battlecode-dev by deleting games from previous pro
 ```text
 Make sure to document the VM setup so that future work doesn't make the same mistake
 ```
+
+## Prompt 12: Preliminary benchmark pass on a subset of boards
+
+```text
+task check
+Consider doing a preliminary pass on the benchmark selection using a subset of boards to speed things up.  You should be able to eliminate some bots as either too weak or too strong that way
+```

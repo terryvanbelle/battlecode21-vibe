@@ -278,6 +278,20 @@ vs 11822) because the slanderer cap and the guard cap hold while income is
 now ~5x -- idle influence is the next economy target, not part of this
 candidate. Proceeding to the head-to-head vs `g_iter1`, quick set, both sides.
 
+**Why the scan is slow (19:20 UTC): memory, not CPU.** A game against a heavy
+bot is a 1.1-1.4 GB process (`-Xmx512m` heap plus instrumented classes and the
+in-memory replay); the two scan games held 878 MB and 528 MB in swap, paging
+at 2-4 MB/s with 40% of the CPU waiting on I/O, and a JasonYe4273 game on
+Gridlock passed 55 minutes. This box (2 vCPU, 2 GB) fits ONE game. Changes:
+the running scan was dropped to one job in place (SIGUSR2 to xargs, no game
+lost); `gauntlet.sh` gained `GAME_TIMEOUT` (default 1800 s, capped games are
+`unknown`) and `CLASSES=` (private compile dir, so a second run cannot wipe
+the classes a running one loads); `tools/scan.sh` is the two-stage tiering
+scan (one map both sides for everyone, the second map only for 1-1 splits),
+which roughly halves a scan. A larger VM is the only real speed-up: 8 GB RAM
+would allow 4-5 concurrent games. The census head-to-head is queued behind
+the scan; two runs at once thrash.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

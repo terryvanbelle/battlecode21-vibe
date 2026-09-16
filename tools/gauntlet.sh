@@ -8,6 +8,7 @@
 #   MAPSET=quick tools/gauntlet.sh                     # the 12-map quick set
 #   TAG=h2h-iter3 tools/gauntlet.sh                    # run-id suffix
 #   CLASSES=build/h2h-classes tools/gauntlet.sh       # private compile dir (run beside another gauntlet)
+#   GAME_TIMEOUT=1200 tools/gauntlet.sh               # wall-clock cap per game in seconds (default 1800); a capped game is recorded as unknown
 #
 # Opponent names: a package under src/ (ours), or a benchmark name from
 # ~/projects/vibe/bc21-benchmarks/manifest.tsv (owner.package). The opponent's
@@ -70,20 +71,21 @@ game () {  # opp map side
   if [ "$SIDE" = A ]; then TA=$PB; TB=$PA; UAA=$UB; UBB=$UA; silence=-Dbc.engine.silence-b=true
   else TA=$PA; TB=$PB; UAA=$UA; UBB=$UB; silence=-Dbc.engine.silence-a=true; fi
   local REPLAY="$OUT/replays/${OPP}__${MAP}__bot${SIDE}.bc21"
-  local LOG; LOG=$(java -Xmx${GAME_XMX:-512m} -XX:+UseSerialGC \
+  local LOG TO=0; LOG=$(timeout "${GAME_TIMEOUT:-1800}" java -Xmx${GAME_XMX:-512m} -XX:+UseSerialGC \
     -Dbc.server.mode=headless -Dbc.server.map-path="$ENGINE_DIR/maps" -Dbc.game.map-path="$ENGINE_DIR/maps" \
     -Dbc.server.robot-player-to-system-out=false -Dbc.server.debug=false \
     -Dbc.engine.debug-methods=false -Dbc.engine.enable-profiler=false -Dbc.engine.show-indicators=false \
     "$silence" -Dbc.game.team-a="$TA" -Dbc.game.team-b="$TB" \
     -Dbc.game.team-a.url="$UAA" -Dbc.game.team-b.url="$UBB" \
     -Dbc.game.maps="$MAP" -Dbc.server.save-file="$REPLAY" \
-    -cp "$(engine_cp)" battlecode.server.Main -c=- 2>&1 </dev/null || true)
+    -cp "$(engine_cp)" battlecode.server.Main -c=- 2>&1 </dev/null) || TO=$?
   local R; R=$(parse_result "$LOG")   # RESULT W round reason
   set -- $R; local W="$2" RND="$3"; shift 3; local RE="$*"
   local res; if [ "$W" = "$SIDE" ]; then res=win; elif [ "$W" = "?" ]; then res=unknown; else res=loss; fi
   # an opponent whose code the sandbox refused never played: record the game as a dud, not a win
   if printf '%s\n' "$LOG" | grep -q "Error instrumenting ${PA}\."; then res=dud; RE="opponent failed to instrument"; fi
   if printf '%s\n' "$LOG" | grep -q "Error instrumenting ${PB}\."; then res=unknown; RE="OUR bot failed to instrument"; fi
+  if [ "$W" = "?" ] && [ "$TO" = 124 ]; then res=unknown; RE="timeout after ${GAME_TIMEOUT:-1800}s"; fi
   if [ "$res" = unknown ] || [ "$res" = dud ]; then printf '%s\n' "$LOG" | grep -v '^\s*at ' | head -60 > "$OUT/${res}__${OPP}__${MAP}__bot${SIDE}.log"; fi
   printf '%s,%s,%s,%s,%s,%s,%s\n' "$OPP" "$MAP" "$SIDE" "$W" "$RND" "$res" "$RE" >> "$OUT/results.raw"
   [ "$res" = win ] && [ "${KEEP_ALL:-0}" != 1 ] && rm -f "$REPLAY"

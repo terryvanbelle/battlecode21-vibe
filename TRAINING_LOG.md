@@ -230,6 +230,42 @@ target. Not a candidate: no code in `bot` changes for this probe. Runner:
 `tools/run-dev.sh` (private compile; `gauntlet.sh` wipes `build/classes`, so
 compiling there mid-scan could dud a scan game).
 
+**Probe results (19:05 UTC).** Both archetypes lost to `bot` on votes at
+r1500 (`matches/probe_muck.bc21`, `probe_polrush.bc21`), so neither reproduces
+the ladder annihilations. `arch_polrush` is a dud rusher: its EC never reached
+100 influence (our muckrakers sat on its spawn ring, `danger` blocked its
+slanderers, passive income went to bids) -- to be rebuilt as a fixed-opening
+rusher before it is used again. `arch_muck`'s 15 hunters never found our EC
+and loitered on the top edge (their scouting is our scouting: the same
+edge-clumping exists in `bot`).
+
+**Absolute degeneracy found in our own replays (the target).** In every game
+that lasts past ~r500 the EC stops building: `probe_muck` r700-1500 spawned 4
+units (all 1-influence scouts) while EC influence rose 305 -> 11822 and the true
+slanderer count fell 14 -> 0; `bid1` shows the same (slanderers 18 -> 0 by r700,
+14648 influence hoarded). Trace: the EC's census (`countAlive`) recounts
+children by `canGetFlag` but keeps the role recorded at spawn, so a slanderer
+that the engine converted to a politician at roundsAlive == 300 is still
+counted as ECON. The `@econ` line shows the belief `sl=12` pinned from r200 to
+r1500 against engine truth 0; the slanderer cap (12) therefore closes forever
+once the first 12 slanderers have aged, and the guard cap (`4 + sl/2 = 10`) and
+`capturers < 3` close the other branches, so only the scout branch ever fires.
+
+*Pre-registration, candidate "census":* reclassify ECON children as GUARD once
+`round - birth >= 300`. Decision-point counter: `@econ sl=` (belief) vs the
+replay's `A_sla` (truth) must track within one slanderer lifetime; spawns of
+slanderers after r600 (baseline 0 in both probes). Reachability: fires in every
+game > r500; the branch is the only path that re-opens slanderer production.
+Trigger frequency: all long games; irrelevant to games lost before r500.
+Price: influence leaves the EC (its conviction) for slanderers; the existing
+reserve and caps are unchanged. History: nothing in the ledger. Gate: Stage 0
+on `maptestsmall` vs `arch_muck` (the motivating game): candidate `A_sla > 0`
+at r800+ and `sl=` belief tracking truth; then head-to-head vs `g_iter1`, quick
+12-map set both sides (24 games; the full corpus waits for the scan to finish),
+AcceptMargin = +4 games (the noise floor is not yet measured; recorded as such).
+Falsifier: `A_sla` still 0 after r800 with the fix in (some other branch
+starves slanderers), or a head-to-head loss.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

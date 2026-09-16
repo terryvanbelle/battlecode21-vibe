@@ -13,7 +13,7 @@ import battlecode.common.*;
  */
 public strictfp class EC extends Robot {
     private static final int MAX_CHILDREN = 96;
-    private final int[] childId = new int[MAX_CHILDREN]; private final int[] childType = new int[MAX_CHILDREN]; private int nChild = 0;
+    private final int[] childId = new int[MAX_CHILDREN]; private final int[] childType = new int[MAX_CHILDREN]; private final int[] childBirth = new int[MAX_CHILDREN]; private int nChild = 0;
     private int scouts = 0, slanderers = 0, guards = 0, capturers = 0;
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
@@ -49,7 +49,7 @@ public strictfp class EC extends Robot {
             else return;
             Direction d0 = spawnDir(t, cost, role); if (d0 == null) return;
             rc.buildRobot(t, d0, cost); RobotInfo nb0 = rc.senseRobotAtLocation(loc.add(d0));
-            if (nb0 != null && nChild < MAX_CHILDREN) { childId[nChild] = nb0.ID; childType[nChild] = role; nChild++; }
+            if (nb0 != null && nChild < MAX_CHILDREN) { childId[nChild] = nb0.ID; childType[nChild] = role; childBirth[nChild] = round; nChild++; }
             if (role == Roles.ECON) slanderers++; else scouts++;
             pendingOrder = Comms.encode(Comms.ORDER, role, loc); pendingOrderRound = round + 1; return;
         }
@@ -76,7 +76,7 @@ public strictfp class EC extends Robot {
         if (d == null) return;
         rc.buildRobot(t, d, cost);
         RobotInfo nb = rc.senseRobotAtLocation(loc.add(d));
-        if (nb != null && nChild < MAX_CHILDREN) { childId[nChild] = nb.ID; childType[nChild] = role; nChild++; }
+        if (nb != null && nChild < MAX_CHILDREN) { childId[nChild] = nb.ID; childType[nChild] = role; childBirth[nChild] = round; nChild++; }
         switch (role) { case Roles.SCOUT: scouts++; break; case Roles.GUARD: guards++; break; case Roles.ECON: slanderers++; break; case Roles.CAPTURE: capturers++; break; default: break; }
         lastBuildRound = round;
         // tell the newborn its role via our flag for one round: ORDER with target
@@ -122,7 +122,9 @@ public strictfp class EC extends Robot {
         // recount children cheaply via canGetFlag (5 bytecodes each) -- also compacts the list
         int k = 0; int sl = 0, g = 0, sc = 0, cap = 0;
         for (int i = 0; i < nChild; i++) {
-            if (rc.canGetFlag(childId[i])) { childId[k] = childId[i]; childType[k] = childType[i]; k++;
+            // a slanderer becomes a politician at roundsAlive == 300 (engine CAMOUFLAGE); it then guards, so count it as one
+            if (childType[i] == Roles.ECON && round - childBirth[i] >= 300) childType[i] = Roles.GUARD;
+            if (rc.canGetFlag(childId[i])) { childId[k] = childId[i]; childType[k] = childType[i]; childBirth[k] = childBirth[i]; k++;
                 switch (childType[i]) { case Roles.SCOUT: sc++; break; case Roles.GUARD: g++; break; case Roles.ECON: sl++; break; case Roles.CAPTURE: cap++; break; default: break; } }
         }
         nChild = k; slanderers = sl; guards = g; scouts = sc; capturers = cap;

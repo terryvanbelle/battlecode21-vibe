@@ -123,3 +123,9 @@ It still feels like roster runs slower than in previous years.  Can you confirm 
 ```text
 OK, understood.  Do what you can to use our cycles efficiently, and I guess we just have to live with the higher engine cost
 ```
+
+## Prompt 18: Morning summary
+
+```text
+I just got up, can you summarize the last 8 hours?
+```

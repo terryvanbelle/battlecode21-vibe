@@ -1172,6 +1172,16 @@ r301-600 with 292 under 100: an army bot. Exposures 0 and 11.
 lost by both). Within a cell; counters far past their targets. Head-to-head
 (+5, early stop) and the 72-cell roster check are running.
 
+**army head-to-head vs `g_iter4`: early-stopped at 6/14.** Twelve of the
+fourteen games went to the vote at r1500 (the two annihilations, CrossStitch,
+split 1-1): a build that spends its spare on 300+ politicians loses the late
+vote war to a twin that banks and bids. By the rule this rejects Iteration
+13; the head-to-head cannot price an army doctrine against a build without
+one (section 3's blind spot, as with bidding), so the 72-cell roster check
+finishes at 7 jobs and decides the ledger wording: +5 or better keeps the
+army as the re-open path (with the head-to-head gate re-examined for
+doctrine changes), anything less closes it.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

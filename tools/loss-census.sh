@@ -23,6 +23,8 @@ for f in "$RUN"/losses/*.bc21; do
   reason=$(grep -F ",$map,$side," "$RUN/results.csv" | grep -F "$opp," | head -1 | awk -F, '{print $7}' | sed -E 's/The winning team won by //; s/ the enemy team//; s/having more //' | cut -c1-14)
   h=$(nice -n 10 tools/replay-dump.sh "$f" --hits 2>/dev/null | grep HIT | grep -v "by g_iter4 " | grep -v "by bot " | grep CONVERTED | head -1 | sed -E 's/.*r([0-9]+) HIT by [^ ]+ conv=([0-9]+).*inf ([0-9]+) ->.*/\1\t\2\t\3/')
   [ -n "$h" ] || h=$(printf '\t\t')
-  s=$(nice -n 10 tools/replay-dump.sh "$f" --speeches 2>/dev/null | grep 'speeches ' | awk -v U=$U '{if ($2 ~ /g_iter4|bot:/) us=$0; else them=$0} END{match(us,/toEnemy=[0-9]+ \(([0-9]+)%/,a); match(us,/toFriend=[0-9]+ \(([0-9]+)%/,b); match(them,/toFriend=[0-9]+ \(([0-9]+)%/,c); printf "%s\t%s\t%s", a[1], b[1], c[1]}')
+  # speech shares: the first "speeches" line is team A, the second team B (mawk: no 3-arg match, so use sed)
+  s=$(nice -n 10 tools/replay-dump.sh "$f" --speeches 2>/dev/null | grep 'speeches ' | sed -E 's/.*toEnemy=[0-9]+ \(([0-9]+)%\).*toFriend=[0-9]+ \(([0-9]+)%\).*/\1 \2/' \
+      | awk -v U=$U 'NR==1{a1=$1;a2=$2} NR==2{b1=$1;b2=$2} END{if (U=="A") printf "%s\t%s\t%s", a1, a2, b2; else printf "%s\t%s\t%s", b1, b2, a2}')
   printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$opp" "$map" "$side" "$m" "$reason" "$h" "$s"
 done

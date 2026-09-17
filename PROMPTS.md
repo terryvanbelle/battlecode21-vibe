@@ -120,3 +120,7 @@ You are at all times authorized to make whatever number and degree of changes to
 ## 25. 2026-09-17
 
 We're going to make a structural change to better simulate actual contest conditions.  Up until now, you've been allowed to run as many games as you like on the external bots, on as many. boards as you like, using whichever side you like.  In reality, games against external opponents occur by challenging them to a scrimmage.  Players are assigned random sides on a random board, and the game is played out, with ELO rankings updated from the result.  In a real competition, you would only have this form of data on external opponents.  From now on, I'd like you to only run against opponents by choosing a random board and a random side, and not hit the same opponent too many times in a row.  You are still free to play against old versions of yourself using the old, unrestricted methodology.  Please adjust your strategy and training algorithm accordingly.
+
+## 26. 2026-09-17
+
+It would be great to maintain a constantly updated ELO-ranked bot list, so that we can see our submission climb over time.  We'd focus our scrimmage challenges on those slightly ahead of us in the rankings

@@ -1856,6 +1856,19 @@ standing and a veto. First runs: `g_iter4`'s 48-scrimmage block (the
 standing under the new rules) and `g_iter4` vs the archetypes (the panel
 baseline), then Iteration 21's panel.
 
+## The Elo ladder (2026-09-17 20:10 UTC, PROMPTS 26)
+
+The user asked for a constantly updated Elo-ranked bot list with our
+submission on it, and challenges aimed at the bots just above us.
+Built: `progress/games.csv` (every scrimmage, ours and external-vs-
+external), `tools/elolib.py`, `elo.py` (ranking -> `progress/ELO.md`,
+`elo.png`; `--pool`), `ladder-pair.py` (Swiss pairings), `ladder-play.sh`
+(plays a tick on the VM), `scrim-record.py` (records both kinds);
+`scrim.sh` now draws its pool from the ladder once it holds 100 ladder
+games. The 65-bot list is `tools/ladder-bots.txt` (one package per
+repo). Seed tick: 130 pairings (each bot ~4 games) queued behind the
+baseline runs; then ~14 games per tick beside every development run.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

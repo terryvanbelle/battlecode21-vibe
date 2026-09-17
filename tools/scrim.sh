@@ -3,14 +3,15 @@
 # the map and the side are drawn at random for every game, opponents rotate (never the same
 # one twice in a row, each at most ceil(N/pool) times per block). This is the ONLY way an
 # external bot may be played; gauntlet.sh refuses external opponents unless SCRIM=1 (set here).
-#   BOT=bot N=24 tools/scrim.sh                 # opponents: tools/roster.txt (the band)
+#   BOT=bot N=24 tools/scrim.sh                 # opponents: the 8 bots just above us on the ladder (tools/roster.txt until it is seeded)
 #   POOL="a.b c.d" N=12 SEED=7 tools/scrim.sh   # explicit pool; SEED for a reproducible draw
 # Maps: tools/bc21-maps.txt (the released corpus). Results: gauntlet/<run>-scrim-<BOT>/ ;
 # record them with tools/scrim-record.py <run-dir> --label <build> (appends progress/scrims.csv).
 set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BOT="${BOT:-bot}"; N="${N:-24}"; MAXJOBS="${MAXJOBS:-6}"
-POOL="${POOL:-$(tr '\n' ' ' < "$REPO/tools/roster.txt")}"
+# challenge pool: the bots ranked just above us on the Elo ladder (tools/elo.py --pool), else tools/roster.txt while the ladder is unseeded
+POOL="${POOL:-$( [ -s "$REPO/progress/games.csv" ] && [ "$(grep -c -- '-ladder,' "$REPO/progress/games.csv")" -ge 100 ] && python3 "$REPO/tools/elo.py" --pool "${POOLSIZE:-8}" || tr '\n' ' ' < "$REPO/tools/roster.txt")}"
 SEED="${SEED:-$(date +%s%N | cut -c1-13)}"
 CELLS="$(mktemp)"
 python3 - "$N" "$SEED" "$POOL" "$(grep -v '^Cow$' "$REPO/tools/bc21-maps.txt" | tr '\n' ' ')" > "$CELLS" <<'PY'

@@ -957,6 +957,23 @@ known, a capture is pending and the bank is not yet affordable, the spare
 branch buys slanderers (income) but no guards or hunters (`save=` counter).
 Relaunched as the third arm.
 
+**Stage 0, capbank, third arm, first game (astelmach20, Gridlock, A): lost
+at r653; mechanism engaged.** Bank formed (home EC 384 at r100, `save=5`),
+two 521-cost capture politicians at r103 and r115, one conversion at r136
+with surplus 311 (pre-registered target ~300; baseline 15-82); the new EC
+held 586 at r200, captured on its own account (92, 56, 56, 106), and fell
+at r485 to a 455 speech while holding 252 (baseline: 5-54). The other
+capturer's target was taken by the opponent first (their neutral captures
+at r121 and r126). Still lost: the home EC spent itself on capturers (203,
+171, 312 at r253-378) and was converted at r359 by a 2123-conviction
+politician while holding 22; units at r600 30 vs 878. ECs at r400 2v6, at
+r600 1v7 (gate asked >= 2 at r800: missed). Classification: mechanism
+engaged, outcome counter (captured-EC survival) moved 5x, cell not flipped,
+evidenced reason (a 2123 attacker and a 30x army gap on this map). The
+three remaining cells decide whether it goes to the 72-cell roster check
+(70 of 76 maps have neutrals, so the bank matters everywhere, not only on
+Gridlock).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -369,6 +369,31 @@ What this changes in the loop:
   ≈ 45 min), an accept another 48 scrimmages; a block of 48 scrimmages
   for the incumbent every ~4 iterations keeps the band current.
 
+### 4.5.3 The accept instrument is an SPRT mirror on random maps (2026-09-18)
+
+Eight candidates in a row were rejected by the 48-cell panel, and the
+pattern was the instrument, not the bot. 24 mirror cells resolve only an
+edge above roughly 75%; a real 60% improvement needs about 190 games, and
+the archetype half is capped at +4 because the incumbent already wins
+20 of its 24. The panel could not have accepted anything we were able to
+build.
+
+**New gate**: `tools/mirror.sh` plays the candidate against the incumbent
+on a **random map and random side per game** (our own builds, so the
+contest rule does not apply; random maps because the ladder is played on
+the whole corpus, not on twelve chosen maps), in batches of 16, and after
+each batch runs `tools/sprt.py`: a sequential probability ratio test of
+H0 "no better than the incumbent" (p=0.50) against H1 "worth a snapshot"
+(p=0.58, about 56 Elo), alpha = beta = 0.05. It stops at ACCEPT or
+REJECT, typically inside 80-200 games, and spends games only while they
+are still deciding something. A candidate that is merely neutral is
+rejected at a cost close to the old panel's; a real improvement is now
+detectable, which it was not before.
+
+The archetypes stay as a **regression check on an accept** (they catch a
+rush or bidding vulnerability the incumbent itself does not punish), and
+the scrimmage block stays as the ladder standing for a new submission.
+
 ### 4.6 Decide
 
 - **Accept** when the head-to-head clears `AcceptMargin`, peers stay above

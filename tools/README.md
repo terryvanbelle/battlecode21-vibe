@@ -18,6 +18,8 @@ Everything runs with bare `java` (JDK 8 at `~/jdk/jdk8u504-b01`, see
 | `bench-select.py [--all|--table]` | name-only pick of each repo's final bot |
 | `bench-roster.py` | regenerate the roster table in `BENCHMARK.md` |
 | `gauntlet-select.py results.csv... [--write tools/roster.txt]` | tier every opponent from scan results; writes the standing roster (the 20-50% band) |
+| `mirror.sh` (BOT, REF, N, BATCH) | the accept gate: candidate vs incumbent, random map and side per game, batches of 16, SPRT after each |
+| `sprt.py <wins> <losses>` | sequential probability ratio test, H0 p=0.50 vs H1 p=0.58: ACCEPT / REJECT / CONTINUE |
 | `scrim.sh` (BOT, N, POOL, SEED) | the only way to play an external bot: random map and side per game, rotating opponents; results under `gauntlet/*-scrim-<bot>` |
 | `scrim-record.py <run> [--label <build>]` | appends our block or a ladder tick to `progress/games.csv` |
 | `elo.py [--pool N --explore K] [--build B]` | the Elo ladder from our scrimmages only: rewrites `progress/ELO.md` and `elo.png`; `--pool` = the N rated bots just above us, `--explore` = K least-met bots (together the challenge pool); `--build` = one build's record |

@@ -2016,6 +2016,22 @@ ECs at r200/r400 (baseline 1.6/1.8 on losses), influence earned by r300
 Gate: the 48-cell panel, +5 over the incumbent's 32/48. Falsifier: no
 `@save capture` by r200 in the logged Gridlock game.
 
+**Iteration 22 panel: 26/39 when the gate became unreachable, about level
+(2026-09-18 02:30 UTC).** The mechanism fires as designed -- the logged
+Gridlock game shows `@save capture r=63 target=207 cost=281 saved=15`,
+against the normal branch's first capture at r123 -- and taking a neutral
+60 rounds earlier moved the panel by nothing.
+
+**That is eight rejections in a row, and the instrument is the reason.**
+The 48-cell panel resolves only an edge above ~75% on its 24 mirror cells,
+while the archetype half is capped at +4 (the incumbent wins 20 of 24
+already). A genuine 60% candidate needs ~190 games to show; we were
+running 24. **New gate (TRAINING_ALGORITHM 4.5.3): an SPRT mirror on
+random maps** (`tools/mirror.sh`, `tools/sprt.py`): candidate against
+incumbent, random map and side per game, batches of 16, H0 p=0.50 against
+H1 p=0.58 with alpha = beta = 0.05, stopping at ACCEPT or REJECT. Iteration
+22 is the first candidate through it (running).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

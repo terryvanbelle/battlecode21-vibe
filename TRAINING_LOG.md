@@ -716,6 +716,49 @@ seen: against iyzg's muckraker flood, exposures reached 34-41 by r300 (the
 baseline's 9-14), the price the pre-registration named; the Sihal3 games
 had 0. Relaunched as `guard-s0b` on the same 8 cells.
 
+**Iteration 7 REJECTED at Stage 0 (`gauntlet/20260917-*-guard-s0b`, fixed
+build, 6 read): 1/6 against the baseline's 3 on those cells; the one win
+(Sihal3, Arena, B) an annihilation at r316.** Politicians at r100 still
+11-16: with the spend branch filling slanderers to 24, half of 24 plus 2 is
+14 guards, so the halved ratio never reduced the count -- the falsifier,
+twice. Reverted to `g_iter3`. Economy area: 2 rejects.
+
+**The ledger that explains all four economy attempts (from `--metrics`
+cumulative `spawnInf` + `bidInf` + EC influence, i.e. total influence earned):**
+
+| game | r200 us | r200 them | r300 us | r300 them |
+|---|---|---|---|---|
+| Sihal3, Arena, A | 4692 | 9239 | 5268 | 11717 |
+| iyzg, Gridlock, B | 5066 | 11598 | 8887 | 30128 |
+| Sihal3, Gridlock, A (baseline) | 4905 | 13297 | 7118 | 20325 |
+
+We earn 2-3.4x less, and no reallocation of what we earn (walls, chips,
+more slanderers, fewer guards) can close that. Sihal3 earns 2x with FEWER
+slanderers than ours (15-20 vs 24): its slanderers are 41-107 early and
+larger later; ours are mostly 21 because the EC buys a slanderer the moment
+21 is affordable. Income per round by size: 21 -> 1, 41 -> 2, 63 -> 3,
+85 -> 4, 107 -> 5, 154 -> 7, 463 -> 18; a slot is held 300 rounds either way.
+Two more facts for the ledger: iyzg never bids (votes 0, wins by
+annihilation), and against Sihal3 we sink a third of our income into bids
+and still lose the vote (1608 of 4692 by r200; votes 60 vs 121).
+
+## Iteration 8 (in development) -- minimum slanderer size (2026-09-17 02:05 UTC)
+
+*Pre-registration, candidate "size":* after the first `OPENING_SLANDERERS`
+(2), a slanderer is built only when `MIN_SLANDERER_SIZE` (63) is affordable
+(all three slanderer branches); the EC otherwise falls through to its other
+branches or waits. Decision-point counters: mean slanderer cost at r100 and
+r200 from `@spawn t=2` (baseline ~25-40; expect >= 63), slanderer count
+(expect lower early), and the outcome counter: total influence earned by
+r200 and r300 (`spawnInf + bidInf + ecInf`; baseline 4700-5100 / 5300-8900;
+gate: +30%). Price: slower opening (fewer slots filled at r50), and
+influence idling in the bank while waiting (that bank is also EC conviction).
+History: the ledger says count-only changes fail. Dose ladder 21 (=
+g_iter3) / 63 / 107. Gate: Stage 0 on the 8 cells (cell count not below 3,
+counters as above); then head-to-head vs `g_iter3` (+4) and the roster
+gauntlet vs the g_iter3 roster baseline. Falsifier: mean size unchanged
+(another branch buys small ones) or income not up.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -738,6 +781,7 @@ had 0. Relaunched as `guard-s0b` on the same 8 cells.
 |---|---|---|---|
 | short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
 | one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |
+| guards scale with threat (base 0, ratio 1/2) | rejected | politicians at r100 unchanged (spend branch fills 24 slanderers -> 14 guards); 1/6 vs 3 | never as a count rule; the income gap is 2-3x |
 | slanderer cap 12 -> 24 alone | rejected | slanderers 24 at r100 but EC influence at r200 unchanged: the spend branch turned the income into guards (29-34 by r200); 0/6 vs 3/8 | guard sink removed (Iteration 7) |
 | neutral-EC race by chip politicians (3 arms: 4 in flight / half-target chips / save for the chip) | rejected | chips built and spoke but flips <= 2 and the economy starved (EC influence 10-70 at r200-300); 0/8, 1/8, 0/8 on the motivating cells | opening income reaches >= 500 EC influence at r100 |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |

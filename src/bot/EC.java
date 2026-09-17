@@ -64,18 +64,18 @@ public strictfp class EC extends Robot {
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
         else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
-        else if (!danger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= 21 && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
-        else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers * C.GUARD_PER_SLANDERER_NUM / C.GUARD_PER_SLANDERER_DEN / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
+        else if (!danger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= minSlandererSize() && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
+        else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
         else if (inf >= 30 && scouts < 3 + round / 300 + (inf > 400 ? 3 : 0) + (MapState.nEnemy == 0 && round > 150 ? 2 : 0)) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
-        else if (!danger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
+        else if (!danger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= minSlandererSize()) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf - reserve() >= 100 && guards < C.MAX_GUARDS) { t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(50, inf / 3)); role = Roles.GUARD; }
         else if (MapState.nEnemy > 0 && inf - reserve() >= 300 && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - reserve(); role = Roles.CAPTURE; }   // rich and idle: throw everything at the enemy EC
         else if (inf - reserve() >= C.SPARE_MIN) {
             // never idle: every capped branch declined but influence is spare. Alternate bodies: a guard when guards
             // trail slanderers, else another slanderer up to the spare cap, else a 1-influence hunter.
             int spare = inf - reserve();
-            if (guards < slanderers * C.GUARD_PER_SLANDERER_NUM / C.GUARD_PER_SLANDERER_DEN + 2 || spare >= 300) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // a big bank buys big guards whatever the ratio
-            else if (!danger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
+            if (guards < slanderers + 2 || spare >= 300) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // a big bank buys big guards whatever the ratio
+            else if (!danger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= minSlandererSize()) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
             else { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }
             spendBuilds++;
         }
@@ -99,6 +99,8 @@ public strictfp class EC extends Robot {
     private int idleRounds = 0, spendBuilds = 0;   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
     private int enemyEcInf = 0;   // last reported influence of the enemy EC we target (bucketed)
 
+    /** Slot economics: a slanderer holds one of the capped slots for 300 rounds, so after the opening only sizes worth the slot are bought. */
+    private int minSlandererSize() { return slanderers < C.OPENING_SLANDERERS ? 21 : C.MIN_SLANDERER_SIZE; }
     private int reserve() { return Math.min(Math.max(bid * 2, 10), Math.max(10, rc.getInfluence() / 2)); }   // keep enough to bid next round, never more than half
 
     private int captureAffordable(int inf) {

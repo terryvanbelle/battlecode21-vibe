@@ -7,6 +7,12 @@ public final class C {
     public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
+    // Iteration 18 (deposit, refinement of Iteration 15): a politician born from an expired slanderer walks home and speaks at
+    // its EC so the share becomes EC influence. Refinements: only enemy politicians (not muckrakers) divert it to guarding,
+    // it may share the speech with up to DEPOSIT_MAX_N-1 friendlies, and after DEPOSIT_WAIT crowded rounds it speaks anyway.
+    public static final int DEPOSIT_MIN = 100;      // conviction below this stays a guard (Iteration 15 dose)
+    public static final int DEPOSIT_MAX_N = 3;      // robots in range allowed (the EC and two friendlies); Iteration 15: 2
+    public static final int DEPOSIT_WAIT = 8;       // rounds adjacent-but-crowded before speaking regardless; Iteration 15: forever
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

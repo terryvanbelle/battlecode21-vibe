@@ -1559,6 +1559,30 @@ that would otherwise be lost (the deposit mechanism, Iteration 15, +2 on
 72) rather than from influence that would otherwise be spent. `src/bot`
 back to `g_iter4`.
 
+## Iteration 18 (in development, doctrine) -- deposit, refinement 1 of the Iteration 15 near miss (2026-09-17 18:50 UTC)
+
+**Target: the bank that is never built, from influence that would otherwise
+be lost.** Iteration 15 (+2 on 72, 4 flips) showed the mechanism fires
+(52 deposits, EC bank 1076 at r400 in the long game) but only ~1 in 7
+expired slanderers deposits: the rest stall adjacent to a crowded EC or
+turn back for any enemy in range. Refinement (pre-registered, same
+mechanism, dose 1 of up to 3): the depositor turns to guarding only for an
+enemy *politician* within r²20 (muckrakers cannot hurt it); it speaks
+with up to two friendlies in range (`DEPOSIT_MAX_N` 3; the EC still gets a
+third of the share and the friendlies keep theirs); and after 8 crowded
+rounds adjacent it speaks regardless. Counters (logged dev game
+awesomelemonade Arena B, the game where dose 3 of Iteration 16 held 5
+ECs at 5-61 influence each): deposits per camouflage expiry (baseline
+~1/7), `waited=` distribution, EC influence at r400/r600 (baseline 444 at
+r400 in that game), `--hits` converted-EC influence (baseline 5-61),
+first-EC-loss round. Price: depositors that speak among friendlies give
+two thirds away as guard conviction (not lost), and a depositor waiting
+8 rounds is 8 rounds not guarding. Gate (doctrine, 4.5.1): 64-cell roster
+check first (`gauntlet/*-roster-deposit2`, +5 over 26/64, futility at 32
+if 3 or more behind), head-to-head as a regression check on an accept.
+Falsifier: deposits per expiry unchanged, or EC influence at conversion
+unchanged.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

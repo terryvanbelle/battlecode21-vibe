@@ -135,3 +135,9 @@ I just got up, can you summarize the last 8 hours?
 ```text
 Thanks for the summary, sounds like you made some good progress.  What's your estimate of the % of time you are blocked on waiting for runs to finish in the VM?
 ```
+
+## Prompt 20: Cells needed for significance
+
+```text
+Understood about this being a limitation of the infrastructure.  Let's try reducing the cells per decision.  Can you work out how many cells are needed to obtain statistical significance?
+```

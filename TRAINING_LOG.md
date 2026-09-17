@@ -1652,6 +1652,23 @@ guards, scouts and neutral captures unfloored. Same counters and gate
 (`h2h-floor4`). If this loses the mirror too, the floor family is closed:
 against ourselves, whatever is banked is out-produced.
 
+**floor4 (sink-only) head-to-head: 11/22 with two games left (23:40
+UTC): level with the twin, the +5 gate out of reach.** Wins on Arena both
+sides, CrossStitch both sides, maptestsmall both sides, Blotches B,
+Circles A, Corridor B, Maze A, Radial A; losses on Andromeda both sides,
+Gridlock both sides, Saturn A, Snowflake B, and the other sides of
+Blotches, Circles, Corridor, Maze, Radial. The starvation is gone (the
+maptestsmall cells flipped from loss to win against dose 1 and floor3).
+By the letter of 4.5.1 a level mirror is a reject for an economy change.
+**Deviation, logged:** the roster check (64 cells, `roster-floor4`,
+futility at 32) was launched as the deciding instrument, because the
+mirror cannot show what this candidate is for: the twin never converts an
+EC with a 107-500 politician (its guards are 20-60), so a bank that
+survives conversion has no value against ourselves and the mirror only
+measures its price, which is now zero. The pre-registered roster gate
+applies unchanged (+5 over 26/64); a level roster is a reject and closes
+the floor family.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

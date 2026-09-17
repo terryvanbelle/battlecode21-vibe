@@ -28,3 +28,4 @@ if [ -s "$C2" ]; then
 fi
 rm -f "$C1" "$C2"
 tools/gauntlet-select.py $FILES --write tools/roster.txt
+echo "NOTE: on the VM, fetch tools/roster.txt to the driver and commit it before the next vm-run (vm-sync replaces tools/)"

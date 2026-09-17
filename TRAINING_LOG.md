@@ -592,7 +592,8 @@ ECs at r400 unchanged. This is the structural attempt due after four
 incremental ones.
 
 **Stage 0, race (4 in flight, chips >= 40) vs iyzg and Sihal3 on Arena and
-Gridlock (`gauntlet/20260917-*-race-s0`): six losses of six read, two at
+Gridlock (`gauntlet/20260917-010848-race-s0`): 0/8 (the baseline `g_iter3`
+won 3 of these cells); the six read in detail: two at
 r259-261 (Arena vs iyzg; the baseline lasted to r630+).** Counters: `race=`
 7-12 builds by r150 then pinned (the EC had nothing left); chips spoken
 6-12 per game; flips 0, 1, 0, 0, 1, 1; aborts 0-9 (the opponent converted
@@ -606,6 +607,15 @@ pre-registered):* a chip must carry at least half the remaining conviction
 (so two chips flip a neutral and none is wasted), at most 2 in flight, and
 none before 4 slanderers exist. Same counters and gate. If flips do not rise,
 the candidate is rejected and reverted.
+
+**Roster fixed (01:15 UTC) from the three-map scan** (`tools/roster.txt`,
+tiers in `gauntlet/tiers-g_iter2.txt`, rates on `g_iter2`): iliao2345 21%,
+123kevinlee 24%, max-titov 25%, Sihal3 36%, arya-k, astelmach20, nickel-dime,
+nsortur, qawsedrftgzh 50%. Locked at 0-7%: the 13 bots that never lost to us
+plus Scott-Poole, VittalT, aidan-mundy, anshgs, iyzg (1/14), Victoriano and
+jmerle (2/14). Stage 2 overall 47/132 (36%). The roster gauntlet for
+`g_iter3` (quick set, both sides, 216 games) is running as the baseline for
+the next candidate.
 
 ## Standing tables (updated in place)
 

@@ -52,6 +52,13 @@ tools/gauntlet-select.py gauntlet/*/results.csv --write tools/roster.txt   # on 
 
 Rules of the road on the VM:
 
+- `vm-sync.sh` replaces the VM's `src`, `tools` and `test` with the driver's on
+  every `vm-run.sh`. Anything a run writes into those directories on the VM
+  (notably `tools/roster.txt` from `scan.sh`) is lost at the next launch:
+  fetch it to the driver and commit it first (2026-09-17: a roster gauntlet
+  launched against `examplefuncsplayer` because its roster file had just been
+  wiped, and `OPPONENTS=""` falls back to the default).
+
 - One game per `MAXJOBS` slot: 5-6 jobs on 8 cores leaves room for a second
   run (`CLASSES=<private dir>` so it cannot recompile the classes the first run
   loads) and for other projects.

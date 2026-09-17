@@ -974,6 +974,13 @@ three remaining cells decide whether it goes to the 72-cell roster check
 (70 of 76 maps have neutrals, so the bank matters everywhere, not only on
 Gridlock).
 
+**Record head-to-head, `g_iter4` vs `g_iter3`, quick set
+(`gauntlet/20260917-044628-h2h-bid`): 16/24, +8.** The expected zero-sum
+vote war did not happen: the lower early bidder wins more often, because the
+influence it keeps compounds into units and the late ramp still takes the
+vote. The pre-registration's exemption was unnecessary; noted so the next
+bidding candidate uses the head-to-head normally.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -475,3 +475,15 @@ date,label,opponent,map,wins,total
 2026-09-17T02:49:38+00:00,g_iter4,qawsedrftgzh.battlecode2021,Gridlock,0,2
 2026-09-17T02:49:38+00:00,g_iter4,qawsedrftgzh.battlecode2021,Maze,0,2
 2026-09-17T02:49:38+00:00,g_iter4,qawsedrftgzh.battlecode2021,maptestsmall,2,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,Andromeda,1,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,Arena,2,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,Blotches,2,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,Circles,2,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,Corridor,2,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,CrossStitch,0,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,Gridlock,0,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,Maze,2,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,Radial,2,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,Saturn,1,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,Snowflake,1,2
+2026-09-17T04:46:28+00:00,g_iter4,g_iter3,maptestsmall,1,2

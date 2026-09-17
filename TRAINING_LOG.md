@@ -1011,6 +1011,36 @@ neutral first in about half the cases, and the games are still decided by
 the army gap. Reverted to `g_iter4`. Neutral-EC captures area: 2 rejects
 (race, capbank). Ledger: holding an EC needs an army, not a bank.
 
+## Iteration 12 (in development) -- relayed threats for slanderers (2026-09-17 08:15 UTC)
+
+**Target: an absolute degeneracy, area slanderer safety (0 rejects).**
+Survey of the 126 `g_iter3` roster-baseline losses: our slanderers exposed
+per game by r300 / r600 -- iliao2345 11.8 / 20.8, max-titov 4.3 / 22.4,
+arya-k 4.0 / 12.8, the piedPipers 2.8 / 5.5, Sihal3 1.2 / 2.5, qawsedrftgzh
+0.8 / 5.5, 123kevinlee 0.6 / 3.6. Each exposure removes a slanderer's income
+and feeds the opponent's speech buff. Mechanism: a slanderer flees only what
+its own sensor shows (r^2 20, ~4.5 tiles); a muckraker exposes at r^2 12 and
+moves on a 1.5 cooldown against the slanderer's 2.0, so once seen it is
+usually caught. The EC's sensor (r^2 40) sees the hunter first and says
+nothing.
+
+*Pre-registration, candidate "relay":* when the EC is in danger it
+broadcasts the nearest enemy's position (ENEMY_UNIT flag, odd rounds, above
+the enemy-EC rotation); slanderers read home every 2 rounds (was 5) and flee
+a relayed position within 8 tiles (`RELAY_FLEE_D2` 64) reported in the last
+12 rounds, before it enters their own sensor. Decision-point counters:
+`@relayflee` count (baseline 0), exposures against us by r300 and r600
+(baseline above; expect halved vs iliao2345 and max-titov), slanderer count
+and income by r300. Price: slanderers moving on relayed threats earn while
+moving (slanderers earn regardless of movement) but crowd toward home; the
+EC's flag slot is taken on odd rounds under danger (edges and neutrals are
+still broadcast on even rounds). History: nothing in the ledger. Dose:
+RELAY_FLEE_D2 64 / 100. Gate: Stage 0 on maptestsmall and Arena vs iliao2345
+and max-titov, both sides (8 cells; `g_iter4` won 5 of them in the bid roster
+run): exposures must fall; then the roster on the screen set vs `g_iter4`'s
+baseline (+5). Falsifier: exposures unchanged (the relay arrives too late or
+the flee runs into the hunter) or slanderer income falls.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -264,6 +264,13 @@ One change per candidate; never bundle. Then:
 - **Head-to-head** on the quick set (24 games) stops early once the candidate
   can no longer reach the gate (`wins + remaining < 12 + AcceptMargin/2`), and
   the run is recorded as a reject at that point.
+- **Order the two instruments by what the change touches.** A change that
+  matters against ourselves (economy, bidding) is resolved by the
+  head-to-head first. A doctrine or map-knowledge change is invisible to a
+  twin that does not punish the deficiency (2026-09-17: relay, army and
+  scouts all early-stopped at 6/14, the noise floor); for those, run the
+  roster check first and the head-to-head only as a regression check on an
+  accept.
 - **Roster gauntlet for a candidate** uses the 4-map screen set both sides
   (72 games) against the baseline's record on the same cells; the full quick
   set (216 games) is played only for an accepted build, as the next baseline.

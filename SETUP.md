@@ -40,6 +40,8 @@ uses tar over ssh.
 | `tools/vm-collect.sh <run-id>` | pull `gauntlet/<run-id>/` (results.csv, summary.txt, losses/) back to the driver |
 | `tools/vm-stop.sh` | stop the VM if no game (of any project) is running |
 
+Budget rules for evaluation runs are in `TRAINING_ALGORITHM.md` section 4.5.1 (a 2021 game costs ~6 CPU-minutes: informative cells only, early stopping, screen set for candidates).
+
 Typical runs:
 
 ```bash

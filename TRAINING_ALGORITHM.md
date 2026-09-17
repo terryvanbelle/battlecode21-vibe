@@ -257,6 +257,19 @@ One change per candidate; never bundle. Then:
    gate) -- run it *before* accepting, not after.
 4. Locked-tier scores are recorded every time but never decide anything alone.
 
+### 4.5.1 Evaluation budget (2021: a game costs ~6 CPU-minutes)
+
+- **Stage 0** plays only informative cells: drop any cell no build has ever
+  won or lost across the last three candidates; 6 cells, not 8.
+- **Head-to-head** on the quick set (24 games) stops early once the candidate
+  can no longer reach the gate (`wins + remaining < 12 + AcceptMargin/2`), and
+  the run is recorded as a reject at that point.
+- **Roster gauntlet for a candidate** uses the 4-map screen set both sides
+  (72 games) against the baseline's record on the same cells; the full quick
+  set (216 games) is played only for an accepted build, as the next baseline.
+- **The VM holds 7 games at once.** A roster baseline runs at 4 jobs and leaves
+  3 for one development run; nothing else starts until a slot frees.
+
 ### 4.6 Decide
 
 - **Accept** when the head-to-head clears `AcceptMargin`, peers stay above

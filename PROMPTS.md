@@ -117,3 +117,9 @@ Ladder graph looks awesome
 ```text
 It still feels like roster runs slower than in previous years.  Can you confirm and/or explain?
 ```
+
+## Prompt 17: Use cycles efficiently
+
+```text
+OK, understood.  Do what you can to use our cycles efficiently, and I guess we just have to live with the higher engine cost
+```

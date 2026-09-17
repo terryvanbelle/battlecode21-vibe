@@ -1122,6 +1122,42 @@ is kept as a component for an army doctrine (guards that hunt the hunters
 would turn relayed sightings into kills instead of flight), not as a
 standalone candidate. Slanderer safety area: 1 reject.
 
+## Iteration 13 (in development, structural) -- the army: attack politicians instead of guards (2026-09-17 10:10 UTC)
+
+**Target: a capability gap named from the ladder.** Politician spawns per
+game in 28 sampled `g_iter4` roster losses (conviction bucket, rounds
+<= 300 / 301-600): them <100: 58 / 126, 100-299: 8.7 / 12.3, 300-599: 7.1 /
+21.2, >= 600: 3.0 / 4.7; us <100: 68 / 56, 100-299: 13.4 / 35, 300-599: 1.0
+/ 5.7, >= 600: 0.06 / 1.2. By r300 the opponents have sent ten politicians
+of 300+ (the EC-takers) and we have sent one; the same budget goes into ~80
+politicians under 300 (danger guards at 20-30, spare-branch guards at a
+third of the spare) that take nothing. Attempt cadence: this is the
+structural attempt (the last one was Iteration 10; since then size, bid,
+capbank, relay).
+
+*Pre-registration, candidate "army":* the spare branch no longer buys
+guards or hunters. It buys slanderers for income while it can; otherwise,
+when `spare >= ATTACK_SIZE` (300) and a hostile EC is known, it builds an
+attack politician of `max(300, targetInf + 114)` (capped by the spare) aimed
+at the nearest hostile EC, neutral first by distance, enemy otherwise
+(role CAPTURE, the politician's existing capture logic); otherwise it saves
+(`save=` counter). The danger-guard branch and the normal guard branch (cap
+`4 + slanderers/2`) are unchanged. Decision-point counters: `attack=`
+builds and politicians >= 300 spawned by r300 / r600 (baseline 1.0 / 5.7;
+expect >= 5 / >= 15), politicians < 100 spawned by r600 (baseline 124;
+expect halved), conversions of hostile ECs by us, ECs held at r400 and
+r800. Price: fewer bodies around home against muckraker floods (the
+relay's lesson: exposures may rise); attack politicians that die en route
+lose 300+ each. History: race (chips) and capbank were capture-only and
+starved or delayed; this one keeps slanderers first and sends 300+ units at
+whatever is nearest. Dose: ATTACK_SIZE 300 / 500. Gate: Stage 0 on Arena and
+Gridlock vs Sihal3 and arya-k, both sides (8 cells; `g_iter4` scored 4 of
+them in its baseline): the counters must move and the cell count must not
+fall; then head-to-head vs `g_iter4` (+5, early stop) and the 72-cell
+roster check vs the baseline (+5). Falsifier: `attack=` near 0 (spare never
+reaches 300 because slanderers take it: then the mechanism needs a save
+rule) or exposures explode.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

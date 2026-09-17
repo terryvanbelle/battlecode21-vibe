@@ -36,7 +36,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " save=" + saveRounds + " attack=" + attackBuilds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
     }
 
     // ---------------------------------------------------------------- production
@@ -74,9 +74,14 @@ public strictfp class EC extends Robot {
             // never idle: every capped branch declined but influence is spare. Alternate bodies: a guard when guards
             // trail slanderers, else another slanderer up to the spare cap, else a 1-influence hunter.
             int spare = inf - reserve();
-            if (guards < slanderers + 2 || spare >= 300) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // a big bank buys big guards whatever the ratio
-            else if (!danger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
-            else { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }
+            // Iteration 13 (army): income first, then an attack politician of ATTACK_SIZE+ at the nearest hostile EC; otherwise save (no guards, no hunters)
+            if (!danger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
+            else if (spare >= C.ATTACK_SIZE && (MapState.nNeutral > 0 || MapState.nEnemy > 0)) {
+                MapLocation tg = nearestHostileEC(); int need = hostileInf + 14 + 100; attackTarget = tg;
+                captureTargetIdx = hostileIsNeutral ? hostileIdx : -1;
+                t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(C.ATTACK_SIZE, need)); role = Roles.CAPTURE; attackBuilds++;
+            }
+            else { saveRounds++; return; }
             spendBuilds++;
         }
         else { if (inf >= 21) idleRounds++; return; }
@@ -89,14 +94,24 @@ public strictfp class EC extends Robot {
         switch (role) { case Roles.SCOUT: case Roles.HUNT: scouts++; break; case Roles.GUARD: guards++; break; case Roles.ECON: slanderers++; break; case Roles.CAPTURE: capturers++; break; default: break; }
         lastBuildRound = round;
         // tell the newborn its role via our flag for one round: ORDER with target
-        MapLocation tgt = role == Roles.CAPTURE ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : MapState.enemyEC[0]) : loc;
+        MapLocation tgt = role == Roles.CAPTURE ? (attackTarget != null ? attackTarget : captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : MapState.enemyEC[0]) : loc;
+        attackTarget = null;
         // a robot spawned this round takes its FIRST turn next round (the engine iterates a snapshot of the
         // spawn order), so the order must still be on the flag next round; the EC cannot build again before that
         pendingOrder = Comms.encode(Comms.ORDER, role, tgt); pendingOrderRound = round + 1;
         Debug.log("@spawn t=" + t.ordinal() + " inf=" + cost + " role=" + role + " dir=" + d + " ecInf=" + rc.getInfluence());
     }
     private int pendingOrder = 0, pendingOrderRound = -10;
-    private int idleRounds = 0, spendBuilds = 0;   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
+    private int idleRounds = 0, spendBuilds = 0, saveRounds = 0, attackBuilds = 0;
+    private int hostileInf = 0, hostileIdx = -1; private boolean hostileIsNeutral = false;
+    private MapLocation attackTarget = null;
+    /** Nearest known hostile EC (neutral or enemy); sets hostileInf/hostileIdx/hostileIsNeutral. */
+    private MapLocation nearestHostileEC() {
+        MapLocation best = null; int bd = 1 << 30; hostileIdx = -1; hostileIsNeutral = false; hostileInf = 0;
+        for (int i = MapState.nNeutral; --i >= 0;) { int d = loc.distanceSquaredTo(MapState.neutralEC[i]); if (d < bd) { bd = d; best = MapState.neutralEC[i]; hostileIdx = i; hostileIsNeutral = true; hostileInf = MapState.neutralInf[i]; } }
+        for (int i = MapState.nEnemy; --i >= 0;) { int d = loc.distanceSquaredTo(MapState.enemyEC[i]); if (d < bd) { bd = d; best = MapState.enemyEC[i]; hostileIdx = i; hostileIsNeutral = false; hostileInf = enemyEcInf; } }
+        return best;
+    }   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
     private int enemyEcInf = 0;   // last reported influence of the enemy EC we target (bucketed)
 
     private int reserve() { return Math.min(Math.max(bid * 2, 10), Math.max(10, rc.getInfluence() / 2)); }   // keep enough to bid next round, never more than half

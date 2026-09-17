@@ -6,7 +6,7 @@
 import argparse, math, os, sys, collections
 # the chart needs matplotlib, which lives in tools/.venv: re-exec there when it exists
 _venv = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.venv', 'bin', 'python')
-if os.path.exists(_venv) and os.path.realpath(sys.executable) != os.path.realpath(_venv): os.execv(_venv, [_venv] + sys.argv)
+if os.path.exists(_venv) and '.venv' not in sys.prefix: os.execv(_venv, [_venv] + sys.argv)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import elolib
 ap = argparse.ArgumentParser(); ap.add_argument('--pool', type=int, default=0); ap.add_argument('--build', default='')
 ap.add_argument('--quiet', action='store_true'); a = ap.parse_args()

@@ -7,10 +7,6 @@ public final class C {
     public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
-    // Iteration 17 (EC floor): every non-capture spend keeps min(FLOOR_MAX, round * FLOOR_PER_ROUND / 100) in the EC.
-    // Emergency guards and neutral captures ignore the floor. Dose: FLOOR_PER_ROUND 0 = g_iter4.
-    public static final int FLOOR_PER_ROUND = 50;   // 50 = half an influence per round: 100 at r200, 300 at r600
-    public static final int FLOOR_MAX = 300;
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

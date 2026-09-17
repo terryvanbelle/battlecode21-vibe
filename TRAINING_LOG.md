@@ -1545,6 +1545,20 @@ tests the middle. Gate (economy, 4.5.1): head-to-head vs `g_iter4` first
 over 26/64, futility at 32). Falsifier: converted-EC influence unchanged
 (the floor is spent before the hit lands) or first-EC-loss unchanged.
 
+**Iteration 17: REJECTED at the head-to-head, 3/12 (18:40 UTC,
+`gauntlet/*-h2h-floor`, stopped one game before the formal early-stop
+line: 15/24 needed twelve straight wins).** Eight of the nine losses are
+vote losses at r1500 (maptestsmall both sides, Arena A, Andromeda B,
+Corridor A, Blotches B), one annihilation each on Blotches A, CrossStitch
+A and Circles A; wins on Andromeda A, Arena B, CrossStitch B. In the
+mirror the floored EC holds up to 300 that the never-idle twin turns into
+slanderers, and the compounding difference decides the votes. What it
+closed: a static floor is the wrong shape of bank against ourselves, so
+it cannot pass the economy gate; the bank has to come from influence
+that would otherwise be lost (the deposit mechanism, Iteration 15, +2 on
+72) rather than from influence that would otherwise be spent. `src/bot`
+back to `g_iter4`.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

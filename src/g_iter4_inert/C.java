@@ -5,7 +5,7 @@ public final class C {
     public static final boolean DEBUG = true;      // @tag log lines on/off
     /** Sparring archetype switch: 0 = the real bot; 1 = muckraker rush; 2 = aggressive bidder; 3 = politician rush. Set by tools/snapshot.sh <name> <archetype>. */
     public static final int ARCHETYPE = 0;
-    public static final int BC_REPORT_EVERY = 51;  // INERT CHANGE for the noise floor: 50 -> 51 (only the debug log cadence)
+    public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)

@@ -28,7 +28,7 @@ public abstract strictfp class Robot {
 
     Robot(RobotController rc) {
         this.rc = rc; us = rc.getTeam(); them = us.opponent(); type = rc.getType(); id = rc.getID();
-        rng = id * 1103515245 + 12345;
+        rng = id * 1103515245 + 12346;   // INERT CHANGE for the noise floor: a different RNG seed offset perturbs tie-breaks, not policy
         bcLimit = type.bytecodeLimit;
         birth = rc.getRoundNum();
         loc = rc.getLocation();

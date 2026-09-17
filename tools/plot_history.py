@@ -20,30 +20,41 @@ def plot_ladder(rows, out):
     for r in rows: k = (r["label"], r["opponent"], r["map"]); cells[k][0] += int(r["wins"]); cells[k][1] += int(r["total"])
     labels = sorted({k[0] for k in cells}, key=iter_key)
     played = {l: {(o, m) for (ll, o, m), (w, t) in cells.items() if ll == l and t > 0} for l in labels}
-    ref = labels[-1]                                         # every earlier build is compared with the latest on the cells the two share
-    common = {l: played[l] & played[ref] for l in labels}
-    def rate(l, o):
-        w = sum(cells[(l, o, m)][0] for (oo, m) in common[l] if oo == o); t = sum(cells[(l, o, m)][1] for (oo, m) in common[l] if oo == o)
+    big = [l for l in labels if len(played[l]) >= 30]              # builds with a meaningful sample
+    common = set.intersection(*(played[l] for l in big)) if big else set()   # cells every such build has played
+    def rate(l, o, cellset):
+        w = sum(cells[(l, o, m)][0] for (oo, m) in cellset if oo == o); t = sum(cells[(l, o, m)][1] for (oo, m) in cellset if oo == o)
         return 100 * w / t if t else None
-    opps = sorted({o for l in labels for (o, _) in common[l]})
+    opps = sorted({o for (o, _) in common})
     fig, ax = plt.subplots(figsize=(11, 6.5))
     for o in opps:
-        pts = [(i, rate(l, o)) for i, l in enumerate(labels) if rate(l, o) is not None]
+        pts = [(i, rate(l, o, common)) for i, l in enumerate(labels) if l in big and rate(l, o, common) is not None]
         if pts: ax.plot([p[0] for p in pts], [p[1] for p in pts], "-o", lw=0.8, ms=3, alpha=0.4, color="tab:blue")
-    avg, unlocked, ncells = [], [], []
+    avg, unlocked, nbots = [], [], []; standings = {}
     for l in labels:
-        v = [rate(l, o) for o in opps if rate(l, o) is not None]
-        avg.append(sum(v) / len(v) if v else float("nan")); unlocked.append(sum(1 for x in v if x >= 20) if v else float("nan")); ncells.append(len(common[l]))
-    ax.plot(range(len(labels)), avg, "k-o", lw=2.4, ms=6, label="average win % on the cells shared with the latest build")
-    for i, (a, n) in enumerate(zip(avg, ncells)): ax.annotate(f"{a:.0f}% ({n} cells)" if n else "no shared cells", (i, a if n else 50), xytext=(8, 6), textcoords="offset points", fontsize=9)
+        v = [rate(l, o, common) for o in opps if l in big and rate(l, o, common) is not None]
+        avg.append(sum(v) / len(v) if v else float("nan"))
+        # ladder standings as of this build: every bot's most recent record (>= 4 decided games) up to and
+        # including this build, carried forward; count those at or above 20%
+        allo = defaultdict(lambda: [0, 0])
+        for (ll, o, m), (w, t) in cells.items():
+            if ll == l: allo[o][0] += w; allo[o][1] += t
+        for o, (w, t) in allo.items():
+            if t >= 4: standings[o] = 100 * w / t
+        unlocked.append(sum(1 for r in standings.values() if r >= 20) if standings else float("nan")); nbots.append(len(standings))
+    ax.plot(range(len(labels)), avg, "k-o", lw=2.4, ms=6, label=f"average win % on the {len(common)} cells common to all builds with >= 30 cells")
+    for i, a in enumerate(avg):
+        if a == a: ax.annotate(f"{a:.0f}%", (i, a), xytext=(8, 6), textcoords="offset points", fontsize=9)
     for y, lab in [(20, "20% unlock: replays may be reviewed"), (50, "50% peer")]:
         ax.axhline(y, color="gray", ls=":", lw=1); ax.annotate(lab, (0.002, y), xycoords=("axes fraction", "data"), fontsize=7.5, color="gray", va="bottom")
-    ax2 = ax.twinx(); ax2.plot(range(len(labels)), unlocked, "r-s", lw=2, ms=6, label="ladder position: shared-cell bots at or above 20%")
+    ax2 = ax.twinx(); ax2.plot(range(len(labels)), unlocked, "r-s", lw=2, ms=6, label="ladder standings as of each build: bots at or above 20% (latest record carried forward)")
+    for i, (u, n) in enumerate(zip(unlocked, nbots)):
+        if u == u: ax2.annotate(f"{int(u)} of {n}", (i, u), xytext=(8, -12), textcoords="offset points", fontsize=8, color="r")
     ax2.set_ylabel("bots at or above 20%", color="r"); ax2.set_ylim(0, max(10, max([u for u in unlocked if u == u], default=0) + 2))
     ax.set_xticks(range(len(labels))); ax.set_xticklabels(labels); ax.set_xlim(-0.4, len(labels) - 0.6)
     ax.set_ylim(-3, 103); ax.set_ylabel("win % of the build vs each external bot"); ax.set_xlabel("accepted build")
     ax.set_title("Ladder: win % vs external Battlecode 2021 bots, per accepted build (scrimmage proxy)"); ax.grid(alpha=.3)
-    ax.text(0.5, 0.01, "one thin line per external bot; a cell is (bot, map), both sides; each build is scored only on cells it shares with the latest build", transform=ax.transAxes, ha="center", fontsize=7.5, color="gray")
+    ax.text(0.5, 0.01, "one thin line per external bot on the common cells; a cell is (bot, map), both sides; the red count carries each bot's latest record forward across builds", transform=ax.transAxes, ha="center", fontsize=7.5, color="gray")
     h1, l1 = ax.get_legend_handles_labels(); h2, l2 = ax2.get_legend_handles_labels(); ax.legend(h1 + h2, l1 + l2, loc="upper left", fontsize=8)
     fig.tight_layout(); fig.savefig(out, dpi=140); print("wrote", out)
 

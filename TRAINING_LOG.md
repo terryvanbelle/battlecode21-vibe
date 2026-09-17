@@ -1288,6 +1288,15 @@ arya-k for the counters (baseline 3/8), the head-to-head as a regression
 check on an accept. Falsifier: `@deposit` near 0 (politicians never reach
 an uncrowded orthogonal tile) or toFriend unchanged.
 
+**deposit Stage 0, first two (Sihal3, Arena, A and B): 2/2, both by
+annihilation at r547 and r689 (the baseline won them on votes at r1500).**
+Deposits 1 (107) and 3 (368): the first slanderers expire at r310-400 and
+these games ended soon after, so the mechanism barely had time to fire;
+toFriend 13% and 27% (baseline 9-20%). EC influence at r400: 371 and 1400
+against the baseline's 100-500; 5v1 ECs at r400 in both. The Gridlock cells,
+which run long, will show the counter properly; the roster check waits for
+them.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

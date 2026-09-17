@@ -1452,6 +1452,12 @@ capturer walks 19 tiles in 100 rounds. Roster check launched at once (64
 cells, `gauntlet/*-roster-opening`, +5 over 26/64, futility at 32 if 3 or
 more behind); the last three Stage 0 games finish beside it.
 
+**opening Stage 0 complete: 3/8** (`gauntlet/20260917-151617-stage0-opening`;
+arya-k 1/4, max-titov 2/4) against `g_iter4`'s 0/8 on the same cells. The
+roster check runs at 7 in parallel; first 7 cells 0 wins (rzhan11 4 cells,
+awesomelemonade maptestsmall both sides lost at r273-276: the 120-round bank
+on a map with no neutral is the price, paid early).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

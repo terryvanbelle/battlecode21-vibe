@@ -12,7 +12,10 @@ public final class C {
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;
     public static final int EARLY_SCOUTS = 4;
-    public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
+    public static final int MAX_SLANDERER_SIZE = 2674;  // Iteration 20: any breakpoint (g_iter4: 463)
+    // Iteration 20 (invest the surplus): a spare bank of INVEST_MIN or more buys one slanderer of that size instead of a big guard.
+    // awesomelemonade spawns 949-influence slanderers (30/round each) from a 2,360 bank at r400; ours are 21-130 (1-6/round).
+    public static final int INVEST_MIN = 300;           // dose 1; 0 disables (= g_iter4 with the size cap lifted)
     public static final int BID_CAP_DIV = 6;            // (unused) historical cap
     public static final int BID_EARLY_DIV = 30;         // Iteration 9: before r600 bid at most influence / this (baseline: /12 before r200, /8 to r600); dose 12-8 / 30 / 60
     // never idle: when every capped branch declines and this much is spare above the reserve, build anyway

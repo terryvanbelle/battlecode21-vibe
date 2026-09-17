@@ -74,7 +74,8 @@ public strictfp class EC extends Robot {
             // never idle: every capped branch declined but influence is spare. Alternate bodies: a guard when guards
             // trail slanderers, else another slanderer up to the spare cap, else a 1-influence hunter.
             int spare = inf - reserve();
-            if (guards < slanderers + 2 || spare >= 300) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // a big bank buys big guards whatever the ratio
+            if (C.INVEST_MIN > 0 && !danger && spare >= C.INVEST_MIN && slanderers < C.SPEND_SLANDERER_CAP) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; Debug.log("@invest size=" + cost + " spare=" + spare); }   // Iteration 20: a big bank buys a big slanderer
+            else if (guards < slanderers + 2 || spare >= 300) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // a big bank buys big guards whatever the ratio
             else if (!danger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
             else { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }
             spendBuilds++;

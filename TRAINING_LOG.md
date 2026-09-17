@@ -1732,6 +1732,36 @@ ours at 5: the difference is not the number of ECs or slanderers (34 v 61
 at r400) but what each slanderer earns, i.e. slanderer size. `src/bot`
 back to `g_iter4`.
 
+## Iteration 20 (in development, spending mix) -- invest the surplus (2026-09-18 02:45 UTC)
+
+**Target: the income gap itself, seen at last in the replay.** In the
+Arena A big-guard game awesomelemonade spawns a 949-influence slanderer at
+r400 from a 2,360 bank (30 influence per round for 50 rounds); our
+slanderers are 21-130 (1-6 per round), and our surplus above 300 becomes
+a 100+ guard (Iteration 4's spare branch). Their 34 slanderers out-earn
+our 61 by 3-5x because the influence invested in slanderers is 5x. The
+ledger's re-open condition for the slanderer cap ("guard sink removed")
+is met by redirecting the sink: in the spare branch, a spare bank of 300
+or more buys one slanderer of `bestSize(spare)` (any breakpoint;
+`MAX_SLANDERER_SIZE` 463 -> 2674) instead of a big guard, when not in
+danger and under the spare-branch count cap (24); everything else
+unchanged (the ratio guard, the small-spare slanderer, the hunter).
+Counters (logged dev game, awesomelemonade Arena A): `@invest size=`
+(baseline none), slanderer sizes at spawn (`@spawn t=2 inf=`; baseline
+21-130), influence earned by r300/r600 (baseline 6,859 median in
+losses; this game's EC totals 289 at r300, 519 at r400), EC influence at
+r400/r600, exposes suffered by r600 (the price: one 949 slanderer exposed
+is 949 lost; baseline 8 median exposes). Reachability: spare reaches 300
+whenever the deposit or capture income lands (the Arena games show
+250-500 at r200-400). Price: fewer guards when rich (the rush cells
+awesomelemonade Arena A/B, rzhan11 maptestsmall A are the watch list:
+three candidates lost them). History: cap24 and size63 rejected as count
+and minimum-size rules with the ≥300 guard sink intact. Gate (spending
+mix, amended 4.5.1): 64-cell roster check first (`roster-invest`, +5
+over 26/64, futility at 32 if 3 or more behind), head-to-head as the
+regression check on an accept. Falsifier: no `@invest` before r400 (the
+surplus never reaches 300 without the sink) or income at r600 unchanged.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

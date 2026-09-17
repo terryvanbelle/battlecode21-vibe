@@ -19,9 +19,6 @@ public final class C {
     public static final int SPARE_MIN = 60;             // dose ladder: 1<<30 (off, = g_iter2) / 60 / 20
     public static final int SPEND_SLANDERER_CAP = 24;   // slanderer cap for the spare branch (the normal cap stays MAX_SLANDERERS)
 
-    // relayed threats (Iteration 12): slanderers flee an enemy the EC reported within this distance and age
-    public static final int RELAY_FLEE_D2 = 64;          // 8 tiles (own sensor is r^2 20, ~4.5 tiles); dose 64 / 100
-    public static final int RELAY_TTL = 12;              // rounds a relayed position stays actionable
     // slanderer positioning
     public static final int SLANDERER_RING_MIN = 8;     // d^2 from home: stay well outside the spawn ring
     public static final int SLANDERER_RING_MAX = 45;

@@ -1082,6 +1082,34 @@ prices the defence weakly; the 72-cell roster check is allowed to finish
 shared cells the mechanism is kept as a re-open condition, otherwise
 slanderer safety by relayed flight is closed.
 
+## Session summary, 2026-09-16 18:25 -> 09-17 08:45 UTC
+
+| iteration | candidate | result |
+|---|---|---|
+| 2 | EC census counts aged slanderers as guards | accepted, 24/24 vs g_iter1 (`g_iter2`) |
+| 3 | EC wall of muckrakers (2 arms) | rejected, 9/72 vs 13 on targets |
+| 4 | never idle: spare-influence branch | accepted, 20/24 and 19/72 vs 13 (`g_iter3`) |
+| 5 | neutral-EC race by chips (3 arms) | rejected, economy starved |
+| 6 | slanderer cap 24 | rejected at Stage 0 |
+| 7 | guards scale with threat | rejected at Stage 0 (falsifier) |
+| 8 | minimum slanderer size 63 | rejected, 12/23 head-to-head |
+| 9 | early bid cap influence/30 | accepted, 33 vs 27 on 72 roster cells, +8 head-to-head, +17 on the 216-cell baseline (`g_iter4`) |
+| 10 | threat-sized guards, else bank | rejected, decision point unreachable |
+| 11 | capture politicians carry a 300 bank (3 arms) | rejected, 31 vs 33 on 72 roster cells |
+| 12 | EC relays threats, slanderers flee early | rejected by the head-to-head gate (6/14); roster check finishing |
+
+Ladder: on the 36 cells every build shares, 34% (g_iter2) -> 38% (g_iter3)
+-> 46% (g_iter4); roster baseline 41.7% (g_iter3) -> 49.5% (g_iter4) on
+216 cells; 9 roster bots at or above 20%. Infrastructure: games moved to
+`battlecode-dev`; roster from a three-map incremental scan; per-cell
+history and a per-build ladder chart; `--hits`, extended `--navstats`, the
+income ledger; noise floor 12/24 (gate +5). What the rejects bought: the
+losses are decided by an army gap (units alive 3-10x, ECs held 6-8 vs 1-2)
+that no reallocation of our income has moved; EC-level defence cannot react
+in time; captured ECs need an army to hold, not a bank. The next structural
+attempt should be the army itself: how politicians and muckrakers are
+grouped, aimed and timed.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

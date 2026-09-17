@@ -12,11 +12,6 @@ import battlecode.common.*;
 public strictfp class Slanderer extends Robot {
     Slanderer(RobotController rc) { super(rc); }
     private Politician asPolitician = null;
-    private MapLocation threatLoc = null; private int threatRound = -100; private int relayFlees = 0;
-    @Override protected void absorb(int f, MapLocation ref) {
-        super.absorb(f, ref);
-        if (Comms.type(f) == Comms.ENEMY_UNIT) { threatLoc = Comms.loc(f, ref); threatRound = round; }
-    }
 
     @Override protected void turn() throws GameActionException {
         if (rc.getType() == RobotType.POLITICIAN) {        // camouflage expired
@@ -24,15 +19,11 @@ public strictfp class Slanderer extends Robot {
             asPolitician.turnAs(round); return;
         }
         sense();
-        readHome();   // Iteration 12: every round (was every 5): the EC acts before us within a round and rewrites its flag every round, so a relay set on an odd round is gone by the next even one
+        if (round % 5 == 0) readHome();
         if (!rc.isReady()) return;
         if (nearestEnemy != null) {
             // flee: away from the nearest enemy, biased toward home
             if (nav.fleeFrom(nearestEnemy.location)) return;
-        }
-        if (threatLoc != null && round - threatRound <= C.RELAY_TTL && loc.distanceSquaredTo(threatLoc) <= C.RELAY_FLEE_D2) {
-            relayFlees++; if (relayFlees % 10 == 1) Debug.log("@relayflee d2=" + loc.distanceSquaredTo(threatLoc) + " n=" + relayFlees);
-            if (nav.fleeFrom(threatLoc)) return;   // Iteration 12: flee a threat the EC relayed before it is in our own sensor range
         }
         MapLocation home = MapState.home;
         if (home == null) return;

@@ -1399,6 +1399,15 @@ annihilation. Our politicians spend 78-79% of conviction on enemy units there
 and only 8-11% on friendlies, so the bank is never built; theirs is. Ranked
 second, behind the opening (which the multi-neutral maps decide).
 
+**Roster baseline top-up complete (15:50 UTC,
+`gauntlet/20260917-145018-roster-topup-g_iter4`): `g_iter4` 10/32 against
+the four newly unlocked bots on the screen set** (Scott-Poole 3/8, rzhan11
+1/8, jmerle 4/8, awesomelemonade 2/8; 2 timeouts). With the retained bots'
+screen cells from the 216-cell baseline (arya-k 4/8, iliao2345 5/8,
+max-titov 3/8, 123kevinlee 4/8 = 16/32), the `g_iter4` baseline on the new
+8-bot roster's 64 screen cells is **26/64** (26/62 read). Roster decisions
+from here: 64 cells, +5 gate, futility at 32 cells if 3 or more behind.
+
 ## Iteration 16 (in development, structural) -- the opening capture (2026-09-17 15:10 UTC)
 
 **Target: the census's single mechanism.** Neutral ECs are taken early by

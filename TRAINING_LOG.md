@@ -904,6 +904,41 @@ branches declined, the spare-influence branch (and scouts) kept spending.
 Completeness fix, not a new mechanism: the bank check now precedes every
 branch. Relaunched as `threat-s0` (the half-engaged run stopped).
 
+**Iteration 10 REJECTED at Stage 0 (05:15 UTC): threat-sized guards, else
+bank.** The relaunched game (astelmach20, Gridlock, A) is identical round
+for round to the half-arm game: `bank=` 0, 0, 3, 0 across our ECs, ten
+conversions of our ECs holding 8-159 against attackers of 215-1866. The
+decision point is unreachable: the EC's sensor (r^2 40, ~6 tiles) shows an
+attacker 3-5 rounds before it speaks, and three rounds of banking are
+nothing against 600+. Falsifier hit; reverted to `g_iter4`. Ledger: EC-level
+defence cannot react in time; it has to be a standing posture.
+
+**The mechanism the trace hands over:** a converted EC's influence and
+conviction are set to the speech's surplus (RULES.md). We capture neutrals
+with politicians costing exactly `neutralInf + 14`, so every EC we take
+starts with ~0-40 influence (`CONVERT neutral:EC ... conv=-37`, `-82`,
+`-43`, `-15`) and is converted back by the first politician that arrives;
+the opponents take ours with 400-1900 speeches and their new ECs start with
+hundreds. That is why they hold 6-7 ECs on Gridlock and we hold 1-2.
+
+## Iteration 11 (in development) -- capture with a bank (2026-09-17 05:15 UTC)
+
+*Pre-registration, candidate "capbank":* the capture politician's cost is
+`min(spare, neutralInf + 14 + CAPTURE_BANK)` with CAPTURE_BANK 300 (one
+constant; the old branch is CAPTURE_BANK 0). Decision-point counters: the
+surplus at each of our conversions of a neutral (`CONVERT neutral:EC ...
+conv=-N`, baseline 15-82; expect ~300), captured-EC influence when first hit
+(baseline 5-54), conversions of our ECs per game (baseline 3-4 on
+Gridlock), ECs held at r400 and r800 (baseline 1-2). Reachability: every
+capture. Price: captures come ~300 influence later (about 30-60 rounds at
+the opening income), and if the politician dies on the way the loss is
+larger. Dose ladder 0 / 300 / 600. Gate: Stage 0 on Gridlock vs astelmach20
+and nsortur, both sides (baseline 0/4; counters must move and ECs held at
+r800 >= 2); then the roster on the screen set vs `g_iter4`'s record on those
+cells from the running baseline (+4). Falsifier: surplus unchanged (captures
+happen through another branch, e.g. the enemy-EC or all-in branch) or new
+ECs still converted holding < 100.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -926,6 +961,7 @@ branch. Relaunched as `threat-s0` (the half-engaged run stopped).
 |---|---|---|---|
 | short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
 | one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |
+| threat-sized guards, else bank | rejected | the EC sees a 600+ attacker 3-5 rounds before the speech; bank fired 0-3 rounds; ECs converted holding 8-159 | standing posture only, never a reaction |
 | minimum slanderer size 63 after the opening | rejected | mean size 67-90 at r100 and +30-50% income by r200, but 0/8 at Stage 0 and 12/23 head-to-head: the income fed the same sinks | what the income buys changes (bids, guards) |
 | guards scale with threat (base 0, ratio 1/2) | rejected | politicians at r100 unchanged (spend branch fills 24 slanderers -> 14 guards); 1/6 vs 3 | never as a count rule; the income gap is 2-3x |
 | slanderer cap 12 -> 24 alone | rejected | slanderers 24 at r100 but EC influence at r200 unchanged: the spend branch turned the income into guards (29-34 by r200); 0/6 vs 3/8 | guard sink removed (Iteration 7) |

@@ -832,6 +832,34 @@ influence compounded. Votes at r1500: 750 vs 581 and 750 vs 576, taken by
 the unchanged late ramp with an EC bank of 87-95k. Gridlock cells pending;
 then the roster gauntlet on the screen set.
 
+## Iteration 9 -- ACCEPTED: early bid cap influence/30; snapshot `g_iter4` (2026-09-17 04:45 UTC)
+
+**Roster gauntlet, screen set, both sides, 72 cells
+(`gauntlet/20260917-024938-roster-bid`) against the `g_iter3` baseline's
+record on the same cells (`gauntlet/20260917-011706-roster-g_iter3`, the
+full quick-set run, 90/216 = 41.7%): 33 vs 27, +6 (gate +4).** Flips: 9
+loss->win (123kevinlee Arena A and B, arya-k Arena B, astelmach20 Arena A,
+iliao2345 Arena B, max-titov Maze B, nickel-dime Arena A, nsortur Arena A,
+qawsedrftgzh maptestsmall A) and 3 win->loss (astelmach20, nickel-dime and
+nsortur, all Arena B). By map: Arena 11-7 vs 7-11, Maze 4-14 vs 3-15,
+maptestsmall 18-0 vs 17-1, Gridlock 0-18 vs 0-18. Stage 0 counters: early
+bids halved (862 vs 1608 by r200 vs Sihal3), influence earned by r300 nearly
+doubled. Attribution: as pre-registered (influence not bid before r600
+compounds; the vote is still taken by the late ramp). OPEN: the three
+reversals are one bot family (the piedPiper forks) on one map and side; not
+traced. The head-to-head vs `g_iter3` was not a gate (zero-sum vote war
+between builds identical except for bidding) and is played now for the
+record.
+
+Post-accept: `src/g_iter4` snapshotted; archetypes resynced; history and
+charts updated; roster unchanged (the roster's rates on `g_iter3`: 25-50%
+on every bot, 41.7% overall). The full quick-set roster baseline for
+`g_iter4` is launched (216 games). Next target, named from the ladder: on
+Gridlock (64x64, six 200-influence neutrals) both builds are 0-18 against
+the roster while the other three maps are 33-21; a map-specific failure,
+outside "production mix" (3 rejects there) -- scouting, navigation or
+capture on a large map.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -839,10 +867,10 @@ then the roster gauntlet on the screen set.
 | area | last attempt | status |
 |---|---|---|
 | economy / production mix | Iteration 4: never idle (spare branch: guards / slanderers to 24 / hunters), 20/24 vs g_iter2, 19/72 vs 13/72 on targets | EC now builds every cooldown; opponents still field 3-7x the units (multi-EC, earlier captures) |
-| bidding | Iteration 9: early bid cap /30 (in test) | vs Sihal3 34% of income went to bids by r200 and the vote was lost anyway |
+| bidding | Iteration 9: early bid cap influence/30 before r600 (accepted, +6 on 72 roster cells) | late ramp unchanged; bid war vs bidders still costs ~1700 by r300 |
 | neutral-EC captures | Iteration 5 race (rejected, 3 arms) | opponents hold 6-8 ECs by r400, we hold 0-2; blocked on opening income |
 | scouting / map knowledge | edge-seeking waypoints, fact cycling, sibling IDs | symmetry still often unresolved on multi-EC maps |
-| navigation | greedy + bug + oscillation guard | aba 1-3% of moves; boxed-in-by-friends failure seen and mitigated by jitter |
+| navigation | greedy + bug + oscillation guard | aba 1-3% of moves; 0-18 on Gridlock vs the roster (both g_iter3 and g_iter4): next target |
 | combat micro (politician speech) | radius/value evaluation, chip rule vs ECs | works vs example bot; unmeasured vs real opponents |
 | EC defence vs politician streams | Iteration 3 wall (rejected) | target-tier losses are EC conversions r300-600 by 500-1750-conviction speeches; 1 reject |
 | slanderer safety | flee any enemy, ring 8-45 | unmeasured vs hunters |

@@ -159,7 +159,7 @@ public strictfp class EC extends Robot {
         if (votes > enemyVotesEst + remaining) return;
         // Influence is worth more early (it compounds through slanderers), so the cap ramps up over the game and
         // rises further when we are behind on votes late.
-        int div = round < 200 ? 12 : round < 600 ? 8 : round < 1000 ? 5 : 3;
+        int div = round < 600 ? C.BID_EARLY_DIV : round < 1000 ? 5 : 3;   // Iteration 9: influence compounds early; the vote race is decided late
         if (round > 900 && enemyVotesEst > votes) div = 2;
         int cap = Math.max(1, inf / (C.ARCHETYPE == 2 ? 2 : div));
         if (C.ARCHETYPE == 2 && round > 1 && votes == lastVotes) bid = bid * 2 + 1;

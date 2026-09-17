@@ -771,6 +771,18 @@ the counters are what Stage 0 exists to check and they moved as predicted;
 the head-to-head and the roster gauntlet decide (4.5). Launched `h2h-size`
 vs `g_iter3`, quick set, both sides.
 
+**Why gauntlets are slower than in 2025 (02:20 UTC, user question).** Same
+VM: the 2025 project's gauntlets ran 150-162 games in 10-18 min (0.07-0.12
+min of wall per game at 3 jobs); our roster run does ~1 min of wall per game
+at 4 jobs while 4-5 development games share the 8 cores. A single Gridlock
+game, `bot` vs `g_iter3`, takes 415 s wall / 344 s CPU under that load: 1500
+rounds with hundreds of units per side, each on a 15000-bytecode budget
+through the instrumented engine, i.e. ~5.7 CPU-minutes per game -- 8-10x a
+2025 game. Debug logging is not a factor: an identical game with `DEBUG =
+false` on both sides took 416 s / 344 s. Policy from here: at most 7 games
+on the VM at once (the 2025 semaphore's cap), and no development runs beside
+a roster gauntlet unless they fit under it.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

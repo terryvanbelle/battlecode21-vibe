@@ -111,3 +111,9 @@ I think maybe get rid of the key in ladder.png.  It's distorting the plot and no
 ```text
 Ladder graph looks awesome
 ```
+
+## Prompt 16: Roster speed
+
+```text
+It still feels like roster runs slower than in previous years.  Can you confirm and/or explain?
+```

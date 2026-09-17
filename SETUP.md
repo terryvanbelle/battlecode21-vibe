@@ -59,9 +59,10 @@ Rules of the road on the VM:
   launched against `examplefuncsplayer` because its roster file had just been
   wiped, and `OPPONENTS=""` falls back to the default).
 
-- One game per `MAXJOBS` slot: 5-6 jobs on 8 cores leaves room for a second
-  run (`CLASSES=<private dir>` so it cannot recompile the classes the first run
-  loads) and for other projects.
+- One game per `MAXJOBS` slot; keep the VM at 7 games or fewer in total (a
+  2021 game is ~5.7 CPU-minutes; at 10 JVMs on 8 cores everything slows). Use
+  `CLASSES=<private dir>` for a second run so it cannot recompile the classes
+  the first run loads.
 - `GAME_TIMEOUT` (default 1800 s) caps a runaway game; it is recorded as `unknown`.
 - Check `pgrep -fc battlecode.server.Main` before stopping the VM; other
   projects may be mid-run. Stop it when idle (billing).

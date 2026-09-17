@@ -981,6 +981,11 @@ influence it keeps compounds into units and the late ramp still takes the
 vote. The pre-registration's exemption was unnecessary; noted so the next
 bidding candidate uses the head-to-head normally.
 
+**capbank Stage 0 complete: 0/4 (baseline 0/4)**, the two piedPiper forks
+producing identical games (r653 as A, r793 as B). The candidate's roster
+check on the screen set (`roster-capbank`, 72 cells) is running against
+`g_iter4`'s record on those cells from the quick-set baseline.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -274,6 +274,27 @@ One change per candidate; never bundle. Then:
 - **Roster gauntlet for a candidate** uses the 4-map screen set both sides
   (72 games) against the baseline's record on the same cells; the full quick
   set (216 games) is played only for an accepted build, as the next baseline.
+- **How many cells a decision needs (measured 2026-09-17).** The engine is
+  deterministic: two runs of the same build on the same cells flip 0 of 72.
+  A candidate's flips are therefore perturbation plus effect; rejected
+  candidates flip 11-17% of cells with margins of -2 to +2, accepted ones
+  +6 on 72 (bid: 9 L->W, 3 W->L). The paired test is McNemar's on the
+  flipped cells: with D flips the net margin must reach ~2*sqrt(D) (D=8:
+  +6, D=12: +8, D=24: +10). At the measured flip rate the effect detectable
+  with 80% power is ~4 cells on 24 (18-21% of cells), ~7 on 72 (10-12%),
+  ~9-11 on 108 (8-10%), ~13-15 on 216 (6-7%). The effects real accepts
+  produce are 8-10% of cells, so **72 cells is the floor for a roster
+  decision, not a ceiling to cut**; 108 (screen set plus two maps) resolves
+  them properly. Savings come from elsewhere:
+  - the 24-game head-to-head resolves only 18-21% effects, so it is not a
+    gate for doctrine or map-knowledge changes (it stays a regression check
+    on an accept, and the first instrument for economy and bidding changes);
+  - Stage 0 is a mechanism check with no statistical role: 4 informative
+    cells, counters only;
+  - **futility stop** on the roster check: after 36 of 72 shared cells, stop
+    when the candidate is 3 or more cells behind the baseline (reaching +5
+    from there needs 8 net flips in 36 cells, which no candidate has shown);
+    a reject then costs ~40 games instead of ~100.
 - **The VM holds 7 games at once.** A roster baseline runs at 4 jobs and leaves
   3 for one development run; nothing else starts until a slot frees.
 

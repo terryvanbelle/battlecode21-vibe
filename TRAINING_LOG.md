@@ -1636,6 +1636,22 @@ guards, scouts (1 influence) and neutral captures stay unfloored. The
 head-to-head restarts as `h2h-floor3` under the same pre-registration
 (floor released r900-1200). Deposit2 final: 26/64, the baseline's number.
 
+**floor3 (guard branch floored): 0/4, all vote losses, and the same
+starvation (22:20 UTC).** maptestsmall A: 12 slanderers to r300, 0 from
+r450 to the end, while the twin keeps 12-18. The reason is the design, not
+a branch: the first slanderers expire at 300 rounds alive (r300-450), the
+EC then sits *below* the floor (187 v 225 at r450) because the bids
+(inf/30, then inf/5) drain the passive income every round, and a
+slanderer needs `inf - floor >= 21`, which never comes. A floor on the
+source (slanderers) kills the income it was meant to bank. This is the
+last attempt on this mechanism, logged as **dose 2, the sink-only floor**:
+the two slanderer branches use the plain `reserve()` again; guards
+(regular and rich), the spare branch, the rich-and-idle capture and the
+enemy-EC capture keep `floored()` (still released r900-1200); emergency
+guards, scouts and neutral captures unfloored. Same counters and gate
+(`h2h-floor4`). If this loses the mirror too, the floor family is closed:
+against ourselves, whatever is banked is out-produced.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -1972,6 +1972,50 @@ signature of a sealed ring). Gate: the 48-cell panel, +5 over the
 incumbent's 32/48. Falsifier: converted-EC influence and ECs at r600
 unchanged from dose 1.
 
+**Iteration 21: CLOSED after three doses (2026-09-18 01:40 UTC).** Dose 3
+(posted guards on a tight leash, 3 per capture) ended **+1** on 38 of the
+48 panel cells (mirror 9/17 against the symmetric 8.5, archetypes 18/21
+against ~17.5) and was stopped there: +5 would have needed all 10
+remaining cells. Ledger: garrisoning a captured EC is worth about +1 to
++3 on the panel, never the gate; hugging the EC is worth -4 because it
+seals the spawn ring. `src/bot` back to `g_iter4`.
+
+## Scrimmage loss census, `g_iter4` on random maps (2026-09-18 01:20 UTC)
+
+33 saved losses from the 48-game block
+(`gauntlet/census-scrim-g_iter4.tsv`): 19 annihilations, 14 vote losses,
+median length 1230 rounds. ECs 1.6 v 2.8 at r200, 1.8 v 4.1 at r400, 1.6
+v 5.2 at r800; influence earned by r300 median 5,737 v 29,929 (4.4x);
+units at r600 183 v 399; first EC lost at median r336 holding 20.
+
+**New in the random-map data: 9 of 33 losses end before r600** (Scott-Poole
+r386, arya-k r227, awesomelemonade r258/431/520/588, iliao2345 r230/r460,
+rzhan11 r443). In those the enemy holds 3-4 ECs at r200 against our 1-2,
+our first EC falls at r91-412 holding **6-64** influence, and the
+converting politician carries only **66-201** conviction in six of the
+nine. We are not killed by a big attacker; we are killed while empty.
+
+## Iteration 22 (in development, structural) -- saving mode, uncapped (2026-09-18 01:45 UTC)
+
+**The mechanism Iterations 16 and 21 pre-registered but never ran.** Both
+capped the target at 320 influence (Iteration 21 also at d^2 500), and the
+logs show **0 firings** on Arena and Gridlock: the cheap neutrals (70) lie
+27 tiles away and the near ones are 500. So "save for the first neutral
+and take it at full price" is untested, while the census says the gap
+opens before r200 (ECs 1.6 v 2.8).
+
+Candidate: from r1 the normal `g_iter4` build runs; once **any** neutral
+at or under 600 influence is known and round <= 200, the EC keeps two
+slanderers for income and saves everything else until it can build one
+capturer at `neutralInf + 14 + 60`, then returns to the normal build. No
+distance cap: the capturer walks. Emergency guards keep priority.
+Counters: `@save capture` round, target and rounds saved (baseline none),
+ECs at r200/r400 (baseline 1.6/1.8 on losses), influence earned by r300
+(the price: baseline 5,737), first-EC-loss round and influence held
+(baseline r336, 20). Dose 2 if near miss: `SAVE_UNTIL` 300, bank 120.
+Gate: the 48-cell panel, +5 over the incumbent's 32/48. Falsifier: no
+`@save capture` by r200 in the logged Gridlock game.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

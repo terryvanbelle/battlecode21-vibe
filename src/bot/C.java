@@ -7,15 +7,16 @@ public final class C {
     public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
-    // Iteration 21 dose 2 (garrison, the half that fires): guards built for a newly captured neutral EC and posted AT it.
-    // Dose 1's opening half never triggered (0 `@opening capture` on Arena and Gridlock: cheap neutrals lie beyond the
-    // distance cap and near ones above the influence cap), so it is removed; dose 1's +3 on the panel was the garrison alone.
-    // Dose 1's guards were posted but then held the normal ring (d^2 20-80 from the post), diluting nothing: now they hug it.
-    public static final int GARRISON_GUARDS = 3;      // dose 1's value (dose 2 used 4 and hugged: it sealed the new EC's spawn tiles)
-    public static final int GARRISON_SIZE = 60;
-    public static final int GARRISON_WINDOW = 200;
-    public static final int GARRISON_LEASH_D2 = 20;   // dose 3: a posted guard patrols within ~4 tiles of its EC (normal guards: 80)
-    public static final int GARRISON_RING_MIN = 2;    // ... and spreads no closer than this, so it never seals the spawn ring
+    // Iteration 22 (saving mode, uncapped): the mechanism Iterations 16 and 21 pre-registered but never actually ran --
+    // both capped the target at 320 influence and Iteration 21 also at d^2 500, and the logs show 0 firings on the maps
+    // that mattered (cheap neutrals lie far, near ones are 500). The census says the gap opens before r200: ECs 1.6 v 2.8.
+    // Once any neutral is known and round <= SAVE_UNTIL, the EC keeps SAVE_SLANDERERS slanderers for income and saves
+    // everything else until it can send one full-price capturer (+SAVE_BANK, so the new EC is not converted while empty).
+    public static final boolean SAVE_MODE = true;      // false = g_iter4
+    public static final int SAVE_UNTIL = 200;          // after this the normal capture branch applies
+    public static final int SAVE_MAX_TARGET = 600;     // covers the 500-influence neutrals that sit near home
+    public static final int SAVE_SLANDERERS = 2;       // income kept while saving
+    public static final int SAVE_BANK = 60;            // the new EC starts with this
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

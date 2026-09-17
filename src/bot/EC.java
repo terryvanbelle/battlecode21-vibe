@@ -19,7 +19,6 @@ public strictfp class EC extends Robot {
     private int lastBuildRound = -100;
     private int broadcast = 0, broadcastAge = 0;
     private int captureTargetIdx = -1;
-    private int garrisonPending = 0, garrisonUntil = -1; private MapLocation garrisonTarget; private boolean garrisonOrder = false;   // Iteration 21 (b)
 
     EC(RobotController rc) { super(rc); }
 
@@ -34,10 +33,11 @@ public strictfp class EC extends Robot {
         readSiblings();
         int inf = rc.getInfluence();
         boolean danger = nearestEnemyD2 < 1 << 30;   // any enemy in our 40 r2 sensor range
+        if (round > C.SAVE_UNTIL) saveDone = true;
         if (rc.isReady()) build(inf, danger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " garr=" + garrisonPending + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
     }
 
     // ---------------------------------------------------------------- production
@@ -63,9 +63,14 @@ public strictfp class EC extends Robot {
         }
         else if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
-        else if (garrisonPending > 0 && round <= garrisonUntil && inf - 5 >= C.GARRISON_SIZE) {   // Iteration 21 (b): guards for the EC just captured
-            t = RobotType.POLITICIAN; cost = C.GARRISON_SIZE; role = Roles.GUARD; garrisonOrder = true; garrisonPending--;
-            Debug.log("@garrison r=" + round + " left=" + garrisonPending);
+        else if (C.SAVE_MODE && !saveDone && round <= C.SAVE_UNTIL && cheapNeutral() >= 0) {
+            int best = cheapNeutral(), price = MapState.neutralInf[best] + 14 + C.SAVE_BANK;
+            if (inf - 5 >= price) {
+                captureTargetIdx = best; t = RobotType.POLITICIAN; cost = price; role = Roles.CAPTURE; saveDone = true;
+                Debug.log("@save capture r=" + round + " target=" + MapState.neutralInf[best] + " cost=" + cost + " saved=" + saveRounds);
+            }
+            else if (slanderers < C.SAVE_SLANDERERS && Econ.bestSize(inf - 5) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 85)); role = Roles.ECON; }
+            else { saveRounds++; return; }
         }
         else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
@@ -94,18 +99,22 @@ public strictfp class EC extends Robot {
         switch (role) { case Roles.SCOUT: case Roles.HUNT: scouts++; break; case Roles.GUARD: guards++; break; case Roles.ECON: slanderers++; break; case Roles.CAPTURE: capturers++; break; default: break; }
         lastBuildRound = round;
         // tell the newborn its role via our flag for one round: ORDER with target
-        MapLocation tgt = role == Roles.CAPTURE ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : MapState.enemyEC[0]) : (garrisonOrder ? garrisonTarget : loc);
-        garrisonOrder = false;
-        if (role == Roles.CAPTURE && captureTargetIdx >= 0) { garrisonPending = C.GARRISON_GUARDS; garrisonTarget = tgt; garrisonUntil = round + C.GARRISON_WINDOW; }
+        MapLocation tgt = role == Roles.CAPTURE ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : MapState.enemyEC[0]) : loc;
         // a robot spawned this round takes its FIRST turn next round (the engine iterates a snapshot of the
         // spawn order), so the order must still be on the flag next round; the EC cannot build again before that
         pendingOrder = Comms.encode(Comms.ORDER, role, tgt); pendingOrderRound = round + 1;
         Debug.log("@spawn t=" + t.ordinal() + " inf=" + cost + " role=" + role + " dir=" + d + " ecInf=" + rc.getInfluence());
     }
     private int pendingOrder = 0, pendingOrderRound = -10;
-    private int idleRounds = 0, spendBuilds = 0;   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
+    private int idleRounds = 0, spendBuilds = 0, saveRounds = 0; private boolean saveDone = false;   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
     private int enemyEcInf = 0;   // last reported influence of the enemy EC we target (bucketed)
 
+    /** Cheapest known neutral EC at or under SAVE_MAX_TARGET, or -1. No distance cap: the capturer walks. */
+    private int cheapNeutral() {
+        int best = -1, bestInf = C.SAVE_MAX_TARGET + 1;
+        for (int i = MapState.nNeutral; --i >= 0;) if (MapState.neutralInf[i] < bestInf) { bestInf = MapState.neutralInf[i]; best = i; }
+        return best;
+    }
     private int reserve() { return Math.min(Math.max(bid * 2, 10), Math.max(10, rc.getInfluence() / 2)); }   // keep enough to bid next round, never more than half
 
     private int captureAffordable(int inf) {

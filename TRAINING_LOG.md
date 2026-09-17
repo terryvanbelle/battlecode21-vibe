@@ -895,6 +895,15 @@ then the roster on the screen set (72) vs `g_iter4`'s record on those cells
 from the running quick-set baseline (+4). Falsifier: guard costs unchanged
 (another branch buys 20s) or ECs still converted while holding < 100.
 
+**Stage 0, threat, first arm, first game (astelmach20, Gridlock, A): lost
+at r1371 (baseline r843).** Guard costs: 58 at 20, 209 at 21-60, 76 at
+61-200 (baseline ~80% at 20); ECs held 2v6 through r1000 (baseline 1 by
+r400). But `bank=` was 0, 0, 1, 31 across our four ECs and the eight
+conversions of our ECs still landed on 8-133 influence: when the guard
+branches declined, the spare-influence branch (and scouts) kept spending.
+Completeness fix, not a new mechanism: the bank check now precedes every
+branch. Relaunched as `threat-s0` (the half-engaged run stopped).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

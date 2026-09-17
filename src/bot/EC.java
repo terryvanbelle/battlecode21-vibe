@@ -47,6 +47,7 @@ public strictfp class EC extends Robot {
         for (int i = nEnemy; --i >= 0;) if (enemies[i].type == RobotType.POLITICIAN && enemies[i].conviction > threat) threat = enemies[i].conviction;
         if (threat < C.THREAT_MIN) threat = 0;
         int need = threat > 0 ? threat + C.THREAT_MARGIN : 0;   // the guard that would beat it
+        if (need > 0 && need > inf - 5) { bankRounds++; return; }   // cannot beat what it sees: build nothing, bank (influence is conviction)
         if (C.ARCHETYPE == 1) {   // muckraker rush: a few slanderers for income, everything else 1-influence muckrakers sent at the enemy
             if (slanderers < 4 && Econ.bestSize(inf - 5) >= 21 && !danger) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 130)); role = Roles.ECON; }
             else if (inf >= 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }

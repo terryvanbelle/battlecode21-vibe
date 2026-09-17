@@ -1327,6 +1327,24 @@ jmerle 50%; Sihal3, the three piedPipers (54%) and qawsedrftgzh (67%) move
 to peers. The roster file switches to the new band after the deposit
 decision, so its 72-cell comparison stays on one roster.
 
+**Iteration 15: NEAR MISS (14:50 UTC).** Roster check on the screen set
+(`gauntlet/20260917-*-roster-deposit`): 35 vs `g_iter4`'s 33 on the same 72
+cells (+2), only 4 flips (3 loss->win: the three piedPipers on Arena B; 1
+win->loss: max-titov Maze B), McNemar p = 0.31; Arena 14 vs 11, the other
+maps level. Under the +5 gate a reject; under the near-miss rule (within
+1 sd, no regression signature) it earns refinement of the same mechanism.
+The counters say why the effect is small: 377 camouflage expiries produced
+52 deposits in the long game, and 68 of 72 cells were unchanged, so the
+mechanism only acts in games that run past r400 and only for the minority of
+expired slanderers that reach an uncrowded orthogonal tile with no enemy
+within r^2 20. Refinement candidates: allow n <= 3, ignore muckraker-only
+threats, accept radius 2 from a diagonal tile. `src/bot` reverted to
+`g_iter4` (the deposit code is in commit 7ea14ec); the refinement waits for
+the ladder census (user instruction) to rank it against the other causes.
+
+**Roster switched to the g_iter4 band (8 bots)**; the four newcomers get
+their baseline cells on the screen set now (`roster-topup`).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

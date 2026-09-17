@@ -1,9 +1,8 @@
-iliao2345.attacker
-123kevinlee.atomFinalQualifier
-max-titov.sprintplayer
-Sihal3.cavShieldv705
+rzhan11.sprint2
+awesomelemonade.sprint1bot
 arya-k.quals_v1
-astelmach20.piedPiper
-nickel-dime.piedPiper
-nsortur.piedPiper
-qawsedrftgzh.battlecode2021
+iliao2345.attacker
+max-titov.sprintplayer
+Scott-Poole.spright8
+123kevinlee.atomFinalQualifier
+jmerle.camel_case_v7_sprint_2

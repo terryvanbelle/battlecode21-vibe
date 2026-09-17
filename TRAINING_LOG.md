@@ -1583,6 +1583,18 @@ if 3 or more behind), head-to-head as a regression check on an accept.
 Falsifier: deposits per expiry unchanged, or EC influence at conversion
 unchanged.
 
+**deposit2 counters (logged dev game, awesomelemonade Arena B, lost r1281 by
+annihilation; 19:35 UTC):** 78 deposits from 215 camouflage expiries
+(36%, Iteration 15: ~14%), 12,008 conviction deposited; 52 of 78 spoke at
+once, 26 after 1-8 crowded rounds; 48 shared with two friendlies (n=3), 19
+with one, 8 alone. The refinement does what it says. Our total EC
+influence: 253 (r200), 245, 374, **2,308 (r500)**, 982, 468 (r700), 2,075,
+1,005, 334 (r1000) against awesomelemonade's 184, 1,427, 2,166, 3,754,
+3,077, 2,311, 1,735, 9,831, 6,049. The deposits arrive and the never-idle
+branches spend them within 100-200 rounds (146 politicians at r500 against
+13); the ECs are still converted in sequence from r264. Source fixed, sink
+unchanged. The 64-cell roster check decides.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

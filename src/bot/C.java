@@ -11,10 +11,11 @@ public final class C {
     // Dose 1's opening half never triggered (0 `@opening capture` on Arena and Gridlock: cheap neutrals lie beyond the
     // distance cap and near ones above the influence cap), so it is removed; dose 1's +3 on the panel was the garrison alone.
     // Dose 1's guards were posted but then held the normal ring (d^2 20-80 from the post), diluting nothing: now they hug it.
-    public static final int GARRISON_GUARDS = 4;      // dose 1: 3 (n in the converter's speech radius: 4 guards -> the EC takes 1/5, not 1/4)
+    public static final int GARRISON_GUARDS = 3;      // dose 1's value (dose 2 used 4 and hugged: it sealed the new EC's spawn tiles)
     public static final int GARRISON_SIZE = 60;
     public static final int GARRISON_WINDOW = 200;
-    public static final int GARRISON_HOLD_D2 = 2;     // a garrison guard holds a tile adjacent to its post
+    public static final int GARRISON_LEASH_D2 = 20;   // dose 3: a posted guard patrols within ~4 tiles of its EC (normal guards: 80)
+    public static final int GARRISON_RING_MIN = 2;    // ... and spreads no closer than this, so it never seals the spawn ring
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

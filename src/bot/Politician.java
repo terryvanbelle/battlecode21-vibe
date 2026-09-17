@@ -79,23 +79,19 @@ public strictfp class Politician extends Robot {
         }
         // move: toward the nearest enemy muckraker (they kill our slanderers) if within leash, else hold a ring around home
         MapLocation home = post != null ? post : MapState.home;
-        if (post != null) {   // garrison: hug the post so a conversion speech is split with us and the adjacent tiles are blocked
-            int pd2 = loc.distanceSquaredTo(post);
-            if (pd2 > C.GARRISON_HOLD_D2) { nav.setTarget(post); nav.step(); }
-            return;
-        }
-        if (nearestEnemyMuck != null && (home == null || nearestEnemyMuck.location.distanceSquaredTo(home) <= C.GUARD_LEASH_D2 * 2)) { nav.setTarget(nearestEnemyMuck.location); nav.step(); return; }
-        if (nearestEnemy != null && nearestEnemy.type != RobotType.ENLIGHTENMENT_CENTER && (home == null || nearestEnemy.location.distanceSquaredTo(home) <= C.GUARD_LEASH_D2)) { nav.setTarget(nearestEnemy.location); nav.step(); return; }
+        int leash = post != null ? C.GARRISON_LEASH_D2 : C.GUARD_LEASH_D2, ringMin = post != null ? C.GARRISON_RING_MIN : C.GUARD_RING_MIN;   // dose 3: posted guards patrol close to their EC
+        if (nearestEnemyMuck != null && (home == null || nearestEnemyMuck.location.distanceSquaredTo(home) <= leash * 2)) { nav.setTarget(nearestEnemyMuck.location); nav.step(); return; }
+        if (nearestEnemy != null && nearestEnemy.type != RobotType.ENLIGHTENMENT_CENTER && (home == null || nearestEnemy.location.distanceSquaredTo(home) <= leash)) { nav.setTarget(nearestEnemy.location); nav.step(); return; }
         if (home == null) return;
         int d2 = loc.distanceSquaredTo(home);
-        if (d2 > C.GUARD_LEASH_D2) { nav.setTarget(home); nav.step(); return; }
-        if (d2 < C.GUARD_RING_MIN) {                                       // get out of the slanderer ring, toward the enemy side if known
+        if (d2 > leash) { nav.setTarget(home); nav.step(); return; }
+        if (d2 < ringMin) {                                       // get out of the slanderer ring, toward the enemy side if known
             MapLocation out = MapState.nEnemy > 0 ? MapState.enemyEC[0] : (MapState.boundsKnown() ? MapState.center() : loc.add(home.directionTo(loc)).add(home.directionTo(loc)));
             if (out.equals(loc)) { nav.fleeFrom(home); return; }
             nav.setTarget(out); if (nav.step()) return; nav.fleeFrom(home); return;
         }
         int cr = crowd();
-        if (cr > C.CROWD_MAX || (cr > 0 && nextInt(3) == 0)) { spreadOut(home, C.GUARD_RING_MIN, C.GUARD_LEASH_D2); return; }
+        if (cr > C.CROWD_MAX || (cr > 0 && nextInt(3) == 0)) { spreadOut(home, ringMin, leash); return; }
     }
 
     private void capture() throws GameActionException {

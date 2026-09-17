@@ -1950,6 +1950,28 @@ recorded**: a candidate is not a submission, so it must not move the team
 rating (rule added to 4.5.2). Blocks run for the incumbent and for
 accepted builds only.
 
+**Iteration 21 dose 2: REJECTED, about -4 (2026-09-18 00:30 UTC,
+`gauntlet/*-panel-garrison-*`): mirror 5/16 against the symmetric 8/16,
+archetypes 19/24 against the baseline's 20/24.** Hugging is worse than
+dose 1's loose garrison (+3). The cause is in `EC.spawnDir`: it returns
+null when every adjacent tile is occupied and the EC then builds nothing
+that round, so four guards holding tiles at d^2 <= 2 seal half of a
+captured EC's spawn ring (more on a low-passability map, where several of
+the eight neighbours are already wall). The guards meant to protect the
+new EC were throttling its production instead. Mirror losses were spread
+over maptestsmall A, Arena A, Andromeda both sides, Blotches B, Circles
+A, Corridor A, CrossStitch A.
+
+*Dose 3 (pre-registered, last of the three):* dose 1 exactly (3 guards,
+normal guard behaviour, chase and ring) with one change: a posted guard
+uses a **tight leash around its own EC** (`GARRISON_LEASH_D2` 20, about 4
+tiles, against the normal 80) and a ring minimum of 2, so it stays in
+range to intercept a converter without ever sealing the spawn ring.
+Counters as for dose 2, plus the EC `idle=` counter (dose 2's expected
+signature of a sealed ring). Gate: the 48-cell panel, +5 over the
+incumbent's 32/48. Falsifier: converted-EC influence and ECs at r600
+unchanged from dose 1.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

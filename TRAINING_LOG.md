@@ -1297,6 +1297,17 @@ against the baseline's 100-500; 5v1 ECs at r400 in both. The Gridlock cells,
 which run long, will show the counter properly; the roster check waits for
 them.
 
+**deposit Stage 0, the first long game (Sihal3, Gridlock, A, lost at r1500
+as in the baseline): the mechanism fires.** 52 deposits worth 7827
+conviction (13 with the EC alone in range); toFriend 28% (baseline 9-20%);
+EC influence 1076 at r400 and 1736 at r600 against the baseline's 100-500,
+and ECs held 3v2, 4v4, 5v3 at r400/600/800 on a map where every earlier
+build was 1v7 by r400. Sihal3 still out-banked us late (69k to 27k at
+r1200) and took the vote. 377 camouflage expiries produced 52 deposits, so
+most expired slanderers never reach an uncrowded tile: room for a
+completeness pass after the roster reads. Roster check launched (72 cells,
+first per 4.5.1).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

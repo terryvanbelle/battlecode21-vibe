@@ -1158,6 +1158,15 @@ roster check vs the baseline (+5). Falsifier: `attack=` near 0 (spare never
 reaches 300 because slanderers take it: then the mechanism needs a save
 rule) or exposures explode.
 
+**army Stage 0, first four (Arena): 2/4, mechanism engaged.** Politicians
+>= 300 spawned by r300 / r301-600: 18 / 27 vs Sihal3 (baseline 1.0 / 5.7)
+and 7 / 10 vs arya-k; politicians < 100 unchanged (108-138 by r300: the
+danger and normal guard branches, not the spare branch). Sihal3 Arena A: 9
+hostile ECs converted by us, 3 of ours, 5v1 ECs at r400, annihilation at
+r461. arya-k Arena A: 21 conversions by us against 19 of ours, 2v6 ECs at
+r400, lost at r739 -- arya-k sent 12 politicians >= 300 by r300 and 43 in
+r301-600 with 292 under 100: an army bot. Exposures 0 and 11.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

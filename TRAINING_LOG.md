@@ -1869,6 +1869,19 @@ games. The 65-bot list is `tools/ladder-bots.txt` (one package per
 repo). Seed tick: 130 pairings (each bot ~4 games) queued behind the
 baseline runs; then ~14 games per tick beside every development run.
 
+**Panel baseline (2026-09-17 20:50 UTC, `gauntlet/20260917-192947-panel-g_iter4`):
+`g_iter4` 20/24 against the archetypes on the screen set** (arch_muck 6/8,
+arch_bidder 8/8, arch_polrush 6/8). The archetypes are far below the
+incumbent, so the panel's 24 archetype cells can move at most 4 cells for
+a candidate and 8 against: they are a regression detector for rush and
+conversion vulnerability, not a source of the +5. The +5 has to come
+mostly from the 24 mirror cells plus at most 4 archetype flips, which
+makes the panel gate stricter than the old roster gate; if the first
+panels show it cannot resolve real gains, the archetypes get strengthened
+(a muckraker rush with 8 hunters, a politician rush that saves to 300)
+rather than the gate loosened. Ladder seed tick (122 games) launched at 3
+jobs beside the scrimmage block.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

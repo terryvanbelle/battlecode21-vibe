@@ -13,7 +13,7 @@ Everything runs with bare `java` (JDK 8 at `~/jdk/jdk8u504-b01`, see
 | `mirror.sh` | bot vs a byte-identical copy (the null) |
 | `snapshot.sh name [archetype]` | freeze `src/bot` as `src/<name>` (archetype 1 = muck rush, 2 = aggressive bidder) |
 | `compare.py base cand` | game-by-game diff of two runs: identical cells, flips, sweeps, by side/map |
-| `replay-dump.sh replay [flags]` | replay -> text: aggregates, `--from/--to` events, `--robot`, `--map-at`, `--logs REGEX --logs-team A`, `--metrics` CSV, `--bytecode`, `--navstats`, `--hits` (enemy speeches reaching an EC: conviction, distance, n, wall, influence before -> after) |
+| `replay-dump.sh replay [flags]` | replay -> text: aggregates, `--from/--to` events, `--robot`, `--map-at`, `--logs REGEX --logs-team A`, `--metrics` CSV, `--bytecode`, `--navstats`, `--hits` (enemy speeches reaching an EC: conviction, distance, n, wall, influence before -> after), `--speeches` (per team: speeches, conviction spent, share on enemies / enemy ECs / friendlies, empty) |
 | `bench-compile.sh` | compile every benchmark repo without displaying source; writes `manifest.tsv` |
 | `bench-select.py [--all|--table]` | name-only pick of each repo's final bot |
 | `bench-roster.py` | regenerate the roster table in `BENCHMARK.md` |

@@ -31,6 +31,7 @@ import java.util.zip.GZIPInputStream;
  *   --metrics        CSV of per-round team aggregates instead of the narrative
  *   --bytecode       per-type bytecode summary (max used, rounds over limit)
  *   --quiet          suppress aggregates (use with --map or --logs)
+ *   --speeches       per team: speeches, conviction spent, share landing on enemies / enemy ECs / friendlies, empty speeches
  *   --hits           every enemy speech that reaches an EC: attacker conviction, distance, n (robots
  *                    sharing the speech), wall (that EC's own units on its 8 adjacent tiles), influence before -> after
  *
@@ -41,6 +42,7 @@ public class ReplayDump {
     // ---- flags ----
     static int every = 50, mapEvery = 0, fromRound = -1, toRound = -1, trackId = -1;
     static boolean metrics = false, quiet = false, bytecodeSummary = false;
+    static boolean speeches = false; static long[] spSpent = new long[3], spEnemy = new long[3], spFriend = new long[3], spEmpty = new long[3], spCount = new long[3], spEmptyCount = new long[3], spEnemyEC = new long[3];
     static boolean hits = false; static final List<int[]> pendingHits = new ArrayList<>(); static final Map<Integer, Integer> ecInfStart = new HashMap<>();
     static Pattern logPat = null; static int logsTeam = -1;
     static TreeSet<Integer> mapAt = new TreeSet<>();
@@ -93,6 +95,7 @@ public class ReplayDump {
                 case "--bytecode": bytecodeSummary = true; break;
                 case "--quiet": quiet = true; break;
                 case "--hits": hits = true; quiet = true; break;
+                case "--speeches": speeches = true; quiet = true; break;
                 case "--navstats": navStats = true; break;
                 default: System.err.println("unknown flag " + args[i]); System.exit(2);
             }
@@ -223,6 +226,13 @@ public class ReplayDump {
             int team = r == null ? 0 : r.team;
             switch (a) {
                 case Action.EMPOWER: empowers[team]++; if (r != null) r.empowers++;
+                    if (speeches && r != null && r.team > 0 && r.type == 1) {
+                        int conv = Math.max(0, r.conviction - 10); int n = 0, en = 0, fr = 0, ec = 0;
+                        for (Robot b : bots.values()) { if (b == r || !b.alive || b.spawnRound >= round || d2(b, r) > tgt) continue; n++; if (b.team == r.team) fr++; else { en++; if (b.type == 0 && b.team > 0) ec++; } }
+                        spCount[r.team]++; spSpent[r.team] += r.conviction;
+                        if (n == 0) { spEmpty[r.team] += conv; spEmptyCount[r.team]++; }
+                        else { spEnemy[r.team] += (long) conv * en / n; spFriend[r.team] += (long) conv * fr / n; spEnemyEC[r.team] += (long) conv * ec / n; }
+                    }
                     if (hits && r != null) for (Robot e : bots.values()) if (e.type == 0 && e.team > 0 && e.team != r.team && d2(e, r) <= tgt) {
                         int n = 0, wall = 0;
                         for (Robot b : bots.values()) { if (b != r && b.alive && b.spawnRound < round && d2(b, r) <= tgt) n++; if (b.team == e.team && b.type != 0 && b.alive && Math.max(Math.abs(b.x - e.x), Math.abs(b.y - e.y)) == 1) wall++; }
@@ -291,6 +301,7 @@ public class ReplayDump {
         if (every <= 0 || f.totalRounds() % every != 0) printAggregate(f.totalRounds());
         System.out.printf("RESULT winner=%s (%s) after %d rounds  votes A=%d B=%d%n", w == 1 ? "A" : w == 2 ? "B" : "?", teamName[w], f.totalRounds(), votes[1], votes[2]);
         if (navStats) { for (Robot r : bots.values()) tallyUnit(r, lastRound); printNavStats(); }
+        if (speeches) for (int t = 1; t <= 2; t++) System.out.printf("  speeches %s: n=%d spent=%d toEnemy=%d (%.0f%%) toEnemyEC=%d (%.0f%%) toFriend=%d (%.0f%%) empty=%d speeches (%d conv)%n", teamName[t], spCount[t], spSpent[t], spEnemy[t], spSpent[t] > 0 ? 100.0 * spEnemy[t] / spSpent[t] : 0, spEnemyEC[t], spSpent[t] > 0 ? 100.0 * spEnemyEC[t] / spSpent[t] : 0, spFriend[t], spSpent[t] > 0 ? 100.0 * spFriend[t] / spSpent[t] : 0, spEmptyCount[t], spEmpty[t]);
         if (bytecodeSummary) for (int t = 1; t <= 2; t++) {
             StringBuilder s = new StringBuilder("  bytecode " + teamName[t] + ":");
             for (int k = 0; k < 4; k++) s.append(String.format(" %s max=%d over=%d", TYPE[k], bcMax[t][k], bcOverByType[t][k]));

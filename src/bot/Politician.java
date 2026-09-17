@@ -17,7 +17,8 @@ public strictfp class Politician extends Robot {
     Politician(RobotController rc) { super(rc); }
 
     /** Called when a slanderer becomes a politician mid-life. */
-    void adoptFrom(Robot r) { orderRead = true; role = Roles.GUARD; }
+    void adoptFrom(Robot r) { orderRead = true; role = Roles.GUARD; depositor = rc.getConviction() >= C.DEPOSIT_MIN; }
+    private boolean depositor = false;
     void turnAs(int round) throws GameActionException { this.round = round; this.loc = rc.getLocation(); turn(); }
 
     @Override protected void turn() throws GameActionException {
@@ -25,6 +26,7 @@ public strictfp class Politician extends Robot {
         if (!orderRead) { int f = readHome(); orderRead = true; if (f >= 0 && Comms.type(f) == Comms.ORDER) { role = Comms.extra(f); target = Comms.loc(f, loc); } }
         else if (round % 4 == 0) readHome();
         if (role == Roles.CAPTURE && target != null) { capture(); return; }
+        if (depositor && deposit()) return;
         guard();
     }
 
@@ -88,6 +90,25 @@ public strictfp class Politician extends Robot {
         }
         int cr = crowd();
         if (cr > C.CROWD_MAX || (cr > 0 && nextInt(3) == 0)) { spreadOut(home, C.GUARD_RING_MIN, C.GUARD_LEASH_D2); return; }
+    }
+
+    /** Deposit: walk home and speak with the EC as the only robot in range, so the whole share becomes EC influence. Returns false to fall back to guarding. */
+    private boolean deposit() throws GameActionException {
+        MapLocation home = MapState.home; if (home == null) return false;
+        if (nearestEnemy != null && nearestEnemyD2 <= 20) return false;   // enemies close: guard instead this turn
+        int d2 = loc.distanceSquaredTo(home);
+        if (d2 <= 2) {
+            if (d2 == 2) {   // diagonal: an orthogonal tile makes radius 1 cover the EC alone
+                for (int i = 8; --i >= 0;) { Direction d = DIRS[i]; MapLocation n = loc.add(d); if (n.distanceSquaredTo(home) == 1 && rc.canMove(d)) { rc.move(d); return true; } }
+            }
+            int r2 = d2 == 1 ? 1 : 2;
+            if (rc.isReady() && rc.canEmpower(r2)) {
+                int n = 0; for (int i = nearby.length; --i >= 0;) if (nearby[i].location.distanceSquaredTo(loc) <= r2) n++;
+                if (n <= 2) { Debug.log("@deposit conv=" + rc.getConviction() + " n=" + n + " r2=" + r2); rc.empower(r2); return true; }
+            }
+            return true;   // adjacent but crowded: wait
+        }
+        nav.setTarget(home); nav.step(); return true;
     }
 
     private void capture() throws GameActionException {

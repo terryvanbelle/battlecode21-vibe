@@ -1253,6 +1253,41 @@ cannot take or hold them; the four extra scouts are four extra bodies the
 hunters kill and four build slots. Reverted to `g_iter4`. Scouting area: 1
 reject. Ledger: map knowledge is not the binding constraint at this level.
 
+## Iteration 15 (in development) -- deposit: expired slanderers cash in at the EC (2026-09-17 13:20 UTC)
+
+**The loop stalled (five rejects in a row), so section 7 applies.** The
+accepts are well measured (ablation adds little); the cheapest untried lever
+was micro. New instrument `replay-dump.sh --speeches` (per team: speeches,
+conviction spent, share landing on enemies, enemy ECs, friendlies, empty).
+Six `g_iter4` roster losses: ours lands 40-82% on enemies and 9-20% on
+friendlies; the opponents' lands 5-63% on enemies and **36-88% on
+friendlies** (123kevinlee 36%, piedPiper 49%, Sihal3 57%, iliao2345 88%),
+at a similar total conviction (e.g. 106k vs 97k against arya-k). That is
+not bad aim: RULES.md, empower -- friendly units gain conviction up to
+their initial cap, friendly ECs gain influence and conviction uncapped. A
+slanderer that has earned for 300 rounds becomes a politician holding its
+purchase price as conviction; the opponents walk it home and speak, and the
+EC banks it. Ours (47 idle politicians holding thousands in the Iteration 2
+probe) guard forever. This is where their EC banks of thousands come from,
+and it removes the count cap's cost: a slanderer's price comes back.
+
+*Pre-registration, candidate "deposit":* a politician created by
+camouflage expiry with conviction >= 100 walks home and, on an orthogonal
+tile next to its EC with at most one other robot in radius 1, empowers at
+radius 1; with enemies within r^2 20 it guards instead that turn; a diagonal
+tile steps to an orthogonal one first. Decision-point counters: `@deposit`
+count and conviction per game (baseline 0), `--speeches` toFriend share
+(baseline 9-20%; expect > 40%), EC influence at r400 / r800 (baseline
+100-500). Price: those politicians no longer guard the slanderer ring (the
+EC-built 20-60 guards remain), and each deposit is a body gone. History:
+no ledger entry; the wall and threat candidates were about EC conviction
+from the outside, this is from our own units. Dose: DEPOSIT_MIN 100 / 200.
+Gate (doctrine change, per 4.5.1): the 72-cell roster check first (+5 over
+`g_iter4` on the same cells), Stage 0 on Arena and Gridlock vs Sihal3 and
+arya-k for the counters (baseline 3/8), the head-to-head as a regression
+check on an accept. Falsifier: `@deposit` near 0 (politicians never reach
+an uncrowded orthogonal tile) or toFriend unchanged.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

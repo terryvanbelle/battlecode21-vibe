@@ -99,3 +99,9 @@ Consider doing a preliminary pass on the benchmark selection using a subset of b
 ```text
 Maybe try more maps for scan stage 1
 ```
+
+## Prompt 14: Ladder chart legend
+
+```text
+I think maybe get rid of the key in ladder.png.  It's distorting the plot and not providing much information
+```

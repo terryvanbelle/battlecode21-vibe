@@ -1058,6 +1058,17 @@ re-tiered at the next scan). Capbank's final comparison on all 72 shared
 cells: 31 vs 33 (rejected, as logged). This baseline is the comparison for
 every candidate until the next accept.
 
+**relay Stage 0, second arm (5 of 8 read): mechanism engaged, exposures
+halved or better.** `@relayflee` (one log line per 10 flees): 45, 37, 111,
+3, 15 per game. Exposures against us by r300 / r600: iliao2345 Arena B 1 / 1
+(baseline 11.8 / 20.8 per game), iliao2345 maptestsmall A 7 by r300, B 5 / 9;
+max-titov maptestsmall 0 / 0 and 3 / 10 (baseline 4.3 / 22.4). Cells 4/5 so
+far (one loss on votes vs max-titov at r1500, where the slanderer count fell
+to 0 by r600: relayed flight does not stop a sustained hunt, it delays it).
+The Arena B game ended by annihilation at r657 with 122 slanderers alive
+across our ECs. Head-to-head vs `g_iter4` launched; the roster check on the
+screen set follows when the Stage 0 slots free.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -1719,6 +1719,19 @@ only their price.** The roster check (64 cells, `roster-bigguard`,
 futility at 32, +5 over 26/64) runs as the deciding instrument under the
 pre-registration; the mirror becomes the regression check on an accept.
 
+**Iteration 19: REJECTED, roster futility at 13 cells (02:20 UTC,
+`gauntlet/*-roster-bigguard`): 2 v 5, flips +0/-3**, the same three cells
+the floor lost (awesomelemonade Arena A r857 and B r637, rzhan11
+maptestsmall A r817, all annihilations where `g_iter4` wins). Big guards do
+not stop those games either. The Arena A replay: we snowball to 5 ECs at
+r400 (them 3) with 104 politicians (them 31), 519 influence across our
+five ECs against their 1,643 at r400, then 4,059 at r500, 11,829 at r700,
+14,239 at r800 with 3-7 ECs; our ECs are converted holding 10-57 by
+91-500-conviction politicians from r400. Their income at 2-4 ECs is 3-5x
+ours at 5: the difference is not the number of ECs or slanderers (34 v 61
+at r400) but what each slanderer earns, i.e. slanderer size. `src/bot`
+back to `g_iter4`.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

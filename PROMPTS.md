@@ -132,3 +132,7 @@ See if you can do the ladder without having external bots play against each othe
 ## 28. 2026-09-17
 
 OK, I'm going to switch us from Fable to Opus so that we don't blow our weekly budget.  Please do whatever you need in order to make the transition smoothly
+
+## 29. 2026-09-17
+
+OK, switched from Fable to Opus

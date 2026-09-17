@@ -336,6 +336,11 @@ What this changes in the loop:
   the gate is unreachable. The archetypes exist to punish what the mirror
   cannot see (a rush, a bank race, a conversion race); add an archetype
   whenever a scrimmage loss census names a mechanism the panel lacks.
+- **Blocks are for submissions only** (2026-09-17): a scrimmage block plays
+  the incumbent or a build just accepted, never a candidate under trial. On
+  the real ladder you submit what you believe in, and rating a build you
+  will not keep pollutes the team rating. A candidate's external evidence,
+  if wanted, is read from the panel plus the census, not from the ladder.
 - **Scrimmage block as the regression check**: an accepted build plays a
   48-game block against the band (`tools/roster.txt`, chosen from the
   scrimmage standings: the bots between 20% and 50% of games won against

@@ -1916,6 +1916,40 @@ plays now as `us:hold1` (the contest signal, and the ladder grows by two
 unmet bots) beside a logged game against `g_iter4` on Arena for the
 `@opening` and `@garrison` counters.
 
+**Attribution of Iteration 21's +3, from the two logged games (2026-09-17
+23:40 UTC): the garrison, not the opening.** `@opening capture` fired **0
+times** on Arena and on Gridlock, the two maps the opening was designed
+for: Arena's cheap neutrals (70) sit 27 tiles away, beyond
+`OPENING_MAX_D2` 500 (d^2, ~22 tiles), and its near ones are 500, above
+`OPENING_MAX_TARGET` 320; Gridlock the same, with all 14 captures coming
+from the normal branch (43 `@garrison` builds = 3 per capture). So dose
+1's +3 on the panel is the garrison half alone.
+
+**And the garrison guards do not garrison.** In the Gridlock mirror game
+(lost 3 ECs to 5) 40 guards were posted, yet 15 of our ECs were converted
+holding 6-168 influence (median 12): a posted guard falls through to
+`guard()`, whose ring rule (`GUARD_RING_MIN` 20) pushes it *out* to d^2
+20-80 from its post, so it is 4-9 tiles away when the converting speech
+lands at r^2 1-4 and dilutes nothing.
+
+*Dose 2 (pre-registered):* the opening is removed (a verified no-op: 0
+firings), leaving one mechanism. A garrison guard now **hugs its post**
+(holds a tile at d^2 <= `GARRISON_HOLD_D2` 2, walking back if pushed off,
+no ring, no chase), and there are **4** per capture (dose 1: 3), so a
+converter's speech at r^2 1 is split five ways instead of four. Counters:
+`@garrison` builds and `@garrison-guard post=` arrivals, our converted-EC
+influence at the hit (dose 1: median 12, n=15 on Gridlock), ECs at
+r600/r1200 (dose 1: 3 v 4, 3 v 5), and guard deaths near a post. Price:
+four 60-guards per capture is 240 not spent at home, and a hugging guard
+does not chase muckrakers. Gate: the 48-cell panel, +5 over the incumbent
+(mirror 12/24 by symmetry, archetypes 20/24). Falsifier: converted-EC
+influence unchanged, or ECs at r600 unchanged.
+
+**The hold1 scrimmage block was stopped at 12 games (0 wins) and not
+recorded**: a candidate is not a submission, so it must not move the team
+rating (rule added to 4.5.2). Blocks run for the incumbent and for
+accepted builds only.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

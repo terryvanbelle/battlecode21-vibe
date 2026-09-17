@@ -79,6 +79,11 @@ public strictfp class Politician extends Robot {
         }
         // move: toward the nearest enemy muckraker (they kill our slanderers) if within leash, else hold a ring around home
         MapLocation home = post != null ? post : MapState.home;
+        if (post != null) {   // garrison: hug the post so a conversion speech is split with us and the adjacent tiles are blocked
+            int pd2 = loc.distanceSquaredTo(post);
+            if (pd2 > C.GARRISON_HOLD_D2) { nav.setTarget(post); nav.step(); }
+            return;
+        }
         if (nearestEnemyMuck != null && (home == null || nearestEnemyMuck.location.distanceSquaredTo(home) <= C.GUARD_LEASH_D2 * 2)) { nav.setTarget(nearestEnemyMuck.location); nav.step(); return; }
         if (nearestEnemy != null && nearestEnemy.type != RobotType.ENLIGHTENMENT_CENTER && (home == null || nearestEnemy.location.distanceSquaredTo(home) <= C.GUARD_LEASH_D2)) { nav.setTarget(nearestEnemy.location); nav.step(); return; }
         if (home == null) return;

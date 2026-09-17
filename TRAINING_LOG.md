@@ -1069,6 +1069,11 @@ The Arena B game ended by annihilation at r657 with 122 slanderers alive
 across our ECs. Head-to-head vs `g_iter4` launched; the roster check on the
 screen set follows when the Stage 0 slots free.
 
+**relay Stage 0 complete: 4/8** against `g_iter4`'s 5 on the same cells
+(within a cell of noise; the three Arena losses vs max-titov and iliao2345
+went to r1500). Counters moved as pre-registered; the head-to-head (+5
+gate, early stop) and the 72-cell roster check decide.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -1882,6 +1882,17 @@ panels show it cannot resolve real gains, the archetypes get strengthened
 rather than the gate loosened. Ladder seed tick (122 games) launched at 3
 jobs beside the scrimmage block.
 
+**`g_iter4` first scrimmage block (2026-09-17 22:00 UTC,
+`gauntlet/20260917-192922-scrim-g_iter4`): 14/48 = 29% [18%, 43%]** on
+random maps and sides against the old band (max-titov 5/6, 123kevinlee,
+Scott-Poole, arya-k and jmerle 2/6, awesomelemonade 1/6, iliao2345 and
+rzhan11 0/6). Team Elo 1380 after 48 games, rank 66 of 66 while the
+external bots still sit at 1500 (the seed tick is at 20 of 122). The old
+screen-set number was 41% (26/64) on four maps of our choosing; 29% on
+the released corpus is the honest standing. Iteration 21's panel is
+running (mirror on the quick set, archetypes on the screen set, 2 jobs
+each beside the seed).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

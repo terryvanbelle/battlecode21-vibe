@@ -1167,6 +1167,11 @@ r461. arya-k Arena A: 21 conversions by us against 19 of ours, 2v6 ECs at
 r400, lost at r739 -- arya-k sent 12 politicians >= 300 by r300 and 43 in
 r301-600 with 292 under 100: an army bot. Exposures 0 and 11.
 
+**army Stage 0 complete: 2/8** (`gauntlet/20260917-100233-army-s0`) against
+`g_iter4`'s 3 on the same cells (arya-k Arena B lost, all four Gridlock cells
+lost by both). Within a cell; counters far past their targets. Head-to-head
+(+5, early stop) and the 72-cell roster check are running.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

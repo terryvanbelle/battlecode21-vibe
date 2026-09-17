@@ -759,6 +759,18 @@ counters as above); then head-to-head vs `g_iter3` (+4) and the roster
 gauntlet vs the g_iter3 roster baseline. Falsifier: mean size unchanged
 (another branch buys small ones) or income not up.
 
+**Stage 0, size (`gauntlet/20260917-*-size-s0`, 5 read, 0/5): mechanism
+engaged, outcome counter cleared, cells not flipped.** Mean slanderer cost
+at r100: 67, 72, 68, 87, 90 (baseline 25-40); at r200: 94-122. Total
+influence earned by r200: 7132, 6336, 5435, 7594, 7517 against the
+baseline's 4692-5066 on the same cells (+30-50%, the pre-registered gate);
+by r300 +20-40%. The opponents still earn 12000-17500 by r200, and the two
+baseline wins among the read cells (Sihal3 Arena A, iyzg Gridlock A) were
+lost, so the extra cell rule fails on the two hardest opponents. Decision:
+the counters are what Stage 0 exists to check and they moved as predicted;
+the head-to-head and the roster gauntlet decide (4.5). Launched `h2h-size`
+vs `g_iter3`, quick set, both sides.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

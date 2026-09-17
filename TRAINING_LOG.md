@@ -1194,6 +1194,29 @@ attack politicians from the spare branch alone are a wash; the army needs
 timing (waves, not a stream) and a bank behind it, i.e. the doctrine is a
 schedule, not a branch.
 
+## Iteration 14 (in development) -- eight early scouts (2026-09-17 11:20 UTC)
+
+**Target: an absolute degeneracy, area scouting / map knowledge (0
+rejects).** In 8 sampled `g_iter4` losses on Gridlock and Maze our EC knew
+its first neutral at r50-150 and never knew all of them in 7 of 8 games
+(`nEC` in `@econ` never reached the map's count), while the first neutral
+was taken by anyone at r89-145 (Gridlock) and r284-413 (Maze). Our
+`--navstats` coverage on these maps is 25-44% at r900 against the
+opponents' 99%; four 1-influence scouts explore a 4096-tile map.
+
+*Pre-registration, candidate "scouts8":* `EARLY_SCOUTS` 4 -> 8 (one
+constant; dose 4 / 8 / 12). Decision-point counters: the round the EC knows
+all neutrals (baseline: never, in 7 of 8), coverage at r300 from
+`--navstats`, first-neutral report round; price counters: slanderers and EC
+influence at r100 (four more 1-cost builds take 4 build slots early).
+Outcome: neutral captures by us by r300. Gate: Stage 0 on Gridlock and Maze
+vs 123kevinlee and Sihal3, both sides (8 cells; `g_iter4` won 2: Sihal3
+Maze A and B... to be read from the baseline); all-known round must appear
+and the opening must not lose more than one slanderer at r100; then
+head-to-head (+5, early stop) and the 72-cell roster check. Falsifier:
+all-known still never (scouts die or wander the same ground) or slanderers
+at r100 down by two or more.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

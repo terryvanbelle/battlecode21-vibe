@@ -1217,6 +1217,12 @@ head-to-head (+5, early stop) and the 72-cell roster check. Falsifier:
 all-known still never (scouts die or wander the same ground) or slanderers
 at r100 down by two or more.
 
+**scouts8 Stage 0, first game (123kevinlee, Gridlock, A): lost at r1029
+(baseline lost too); mechanism engaged.** All six neutrals known at r200
+(baseline: never in 7 of 8), first at r50; coverage 49.9% (baseline 25-44%
+at r900); opening at r100: 17 slanderers and 48 influence (baseline 12-19),
+so the four extra scouts cost nothing visible.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -7,6 +7,11 @@ public final class C {
     public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
+    // Iteration 16 (opening capture): bank from round 1 and spend the starting influence on the first neutral the scouts report
+    public static final boolean OPENING_CAPTURE = true;  // dose: false = g_iter4
+    public static final int OPENING_UNTIL = 120;         // give up the opening after this round and play the normal opening
+    public static final int OPENING_MAX_TARGET = 320;    // neutrals above this wait for the economy
+    public static final int OPENING_BANK = 30;           // extra conviction so the new EC starts with a small bank
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

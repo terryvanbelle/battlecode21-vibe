@@ -1378,6 +1378,36 @@ untried lever is the opening: the starting 150 plus the first fifty rounds
 of passive income is a full-price capturer for any neutral under ~300, and
 the scouts report the first neutral by r50 on the large maps.
 
+## Iteration 16 (in development, structural) -- the opening capture (2026-09-17 15:10 UTC)
+
+**Target: the census's single mechanism.** Neutral ECs are taken early by
+the opponent and multiply everything after; our first EC falls at r278
+holding 19; the multi-neutral maps hold 67 of 97 losses.
+
+*Pre-registration, candidate "opening":* from round 1 the EC builds its
+four scouts and one slanderer (income), then banks; the moment a neutral of
+at most 320 influence is known and `inf - 5 >= target + 14 + 30`, it builds
+a full-price capturer (+30 so the new EC starts with a bank) and the opening
+ends; if no such neutral is known by r120 the opening ends and the normal
+build resumes. A captured EC runs the same code, so it banks its passive
+income and takes the next neutral in turn (the snowball). Emergency guards
+(`danger && guards < 2`) keep priority. Decision-point counters:
+`@opening capture` (round, target; baseline none), round of our first
+neutral conversion (baseline r158-489 in ~40% of games, never in the rest),
+ECs at r200 and r400 (baseline 1.6 at r400), influence earned by r300 (the
+price: baseline median 6741), first-EC-loss round and influence held
+(baseline r278, 19). Reachability: scouts report the first neutral by r50 on
+Gridlock and Andromeda; the bank reaches 250-350 by r40-70. Price: the
+slanderer economy starts 40-60 rounds later; a capturer that dies en route
+loses 250-350 and the opening. History: race and capbank (rejected) captured
+from slanderer income, never from the opening bank. Dose: OPENING_CAPTURE
+off (= g_iter4) / on; OPENING_MAX_TARGET 320 / 500. Gate (doctrine, 4.5.1):
+Stage 0 on Gridlock and Andromeda vs arya-k and max-titov, both sides (8
+cells; counters), then the 72-cell roster check on the new 8-bot band
+against the g_iter4 baseline plus its top-up (+5), head-to-head as a
+regression check on an accept. Falsifier: no `@opening capture` by r120
+(neutrals not known in time or too expensive), or ECs at r400 unchanged.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

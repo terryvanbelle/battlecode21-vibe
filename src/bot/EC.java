@@ -104,12 +104,14 @@ public strictfp class EC extends Robot {
     private int captureCost = 0, raceBuilds = 0;
     /** Nearest known neutral EC to chip, or -1. Sets captureCost = min(spare, remaining + 14), at least RACE_MIN_CHIP. */
     private int captureTarget(int inf) {
-        if (MapState.nNeutral == 0 || capturers >= C.RACE_INFLIGHT) return -1;
+        if (MapState.nNeutral == 0 || capturers >= C.RACE_INFLIGHT || slanderers < C.RACE_AFTER_SLANDERERS) return -1;
         int spare = inf - reserve(); if (spare < C.RACE_MIN_CHIP) return -1;
         int best = -1, bd = 1 << 30;
         for (int i = MapState.nNeutral; --i >= 0;) { int d = loc.distanceSquaredTo(MapState.neutralEC[i]); if (d < bd) { bd = d; best = i; } }
         if (best < 0) return -1;
-        captureCost = Math.min(spare, MapState.neutralInf[best] + 14);
+        int full = MapState.neutralInf[best] + 14;
+        if (spare < full / 2 + 14) return -1;             // a chip carries at least half the target: two chips flip it, dispersed ones feed the opponent
+        captureCost = Math.min(spare, full);
         return best;
     }
 

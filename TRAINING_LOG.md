@@ -591,6 +591,22 @@ or bids eat it), or flips do not rise (chips never arrive: navigation), or
 ECs at r400 unchanged. This is the structural attempt due after four
 incremental ones.
 
+**Stage 0, race (4 in flight, chips >= 40) vs iyzg and Sihal3 on Arena and
+Gridlock (`gauntlet/20260917-*-race-s0`): six losses of six read, two at
+r259-261 (Arena vs iyzg; the baseline lasted to r630+).** Counters: `race=`
+7-12 builds by r150 then pinned (the EC had nothing left); chips spoken
+6-12 per game; flips 0, 1, 0, 0, 1, 1; aborts 0-9 (the opponent converted
+the target between our chips, so our damage was a gift); ECs at r400: 2v2,
+1v4, 1v4, 1v6, 1v7, 0v8. The economy collapsed: EC influence 2-60 from r100
+to r300 against 1000-3000 in the baseline, slanderers stuck at 12 tiny ones,
+the spare branch never reached its threshold. Mechanism engaged, gate
+failed, failure mode understood (undersized, dispersed chips against an
+opponent who both out-earns and out-chips us). *Targeted refinement (one,
+pre-registered):* a chip must carry at least half the remaining conviction
+(so two chips flip a neutral and none is wasted), at most 2 in flight, and
+none before 4 slanderers exist. Same counters and gate. If flips do not rise,
+the candidate is rejected and reverted.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

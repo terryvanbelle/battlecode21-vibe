@@ -136,3 +136,7 @@ OK, I'm going to switch us from Fable to Opus so that we don't blow our weekly b
 ## 29. 2026-09-17
 
 OK, switched from Fable to Opus
+
+## 30. 2026-09-17
+
+That sounds to me like a reasonable change

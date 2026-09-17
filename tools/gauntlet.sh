@@ -63,6 +63,8 @@ printf '%s\n' $MAPS > "$OUT/maps.txt"
 if [ -n "${CELLS:-}" ]; then NG=$(grep -c . "$CELLS"); OPPONENTS="$(awk '{print $1}' "$CELLS" | sort -u | tr '\n' ' ')"; MAPS="$(awk '{print $2}' "$CELLS" | sort -u | tr '\n' ' ')"
 else NG=$(( $(echo $OPPONENTS | wc -w) * $(echo $MAPS | wc -w) * 2 )); fi
 for o in $BOT $OPPONENTS; do resolve "$o" >/dev/null || exit 1; done
+# Contest rule (PROMPTS 25): external bots are played only through tools/scrim.sh (random map and side, rotating opponents).
+if [ "${SCRIM:-0}" != 1 ]; then for o in $OPPONENTS; do [ -d "$CLASSES/$o" ] || { echo "!! $o is an external bot: play it with tools/scrim.sh (SCRIM=1), never with chosen maps or sides" >&2; exit 1; }; done; fi
 echo "gauntlet $RUN_ID bot=$BOT opponents=[$OPPONENTS] maps=$(echo $MAPS | wc -w) games=$NG jobs=$MAXJOBS"
 : > "$OUT/results.raw"
 

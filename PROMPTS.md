@@ -163,3 +163,7 @@ Sorry, by roster I guess I meant ladder, i.e. the external bots that substitute 
 ## 24. 2026-09-18
 
 You are at all times authorized to make whatever number and degree of changes to the bot that you think are appropriate, no need for my approval
+
+## 25. 2026-09-18
+
+We're going to make a structural change to better simulate actual contest conditions.  Up until now, you've been allowed to run as many games as you like on the external bots, on as many. boards as you like, using whichever side you like.  In reality, games against external opponents occur by challenging them to a scrimmage.  Players are assigned random sides on a random board, and the game is played out, with ELO rankings updated from the result.  In a real competition, you would only have this form of data on external opponents.  From now on, I'd like you to only run against opponents by choosing a random board and a random side, and not hit the same opponent too many times in a row.  You are still free to play against old versions of yourself using the old, unrestricted methodology.  Please adjust your strategy and training algorithm accordingly.

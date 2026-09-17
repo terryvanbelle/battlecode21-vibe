@@ -18,6 +18,9 @@ Everything runs with bare `java` (JDK 8 at `~/jdk/jdk8u504-b01`, see
 | `bench-select.py [--all|--table]` | name-only pick of each repo's final bot |
 | `bench-roster.py` | regenerate the roster table in `BENCHMARK.md` |
 | `gauntlet-select.py results.csv... [--write tools/roster.txt]` | tier every opponent from scan results; writes the standing roster (the 20-50% band) |
+| `scrim.sh` (BOT, N, POOL, SEED) | the only way to play an external bot: random map and side per game, rotating opponents; results under `gauntlet/*-scrim-<bot>` |
+| `scrim-record.py <run> --label <build>` | appends a scrimmage block to `progress/scrims.csv` |
+| `elo.py [--last N]` | contest standing (team Elo across builds) and per-build records with Wilson intervals |
 | `run-dev.sh A B map [replay]` | like `run-match.sh` but from a private compile (`build/dev-classes`): safe while a gauntlet owns `build/classes` |
 | `scan.sh` | incremental two-stage tiering scan: every opponent on 3 maps both sides, then 4 more maps for the in-band ones; `DONE="<results.csv ...>"` cells are never replayed; writes `tools/roster.txt` |
 | `scan-cells.py` | the cells (opponent map side) a stage still needs, given results files; `--band` keeps only in-band opponents |

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Scrimmage block against external bots under contest rules (PROMPTS 25, 2026-09-18):
+# the map and the side are drawn at random for every game, opponents rotate (never the same
+# one twice in a row, each at most ceil(N/pool) times per block). This is the ONLY way an
+# external bot may be played; gauntlet.sh refuses external opponents unless SCRIM=1 (set here).
+#   BOT=bot N=24 tools/scrim.sh                 # opponents: tools/roster.txt (the band)
+#   POOL="a.b c.d" N=12 SEED=7 tools/scrim.sh   # explicit pool; SEED for a reproducible draw
+# Maps: tools/bc21-maps.txt (the released corpus). Results: gauntlet/<run>-scrim-<BOT>/ ;
+# record them with tools/scrim-record.py <run-dir> --label <build> (appends progress/scrims.csv).
+set -euo pipefail
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BOT="${BOT:-bot}"; N="${N:-24}"; MAXJOBS="${MAXJOBS:-6}"
+POOL="${POOL:-$(tr '\n' ' ' < "$REPO/tools/roster.txt")}"
+SEED="${SEED:-$(date +%s%N | cut -c1-13)}"
+CELLS="$(mktemp)"
+python3 - "$N" "$SEED" "$POOL" "$(grep -v '^Cow$' "$REPO/tools/bc21-maps.txt" | tr '\n' ' ')" > "$CELLS" <<'PY'
+import random, sys, math
+n = int(sys.argv[1]); seed = int(sys.argv[2]); pool = sys.argv[3].split(); maps = sys.argv[4].split()
+random.seed(seed)
+per = math.ceil(n / len(pool)); counts = {o: 0 for o in pool}; last = None
+for _ in range(n):
+    cands = [o for o in pool if counts[o] < per and o != last] or [o for o in pool if counts[o] < per]
+    o = random.choice(cands); counts[o] += 1; last = o
+    print(o, random.choice(maps), random.choice("AB"))
+PY
+echo "scrim block: bot=$BOT n=$N seed=$SEED pool=[$POOL]"
+SCRIM=1 CELLS="$CELLS" BOT="$BOT" TAG="scrim-$BOT" MAXJOBS="$MAXJOBS" "$REPO/tools/gauntlet.sh"
+rm -f "$CELLS"

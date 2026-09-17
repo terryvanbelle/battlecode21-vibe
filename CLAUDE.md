@@ -13,5 +13,10 @@ Read `SETUP.md` before running anything. The two rules that past sessions got wr
 2. **Push after every commit** (the user follows the repo from GitHub and the
    Claude app) and **record every user prompt verbatim in `PROMPTS.md`**.
 
+3. **External bots are played only as scrimmages** (random map, random side,
+   rotating opponents) through `tools/scrim.sh`; never choose a map or a side
+   against a benchmark bot (user rule 2026-09-18, TRAINING_ALGORITHM 4.5.2).
+   Our own snapshots and archetypes stay unrestricted.
+
 Working rules that already live elsewhere: `TRAINING_ALGORITHM.md` (the loop),
 `BENCHMARK.md` (never read benchmark source; the 20% rule), `tools/README.md`.

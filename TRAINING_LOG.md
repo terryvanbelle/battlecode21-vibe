@@ -1843,6 +1843,20 @@ on an accept. Falsifier per half: (a) no `@opening capture` by r150 on
 Arena; (b) captured ECs still converted at under 100 influence with no
 garrison guard within d² 20 at the hit.
 
+## Contest rules from 2026-09-18 05:10 UTC (PROMPTS 25)
+
+The user restricted external play to scrimmages: random map, random side,
+rotating opponents, Elo standings; our own versions stay unrestricted.
+The roster check of Iteration 21 (8 of 64 cells played, 1 v 2) and its
+logged dev game were stopped; neither counts. New tooling: `scrim.sh`,
+`scrim-record.py`, `elo.py`, and `gauntlet.sh` now refuses external
+opponents outside a scrimmage. Method (TRAINING_ALGORITHM 4.5.2): the
+accept instrument is a 48-cell paired panel (incumbent on the quick set +
+three archetypes on the screen set); a 48-game scrimmage block is the
+standing and a veto. First runs: `g_iter4`'s 48-scrimmage block (the
+standing under the new rules) and `g_iter4` vs the archetypes (the panel
+baseline), then Iteration 21's panel.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

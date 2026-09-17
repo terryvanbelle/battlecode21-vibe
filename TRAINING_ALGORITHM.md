@@ -308,6 +308,48 @@ One change per candidate; never bundle. Then:
 - **The VM holds 7 games at once.** A roster baseline runs at 4 jobs and leaves
   3 for one development run; nothing else starts until a slot frees.
 
+### 4.5.2 Contest rules for external opponents (user, 2026-09-18, PROMPTS 25)
+
+External bots are played **only as scrimmages**: for every game the map is
+drawn at random from the released corpus (`tools/bc21-maps.txt`) and the
+side at random; opponents rotate (never the same one twice in a row, each
+at most ceil(N/pool) times per block). `tools/scrim.sh` is the only path
+(`gauntlet.sh` refuses external opponents otherwise); the block is
+recorded with `tools/scrim-record.py` into `progress/scrims.csv`, and
+`tools/elo.py` gives the contest standing (one team rating across our
+builds, K=32) plus per-build records with Wilson intervals. Our own
+snapshots and archetypes (`src/g_iter*`, `src/arch_*`) stay unrestricted:
+chosen maps, both sides, paired cells.
+
+What this changes in the loop:
+
+- **The roster check, the tiering scan and the paired ladder are gone.**
+  No chosen cells against external bots, so no McNemar; a candidate's
+  external evidence is an unpaired block of random scrimmages, and 48
+  games resolve only a ~25-point difference (Wilson width ±14 points at
+  40%). External play is the *standing*, not the accept instrument.
+- **Accept instrument = the panel head-to-head**, paired and unrestricted:
+  the incumbent on the quick set both sides (24 games) plus the three
+  archetypes (muckraker rush, bidder, politician rush) on the screen set
+  both sides (24 games), against the incumbent's own record on the same
+  48 cells. Gate +5 net on the 48 (McNemar as before), early stop when
+  the gate is unreachable. The archetypes exist to punish what the mirror
+  cannot see (a rush, a bank race, a conversion race); add an archetype
+  whenever a scrimmage loss census names a mechanism the panel lacks.
+- **Scrimmage block as the regression check**: an accepted build plays a
+  48-game block against the band (`tools/roster.txt`, chosen from the
+  scrimmage standings: the bots between 20% and 50% of games won against
+  us over the last 200 games, re-drawn after every accept). The block is
+  a veto only: if the new build's Wilson upper bound falls below the
+  incumbent's point estimate over its last 96 games, the accept is
+  reverted and logged.
+- **The loss census reads scrimmage replays** (losses are saved), so
+  candidate selection is unchanged in kind and the census is the map of
+  what the contest actually punishes.
+- **Budget**: a candidate costs 48 paired games (~5 VM-hours at 7 jobs
+  ≈ 45 min), an accept another 48 scrimmages; a block of 48 scrimmages
+  for the incumbent every ~4 iterations keeps the band current.
+
 ### 4.6 Decide
 
 - **Accept** when the head-to-head clears `AcceptMargin`, peers stay above

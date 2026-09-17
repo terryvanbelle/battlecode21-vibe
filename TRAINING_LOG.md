@@ -823,6 +823,15 @@ r1500, which is the instrument's known blind spot (section 3: "any
 weakness both builds share"); it is still played and recorded. Falsifier:
 `bidInf` unchanged (another path bids) or the roster record falls.
 
+**Stage 0, bid (`gauntlet/20260917-*-bid-s0`, Arena cells read): 2/2 (both
+baseline wins too), mechanism engaged.** Cumulative bids at r200: 862 and
+858 (baseline 1608; the adaptive escalation still reaches the /30 cap), at
+r300: 1776 and 1728 (baseline 2593). Total influence earned by r300: 9753
+and 10372 against the baseline's 5268 on the same cell -- the unbid
+influence compounded. Votes at r1500: 750 vs 581 and 750 vs 576, taken by
+the unchanged late ramp with an EC bank of 87-95k. Gridlock cells pending;
+then the roster gauntlet on the screen set.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

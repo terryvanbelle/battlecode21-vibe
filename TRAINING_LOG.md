@@ -631,7 +631,7 @@ emergency guards still fire. Expect `race=` >= 6 by r300 and flips >= 2 in
 half the games; falsifier: the saved bank is converted with the EC (EC
 influence is its conviction, so saving is also defence) or flips still < 2.
 
-**Iteration 5 REJECTED (01:35 UTC): the neutral-EC race, three arms.**
+**Iteration 5 REJECTED (18:16 UTC): the neutral-EC race, three arms.**
 Refinement 2 (`gauntlet/20260917-*-race-r2`): 0/8. Counters: `save=`
 100-265 rounds (the EC held its bank as designed) but the bank never reached
 a chip: EC influence 10-70 at r200-300 because, with the economy branches
@@ -771,7 +771,7 @@ the counters are what Stage 0 exists to check and they moved as predicted;
 the head-to-head and the roster gauntlet decide (4.5). Launched `h2h-size`
 vs `g_iter3`, quick set, both sides.
 
-**Why gauntlets are slower than in 2025 (02:20 UTC, user question).** Same
+**Why gauntlets are slower than in 2025 (18:28 UTC, user question).** Same
 VM: the 2025 project's gauntlets ran 150-162 games in 10-18 min (0.07-0.12
 min of wall per game at 3 jobs); our roster run does ~1 min of wall per game
 at 4 jobs while 4-5 development games share the 8 cores. A single Gridlock
@@ -1595,7 +1595,7 @@ branches spend them within 100-200 rounds (146 politicians at r500 against
 13); the ECs are still converted in sequence from r264. Source fixed, sink
 unchanged. The 64-cell roster check decides.
 
-**Iteration 18: REJECTED, level (21:10 UTC,
+**Iteration 18: REJECTED, level (17:17 UTC,
 `gauntlet/20260917-161455-roster-deposit2`, 63 of 64 cells read):** 26 v 26
 on the 61 cells with a baseline result (two baseline cells were timeouts),
 flips +4/-4 (for: arya-k Arena A and Gridlock A, Scott-Poole Maze A,
@@ -1606,7 +1606,7 @@ no roster movement, the deposit mechanism is closed at two doses: what
 the EC receives it spends, so the bank never forms whatever feeds it.
 `src/bot` back to `g_iter4`.
 
-## Iteration 17, refinement 1 (in development, economy) -- the floor that is bid away (2026-09-17 21:15 UTC)
+## Iteration 17, refinement 1 (in development, economy) -- the floor that is bid away (2026-09-17 17:17 UTC)
 
 Understood failure mode of dose 1: in the mirror the held 300 is never
 used, and the twin's extra slanderers win the votes at r1500 (8 of 9
@@ -1621,7 +1621,7 @@ early stop at `wins + remaining < 15`), then the 64-cell roster check.
 Falsifier: the mirror still lost on votes, or lost by annihilation before
 r900 (then the floor's price is paid before it can be released).
 
-**Implementation bug found and fixed before the refinement was read (21:50
+**Implementation bug found and fixed before the refinement was read (17:22
 UTC).** The first six cells of `h2h-floor2` repeated dose 1's results
 game for game (same rounds), and the maptestsmall A replay shows why the
 floor lost votes: the floored EC held 146-235 from r300 (the floor) with
@@ -1637,7 +1637,7 @@ head-to-head restarts as `h2h-floor3` under the same pre-registration
 (floor released r900-1200). Deposit2 final: 26/64, the baseline's number.
 
 **floor3 (guard branch floored): 0/4, all vote losses, and the same
-starvation (22:20 UTC).** maptestsmall A: 12 slanderers to r300, 0 from
+starvation (17:25 UTC).** maptestsmall A: 12 slanderers to r300, 0 from
 r450 to the end, while the twin keeps 12-18. The reason is the design, not
 a branch: the first slanderers expire at 300 rounds alive (r300-450), the
 EC then sits *below* the floor (187 v 225 at r450) because the bids
@@ -1652,7 +1652,7 @@ guards, scouts and neutral captures unfloored. Same counters and gate
 (`h2h-floor4`). If this loses the mirror too, the floor family is closed:
 against ourselves, whatever is banked is out-produced.
 
-**floor4 (sink-only) head-to-head: 13/24 final, 11/22 when read (23:40
+**floor4 (sink-only) head-to-head: 13/24 final, 11/22 when read (17:39
 UTC): level with the twin, the +5 gate out of reach.** Wins on Arena both
 sides, CrossStitch both sides, maptestsmall both sides, Blotches B,
 Circles A, Corridor B, Maze A, Radial A; losses on Andromeda both sides,
@@ -1669,8 +1669,7 @@ measures its price, which is now zero. The pre-registered roster gate
 applies unchanged (+5 over 26/64); a level roster is a reject and closes
 the floor family.
 
-**Iteration 17 (all doses): REJECTED, roster futility at 22 cells (2026-09-18
-00:30 UTC, `gauntlet/*-roster-floor4`): 6 v 9, flips +1/-4.** Against:
+**Iteration 17 (all doses): REJECTED, roster futility at 22 cells (2026-09-17 18:05 UTC, `gauntlet/*-roster-floor4`): 6 v 9, flips +1/-4.** Against:
 awesomelemonade Arena A r519 and B r521 (annihilation; baseline wins),
 rzhan11 maptestsmall A r1398 (annihilation), arya-k Maze A (votes); for:
 arya-k Arena A (votes). The sink-only floor withholds exactly the guards
@@ -1683,7 +1682,7 @@ snowball), not a policy we can copy by withholding; withholding at our
 income level costs the units that keep the EC alive. `src/bot` back to
 `g_iter4`.
 
-## Iteration 19 (in development, economy) -- big standing guards (2026-09-18 00:50 UTC)
+## Iteration 19 (in development, economy) -- big standing guards (2026-09-17 18:06 UTC)
 
 **Target: the guard sink, kept but reshaped.** The ledger's re-open
 condition for guard sizing ("standing posture only, never a reaction")
@@ -1708,7 +1707,7 @@ first (24 games, +5, early stop), then the 64-cell roster check.
 Falsifier: guards still 20-60 at spawn (the cap never binds) or rush
 losses unchanged.
 
-**big guards head-to-head: 4/12 when stopped (01:35 UTC), every loss a
+**big guards head-to-head: 4/12 when stopped (18:16 UTC), every loss a
 vote loss at r1500** (maptestsmall both sides, Arena A, Andromeda B,
 Blotches both sides, Corridor A, CrossStitch A r259 the one annihilation);
 wins Andromeda A, Arena B, Circles A, CrossStitch B. The same shape as the
@@ -1719,7 +1718,7 @@ only their price.** The roster check (64 cells, `roster-bigguard`,
 futility at 32, +5 over 26/64) runs as the deciding instrument under the
 pre-registration; the mirror becomes the regression check on an accept.
 
-**Iteration 19: REJECTED, roster futility at 13 cells (02:20 UTC,
+**Iteration 19: REJECTED, roster futility at 13 cells (18:28 UTC,
 `gauntlet/*-roster-bigguard`): 2 v 5, flips +0/-3**, the same three cells
 the floor lost (awesomelemonade Arena A r857 and B r637, rzhan11
 maptestsmall A r817, all annihilations where `g_iter4` wins). Big guards do
@@ -1732,7 +1731,7 @@ ours at 5: the difference is not the number of ECs or slanderers (34 v 61
 at r400) but what each slanderer earns, i.e. slanderer size. `src/bot`
 back to `g_iter4`.
 
-## Iteration 20 (in development, spending mix) -- invest the surplus (2026-09-18 02:45 UTC)
+## Iteration 20 (in development, spending mix) -- invest the surplus (2026-09-17 18:30 UTC)
 
 **Target: the income gap itself, seen at last in the replay.** In the
 Arena A big-guard game awesomelemonade spawns a 949-influence slanderer at
@@ -1762,7 +1761,7 @@ over 26/64, futility at 32 if 3 or more behind), head-to-head as the
 regression check on an accept. Falsifier: no `@invest` before r400 (the
 surplus never reaches 300 without the sink) or income at r600 unchanged.
 
-**Iteration 20: REJECTED, level, stopped at 33 cells (2026-09-18 04:00
+**Iteration 20: REJECTED, level, stopped at 33 cells (2026-09-17 19:00
 UTC, `gauntlet/*-roster-invest`): 12 v 14, flips +0/-2** (rzhan11
 maptestsmall A r1124, arya-k Maze A votes; one baseline-unknown cell
 lost). Stopped inside the futility rule's letter (it asks for 3 behind at
@@ -1777,7 +1776,7 @@ are 300-600 lost per expose. Closed with the ledger's note: income after
 r400 is not the constraint; income before r300 is, and that is the
 neutral snowball. `src/bot` back to `g_iter4`.
 
-## Session summary, 2026-09-17 15:00 to 2026-09-18 04:00 UTC
+## Session summary, 2026-09-17 15:00 to 19:00 UTC
 
 Five candidates from the ladder census, none accepted; `g_iter4` stands
 at 26/64 on the new 8-bot roster's screen cells (standings 49 of 65 at
@@ -1810,9 +1809,9 @@ alternative is the untested areas of the functional map (navigation on
 Gridlock, muckraker hunting), each cheaper but with weaker evidence. The
 VM is stopped.
 
-## Iteration 21 (in development, structural) -- capture and hold (2026-09-18 04:40 UTC)
+## Iteration 21 (in development, structural) -- capture and hold (2026-09-17 19:19 UTC)
 
-User authorization (PROMPTS 24): any number and degree of bot changes
+User authorization (PROMPTS 24, 2026-09-17): any number and degree of bot changes
 without approval. This candidate combines the two halves the census
 asked for and the day's rejects tested separately.
 
@@ -1843,7 +1842,7 @@ on an accept. Falsifier per half: (a) no `@opening capture` by r150 on
 Arena; (b) captured ECs still converted at under 100 influence with no
 garrison guard within d² 20 at the hit.
 
-## Contest rules from 2026-09-18 05:10 UTC (PROMPTS 25)
+## Contest rules from 2026-09-17 19:30 UTC (PROMPTS 25)
 
 The user restricted external play to scrimmages: random map, random side,
 rotating opponents, Elo standings; our own versions stay unrestricted.

@@ -267,7 +267,7 @@ One change per candidate; never bundle. Then:
 - **Order the two instruments by what the change touches.** A change that
   matters against ourselves (income, bidding) is resolved by the
   head-to-head first. **Spending-mix changes are not in that class**
-  (amended 2026-09-18 after Iterations 17 and 19): the twin turns every
+  (amended 2026-09-17 after Iterations 17 and 19): the twin turns every
   spare influence into slanderers, so in the mirror any reallocation away
   from slanderers loses the vote count at r1500 whatever it buys (floor:
   eight of nine losses by votes; big guards: 4/12, every loss by votes at
@@ -308,7 +308,7 @@ One change per candidate; never bundle. Then:
 - **The VM holds 7 games at once.** A roster baseline runs at 4 jobs and leaves
   3 for one development run; nothing else starts until a slot frees.
 
-### 4.5.2 Contest rules for external opponents (user, 2026-09-18, PROMPTS 25)
+### 4.5.2 Contest rules for external opponents (user, 2026-09-17, PROMPTS 25)
 
 External bots are played **only as scrimmages**: for every game the map is
 drawn at random from the released corpus (`tools/bc21-maps.txt`) and the
@@ -358,7 +358,7 @@ What this changes in the loop:
   accept the number and log the attribution as OPEN; do not back-fill a story.
 - **Near miss**: refine the same mechanism, up to 3 times, with a different dose
   or a narrower trigger. Not a new mechanism.
-- **One change per candidate is the default, not a limit** (user, 2026-09-18:
+- **One change per candidate is the default, not a limit** (user, 2026-09-17:
   "authorized to make whatever number and degree of changes to the bot").
   When the census points at a structural change that single mechanisms
   cannot test (Iterations 16-20: capturing neutrals and holding them each

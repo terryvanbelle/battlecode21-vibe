@@ -1,12 +1,12 @@
 # Prompt record
 
 User task prompts for this project, in chronological order, recorded verbatim
-(spelling, punctuation and whitespace preserved). Append-only: never edit an
-existing entry. Headings and code fences are record metadata, not prompt text.
+(spelling, punctuation and whitespace preserved). Append-only for the prompt
+text: never edit an entry's words. Each entry is `## <number>. <date>` followed
+by the prompt as typed (the date is the day the prompt was given, UTC).
 
-## Prompt 1: Build a Battlecode 2021 champion bot
+## 1. 2026-09-16
 
-```text
 We are going to build a world-class champion Battlecode bot.  Battlecode is a contest where the contestants implement bots to play against other bots in an arena.  Each year’s rules are different from prior years, but they all share some common features.  We have built bots for several prior years already (Github repositories, in order of attempt:  battlecode22-vibe, battlecode26-vibe, and battlecode25-vibe.  Each attempt was built on previous attempts).  Read through the code and documentation for these projects thoroughly to learn what has already been attempted.  Pay particular attention to files called RESEARCH.md, LEARNINGS.md, DESIGN.md, TRAINING_LOG.md, and TRAINING_ALGORITHM.md.  Also review all code and documentation from the github repository anicolao/bcenv.  Feel free to steal any code that might be useful to you.
 
 We’re not participating in an actual Battlecode tournament, we’re practicing.  In an actual tournament, you would have two sources of data:  local fights against old versions of yourself, and online scrimmages against a variety of opponents in the tournament standings.  We can’t perfectly replicate this latter source of data, but we should try to get as close as possible. 
@@ -21,149 +21,102 @@ Make sure that your attempts are a good combination of incremental tweaks and bi
 Starting with this one, save all of my prompts in a document called PROMPTS.md.
 
 This year we will compete in Battlecode 2021.  Store all results in a new Github repository called battlecode21-vibe.  Download the rules and begin.
-```
 
-## Prompt 2: Push everything
+## 2. 2026-09-16
 
-```text
 Make sure everything is pushed to the repository
-```
 
-## Prompt 3: Make the session visible in the apps
+## 3. 2026-09-16
 
-```text
 This session doesn't seem to be visible in the web or desktop app.  Can you make sure it's visible there?
-```
 
-## Prompt 4: Write Remote Control instructions to a file
+## 4. 2026-09-16
 
-```text
 Idiot copy/paste failed to work.  Can you please write instructions to make this session remote control into a file where I can access it via a real operating system?
-```
 
-## Prompt 5: Resume (after `/remote-control vibe-bc21`)
+## 5. 2026-09-16
 
-```text
 Oh thank Christ.  OK, please resume
-```
 
-## Prompt 6: Free the VM
+## 6. 2026-09-16
 
-```text
 You can kill all jobs on the VM belonging to 2025 and release the resources for your use
-```
 
-## Prompt 7: Pick a gauntlet subset
+## 7. 2026-09-16
 
-```text
 Since we have an abundance of benchmark bots (good work there!), it makes sense to find a subset of them that best simulates the scrimmage.  Choose ones that are just slightly better than us to use as the gauntlet (20-50% of games won).  There are way too many of them to run every time
-```
 
-## Prompt 8: Speed
+## 8. 2026-09-16
 
-```text
 Wow, 10 more hours?  Is there any way to speed that up?
-```
 
-## Prompt 9: Use battlecode-dev for games
+## 9. 2026-09-16
 
-```text
 You're not running the games on claude-driver, are you?  We have a bigger VM called battlecode-dev that you should be using
-```
 
-```text
 claude-driver should only be used to run the Claude instance
-```
 
-## Prompt 10: Disk on battlecode-dev
+## 10. 2026-09-16
 
-```text
 You can free up disk space on battlecode-dev by deleting games from previous projects
-```
 
-## Prompt 11: Document the VM setup
+## 11. 2026-09-16
 
-```text
 Make sure to document the VM setup so that future work doesn't make the same mistake
-```
 
-## Prompt 12: Preliminary benchmark pass on a subset of boards
+## 12. 2026-09-16
 
-```text
 task check
 Consider doing a preliminary pass on the benchmark selection using a subset of boards to speed things up.  You should be able to eliminate some bots as either too weak or too strong that way
-```
 
-## Prompt 13: More maps in scan stage 1
+## 13. 2026-09-16
 
-```text
 Maybe try more maps for scan stage 1
-```
 
-## Prompt 14: Ladder chart legend
+## 14. 2026-09-17
 
-```text
 I think maybe get rid of the key in ladder.png.  It's distorting the plot and not providing much information
-```
 
-## Prompt 15: Ladder graph
+## 15. 2026-09-17
 
-```text
 Ladder graph looks awesome
-```
 
-## Prompt 16: Roster speed
+## 16. 2026-09-17
 
-```text
 It still feels like roster runs slower than in previous years.  Can you confirm and/or explain?
-```
 
-## Prompt 17: Use cycles efficiently
+## 17. 2026-09-17
 
-```text
 OK, understood.  Do what you can to use our cycles efficiently, and I guess we just have to live with the higher engine cost
-```
 
-## Prompt 18: Morning summary
+## 18. 2026-09-17
 
-```text
 I just got up, can you summarize the last 8 hours?
-```
 
-## Prompt 19: Time blocked on the VM
+## 19. 2026-09-17
 
-```text
 Thanks for the summary, sounds like you made some good progress.  What's your estimate of the % of time you are blocked on waiting for runs to finish in the VM?
-```
 
-## Prompt 20: Cells needed for significance
+## 20. 2026-09-17
 
-```text
 Understood about this being a limitation of the infrastructure.  Let's try reducing the cells per decision.  Can you work out how many cells are needed to obtain statistical significance?
-```
 
-## Prompt 21: 72-cell accepts
+## 21. 2026-09-17
 
-```text
 I'm good with a 72-cell accept.  If it looks like we're flailing, we can always do a one-off 108 cell run
-```
 
-## Prompt 22: Review all games in a roster run
+## 22. 2026-09-17
 
-```text
 I don't know how much of this you're already doing, but we should be taking full advantage of the roster games, given how expensive they are in time.  Please review all games in a particular roster run to determine the best next improvement to try
-```
 
-## Prompt 23: Ladder, not roster
+## 23. 2026-09-17
 
-```text
 Sorry, by roster I guess I meant ladder, i.e. the external bots that substitute as our scrimmage
-```
 
-## 24. 2026-09-18
+## 24. 2026-09-17
 
 You are at all times authorized to make whatever number and degree of changes to the bot that you think are appropriate, no need for my approval
 
-## 25. 2026-09-18
+## 25. 2026-09-17
 
 We're going to make a structural change to better simulate actual contest conditions.  Up until now, you've been allowed to run as many games as you like on the external bots, on as many. boards as you like, using whichever side you like.  In reality, games against external opponents occur by challenging them to a scrimmage.  Players are assigned random sides on a random board, and the game is played out, with ELO rankings updated from the result.  In a real competition, you would only have this form of data on external opponents.  From now on, I'd like you to only run against opponents by choosing a random board and a random side, and not hit the same opponent too many times in a row.  You are still free to play against old versions of yourself using the old, unrestricted methodology.  Please adjust your strategy and training algorithm accordingly.

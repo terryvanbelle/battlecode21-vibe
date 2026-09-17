@@ -1110,6 +1110,18 @@ in time; captured ECs need an army to hold, not a bank. The next structural
 attempt should be the army itself: how politicians and muckrakers are
 grouped, aimed and timed.
 
+**Iteration 12 closed (09:30 UTC): relay roster check 35/72 vs `g_iter4`'s
+33 on the same cells (+2, inside the noise; the gate is +5).** Flips: 5
+loss->win (arya-k Arena A and Gridlock A -- the first roster win on Gridlock
+for any build -- and the three piedPipers on Arena B), 3 win->loss
+(123kevinlee Arena B, arya-k Arena B, max-titov maptestsmall A). By map:
+Arena 13 vs 11, Gridlock 1 vs 0, Maze 4 vs 4, maptestsmall 17 vs 18. With
+the head-to-head early-stopped at 6/14, rejected; reverted (already). Ledger:
+halving exposures is real and worth about two roster cells on its own; it
+is kept as a component for an army doctrine (guards that hunt the hunters
+would turn relayed sightings into kills instead of flight), not as a
+standalone candidate. Slanderer safety area: 1 reject.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -1123,7 +1135,7 @@ grouped, aimed and timed.
 | navigation | greedy + bug + oscillation guard | aba 1-3% of moves; 0-18 on Gridlock vs the roster (both g_iter3 and g_iter4): next target |
 | combat micro (politician speech) | radius/value evaluation, chip rule vs ECs | works vs example bot; unmeasured vs real opponents |
 | EC defence vs politician streams | Iteration 3 wall (rejected) | target-tier losses are EC conversions r300-600 by 500-1750-conviction speeches; 1 reject |
-| slanderer safety | flee any enemy, ring 8-45 | unmeasured vs hunters |
+| slanderer safety | Iteration 12 relayed flight (rejected, +2 roster, exposures halved) | hunters expose 12-22 per game vs iliao2345 and max-titov; 1 reject |
 | muckraker hunting / blocking | expose nearest slanderer, sit at enemy EC | unmeasured |
 
 ### Closed-directions ledger
@@ -1132,6 +1144,7 @@ grouped, aimed and timed.
 |---|---|---|---|
 | short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
 | one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |
+| EC relays the nearest enemy; slanderers flee relayed threats within 8 tiles | rejected | exposures halved (iliao2345 1-7 by r300 vs 12), roster +2 on 72 cells (noise), head-to-head 6/14 | as a component of an army doctrine that kills hunters |
 | capture politicians carry a 300 bank (three arms) | rejected | surplus 311 and captured ECs hold 5x longer, but 31 vs 33 on 68 roster cells: captures come later and the army gap decides | an army that can hold ground |
 | threat-sized guards, else bank | rejected | the EC sees a 600+ attacker 3-5 rounds before the speech; bank fired 0-3 rounds; ECs converted holding 8-159 | standing posture only, never a reaction |
 | minimum slanderer size 63 after the opening | rejected | mean size 67-90 at r100 and +30-50% income by r200, but 0/8 at Stage 0 and 12/23 head-to-head: the income fed the same sinks | what the income buys changes (bids, guards) |

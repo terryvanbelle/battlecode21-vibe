@@ -17,8 +17,7 @@ public strictfp class Politician extends Robot {
     Politician(RobotController rc) { super(rc); }
 
     /** Called when a slanderer becomes a politician mid-life. */
-    void adoptFrom(Robot r) { orderRead = true; role = Roles.GUARD; depositor = rc.getConviction() >= C.DEPOSIT_MIN; }
-    private boolean depositor = false; private int crowdedRounds = 0;
+    void adoptFrom(Robot r) { orderRead = true; role = Roles.GUARD; }
     void turnAs(int round) throws GameActionException { this.round = round; this.loc = rc.getLocation(); turn(); }
 
     @Override protected void turn() throws GameActionException {
@@ -26,28 +25,7 @@ public strictfp class Politician extends Robot {
         if (!orderRead) { int f = readHome(); orderRead = true; if (f >= 0 && Comms.type(f) == Comms.ORDER) { role = Comms.extra(f); target = Comms.loc(f, loc); } }
         else if (round % 4 == 0) readHome();
         if (role == Roles.CAPTURE && target != null) { capture(); return; }
-        if (depositor && deposit()) return;
         guard();
-    }
-
-    /** Deposit: walk home and speak next to the EC with few robots in range, so most of the share becomes EC influence. Returns false to guard instead. */
-    private boolean deposit() throws GameActionException {
-        MapLocation home = MapState.home; if (home == null) return false;
-        if (nearestEnemy != null && nearestEnemy.type == RobotType.POLITICIAN && nearestEnemyD2 <= 20) return false;   // an enemy politician close: guard this turn
-        int d2 = loc.distanceSquaredTo(home);
-        if (d2 <= 2) {
-            if (d2 == 2) {   // diagonal: an orthogonal tile makes radius 1 cover the EC alone
-                for (int i = 8; --i >= 0;) { Direction d = DIRS[i]; MapLocation n = loc.add(d); if (n.distanceSquaredTo(home) == 1 && rc.canMove(d)) { rc.move(d); return true; } }
-            }
-            int r2 = d2 == 1 ? 1 : 2;
-            if (rc.isReady() && rc.canEmpower(r2)) {
-                int n = 0; for (int i = nearby.length; --i >= 0;) if (nearby[i].location.distanceSquaredTo(loc) <= r2) n++;
-                if (n <= C.DEPOSIT_MAX_N || crowdedRounds >= C.DEPOSIT_WAIT) { Debug.log("@deposit conv=" + rc.getConviction() + " n=" + n + " r2=" + r2 + " waited=" + crowdedRounds); rc.empower(r2); return true; }
-                crowdedRounds++;
-            }
-            return true;   // adjacent but crowded (or on cooldown): wait
-        }
-        nav.setTarget(home); nav.step(); return true;
     }
 
     // ---------------------------------------------------------------- speech value

@@ -7,12 +7,12 @@ public final class C {
     public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
-    // Iteration 18 (deposit, refinement of Iteration 15): a politician born from an expired slanderer walks home and speaks at
-    // its EC so the share becomes EC influence. Refinements: only enemy politicians (not muckrakers) divert it to guarding,
-    // it may share the speech with up to DEPOSIT_MAX_N-1 friendlies, and after DEPOSIT_WAIT crowded rounds it speaks anyway.
-    public static final int DEPOSIT_MIN = 100;      // conviction below this stays a guard (Iteration 15 dose)
-    public static final int DEPOSIT_MAX_N = 3;      // robots in range allowed (the EC and two friendlies); Iteration 15: 2
-    public static final int DEPOSIT_WAIT = 8;       // rounds adjacent-but-crowded before speaking regardless; Iteration 15: forever
+    // Iteration 17 (EC floor): every non-capture spend keeps min(FLOOR_MAX, round * FLOOR_PER_ROUND / 100) in the EC.
+    // Emergency guards and neutral captures ignore the floor. Dose: FLOOR_PER_ROUND 0 = g_iter4.
+    public static final int FLOOR_PER_ROUND = 50;   // 50 = half an influence per round: 100 at r200, 300 at r600
+    public static final int FLOOR_MAX = 300;
+    public static final int FLOOR_RELEASE_FROM = 900; // refinement 1: the floor falls linearly to 0 between these rounds, so the bank is bid away
+    public static final int FLOOR_RELEASE_TO = 1200;  //   (Iteration 17 dose 1 held it to the end and lost the mirror on votes)
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

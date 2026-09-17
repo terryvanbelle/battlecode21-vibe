@@ -1595,6 +1595,32 @@ branches spend them within 100-200 rounds (146 politicians at r500 against
 13); the ECs are still converted in sequence from r264. Source fixed, sink
 unchanged. The 64-cell roster check decides.
 
+**Iteration 18: REJECTED, level (21:10 UTC,
+`gauntlet/20260917-161455-roster-deposit2`, 63 of 64 cells read):** 26 v 26
+on the 61 cells with a baseline result (two baseline cells were timeouts),
+flips +4/-4 (for: arya-k Arena A and Gridlock A, Scott-Poole Maze A,
+jmerle Arena A; against: awesomelemonade Arena B, max-titov Maze B,
+jmerle maptestsmall A and Maze B). The last cell cannot change the
+verdict. With the source of the bank fixed (36% of expiries deposit) and
+no roster movement, the deposit mechanism is closed at two doses: what
+the EC receives it spends, so the bank never forms whatever feeds it.
+`src/bot` back to `g_iter4`.
+
+## Iteration 17, refinement 1 (in development, economy) -- the floor that is bid away (2026-09-17 21:15 UTC)
+
+Understood failure mode of dose 1: in the mirror the held 300 is never
+used, and the twin's extra slanderers win the votes at r1500 (8 of 9
+losses by votes). Refinement (pre-registered): the same floor (half an
+influence per round, capped at 300, non-capture spending only) falls
+linearly to 0 between r900 and r1200, so from r900 the bank flows into
+the bid cap (inf/5 to r1000, inf/3 after) and units. Counters: EC
+influence at r400/r600/r900/r1200, votes at r1500 in the mirror (dose 1
+lost them by 94 median in the census's vote losses), converted-EC
+influence (`--hits`). Gate unchanged: head-to-head first (24 games, +5,
+early stop at `wins + remaining < 15`), then the 64-cell roster check.
+Falsifier: the mirror still lost on votes, or lost by annihilation before
+r900 (then the floor's price is paid before it can be released).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

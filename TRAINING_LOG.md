@@ -1708,6 +1708,17 @@ first (24 games, +5, early stop), then the 64-cell roster check.
 Falsifier: guards still 20-60 at spawn (the cap never binds) or rush
 losses unchanged.
 
+**big guards head-to-head: 4/12 when stopped (01:35 UTC), every loss a
+vote loss at r1500** (maptestsmall both sides, Arena A, Andromeda B,
+Blotches both sides, Corridor A, CrossStitch A r259 the one annihilation);
+wins Andromeda A, Arena B, Circles A, CrossStitch B. The same shape as the
+floor: a reallocation away from slanderers loses the mirror's vote count
+regardless of what it buys. **Rule amended (TRAINING_ALGORITHM 4.5.1):
+spending-mix changes are doctrine for the gate order; the mirror measures
+only their price.** The roster check (64 cells, `roster-bigguard`,
+futility at 32, +5 over 26/64) runs as the deciding instrument under the
+pre-registration; the mirror becomes the regression check on an accept.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

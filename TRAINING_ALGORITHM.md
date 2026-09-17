@@ -265,8 +265,15 @@ One change per candidate; never bundle. Then:
   can no longer reach the gate (`wins + remaining < 12 + AcceptMargin/2`), and
   the run is recorded as a reject at that point.
 - **Order the two instruments by what the change touches.** A change that
-  matters against ourselves (economy, bidding) is resolved by the
-  head-to-head first. A doctrine or map-knowledge change is invisible to a
+  matters against ourselves (income, bidding) is resolved by the
+  head-to-head first. **Spending-mix changes are not in that class**
+  (amended 2026-09-18 after Iterations 17 and 19): the twin turns every
+  spare influence into slanderers, so in the mirror any reallocation away
+  from slanderers loses the vote count at r1500 whatever it buys (floor:
+  eight of nine losses by votes; big guards: 4/12, every loss by votes at
+  r1500). The mirror measures such a change's price and never its value;
+  treat "what the income buys" as doctrine: roster check first, head-to-head
+  as the regression check on an accept. A doctrine or map-knowledge change is invisible to a
   twin that does not punish the deficiency (2026-09-17: relay, army and
   scouts all early-stopped at 6/14, the noise floor); for those, run the
   roster check first and the head-to-head only as a regression check on an

@@ -1762,6 +1762,54 @@ over 26/64, futility at 32 if 3 or more behind), head-to-head as the
 regression check on an accept. Falsifier: no `@invest` before r400 (the
 surplus never reaches 300 without the sink) or income at r600 unchanged.
 
+**Iteration 20: REJECTED, level, stopped at 33 cells (2026-09-18 04:00
+UTC, `gauntlet/*-roster-invest`): 12 v 14, flips +0/-2** (rzhan11
+maptestsmall A r1124, arya-k Maze A votes; one baseline-unknown cell
+lost). Stopped inside the futility rule's letter (it asks for 3 behind at
+32) because no cell flipped for in 33: +5 would need 7 net flips in the
+remaining 31, which the rule's own measurement says no candidate shows.
+The mechanism fires exactly as pre-registered (logged Arena A game: 301
+investments from r373, slanderers of 368-605, home EC 5,314 at r800, won
+on votes as the baseline does), and moves nothing on the roster: the
+income arrives after r400, when the neutral snowball has already
+decided the multi-neutral maps, and on the rush cells the big slanderers
+are 300-600 lost per expose. Closed with the ledger's note: income after
+r400 is not the constraint; income before r300 is, and that is the
+neutral snowball. `src/bot` back to `g_iter4`.
+
+## Session summary, 2026-09-17 15:00 to 2026-09-18 04:00 UTC
+
+Five candidates from the ladder census, none accepted; `g_iter4` stands
+at 26/64 on the new 8-bot roster's screen cells (standings 49 of 65 at
+20% or more; ladder average 39% on the 82 common cells).
+
+| iteration | mechanism | result | what it closed |
+|---|---|---|---|
+| 16 | opening capture (3 doses) | 0/13, 0/4, 2/8 | early neutrals are taken and lost at 5-61 influence; bank-first stalls the economy on maps without an early neutral |
+| 17 | EC floor (hard, sink-only, released) | starved; 13/24 mirror; 6 v 9 roster | a reserve starves slanderers or loses the rush cells |
+| 18 | deposit refinement | 26 v 26 on 64 | 36% of expiries deposit, the EC spends it within 200 rounds |
+| 19 | big standing guards | 4/12 mirror; 2 v 5 roster | fewer bigger guards lose the same rush cells as the floor |
+| 20 | invest the surplus | 12 v 14 at 33 | income after r400 arrives too late to matter |
+
+Three findings that outlast the rejects: (1) the mirror only prices a
+spending-mix change (rule amended, 4.5.1); (2) the three rush cells
+(awesomelemonade Arena A/B, rzhan11 maptestsmall A) are `g_iter4`'s
+many-small-guards wins and every reallocation loses them; (3) the
+opponents' income is the neutral snowball plus 500-1000-influence
+slanderers bought from that bank by r400, and our copies of either half
+without the other do not move the roster. Cost: ~28 VM-hours of games
+(five roster checks stopped at 13-33 cells, four mirrors, four Stage 0s).
+
+**Recommendation for the next session (the user's call):** the census
+points at one structural change that no single-iteration candidate can
+test: hold captured neutrals (an opening that captures *and* keeps
+guards at each new EC, or capture only the neutrals within a few tiles
+of home). That is two mechanisms in one candidate, outside the loop's
+one-change rule, so it needs the user's go-ahead as a one-off; the
+alternative is the untested areas of the functional map (navigation on
+Gridlock, muckraker hunting), each cheaper but with weaker evidence. The
+VM is stopped.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -1797,6 +1845,8 @@ surplus never reaches 300 without the sink) or income at r600 unchanged.
 | opening capture: bank from r1 / bank to r80 / saving mode on a known neutral (three doses) | rejected | takes the neutrals (Arena: ECs 5 v 2 at r450) and loses them at 5-61 influence each; 0/13 roster, 0/4, 2/8 Stage 0 | ECs keep a bank |
 | EC influence floor (hard reserve; sink-only, released r900-1200) | rejected | hard: starves slanderers below the floor (0 from r450); sink-only: level in the mirror (13/24), roster 6 v 9 at 22 cells with rush losses at r519-521 | never as a reserve; a bank must come from income |
 | deposit: expired slanderers speak at the EC (dose 2: politician-only threat, share with two, speak after 8 rounds) | rejected | 36% of expiries deposit (was 14%), 12k conviction in a game, EC spends it within 200 rounds; roster 26 v 26 on 64 | the guard sink is gone |
+| big standing guards (cap 60 -> 200, spare/2) | rejected | mirror 4/12 (votes), roster 2 v 5 at 13 cells: the same three rush cells as the floor | never as a size rule |
+| invest the surplus (spare >= 300 buys a slanderer of that size) | rejected | fires as designed (368-605 slanderers, EC 5,314 at r800) but roster 12 v 14 at 33 cells, no flip for: income after r400 is too late | with an opening that holds its neutrals |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap

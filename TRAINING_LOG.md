@@ -1243,6 +1243,16 @@ changes that matter against ourselves (economy, bidding); doctrine and
 map-knowledge changes need the roster, and the head-to-head should be run
 second for those, or skipped when the roster check is already +5.
 
+**Iteration 14 REJECTED (13:05 UTC): eight early scouts.** Roster check
+stopped at 40 of 72 shared cells: 18 vs `g_iter4`'s 23, a regression
+signature that cannot reach +5 in the remaining 32 (stopped to save the
+games); head-to-head early-stopped at 6/14. The counters were as
+pre-registered (all neutrals known by r200, coverage 50-68%, opening
+intact), so knowing where the neutrals are does not help a build that
+cannot take or hold them; the four extra scouts are four extra bodies the
+hunters kill and four build slots. Reverted to `g_iter4`. Scouting area: 1
+reject. Ledger: map knowledge is not the binding constraint at this level.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -1252,7 +1262,7 @@ second for those, or skipped when the roster check is already +5.
 | economy / production mix | Iteration 4: never idle (spare branch: guards / slanderers to 24 / hunters), 20/24 vs g_iter2, 19/72 vs 13/72 on targets | EC now builds every cooldown; opponents still field 3-7x the units (multi-EC, earlier captures) |
 | bidding | Iteration 9: early bid cap influence/30 before r600 (accepted, +6 on 72 roster cells) | late ramp unchanged; bid war vs bidders still costs ~1700 by r300 |
 | neutral-EC captures | Iterations 5 (race) and 11 (capture bank), both rejected | captured ECs now hold 250+ when hit but still fall; 2 rejects |
-| scouting / map knowledge | edge-seeking waypoints, fact cycling, sibling IDs | symmetry still often unresolved on multi-EC maps |
+| scouting / map knowledge | Iteration 14 eight scouts (rejected: knowledge without captures) | all neutrals known by r200 with 8 scouts; 1 reject |
 | navigation | greedy + bug + oscillation guard | aba 1-3% of moves; 0-18 on Gridlock vs the roster (both g_iter3 and g_iter4): next target |
 | army / attack doctrine | Iteration 13 attack politicians (rejected, roster 31 vs 33) | converts ECs in bunches, loses the late economy; 1 reject |
 | combat micro (politician speech) | radius/value evaluation, chip rule vs ECs | works vs example bot; unmeasured vs real opponents |
@@ -1266,6 +1276,7 @@ second for those, or skipped when the roster check is already +5.
 |---|---|---|---|
 | short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
 | one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |
+| eight early scouts (was four) | rejected | all neutrals known by r200 (baseline never), coverage 50-68%, roster 18 vs 23 on 40 cells | when captures can use the knowledge |
 | attack politicians (300+) from the spare branch at the nearest hostile EC, no guards/hunters | rejected | 300+ politicians 18-27 per phase (vs 1-6), 9 ECs taken in one game, roster 31 vs 33 on 70 cells, head-to-head 6/14 on votes | as a scheduled wave with a bank behind it |
 | EC relays the nearest enemy; slanderers flee relayed threats within 8 tiles | rejected | exposures halved (iliao2345 1-7 by r300 vs 12), roster +2 on 72 cells (noise), head-to-head 6/14 | as a component of an army doctrine that kills hunters |
 | capture politicians carry a 300 bank (three arms) | rejected | surplus 311 and captured ECs hold 5x longer, but 31 vs 33 on 68 roster cells: captures come later and the army gap decides | an army that can hold ground |

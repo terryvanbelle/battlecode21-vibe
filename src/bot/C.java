@@ -11,7 +11,7 @@ public final class C {
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;
-    public static final int EARLY_SCOUTS = 8;            // Iteration 14: 4 -> 8 (dose 4 / 8 / 12); a 64x64 map is 4096 tiles and four scouts cover 25-44% by r900
+    public static final int EARLY_SCOUTS = 4;
     public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // (unused) historical cap
     public static final int BID_EARLY_DIV = 30;         // Iteration 9: before r600 bid at most influence / this (baseline: /12 before r200, /8 to r600); dose 12-8 / 30 / 60

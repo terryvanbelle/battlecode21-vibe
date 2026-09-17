@@ -1223,6 +1223,15 @@ at r100 down by two or more.
 at r900); opening at r100: 17 slanderers and 48 influence (baseline 12-19),
 so the four extra scouts cost nothing visible.
 
+**scouts8 Stage 0 (7 of 8 read, 0 wins, baseline 0; one timeout):
+mechanism engaged.** All neutrals known at r200 in 4 of 6 games (baseline:
+never in 7 of 8; the two Sihal3 Gridlock games still never), first neutral
+at r50 (Gridlock) / r150 (Maze, unchanged: Maze's four are 20 tiles from
+either corner behind swamp), coverage 50-68% (baseline 25-44%), opening at
+r100 unchanged (16-17 slanderers, 48-79 influence). The cells are the
+hardest on the roster and did not move; the head-to-head (+5, early stop)
+and the 72-cell roster check decide.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

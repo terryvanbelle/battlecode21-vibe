@@ -617,6 +617,20 @@ jmerle (2/14). Stage 2 overall 47/132 (36%). The roster gauntlet for
 `g_iter3` (quick set, both sides, 216 games) is running as the baseline for
 the next candidate.
 
+**Refinement 1 Stage 0 (`gauntlet/20260917-*-race-r1`, six read): 1/6.**
+Flips 0, 1, 1, 2, 1, 3 (baseline <= 1); the 3-flip game (Sihal3, Arena, A)
+held 3 ECs at r400 and won by annihilation at r512. But `race=` fired only
+0-4 times per game: the chip threshold (half a target, ~190 on Arena) is
+rarely reached because the slanderer and guard branches, lower in priority
+but always affordable, spend the income first; the EC never saves. ECs at
+r400 averaged 1; Sihal3 Arena B, a baseline win, was lost. Gate missed.
+*Refinement 2 (dose change on the same mechanism, pre-registered):* while a
+neutral is known, 4 slanderers exist, fewer than 2 capturers are out and the
+chip is unaffordable, the economy branches wait (`save=` counter) until r400;
+emergency guards still fire. Expect `race=` >= 6 by r300 and flips >= 2 in
+half the games; falsifier: the saved bank is converted with the EC (EC
+influence is its conviction, so saving is also defence) or flips still < 2.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

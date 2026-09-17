@@ -706,6 +706,16 @@ must move); then head-to-head vs `g_iter3` and the roster gauntlet.
 Falsifier: politicians at r100 unchanged (another branch builds them) or
 exposures explode.
 
+**Iteration 7 Stage 0, first arm (`gauntlet/20260917-*-guard-s0`, 4 read,
+0/4): falsifier hit.** Politicians at r100 were 12-16 (baseline 9-20): the
+normal guard branch scales as `GUARD_BASE + slanderers/2`, so zeroing the
+base left 12 guards at 12 slanderers and the halved ratio only reached the
+spend branch. Fix for mechanism completeness: the same ratio in the normal
+branch (`GUARD_BASE + slanderers * 1/2 / 2` = 6 at 12 slanderers). Also
+seen: against iyzg's muckraker flood, exposures reached 34-41 by r300 (the
+baseline's 9-14), the price the pre-registration named; the Sihal3 games
+had 0. Relaunched as `guard-s0b` on the same 8 cells.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

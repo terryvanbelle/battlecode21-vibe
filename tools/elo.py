@@ -6,7 +6,7 @@ with Wilson 95% intervals, which are what a candidate decision reads.
    tools/elo.py            # standings + per-build records
    tools/elo.py --last 48  # the last 48 games only (a block)"""
 import csv, os, sys, math, argparse, collections
-ap = argparse.ArgumentParser(); ap.add_argument('--last', type=int, default=0); ap.add_argument('--k', type=float, default=32)
+ap = argparse.ArgumentParser(); ap.add_argument('--last', type=int, default=0); ap.add_argument('--k', type=float, default=32); ap.add_argument('--plot', default='')
 a = ap.parse_args()
 repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 rows = list(csv.DictReader(open(os.path.join(repo, 'progress', 'scrims.csv'))))
@@ -32,3 +32,14 @@ byb = collections.defaultdict(list)
 for r in sel: byb[r['build']].append(r['result'] == 'win')
 for b, v in byb.items():
     p, lo, hi = wilson(sum(v), len(v)); print(f"  {b:12s} {sum(v):3d}/{len(v):<3d} = {p:5.1%}  [{lo:5.1%}, {hi:5.1%}]")
+if a.plot:
+    import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
+    fig, ax = plt.subplots(figsize=(8, 3.6))
+    ax.plot(range(1, len(hist) + 1), hist, lw=1.4, color='#1f77b4')
+    # mark build boundaries
+    prev = None
+    for i, r in enumerate(rows):
+        if r['build'] != prev:
+            ax.axvline(i + 1, color='#999', lw=0.6, ls=':'); ax.text(i + 1, min(hist) if hist else 1500, r['build'], fontsize=7, rotation=90, va='bottom', ha='right'); prev = r['build']
+    ax.set_xlabel('scrimmage'); ax.set_ylabel('team Elo'); ax.set_title(f"contest standing: {R['us']:.0f} after {games['us']} scrimmages"); ax.grid(alpha=.3)
+    fig.tight_layout(); fig.savefig(a.plot, dpi=120); print('wrote', a.plot)

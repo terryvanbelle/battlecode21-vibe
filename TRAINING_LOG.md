@@ -999,6 +999,18 @@ above the floor; Iteration 9 was accepted on +6 over 72 paired roster cells
 next candidate's baseline will re-measure it for free. Ledger: a single
 24-game head-to-head resolves margins of +5 and up; a +2 or +3 is noise.
 
+**Iteration 11 REJECTED (08:05 UTC): capture with a bank.** Roster check
+on the screen set (`gauntlet/20260917-052724-roster-capbank`): 31/72
+(43.1%) against `g_iter4`'s 33 on the same cells in its own screen run, and
+31 vs 33 on the 68 cells its quick-set baseline had reached, with 4 cells
+left that cannot bring the margin to +5 (or +4). Per opponent the candidate
+sat at 3/8 against six of the nine. The mechanism was real (surplus 311,
+captured EC held 252 when hit, 5x the baseline) and did not move games:
+the bank delays the capture by ~300 influence, the opponent takes the
+neutral first in about half the cases, and the games are still decided by
+the army gap. Reverted to `g_iter4`. Neutral-EC captures area: 2 rejects
+(race, capbank). Ledger: holding an EC needs an army, not a bank.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -1007,7 +1019,7 @@ next candidate's baseline will re-measure it for free. Ledger: a single
 |---|---|---|
 | economy / production mix | Iteration 4: never idle (spare branch: guards / slanderers to 24 / hunters), 20/24 vs g_iter2, 19/72 vs 13/72 on targets | EC now builds every cooldown; opponents still field 3-7x the units (multi-EC, earlier captures) |
 | bidding | Iteration 9: early bid cap influence/30 before r600 (accepted, +6 on 72 roster cells) | late ramp unchanged; bid war vs bidders still costs ~1700 by r300 |
-| neutral-EC captures | Iteration 5 race (rejected, 3 arms) | opponents hold 6-8 ECs by r400, we hold 0-2; blocked on opening income |
+| neutral-EC captures | Iterations 5 (race) and 11 (capture bank), both rejected | captured ECs now hold 250+ when hit but still fall; 2 rejects |
 | scouting / map knowledge | edge-seeking waypoints, fact cycling, sibling IDs | symmetry still often unresolved on multi-EC maps |
 | navigation | greedy + bug + oscillation guard | aba 1-3% of moves; 0-18 on Gridlock vs the roster (both g_iter3 and g_iter4): next target |
 | combat micro (politician speech) | radius/value evaluation, chip rule vs ECs | works vs example bot; unmeasured vs real opponents |
@@ -1021,6 +1033,7 @@ next candidate's baseline will re-measure it for free. Ledger: a single
 |---|---|---|---|
 | short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
 | one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |
+| capture politicians carry a 300 bank (three arms) | rejected | surplus 311 and captured ECs hold 5x longer, but 31 vs 33 on 68 roster cells: captures come later and the army gap decides | an army that can hold ground |
 | threat-sized guards, else bank | rejected | the EC sees a 600+ attacker 3-5 rounds before the speech; bank fired 0-3 rounds; ECs converted holding 8-159 | standing posture only, never a reaction |
 | minimum slanderer size 63 after the opening | rejected | mean size 67-90 at r100 and +30-50% income by r200, but 0/8 at Stage 0 and 12/23 head-to-head: the income fed the same sinks | what the income buys changes (bids, guards) |
 | guards scale with threat (base 0, ratio 1/2) | rejected | politicians at r100 unchanged (spend branch fills 24 slanderers -> 14 guards); 1/6 vs 3 | never as a count rule; the income gap is 2-3x |

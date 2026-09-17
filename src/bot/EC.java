@@ -36,7 +36,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
     }
 
     // ---------------------------------------------------------------- production
@@ -62,7 +62,7 @@ public strictfp class EC extends Robot {
         }
         else if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
-        else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), MapState.neutralInf[captureTargetIdx] + 14 + C.CAPTURE_BANK); role = Roles.CAPTURE; }   // Iteration 11: the surplus becomes the new EC's bank
+        else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!danger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= 21 && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
@@ -74,9 +74,7 @@ public strictfp class EC extends Robot {
             // never idle: every capped branch declined but influence is spare. Alternate bodies: a guard when guards
             // trail slanderers, else another slanderer up to the spare cap, else a 1-influence hunter.
             int spare = inf - reserve();
-            boolean savingForCapture = MapState.nNeutral > 0 && capturers < 2 && slanderers >= 4 && spare < MapState.neutralInf[0] + 14 + C.CAPTURE_BANK;   // Iteration 11: bodies wait, income does not
-            if (savingForCapture && (danger || slanderers >= C.SPEND_SLANDERER_CAP || Econ.bestSize(spare) < 21)) { saveRounds++; return; }
-            if (!savingForCapture && (guards < slanderers + 2 || spare >= 300)) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // a big bank buys big guards whatever the ratio
+            if (guards < slanderers + 2 || spare >= 300) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // a big bank buys big guards whatever the ratio
             else if (!danger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
             else { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }
             spendBuilds++;
@@ -98,7 +96,7 @@ public strictfp class EC extends Robot {
         Debug.log("@spawn t=" + t.ordinal() + " inf=" + cost + " role=" + role + " dir=" + d + " ecInf=" + rc.getInfluence());
     }
     private int pendingOrder = 0, pendingOrderRound = -10;
-    private int idleRounds = 0, spendBuilds = 0, saveRounds = 0;   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
+    private int idleRounds = 0, spendBuilds = 0;   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
     private int enemyEcInf = 0;   // last reported influence of the enemy EC we target (bucketed)
 
     private int reserve() { return Math.min(Math.max(bid * 2, 10), Math.max(10, rc.getInfluence() / 2)); }   // keep enough to bid next round, never more than half
@@ -106,7 +104,7 @@ public strictfp class EC extends Robot {
     private int captureAffordable(int inf) {
         int best = -1, bestCost = 1 << 30;
         for (int i = MapState.nNeutral; --i >= 0;) {
-            int c = MapState.neutralInf[i] + 14 + C.CAPTURE_BANK;   // Iteration 11: wait until the bank is affordable too
+            int c = MapState.neutralInf[i] + 14;
             if (c <= inf - reserve() && c < bestCost && capturers < 2) { best = i; bestCost = c; }
         }
         return best;

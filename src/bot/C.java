@@ -14,7 +14,6 @@ public final class C {
     public static final int EARLY_SCOUTS = 4;
     public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // (unused) historical cap
-    public static final int CAPTURE_BANK = 300;         // Iteration 11: a capture politician carries this much beyond the target's value, so the converted EC starts with a bank (dose 0 = g_iter4 / 300 / 600)
     public static final int BID_EARLY_DIV = 30;         // Iteration 9: before r600 bid at most influence / this (baseline: /12 before r200, /8 to r600); dose 12-8 / 30 / 60
     // never idle: when every capped branch declines and this much is spare above the reserve, build anyway
     public static final int SPARE_MIN = 60;             // dose ladder: 1<<30 (off, = g_iter2) / 60 / 20

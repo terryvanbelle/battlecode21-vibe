@@ -946,6 +946,17 @@ the old threshold (`neutralInf + 14` affordable) and `min(spare, +300)` gave
 before. Completeness fix: the branch waits until `neutralInf + 14 + 300` is
 spare. Relaunched.
 
+**Stage 0, capbank, second arm, first game (astelmach20, Gridlock, A): lost
+at r848; the bank never formed.** The home EC's influence peaked at 300
+(r150) and the spare branch spent it on guards (33 by r200); 514 was never
+spare, so the only capture politician was a 92 sent at the enemy EC. The
+neutral conversions I had read as ours in this trace were the opponent's
+(the `CONVERT neutral:EC` event does not say who spoke; our captures show up
+as conversions of `piedPiper:EC`). Completeness fix: while a neutral is
+known, a capture is pending and the bank is not yet affordable, the spare
+branch buys slanderers (income) but no guards or hunters (`save=` counter).
+Relaunched as the third arm.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

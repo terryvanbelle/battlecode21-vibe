@@ -554,6 +554,43 @@ gauntlet for this build wait for the three-map scan's roster (stage 2 at
 accepted, wall rejected, wall refinement rejected, spend accepted): the
 next attempt is structural.
 
+## Iteration 5 (in development, structural) -- the neutral-EC race (2026-09-17 01:10 UTC)
+
+**Target: a capability gap named from the ladder.** In every target-tier
+loss on Arena, Gridlock and Maze (`gauntlet/20260916-224601-tgt-spend`), the
+opponent holds 6-8 of the map's 8 ECs by r400 and we hold 0-2 (typical
+sequence r200/400/600/900: `2v2 2v6 1v7 0v8`), and their unit count at r900
+is 800-2000 against our 1-300. 70 of the 76 corpus maps have neutral ECs (4-6
+worth 875-1600 influence in total; Gridlock's six average 200). Our EC knows
+a neutral by r50 (Arena, Gridlock) or r150 (Maze) in all 40 surveyed losses,
+yet flips none in 24 of them and never more than one before r250; the
+opponents flip two by r200 and four to six by r400. Mechanism: the capture
+branch waits until it can afford `neutralInf + 14` in one politician, keeps
+at most 2 capturers and counts them forever (the capturer census pin seen at
+Stage 0 of Iteration 2), so one capture per game is the ceiling.
+
+*Pre-registration, candidate "race":* the capture branch (already second in
+priority, after emergency guards) sends a chip politician toward the nearest
+known neutral whenever `inf - reserve() >= 40`, sized `min(spare, remaining +
+14)`, with up to `RACE_INFLIGHT` = 4 capturers younger than 200 rounds in
+flight (older ones count as guards). Damage to an EC is permanent, so chips
+accumulate. Decision-point counters: `race=` builds in the `@econ` line
+(baseline: the old branch fired 0-2 times), `@speech role=capture ... FLIP`
+count and first-flip round (baseline: <= 1, r96-419 or never), `A_ecs` at
+r400 (baseline 0-2). Reachability: fires from the first neutral report; the
+choice set is every known neutral. Trigger frequency: all games on the 70
+maps with neutrals. Price: early influence goes to captures instead of the
+first slanderers (income later) and the chips are bodies that die; the
+reserve is unchanged. History: nothing in the ledger. Dose ladder:
+RACE_INFLIGHT 2 (= old cap, with chips) / 4 / 6. Gate: Stage 0 on the VM,
+Arena and Gridlock vs iyzg and Sihal3, both sides (8 games): >= 2 flips in at
+least half the games and ECs at r400 >= 3 on average; then head-to-head vs
+`g_iter3` (quick set, +4) and the roster gauntlet on the new roster.
+Falsifier: `race=` stays near 0 (spare never reaches 40 early: the reserve
+or bids eat it), or flips do not rise (chips never arrive: navigation), or
+ECs at r400 unchanged. This is the structural attempt due after four
+incremental ones.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

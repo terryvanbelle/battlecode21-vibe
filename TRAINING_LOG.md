@@ -647,6 +647,36 @@ capture doctrine cannot be funded before r200, and by r200 the neutrals are
 gone. The next candidate is the opening economy itself (area: economy, 0
 rejects); the race is re-opened when r100 EC influence is >= 500.
 
+## Iteration 6 (in development) -- slanderer cap 24 (2026-09-17 01:45 UTC)
+
+**Target: an absolute degeneracy in our own replays, economy area.** Opening
+build orders from two roster opponents' replays (allowed: Sihal3 36%,
+iliao2345 21%) against ours (`tgt-spend` losses, Gridlock and Arena): our
+EC's first 90 rounds buy 4 scouts, one 107 slanderer, ~12 slanderers of
+21-41 and ~14 guard politicians of 20-29; the slanderer count hits the cap
+of 12 at r50 and stays there until the first ones age out at r350 (the spend
+branch adds up to 24 only when 60 is spare, which the guard branch rarely
+leaves). Sihal3 opens with cheap muckrakers and slanderers of 21-107, no
+politicians until r68, and keeps adding slanderers: 7, 17, 29, 36 at r50,
+r100, r150, r200 against our 12, 19, 24, 25 -- and its EC holds 623 at r200
+against our 111. (The locked bots out-earn us 2-3x by r100; the roster bots
+do not, they just keep growing.)
+
+*Pre-registration, candidate "cap24":* `MAX_SLANDERERS` 12 -> 24 for the
+normal slanderer branches (the spend branch's 24 is unchanged); one
+constant. Decision-point counters: slanderers alive at r100 and r200 from
+`--metrics` (baseline 12-20 / 20-25; expect 20+ / 30+ where danger allows),
+EC influence at r200 (baseline 50-300), `unitsLived100`. Reachability: the
+cap binds at r50 in every traced game. Price: more slanderers exposed to
+muckrakers (Sihal3 fields 25-48 by r200; the guard cap `4 + sl/2` grows with
+them), fewer early guards because the guard-ratio gate (`guards >= sl/3`)
+now asks for 8. History: nothing in the ledger. Dose ladder 12 (= g_iter3) /
+24 / 36. Gate: Stage 0 on the 8 cells (Arena, Gridlock vs iyzg, Sihal3, both
+sides; g_iter3 scored 3/8 there): counters must move and the cell count must
+not fall; then head-to-head vs `g_iter3` (quick, +4) and the roster gauntlet
+against the g_iter3 roster baseline now running. Falsifier: slanderer count
+unchanged (some other branch starves them) or EC influence at r200 lower.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

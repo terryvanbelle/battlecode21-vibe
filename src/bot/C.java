@@ -8,7 +8,7 @@ public final class C {
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
     // economy
-    public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
+    public static final int MAX_SLANDERERS = 24;        // alive at once (they become politicians after 300 rounds); Iteration 6 dose ladder 12 / 24 / 36
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;
     public static final int EARLY_SCOUTS = 4;

@@ -783,6 +783,46 @@ false` on both sides took 416 s / 344 s. Policy from here: at most 7 games
 on the VM at once (the 2025 semaphore's cap), and no development runs beside
 a roster gauntlet unless they fit under it.
 
+**Iteration 8 REJECTED (02:40 UTC): minimum slanderer size 63.** Head-to-head
+vs `g_iter3` early-stopped at 12/23 (cannot reach 14); Stage 0 0/8 vs 3/8.
+The counters moved as pre-registered (mean size 67-90 at r100, income +30-50%
+by r200) and it changed nothing downstream: the extra influence went into
+the same sinks (bids against bidders, guards) or arrived after the EC had
+fallen. Economy area: 3 rejects in a row (cap 24, guard ratio, size) --
+`MaxRejectsPerArea` reached: the next attempt must leave "production mix".
+Reverted to `g_iter3`. Ledger: income-side changes without a change in what
+the income buys do not move games at this level.
+
+## Iteration 9 (in development) -- bid discipline (2026-09-17 02:45 UTC)
+
+**Target: an absolute degeneracy in the ledger (area: bidding/scoring).**
+Against Sihal3 (a bidder) we spent 1608 of the 4692 influence we had earned
+by r200 on bids (34%) and 2593 of 7118 by r300, and lost the vote anyway
+(60 vs 121 at r200; 112 vs 157 at r300); against iyzg, who never bids, we
+spent 284-514 by r300 and won every vote at a bid of 1-2. Influence bid
+before r600 is influence that cannot compound through slanderers, and most
+games against target-tier opponents are decided by annihilation before the
+vote count matters.
+
+*Pre-registration, candidate "bid":* before r600 the bid cap is
+`influence / BID_EARLY_DIV` (30) instead of /12 (r<200) and /8 (r200-600);
+the adaptive bid, the majority stop and the late ramp are unchanged. One
+constant. Decision-point counters: cumulative `bidInf` at r200 and r300
+from `--metrics` (baseline 1608 / 2593 vs Sihal3; expect < 600 / < 1000),
+EC influence and total earned at r300 (expect up), and votes at r1500 in
+games that go the distance (the price: a bidder may take the vote in a game
+we would otherwise have won on votes). Reachability: every bid round.
+Trigger frequency: all games vs bidders. Dose ladder: 12-8 (= g_iter3) / 30
+/ 60. Gate: Stage 0 = Sihal3 on Arena and Gridlock, both sides (4 informative
+cells; iyzg does not bid, so its cells are uninformative for this
+mechanism); then the roster gauntlet on the screen set (72 games) against
+the g_iter3 baseline on the same cells. **The head-to-head vs `g_iter3` is
+not a gate for this candidate**: two builds identical except for the bid
+cap play a zero-sum vote war where the higher bidder wins on votes at
+r1500, which is the instrument's known blind spot (section 3: "any
+weakness both builds share"); it is still played and recorded. Falsifier:
+`bidInf` unchanged (another path bids) or the roster record falls.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -790,7 +830,7 @@ a roster gauntlet unless they fit under it.
 | area | last attempt | status |
 |---|---|---|
 | economy / production mix | Iteration 4: never idle (spare branch: guards / slanderers to 24 / hunters), 20/24 vs g_iter2, 19/72 vs 13/72 on targets | EC now builds every cooldown; opponents still field 3-7x the units (multi-EC, earlier captures) |
-| bidding | bidding v2 + overflow/reserve fix | smoke-tested vs `arch_bidder` (win 750 votes); unmeasured vs real bidders |
+| bidding | Iteration 9: early bid cap /30 (in test) | vs Sihal3 34% of income went to bids by r200 and the vote was lost anyway |
 | neutral-EC captures | Iteration 5 race (rejected, 3 arms) | opponents hold 6-8 ECs by r400, we hold 0-2; blocked on opening income |
 | scouting / map knowledge | edge-seeking waypoints, fact cycling, sibling IDs | symmetry still often unresolved on multi-EC maps |
 | navigation | greedy + bug + oscillation guard | aba 1-3% of moves; boxed-in-by-friends failure seen and mitigated by jitter |
@@ -805,6 +845,7 @@ a roster gauntlet unless they fit under it.
 |---|---|---|---|
 | short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
 | one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |
+| minimum slanderer size 63 after the opening | rejected | mean size 67-90 at r100 and +30-50% income by r200, but 0/8 at Stage 0 and 12/23 head-to-head: the income fed the same sinks | what the income buys changes (bids, guards) |
 | guards scale with threat (base 0, ratio 1/2) | rejected | politicians at r100 unchanged (spend branch fills 24 slanderers -> 14 guards); 1/6 vs 3 | never as a count rule; the income gap is 2-3x |
 | slanderer cap 12 -> 24 alone | rejected | slanderers 24 at r100 but EC influence at r200 unchanged: the spend branch turned the income into guards (29-34 by r200); 0/6 vs 3/8 | guard sink removed (Iteration 7) |
 | neutral-EC race by chip politicians (3 arms: 4 in flight / half-target chips / save for the chip) | rejected | chips built and spoke but flips <= 2 and the economy starved (EC influence 10-70 at r200-300); 0/8, 1/8, 0/8 on the motivating cells | opening income reaches >= 500 EC influence at r100 |

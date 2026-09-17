@@ -7,13 +7,10 @@ public final class C {
     public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
-    // Iteration 16 (opening capture), dose 3 "saving mode": no bank-first. The normal build runs until a neutral of at most
-    // OPENING_MAX_TARGET is known before OPENING_SAVE_UNTIL; then the EC keeps only its first two slanderers and saves every
-    // other influence until it can send a full-price capturer (+OPENING_BANK). Maps with no early neutral pay nothing.
-    public static final boolean OPENING_CAPTURE = true;  // dose: false = g_iter4
-    public static final int OPENING_SAVE_UNTIL = 150;    // a neutral reported after this round is left to the normal capture branch
-    public static final int OPENING_MAX_TARGET = 320;    // neutrals above this wait for the economy
-    public static final int OPENING_BANK = 30;           // extra conviction so the new EC starts with a small bank
+    // Iteration 17 (EC floor): every non-capture spend keeps min(FLOOR_MAX, round * FLOOR_PER_ROUND / 100) in the EC.
+    // Emergency guards and neutral captures ignore the floor. Dose: FLOOR_PER_ROUND 0 = g_iter4.
+    public static final int FLOOR_PER_ROUND = 50;   // 50 = half an influence per round: 100 at r200, 300 at r600
+    public static final int FLOOR_MAX = 300;
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

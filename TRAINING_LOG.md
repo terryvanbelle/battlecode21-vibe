@@ -1503,6 +1503,48 @@ max-titov, Andromeda B vs max-titov) measure what saving mode keeps of
 bank-first; bar: 4/4 flips recovered and at least 1 of the 3 wins kept.
 Stage 0 on the same 8 cells (`gauntlet/*-stage0-opening3`).
 
+**Iteration 16: REJECTED (17:55 UTC).** Dose 3 Stage 0 2/8
+(`gauntlet/20260917-155449-stage0-opening3`): the two maptestsmall flips
+recovered (no neutral, so saving mode never fires and the build is
+`g_iter4`'s), both Arena flips still lost, and all three dose-1 wins lost
+(Gridlock A vs arya-k and max-titov, Andromeda B vs max-titov). Across the
+three doses the family is 3/8, 0/4+, 2/8 against `g_iter4`'s 4/8 on the
+dose-2/3 cells and 0/8 on the dose-1 cells. What the Arena replays showed
+is the lesson: dose 3 wins the opening outright (Arena B: ECs 5 v 2 at
+r450, 152 politicians and 92 slanderers against 14 and 41) and still loses
+at r899, because every one of our ECs is converted while holding 5-61
+influence (`--hits`: 13, 15, 10, 5, 22, 61 at the moment of conversion, by
+107-500-conviction politicians) while awesomelemonade's two ECs hold
+5,054. The never-idle doctrine (Iteration 4) keeps each EC at
+`reserve()` = max(2*bid, 10), so more ECs are more empty targets, and the
+ECs ping-pong (we re-convert with 16-44, they take them back). `src/bot`
+is back to `g_iter4`. An opening is worth revisiting only once ECs keep a
+bank.
+
+## Iteration 17 (in development, economy) -- the EC floor (2026-09-17 18:00 UTC)
+
+**Target: the bank that is never built** (census mechanism 2, and the
+reason Iteration 16's early leads evaporated). Non-capture spending
+(slanderers, guards, spare, the rich-and-idle capture) must leave
+`floored()` = max(reserve(), min(FLOOR_MAX, round * FLOOR_PER_ROUND / 100))
+in the EC; emergency guards (`danger && guards < 2`) and neutral captures
+keep the old reserve. Dose: FLOOR_PER_ROUND 50 / FLOOR_MAX 300 (100 at
+r200, 300 from r600); 0 = `g_iter4`; second arm 100/600 if the first is a
+near miss. Counters: EC influence at r400/r600 (baseline median 282 at r400
+across losses, 5-61 at conversion), first-EC-loss round and influence held
+(baseline r288, 19), converted-EC count per game (`--hits`), slanderers at
+r300 (the price: baseline ~24). Reachability: the floor is reached by
+passive income alone (0.2*sqrt(r) per round, ~60 by r200 cumulative
+excluding slanderer income) plus slanderer income, so it binds only when the
+EC would otherwise spend to zero. Price: up to 300 influence of units per
+EC not built; guard count falls at the margin. History: Iteration 4
+(never-idle) was accepted on the opposite argument (spending beats
+banking) and the bid cap (Iteration 9) let the EC keep more early; this
+tests the middle. Gate (economy, 4.5.1): head-to-head vs `g_iter4` first
+(24-game quick set, +5, early stop), then the 64-cell roster check (+5
+over 26/64, futility at 32). Falsifier: converted-EC influence unchanged
+(the floor is spent before the hit lands) or first-EC-loss unchanged.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

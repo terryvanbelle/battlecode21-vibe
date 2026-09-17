@@ -677,6 +677,35 @@ not fall; then head-to-head vs `g_iter3` (quick, +4) and the roster gauntlet
 against the g_iter3 roster baseline now running. Falsifier: slanderer count
 unchanged (some other branch starves them) or EC influence at r200 lower.
 
+**Iteration 6 REJECTED at Stage 0 (`gauntlet/20260917-*-cap24-s0`): 0/6 read
+(two games left), against the baseline's 3/8 on these cells; both Sihal3
+Arena cells, baseline wins, lost.** Counters: slanderers 24 at r100 in every
+game (baseline 12-19: the cap moved), but EC influence at r200 unchanged
+(64-230) and politicians 29-34 at r200: the extra income went straight into
+guards through the spend branch (`guards < slanderers + 2`), whose price is
+now visible: 20 guards of 20-30 by r100 in every game, ~400-600 influence
+that neither earns nor defends much. iyzg meanwhile: 13 -> 34 -> 91
+slanderers by r300 across the 5 ECs it holds by r200. Reverted to 12.
+Economy area: 1 reject. Ledger: slanderer cap alone does nothing while the
+guard sink absorbs the income.
+
+## Iteration 7 (in development) -- guards scale with threat (2026-09-17 01:55 UTC)
+
+*Pre-registration, candidate "guard ratio":* `GUARD_BASE` 4 -> 0 (no
+standing guards before an enemy is seen; `danger` still builds up to
+`MAX_GUARDS`) and the spend branch's guard rule `guards < slanderers + 2` ->
+`guards < slanderers/2 + 2`. One mechanism: the influence the guard sink
+took goes to slanderers (the normal branch, cap 12, then the spend branch to
+24). Decision-point counters: politicians at r100 (baseline 9-20; expect
+<= 10), slanderers at r100/r200 (expect up), EC influence at r200 (expect
+up: baseline 64-300). Price: fewer bodies around home against muckraker
+floods (Sihal3 exposed 0 of our slanderers in the cap24 games, iyzg 3-13:
+watch `exposes`). Dose ladder: ratio 1 (= g_iter3) / 1/2 / 1/4. Gate:
+Stage 0 on the same 8 cells (cell count must not fall below 3, counters
+must move); then head-to-head vs `g_iter3` and the roster gauntlet.
+Falsifier: politicians at r100 unchanged (another branch builds them) or
+exposures explode.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -699,6 +728,7 @@ unchanged (some other branch starves them) or EC influence at r200 lower.
 |---|---|---|---|
 | short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
 | one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |
+| slanderer cap 12 -> 24 alone | rejected | slanderers 24 at r100 but EC influence at r200 unchanged: the spend branch turned the income into guards (29-34 by r200); 0/6 vs 3/8 | guard sink removed (Iteration 7) |
 | neutral-EC race by chip politicians (3 arms: 4 in flight / half-target chips / save for the chip) | rejected | chips built and spoke but flips <= 2 and the economy starved (EC influence 10-70 at r200-300); 0/8, 1/8, 0/8 on the motivating cells | opening income reaches >= 500 EC influence at r100 |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 

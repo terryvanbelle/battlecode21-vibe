@@ -1,4 +1,4 @@
-package arch_muck;
+package g_iter3;
 
 import battlecode.common.*;
 

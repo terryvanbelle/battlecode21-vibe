@@ -13,7 +13,7 @@ import battlecode.common.*;
  */
 public strictfp class EC extends Robot {
     private static final int MAX_CHILDREN = 96;
-    private final int[] childId = new int[MAX_CHILDREN]; private final int[] childType = new int[MAX_CHILDREN]; private int nChild = 0;
+    private final int[] childId = new int[MAX_CHILDREN]; private final int[] childType = new int[MAX_CHILDREN]; private final int[] childBirth = new int[MAX_CHILDREN]; private int nChild = 0;
     private int scouts = 0, slanderers = 0, guards = 0, capturers = 0;
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
@@ -36,7 +36,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
     }
 
     // ---------------------------------------------------------------- production
@@ -49,11 +49,18 @@ public strictfp class EC extends Robot {
             else return;
             Direction d0 = spawnDir(t, cost, role); if (d0 == null) return;
             rc.buildRobot(t, d0, cost); RobotInfo nb0 = rc.senseRobotAtLocation(loc.add(d0));
-            if (nb0 != null && nChild < MAX_CHILDREN) { childId[nChild] = nb0.ID; childType[nChild] = role; nChild++; }
+            if (nb0 != null && nChild < MAX_CHILDREN) { childId[nChild] = nb0.ID; childType[nChild] = role; childBirth[nChild] = round; nChild++; }
             if (role == Roles.ECON) slanderers++; else scouts++;
             pendingOrder = Comms.encode(Comms.ORDER, role, loc); pendingOrderRound = round + 1; return;
         }
-        if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
+        if (C.ARCHETYPE == 3) {   // politician rush: 2 scouts, 2 small slanderers, then every 100+ influence becomes a capture politician aimed at the enemy EC
+            if (scouts < 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
+            else if (slanderers < 2 && Econ.bestSize(inf - 5) >= 21 && !danger) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 85)); role = Roles.ECON; }
+            else if (MapState.nEnemy > 0 && inf >= 100) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - 5; role = Roles.CAPTURE; }
+            else if (MapState.nEnemy == 0 && scouts < 4 && inf >= 30) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
+            else return;
+        }
+        else if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
         else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
@@ -63,14 +70,23 @@ public strictfp class EC extends Robot {
         else if (!danger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf - reserve() >= 100 && guards < C.MAX_GUARDS) { t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(50, inf / 3)); role = Roles.GUARD; }
         else if (MapState.nEnemy > 0 && inf - reserve() >= 300 && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - reserve(); role = Roles.CAPTURE; }   // rich and idle: throw everything at the enemy EC
-        else return;
+        else if (inf - reserve() >= C.SPARE_MIN) {
+            // never idle: every capped branch declined but influence is spare. Alternate bodies: a guard when guards
+            // trail slanderers, else another slanderer up to the spare cap, else a 1-influence hunter.
+            int spare = inf - reserve();
+            if (guards < slanderers + 2 || spare >= 300) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // a big bank buys big guards whatever the ratio
+            else if (!danger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
+            else { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }
+            spendBuilds++;
+        }
+        else { if (inf >= 21) idleRounds++; return; }
         if (cost <= 0 || cost > inf) return;
         Direction d = spawnDir(t, cost, role);
         if (d == null) return;
         rc.buildRobot(t, d, cost);
         RobotInfo nb = rc.senseRobotAtLocation(loc.add(d));
-        if (nb != null && nChild < MAX_CHILDREN) { childId[nChild] = nb.ID; childType[nChild] = role; nChild++; }
-        switch (role) { case Roles.SCOUT: scouts++; break; case Roles.GUARD: guards++; break; case Roles.ECON: slanderers++; break; case Roles.CAPTURE: capturers++; break; default: break; }
+        if (nb != null && nChild < MAX_CHILDREN) { childId[nChild] = nb.ID; childType[nChild] = role; childBirth[nChild] = round; nChild++; }
+        switch (role) { case Roles.SCOUT: case Roles.HUNT: scouts++; break; case Roles.GUARD: guards++; break; case Roles.ECON: slanderers++; break; case Roles.CAPTURE: capturers++; break; default: break; }
         lastBuildRound = round;
         // tell the newborn its role via our flag for one round: ORDER with target
         MapLocation tgt = role == Roles.CAPTURE ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : MapState.enemyEC[0]) : loc;
@@ -80,9 +96,10 @@ public strictfp class EC extends Robot {
         Debug.log("@spawn t=" + t.ordinal() + " inf=" + cost + " role=" + role + " dir=" + d + " ecInf=" + rc.getInfluence());
     }
     private int pendingOrder = 0, pendingOrderRound = -10;
+    private int idleRounds = 0, spendBuilds = 0;   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
     private int enemyEcInf = 0;   // last reported influence of the enemy EC we target (bucketed)
 
-    private int reserve() { return Math.max(bid * 2, 10); }   // keep enough to bid next round
+    private int reserve() { return Math.min(Math.max(bid * 2, 10), Math.max(10, rc.getInfluence() / 2)); }   // keep enough to bid next round, never more than half
 
     private int captureAffordable(int inf) {
         int best = -1, bestCost = 1 << 30;
@@ -115,8 +132,10 @@ public strictfp class EC extends Robot {
         // recount children cheaply via canGetFlag (5 bytecodes each) -- also compacts the list
         int k = 0; int sl = 0, g = 0, sc = 0, cap = 0;
         for (int i = 0; i < nChild; i++) {
-            if (rc.canGetFlag(childId[i])) { childId[k] = childId[i]; childType[k] = childType[i]; k++;
-                switch (childType[i]) { case Roles.SCOUT: sc++; break; case Roles.GUARD: g++; break; case Roles.ECON: sl++; break; case Roles.CAPTURE: cap++; break; default: break; } }
+            // a slanderer becomes a politician at roundsAlive == 300 (engine CAMOUFLAGE); it then guards, so count it as one
+            if (childType[i] == Roles.ECON && round - childBirth[i] >= 300) childType[i] = Roles.GUARD;
+            if (rc.canGetFlag(childId[i])) { childId[k] = childId[i]; childType[k] = childType[i]; childBirth[k] = childBirth[i]; k++;
+                switch (childType[i]) { case Roles.SCOUT: case Roles.HUNT: sc++; break; case Roles.GUARD: g++; break; case Roles.ECON: sl++; break; case Roles.CAPTURE: cap++; break; default: break; } }
         }
         nChild = k; slanderers = sl; guards = g; scouts = sc; capturers = cap;
         return k;
@@ -126,14 +145,16 @@ public strictfp class EC extends Robot {
     private int enemyVotesEst = 0;   // rounds in which we did not gain a vote after round 1 (assumes the opponent bid; conservative)
     private void doBid() throws GameActionException {
         int votes = rc.getTeamVotes();
-        if (votes > 751) { lastVotes = votes; return; }        // majority secured, stop paying and stop adapting
-        if (round > 1) {
-            if (votes > lastVotes) { votesWon++; bid = Math.max(1, bid - bid / 10); }
-            else { votesLost++; enemyVotesEst++; bid = bid + bid / 4 + 1; }
-        }
-        lastVotes = votes;
         int inf = rc.getInfluence();
         int remaining = 1500 - round;
+        // Adapt only on rounds where we actually bid last round (otherwise a lost vote says nothing about our bid).
+        if (round > 1 && bidLastRound) {
+            if (votes > lastVotes) { votesWon++; bid = Math.max(1, bid - bid / 10); }
+            else { votesLost++; bid = Math.min(bid + bid / 4 + 1, Math.max(1, inf)); }
+        }
+        if (round > 1 && votes == lastVotes) enemyVotesEst++;
+        lastVotes = votes; bidLastRound = false;
+        if (votes > 751) return;                                // majority secured
         // Are we safe without bidding? If the opponent cannot catch up even winning every remaining vote, stop.
         if (votes > enemyVotesEst + remaining) return;
         // Influence is worth more early (it compounds through slanderers), so the cap ramps up over the game and
@@ -144,8 +165,9 @@ public strictfp class EC extends Robot {
         if (C.ARCHETYPE == 2 && round > 1 && votes == lastVotes) bid = bid * 2 + 1;
         if (round < 20) cap = Math.min(cap, 3);
         if (bid > cap) bid = cap;
-        if (rc.canBid(bid) && bid > 0) rc.bid(bid);
+        if (bid > 0 && rc.canBid(bid)) { rc.bid(bid); bidLastRound = true; }
     }
+    private boolean bidLastRound = false;
 
     // ---------------------------------------------------------------- comms
     private void readChildren() throws GameActionException {

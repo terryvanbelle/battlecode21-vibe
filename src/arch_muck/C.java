@@ -3,7 +3,7 @@ package arch_muck;
 /** Tunable constants. One place, so a dose ladder is a one-line diff. */
 public final class C {
     public static final boolean DEBUG = true;      // @tag log lines on/off
-    /** Sparring archetype switch: 0 = the real bot; 1 = muckraker rush; 2 = aggressive bidder. Set by tools/snapshot.sh <name> <archetype>. */
+    /** Sparring archetype switch: 0 = the real bot; 1 = muckraker rush; 2 = aggressive bidder; 3 = politician rush. Set by tools/snapshot.sh <name> <archetype>. */
     public static final int ARCHETYPE = 1;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
@@ -14,6 +14,9 @@ public final class C {
     public static final int EARLY_SCOUTS = 4;
     public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // bid at most influence / this
+    // never idle: when every capped branch declines and this much is spare above the reserve, build anyway
+    public static final int SPARE_MIN = 60;             // dose ladder: 1<<30 (off, = g_iter2) / 60 / 20
+    public static final int SPEND_SLANDERER_CAP = 24;   // slanderer cap for the spare branch (the normal cap stays MAX_SLANDERERS)
 
     // slanderer positioning
     public static final int SLANDERER_RING_MIN = 8;     // d^2 from home: stay well outside the spawn ring

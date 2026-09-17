@@ -1,2 +1,12 @@
 date,label,opponent,wins,total,win_pct,maps
 2026-09-16T19:24:08+00:00,g_iter2,g_iter1,24,24,100.0,12
+2026-09-16T22:07:56+00:00,g_iter3,g_iter2,20,24,83.3,12
+2026-09-16T22:46:01+00:00,g_iter3,Scott-Poole.spright8,1,8,12.5,4
+2026-09-16T22:46:01+00:00,g_iter3,Sihal3.cavShieldv705,4,8,50.0,4
+2026-09-16T22:46:01+00:00,g_iter3,Victoriano012.SprintBot2,3,8,37.5,4
+2026-09-16T22:46:01+00:00,g_iter3,VittalT.final_usqualplayer3_subm,1,8,12.5,4
+2026-09-16T22:46:01+00:00,g_iter3,aidan-mundy.final_usqualplayer3_subm,1,8,12.5,4
+2026-09-16T22:46:01+00:00,g_iter3,anshgs.ho4,1,8,12.5,4
+2026-09-16T22:46:01+00:00,g_iter3,iliao2345.attacker,4,8,50.0,4
+2026-09-16T22:46:01+00:00,g_iter3,iyzg.sbot17,1,8,12.5,4
+2026-09-16T22:46:01+00:00,g_iter3,jmerle.camel_case_v7_sprint_2,3,8,37.5,4

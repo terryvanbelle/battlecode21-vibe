@@ -529,13 +529,38 @@ found). 9 annihilations against 5 for the census build. One-directional:
 the number stands. Target gauntlet launched on the wall's 72 cells
 (`tgt-spend`), to be read against the baseline's 13/72 and the wall's 9/72.
 
+## Iteration 4 -- ACCEPTED: never idle (spare-influence branch); snapshot `g_iter3` (2026-09-17 00:40 UTC)
+
+**Target gauntlet, the 72 cells the wall was judged on
+(`gauntlet/20260916-224601-tgt-spend`): 19/72 (26.4%) against the
+baseline's 13/72 and the wall's 9/72.** Cell diff vs the baseline: 51
+loss->loss, 12 win->win, 7 loss->win (Sihal3 Arena B and maptestsmall B,
+Victoriano Maze B, iliao2345 maptestsmall B, jmerle Arena A and B and Maze B),
+1 win->loss (jmerle maptestsmall B), 1 loss->unknown (anshgs Gridlock A).
+One-directional and spread over four opponents and four maps. Per
+opponent: Sihal3 4/8, iliao2345 4/8, Victoriano 3/8, jmerle 3/8; the four
+that field 1000+ politician streams (VittalT, aidan-mundy, anshgs,
+Scott-Poole) and iyzg stay at 1/8. With the head-to-head at 20/24 (+16) and
+no regression signature, accepted. Attribution as pre-registered: the EC
+builds every cooldown instead of idling once its caps bind (Stage 0
+counters), and the extra bodies are what flipped the cells.
+
+Post-accept: `src/g_iter3` snapshotted; archetypes `arch_muck`,
+`arch_bidder`, `arch_polrush` resynced from the accepted code;
+`progress/history.csv` has the head-to-head and the nine target rows;
+`progress/ladder.png` and `vs_roster.png` redrawn. Re-tiering and the roster
+gauntlet for this build wait for the three-map scan's roster (stage 2 at
+~100/132). Attempt cadence: four incremental attempts in a row (census
+accepted, wall rejected, wall refinement rejected, spend accepted): the
+next attempt is structural.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
 
 | area | last attempt | status |
 |---|---|---|
-| economy / production mix | Iteration 2: census fix (aged slanderers -> guards), 24/24 vs g_iter1 | caps (12 slanderers, 10 guards) now bind: influence hoards late |
+| economy / production mix | Iteration 4: never idle (spare branch: guards / slanderers to 24 / hunters), 20/24 vs g_iter2, 19/72 vs 13/72 on targets | EC now builds every cooldown; opponents still field 3-7x the units (multi-EC, earlier captures) |
 | bidding | bidding v2 + overflow/reserve fix | smoke-tested vs `arch_bidder` (win 750 votes); unmeasured vs real bidders |
 | scouting / map knowledge | edge-seeking waypoints, fact cycling, sibling IDs | symmetry still often unresolved on multi-EC maps |
 | navigation | greedy + bug + oscillation guard | aba 1-3% of moves; boxed-in-by-friends failure seen and mitigated by jitter |

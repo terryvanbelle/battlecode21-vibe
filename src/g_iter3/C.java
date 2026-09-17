@@ -1,10 +1,10 @@
-package arch_polrush;
+package g_iter3;
 
 /** Tunable constants. One place, so a dose ladder is a one-line diff. */
 public final class C {
     public static final boolean DEBUG = true;      // @tag log lines on/off
     /** Sparring archetype switch: 0 = the real bot; 1 = muckraker rush; 2 = aggressive bidder; 3 = politician rush. Set by tools/snapshot.sh <name> <archetype>. */
-    public static final int ARCHETYPE = 3;
+    public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
     // economy

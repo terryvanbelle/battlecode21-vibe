@@ -986,6 +986,19 @@ producing identical games (r653 as A, r793 as B). The candidate's roster
 check on the screen set (`roster-capbank`, 72 cells) is running against
 `g_iter4`'s record on those cells from the quick-set baseline.
 
+**Noise floor measured (07:55 UTC): 12/24.** `g_iter4` vs `g_iter4_inert`
+(identical code except the per-robot RNG seed offset 12345 -> 12346), quick
+set, both sides (`gauntlet/20260917-070618-noise`): 12/24, after standing at
+5/17 and 7/19 -- a perturbation that changes no policy moves single cells
+freely. With 24 cells the win count's binomial sd is ~2.4 games; the
+algorithm's rule (2 sd) makes `AcceptMargin` +5 on the quick set, not +4.
+Re-reading the accepts: Iteration 2 (+24) and Iteration 4 (+16) are far
+above the floor; Iteration 9 was accepted on +6 over 72 paired roster cells
+(sd ~4.2 under the worst-case independence assumption, so ~1.4 sd) with the
++8 record head-to-head in support -- accepted at the floor's edge, and the
+next candidate's baseline will re-measure it for free. Ledger: a single
+24-game head-to-head resolves margins of +5 and up; a +2 or +3 is noise.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

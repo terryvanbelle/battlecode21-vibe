@@ -178,7 +178,7 @@ Hyperparameters (starting values; change only with a recorded reason):
 
 | name | value | meaning |
 |---|---|---|
-| `AcceptMargin` | 2 x noise-floor sd on the full-corpus head-to-head, minimum +4 games | candidate must beat the last accepted snapshot by this |
+| `AcceptMargin` | 2 x noise-floor sd: +5 wins on a 24-game quick-set head-to-head (measured 2026-09-17: a policy-identical pair split 12/24; binomial sd 2.4); minimum +4 | candidate must beat the last accepted snapshot by this |
 | `PeerFloor` | 55% | peer-tier win rate below which a candidate is rejected regardless |
 | `NearMiss` | within 1 sd of `AcceptMargin`, no regression signature | licence for up to 3 refinements of the same mechanism |
 | `MaxRejectsPerArea` | 3 | consecutive rejects in one functional area before the next attempt must leave it |

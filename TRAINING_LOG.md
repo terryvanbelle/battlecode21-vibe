@@ -1669,6 +1669,20 @@ measures its price, which is now zero. The pre-registered roster gate
 applies unchanged (+5 over 26/64); a level roster is a reject and closes
 the floor family.
 
+**Iteration 17 (all doses): REJECTED, roster futility at 22 cells (2026-09-18
+00:30 UTC, `gauntlet/*-roster-floor4`): 6 v 9, flips +1/-4.** Against:
+awesomelemonade Arena A r519 and B r521 (annihilation; baseline wins),
+rzhan11 maptestsmall A r1398 (annihilation), arya-k Maze A (votes); for:
+arya-k Arena A (votes). The sink-only floor withholds exactly the guards
+that stop a mid-game rush: the two Arena games are lost 250 rounds
+earlier than any baseline loss on that map. Closed: the floor family
+(hard reserve: starves slanderers; sink-only: level in the mirror, worse
+against rushers). What the day's three mechanisms established together:
+the opponents' bank is a by-product of income we do not have (the neutral
+snowball), not a policy we can copy by withholding; withholding at our
+income level costs the units that keep the EC alive. `src/bot` back to
+`g_iter4`.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

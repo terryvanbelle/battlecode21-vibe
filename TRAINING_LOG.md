@@ -1048,6 +1048,16 @@ on even rounds; it acts before its slanderers within a round, so a slanderer
 reading on even rounds never sees the odd-round flag. Completeness fix:
 slanderers read the home flag every round (one flag read). Relaunched.
 
+**`g_iter4` roster baseline complete (08:20 UTC,
+`gauntlet/20260917-044622-roster-g_iter4`): 107/216 (49.5%)** against
+`g_iter3`'s 90/216 on the same 216 cells: +17 (sd ~7.3 under independence,
+2.3 sd), which puts Iteration 9 well above the floor after all. Per
+opponent on `g_iter4`: iliao2345, max-titov and arya-k 37.5%, 123kevinlee
+50%, Sihal3 and the three piedPipers 54%, qawsedrftgzh 67% (above the band;
+re-tiered at the next scan). Capbank's final comparison on all 72 shared
+cells: 31 vs 33 (rejected, as logged). This baseline is the comparison for
+every candidate until the next accept.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

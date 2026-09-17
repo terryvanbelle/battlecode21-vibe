@@ -36,7 +36,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " race=" + raceBuilds + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
     }
 
     // ---------------------------------------------------------------- production
@@ -62,8 +62,7 @@ public strictfp class EC extends Robot {
         }
         else if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
-        else if ((captureTargetIdx = captureTarget(inf)) >= 0) { t = RobotType.POLITICIAN; cost = captureCost; role = Roles.CAPTURE; raceBuilds++; }   // neutral race: chips sized to the bank
-        else if (savingForChip(inf)) { saveRounds++; return; }   // refinement 2: save toward the next chip instead of spending on the economy
+        else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!danger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= 21 && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
@@ -102,24 +101,12 @@ public strictfp class EC extends Robot {
 
     private int reserve() { return Math.min(Math.max(bid * 2, 10), Math.max(10, rc.getInfluence() / 2)); }   // keep enough to bid next round, never more than half
 
-    private int captureCost = 0, raceBuilds = 0, saveRounds = 0;
-    /** A neutral is known, the opening is done, fewer than RACE_INFLIGHT capturers are out, but the chip is not yet affordable: hold the bank. */
-    private boolean savingForChip(int inf) {
-        if (round > C.RACE_SAVE_UNTIL || MapState.nNeutral == 0 || slanderers < C.RACE_AFTER_SLANDERERS || capturers >= C.RACE_INFLIGHT) return false;
-        int best = -1, bd = 1 << 30;
-        for (int i = MapState.nNeutral; --i >= 0;) { int d = loc.distanceSquaredTo(MapState.neutralEC[i]); if (d < bd) { bd = d; best = i; } }
-        return best >= 0 && inf - reserve() < (MapState.neutralInf[best] + 14) / 2 + 14;
-    }
-    /** Nearest known neutral EC to chip, or -1. Sets captureCost = min(spare, remaining + 14), at least RACE_MIN_CHIP. */
-    private int captureTarget(int inf) {
-        if (MapState.nNeutral == 0 || capturers >= C.RACE_INFLIGHT || slanderers < C.RACE_AFTER_SLANDERERS) return -1;
-        int spare = inf - reserve(); if (spare < C.RACE_MIN_CHIP) return -1;
-        int best = -1, bd = 1 << 30;
-        for (int i = MapState.nNeutral; --i >= 0;) { int d = loc.distanceSquaredTo(MapState.neutralEC[i]); if (d < bd) { bd = d; best = i; } }
-        if (best < 0) return -1;
-        int full = MapState.neutralInf[best] + 14;
-        if (spare < full / 2 + 14) return -1;             // a chip carries at least half the target: two chips flip it, dispersed ones feed the opponent
-        captureCost = Math.min(spare, full);
+    private int captureAffordable(int inf) {
+        int best = -1, bestCost = 1 << 30;
+        for (int i = MapState.nNeutral; --i >= 0;) {
+            int c = MapState.neutralInf[i] + 14;
+            if (c <= inf - reserve() && c < bestCost && capturers < 2) { best = i; bestCost = c; }
+        }
         return best;
     }
 
@@ -147,7 +134,6 @@ public strictfp class EC extends Robot {
         for (int i = 0; i < nChild; i++) {
             // a slanderer becomes a politician at roundsAlive == 300 (engine CAMOUFLAGE); it then guards, so count it as one
             if (childType[i] == Roles.ECON && round - childBirth[i] >= 300) childType[i] = Roles.GUARD;
-            if (childType[i] == Roles.CAPTURE && round - childBirth[i] >= C.RACE_AGE) childType[i] = Roles.GUARD;   // arrived, aborted or lost: no longer in flight
             if (rc.canGetFlag(childId[i])) { childId[k] = childId[i]; childType[k] = childType[i]; childBirth[k] = childBirth[i]; k++;
                 switch (childType[i]) { case Roles.SCOUT: case Roles.HUNT: sc++; break; case Roles.GUARD: g++; break; case Roles.ECON: sl++; break; case Roles.CAPTURE: cap++; break; default: break; } }
         }

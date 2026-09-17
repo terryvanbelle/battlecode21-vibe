@@ -105,3 +105,9 @@ Maybe try more maps for scan stage 1
 ```text
 I think maybe get rid of the key in ladder.png.  It's distorting the plot and not providing much information
 ```
+
+## Prompt 15: Ladder graph
+
+```text
+Ladder graph looks awesome
+```

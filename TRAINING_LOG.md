@@ -631,6 +631,22 @@ emergency guards still fire. Expect `race=` >= 6 by r300 and flips >= 2 in
 half the games; falsifier: the saved bank is converted with the EC (EC
 influence is its conviction, so saving is also defence) or flips still < 2.
 
+**Iteration 5 REJECTED (01:35 UTC): the neutral-EC race, three arms.**
+Refinement 2 (`gauntlet/20260917-*-race-r2`): 0/8. Counters: `save=`
+100-265 rounds (the EC held its bank as designed) but the bank never reached
+a chip: EC influence 10-70 at r200-300 because, with the economy branches
+paused, income stayed at the opening level; `race=` 0-4, flips 0-2, ECs at
+r400 1-2 vs 2-7. Across the three arms: the mechanism engaged each time
+(chips built, arrived, spoke) and each time the cost fell on the economy the
+captures were supposed to feed. The opponents win the race because they
+out-earn us 2-3x by r100 (EC influence 500-750 vs our 200-290 at r100 in the
+target-tier traces) and can afford both. Reverted: `src/bot` is `g_iter3`
+again. What the attempt bought: the capture instrument (flips, first-flip
+round, ECs at r400) and a measured ceiling: with our opening income, a
+capture doctrine cannot be funded before r200, and by r200 the neutrals are
+gone. The next candidate is the opening economy itself (area: economy, 0
+rejects); the race is re-opened when r100 EC influence is >= 500.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -639,6 +655,7 @@ influence is its conviction, so saving is also defence) or flips still < 2.
 |---|---|---|
 | economy / production mix | Iteration 4: never idle (spare branch: guards / slanderers to 24 / hunters), 20/24 vs g_iter2, 19/72 vs 13/72 on targets | EC now builds every cooldown; opponents still field 3-7x the units (multi-EC, earlier captures) |
 | bidding | bidding v2 + overflow/reserve fix | smoke-tested vs `arch_bidder` (win 750 votes); unmeasured vs real bidders |
+| neutral-EC captures | Iteration 5 race (rejected, 3 arms) | opponents hold 6-8 ECs by r400, we hold 0-2; blocked on opening income |
 | scouting / map knowledge | edge-seeking waypoints, fact cycling, sibling IDs | symmetry still often unresolved on multi-EC maps |
 | navigation | greedy + bug + oscillation guard | aba 1-3% of moves; boxed-in-by-friends failure seen and mitigated by jitter |
 | combat micro (politician speech) | radius/value evaluation, chip rule vs ECs | works vs example bot; unmeasured vs real opponents |
@@ -652,6 +669,7 @@ influence is its conviction, so saving is also defence) or flips still < 2.
 |---|---|---|---|
 | short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
 | one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |
+| neutral-EC race by chip politicians (3 arms: 4 in flight / half-target chips / save for the chip) | rejected | chips built and spoke but flips <= 2 and the economy starved (EC influence 10-70 at r200-300); 0/8, 1/8, 0/8 on the motivating cells | opening income reaches >= 500 EC influence at r100 |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap

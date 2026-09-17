@@ -7,6 +7,9 @@ public final class C {
     public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
+    // Iteration 19 (big standing guards): the same guard spending in fewer, larger bodies. Dose 1: cap 200 (g_iter4: 60), spare/2 (g_iter4: spare/3).
+    public static final int GUARD_MAX_SIZE = 200;
+    public static final int SPARE_GUARD_DIV = 2;
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

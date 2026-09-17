@@ -1683,6 +1683,31 @@ snowball), not a policy we can copy by withholding; withholding at our
 income level costs the units that keep the EC alive. `src/bot` back to
 `g_iter4`.
 
+## Iteration 19 (in development, economy) -- big standing guards (2026-09-18 00:50 UTC)
+
+**Target: the guard sink, kept but reshaped.** The ledger's re-open
+condition for guard sizing ("standing posture only, never a reaction")
+and the day's replays agree: the EC's income goes into 20-60-conviction
+guards (152 politicians against 14 in the Arena B game) that neither stop
+a rush nor threaten a 107-500 converter; the floor showed those guards
+cannot simply be withheld (rush losses at r519-521). Candidate: the same
+guard spending in fewer, larger bodies. Dose 1: the regular guard's cap
+60 -> 200 (`GUARD_MAX_SIZE`, cost stays max(20, inf/4)), the spare
+branch's guard spare/3 -> spare/2; counts (GUARD_BASE 4, MAX_GUARDS 10)
+and triggers unchanged. Dose 2 if near miss: cap 400, spare/1. Counters:
+mean guard conviction at spawn (`@spawn t=1 role=2 inf=`; baseline
+20-60), guards alive at r300/r600, `@speech role=guard conv= n=` (value
+per speech), converted-EC count and influence (`--hits`), slanderers at
+r300 (the price: a 200 guard is three slanderers not built).
+Reachability: `inf/4 >= 60` needs 240 in the EC, which the deposit game
+shows at r200-500; the spare branch fires at every surplus. Price: fewer
+bodies to absorb muckrakers reaching the slanderer ring. History: guard
+ratio (count) rejected, threat-sized guards (reaction) rejected, army
+(300+ attackers, not guards) rejected. Gate (economy, 4.5.1): head-to-head
+first (24 games, +5, early stop), then the 64-cell roster check.
+Falsifier: guards still 20-60 at spawn (the cap never binds) or rush
+losses unchanged.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -1715,6 +1740,9 @@ income level costs the units that keep the EC alive. `src/bot` back to
 | guards scale with threat (base 0, ratio 1/2) | rejected | politicians at r100 unchanged (spend branch fills 24 slanderers -> 14 guards); 1/6 vs 3 | never as a count rule; the income gap is 2-3x |
 | slanderer cap 12 -> 24 alone | rejected | slanderers 24 at r100 but EC influence at r200 unchanged: the spend branch turned the income into guards (29-34 by r200); 0/6 vs 3/8 | guard sink removed (Iteration 7) |
 | neutral-EC race by chip politicians (3 arms: 4 in flight / half-target chips / save for the chip) | rejected | chips built and spoke but flips <= 2 and the economy starved (EC influence 10-70 at r200-300); 0/8, 1/8, 0/8 on the motivating cells | opening income reaches >= 500 EC influence at r100 |
+| opening capture: bank from r1 / bank to r80 / saving mode on a known neutral (three doses) | rejected | takes the neutrals (Arena: ECs 5 v 2 at r450) and loses them at 5-61 influence each; 0/13 roster, 0/4, 2/8 Stage 0 | ECs keep a bank |
+| EC influence floor (hard reserve; sink-only, released r900-1200) | rejected | hard: starves slanderers below the floor (0 from r450); sink-only: level in the mirror (13/24), roster 6 v 9 at 22 cells with rush losses at r519-521 | never as a reserve; a bank must come from income |
+| deposit: expired slanderers speak at the EC (dose 2: politician-only threat, share with two, speak after 8 rounds) | rejected | 36% of expiries deposit (was 14%), 12k conviction in a game, EC spends it within 200 rounds; roster 26 v 26 on 64 | the guard sink is gone |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap

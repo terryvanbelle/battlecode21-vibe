@@ -1308,6 +1308,11 @@ most expired slanderers never reach an uncrowded tile: room for a
 completeness pass after the roster reads. Roster check launched (72 cells,
 first per 4.5.1).
 
+**deposit Stage 0 complete: 3/8**, equal to `g_iter4` on the same cells,
+with the two Sihal3 Arena wins now annihilations instead of votes and
+arya-k Arena B won; counters as logged (52 deposits in the long game). The
+72-cell roster check decides, with the futility rule at 36.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

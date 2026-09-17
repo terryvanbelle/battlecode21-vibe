@@ -1904,6 +1904,18 @@ ranking fills in one block at a time while the challenges stay aimed at
 the next rungs. First pool: awesomelemonade, 123kevinlee, arya-k,
 Scott-Poole, jmerle, max-titov, + edlwang and Techno-coder to explore.
 
+**Iteration 21 panel: +3 on 48, NEAR MISS (2026-09-17 23:10 UTC).** Mirror
+14/24 against `g_iter4` (`gauntlet/*-panel-hold-mirror`; the incumbent's
+own mirror is 12/24 by symmetry, so +2: losses on Andromeda B, Arena A,
+Blotches B, CrossStitch A, Gridlock both sides, Radial B, Saturn A,
+Snowflake A, maptestsmall A). Archetypes 21/24 against the baseline's
+20/24 (`*-panel-hold-arch`: arch_polrush Arena both sides loss->win,
+arch_muck Arena B win->loss; bidder 8/8 as before). Below the +5 gate;
+the mechanism family is worth one refinement. A 48-scrimmage block
+plays now as `us:hold1` (the contest signal, and the ladder grows by two
+unmet bots) beside a logged game against `g_iter4` on Arena for the
+`@opening` and `@garrison` counters.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

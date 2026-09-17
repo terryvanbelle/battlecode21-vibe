@@ -1458,6 +1458,26 @@ roster check runs at 7 in parallel; first 7 cells 0 wins (rzhan11 4 cells,
 awesomelemonade maptestsmall both sides lost at r273-276: the 120-round bank
 on a map with no neutral is the price, paid early).
 
+**opening dose 1: FUTILITY STOP at 13 cells (16:45 UTC).** 0/13 against
+`g_iter4`'s 4/13 on the same cells, four flips all against (arya-k
+maptestsmall B r476, rzhan11 maptestsmall A r421, awesomelemonade Arena A
+r450 and B r470), none for. The pre-registered futility rule (3 behind at
+32) was passed at 13, so the remaining 51 games were not played. The flips
+are all early annihilations on maps where no neutral is reported by r120:
+the 120-round bank stalls the slanderer economy and builds no guard (the
+opening branch sat *before* the emergency-guard branch, against the
+pre-registration), so a rush kills the EC at r420-480 where `g_iter4` lived.
+Gridlock and Andromeda, the Stage 0 maps, hid this price.
+
+*Dose 2 (pre-registered):* the opening branch moves after the emergency
+guard; OPENING_UNTIL 80 (bank at most 80 rounds); the opening ends as soon
+as the map bounds are known and no neutral has been reported (maptestsmall:
+by r30). Stage 0 = the four flipped cells plus the three dose-1 wins and
+arya-k Andromeda A (`tools/cells-opening2.txt`, 8 cells): the bar is
+recovering all four flips while keeping at least two of the three wins;
+below that the opening is rejected and the next candidate targets the
+maptestsmall attrition mechanism (deposit refinement).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

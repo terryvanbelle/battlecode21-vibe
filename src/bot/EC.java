@@ -33,7 +33,7 @@ public strictfp class EC extends Robot {
         readSiblings();
         int inf = rc.getInfluence();
         boolean danger = nearestEnemyD2 < 1 << 30;   // any enemy in our 40 r2 sensor range
-        if (round > C.OPENING_UNTIL) openingDone = true;
+        if (round > C.OPENING_UNTIL || (C.OPENING_EXIT_NO_NEUTRAL && MapState.boundsKnown() && MapState.nNeutral == 0 && round > 20)) openingDone = true;
         if (rc.isReady()) build(inf, danger);
         doBid();
         updateBroadcast(danger);
@@ -62,6 +62,7 @@ public strictfp class EC extends Robot {
             else return;
         }
         else if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
+        else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
         else if (C.OPENING_CAPTURE && !openingDone && round <= C.OPENING_UNTIL) {
             // the opening: one slanderer for income, then bank until the first affordable neutral is known and take it at full price
             int best = -1, bestInf = 1 << 30;
@@ -73,7 +74,6 @@ public strictfp class EC extends Robot {
             else if (slanderers == 0 && Econ.bestSize(inf - 5) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 85)); role = Roles.ECON; }
             else { openingBank++; return; }
         }
-        else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
         else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!danger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= 21 && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }

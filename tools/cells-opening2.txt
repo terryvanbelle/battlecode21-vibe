@@ -1,0 +1,8 @@
+arya-k.quals_v1 maptestsmall B
+rzhan11.sprint2 maptestsmall A
+awesomelemonade.sprint1bot Arena A
+awesomelemonade.sprint1bot Arena B
+arya-k.quals_v1 Gridlock A
+max-titov.sprintplayer Gridlock A
+max-titov.sprintplayer Andromeda B
+arya-k.quals_v1 Andromeda A

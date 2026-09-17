@@ -9,8 +9,9 @@ public final class C {
 
     // Iteration 16 (opening capture): bank from round 1 and spend the starting influence on the first neutral the scouts report
     public static final boolean OPENING_CAPTURE = true;  // dose: false = g_iter4
-    public static final int OPENING_UNTIL = 120;         // give up the opening after this round and play the normal opening
+    public static final int OPENING_UNTIL = 80;          // give up the opening after this round (dose 2; dose 1 was 120)
     public static final int OPENING_MAX_TARGET = 320;    // neutrals above this wait for the economy
+    public static final boolean OPENING_EXIT_NO_NEUTRAL = true;  // dose 2: end the opening once the map bounds are known and no neutral has been reported
     public static final int OPENING_BANK = 30;           // extra conviction so the new EC starts with a small bank
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)

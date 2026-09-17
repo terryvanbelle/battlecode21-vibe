@@ -1232,6 +1232,17 @@ r100 unchanged (16-17 slanderers, 48-79 influence). The cells are the
 hardest on the roster and did not move; the head-to-head (+5, early stop)
 and the 72-cell roster check decide.
 
+**scouts8 head-to-head vs `g_iter4`: early-stopped at 6/14**, the third
+candidate in a row to stop at exactly 6/14 (relay, army, scouts). Against a
+twin that does not punish the deficiency each candidate fixes, the pair plays
+at the noise floor (the inert pair went 12/24), and the +5 gate stops it
+after fourteen games. By the rule this rejects Iteration 14; the 72-cell
+roster check, the instrument that can see scouting, finishes and decides the
+ledger wording. Note for the algorithm: the head-to-head resolves only
+changes that matter against ourselves (economy, bidding); doctrine and
+map-knowledge changes need the roster, and the head-to-head should be run
+second for those, or skipped when the roster check is already +5.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

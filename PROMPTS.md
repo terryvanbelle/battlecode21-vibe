@@ -147,3 +147,9 @@ Understood about this being a limitation of the infrastructure.  Let's try reduc
 ```text
 I'm good with a 72-cell accept.  If it looks like we're flailing, we can always do a one-off 108 cell run
 ```
+
+## Prompt 22: Review all games in a roster run
+
+```text
+I don't know how much of this you're already doing, but we should be taking full advantage of the roster games, given how expensive they are in time.  Please review all games in a particular roster run to determine the best next improvement to try
+```

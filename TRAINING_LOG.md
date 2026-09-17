@@ -1893,6 +1893,17 @@ the released corpus is the honest standing. Iteration 21's panel is
 running (mirror on the quick set, archetypes on the screen set, 2 jobs
 each beside the seed).
 
+**Ladder without external-vs-external games (2026-09-17 22:20 UTC,
+PROMPTS 27).** The seed tick was stopped at 20 of 122 and its games
+discarded (none recorded); `ladder-pair.py` and `ladder-play.sh` removed.
+The ladder now rates only from our scrimmages: 9 rated bots after the
+first block (we rank 9 of 9 at 1380, max-titov the only one below 1500),
+57 not yet met. The challenge pool is the six rated bots just above us
+plus the two least-met bots (`elo.py --pool 6 --explore 2`), so the
+ranking fills in one block at a time while the challenges stay aimed at
+the next rungs. First pool: awesomelemonade, 123kevinlee, arya-k,
+Scott-Poole, jmerle, max-titov, + edlwang and Techno-coder to explore.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -343,21 +343,19 @@ What this changes in the loop:
   a veto only: if the new build's Wilson upper bound falls below the
   incumbent's point estimate over its last 96 games, the accept is
   reverted and logged.
-- **The Elo ladder (user, PROMPTS 26).** `progress/ELO.md` and `elo.png` are
-  the constantly updated ranking of every benchmark bot (one per repo,
-  `tools/ladder-bots.txt`) plus our team **us**, K=32 from 1500, rebuilt
-  by `tools/elo.py` from `progress/games.csv` after every recorded game.
-  The external bots' ratings come from **ladder ticks**: external-vs-
-  external scrimmages (`ladder-pair.py` Swiss pairings by nearest rating,
-  bots with the fewest games first; random map and side; `ladder-play.sh`
-  on the VM, replays discarded), which stand in for the other teams'
-  scrimmages on the real ladder. A seed tick gives every bot ~4 games;
-  then a tick of ~14 games runs beside every development run in 1-2
-  slots. **Challenges target the bots just above us**: `scrim.sh` draws
-  its pool from `elo.py --pool 8` (the eight ranked immediately above our
-  rating, filled from just below when fewer exist), so the climb is
-  measured against the next rungs. Our team's rating moves only with our
-  own scrimmages; a candidate under trial plays as `us:<build>`, as a
+- **The Elo ladder (user, PROMPTS 26 and 27).** `progress/ELO.md` and
+  `elo.png` are the constantly updated ranking of every benchmark bot
+  (one per repo, `tools/ladder-bots.txt`) plus our team **us**, K=32 from
+  1500, rebuilt by `tools/elo.py` from `progress/games.csv` after every
+  recorded block. **Only our games feed it**: external bots never play
+  each other (a waste of the VM; the user accepts the less accurate
+  ranking). A bot we have not met is unrated and listed apart; each
+  bot's rating moves only through its games against us. **Challenges
+  target the bots just above us**: `scrim.sh` draws its pool from
+  `elo.py --pool 6 --explore 2` (the six rated bots immediately above our
+  rating, filled from just below when fewer exist, plus the two bots we
+  know least), so the climb is measured against the next rungs while
+  the list fills in. A candidate under trial plays as `us:<build>`, as a
   real submission would.
 - **The loss census reads scrimmage replays** (losses are saved), so
   candidate selection is unchanged in kind and the census is the map of

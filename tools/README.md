@@ -20,9 +20,7 @@ Everything runs with bare `java` (JDK 8 at `~/jdk/jdk8u504-b01`, see
 | `gauntlet-select.py results.csv... [--write tools/roster.txt]` | tier every opponent from scan results; writes the standing roster (the 20-50% band) |
 | `scrim.sh` (BOT, N, POOL, SEED) | the only way to play an external bot: random map and side per game, rotating opponents; results under `gauntlet/*-scrim-<bot>` |
 | `scrim-record.py <run> [--label <build>]` | appends our block or a ladder tick to `progress/games.csv` |
-| `elo.py [--pool N] [--build B]` | the Elo ladder: rewrites `progress/ELO.md` and `elo.png`; `--pool` = the N bots just above us (the challenge pool); `--build` = one build's record |
-| `ladder-pair.py --k N > tools/ladder-cells.txt` | Swiss pairings (external vs external) for a ladder tick |
-| `ladder-play.sh tools/ladder-cells.txt` | plays a tick on the VM (via vm-run.sh); results in `gauntlet/ladder/<id>-ladder/results.raw` |
+| `elo.py [--pool N --explore K] [--build B]` | the Elo ladder from our scrimmages only: rewrites `progress/ELO.md` and `elo.png`; `--pool` = the N rated bots just above us, `--explore` = K least-met bots (together the challenge pool); `--build` = one build's record |
 | `run-dev.sh A B map [replay]` | like `run-match.sh` but from a private compile (`build/dev-classes`): safe while a gauntlet owns `build/classes` |
 | `scan.sh` | incremental two-stage tiering scan: every opponent on 3 maps both sides, then 4 more maps for the in-band ones; `DONE="<results.csv ...>"` cells are never replayed; writes `tools/roster.txt` |
 | `scan-cells.py` | the cells (opponent map side) a stage still needs, given results files; `--band` keeps only in-band opponents |

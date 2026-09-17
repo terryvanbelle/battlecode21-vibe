@@ -1,8 +1,8 @@
 # Elo ladder
 
-50 scrimmages recorded; K=32 from 1500; our team is **us** (rank 66 of 66, Elo 1380, 48 games).
+48 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 9 of 9 rated bots, Elo 1380, 48 games; 57 bots not yet met.
 
-| rank | bot | Elo | games | W-L |
+| rank | bot | Elo | games | W-L (theirs) |
 |---|---|---|---|---|
 | 1 | rzhan11.sprint2 | 1566 | 6 | 6-0 |
 | 2 | iliao2345.attacker | 1558 | 6 | 6-0 |
@@ -10,63 +10,8 @@
 | 4 | 123kevinlee.atomFinalQualifier | 1526 | 6 | 4-2 |
 | 5 | arya-k.quals_v1 | 1518 | 6 | 4-2 |
 | 6 | Scott-Poole.spright8 | 1517 | 6 | 4-2 |
-| 7 | Sihal3.cavShieldv705 | 1516 | 1 | 1-0 |
-| 8 | anshgs.ho4 | 1516 | 1 | 1-0 |
-| 9 | Ahhorse1.WinstonPlayer | 1500 | 0 | 0-0 |
-| 10 | Aryan34.bot | 1500 | 0 | 0-0 |
-| 11 | Aryo-Patel.finalBot | 1500 | 0 | 0-0 |
-| 12 | BSreenivas0713.musketeerplayerfinal | 1500 | 0 | 0-0 |
-| 13 | BattlecodeTeam4.robotalpha | 1500 | 0 | 0-0 |
-| 14 | BoluAdubi.bot1 | 1500 | 0 | 0-0 |
-| 15 | BryceKan3.bot.tournament.sprint | 1500 | 0 | 0-0 |
-| 16 | ChiragKalra.gen5 | 1500 | 0 | 0-0 |
-| 17 | IvanGeffner.thirtyone | 1500 | 0 | 0-0 |
-| 18 | JCRaymond.bot.tournament.sprint | 1500 | 0 | 0-0 |
-| 19 | JasonYe4273.finals | 1500 | 0 | 0-0 |
-| 20 | Mahpare.hackatrainee_v1 | 1500 | 0 | 0-0 |
-| 21 | OliverMKing.bot.tournament.sprint | 1500 | 0 | 0-0 |
-| 22 | SLaGrave.AlphaCentauri | 1500 | 0 | 0-0 |
-| 23 | StoneT2000.sprinttuna | 1500 | 0 | 0-0 |
-| 24 | TeamSerpentine.mars | 1500 | 0 | 0-0 |
-| 25 | Techno-coder.muckrakers | 1500 | 0 | 0-0 |
-| 26 | Victoriano012.SprintBot2 | 1500 | 0 | 0-0 |
-| 27 | VittalT.final_usqualplayer3_subm | 1500 | 0 | 0-0 |
-| 28 | abhishekshree.bot2 | 1500 | 0 | 0-0 |
-| 29 | aidan-mundy.final_usqualplayer3_subm | 1500 | 0 | 0-0 |
-| 30 | ama29.v6 | 1500 | 0 | 0-0 |
-| 31 | angelaloh09.camelmanplayer | 1500 | 0 | 0-0 |
-| 32 | astelmach20.piedPiper | 1500 | 0 | 0-0 |
-| 33 | davidfang00.Rushbot3 | 1500 | 0 | 0-0 |
-| 34 | diegorod9000.Newcomer | 1500 | 0 | 0-0 |
-| 35 | dominicmkennedy.playerj3 | 1500 | 0 | 0-0 |
-| 36 | edlwang.sprint2 | 1500 | 0 | 0-0 |
-| 37 | ehiggins98.initialbot | 1500 | 0 | 0-0 |
-| 38 | evan-schott.bugplayer | 1500 | 0 | 0-0 |
-| 39 | iyzg.sbot17 | 1500 | 0 | 0-0 |
-| 40 | jay20162016.ecobot | 1500 | 0 | 0-0 |
-| 41 | jjtippetts.influencerforceplayer | 1500 | 0 | 0-0 |
-| 42 | mama4294.Maloneplayer | 1500 | 0 | 0-0 |
-| 43 | mhahn2003.finals | 1500 | 0 | 0-0 |
-| 44 | mhbtz1.presprint | 1500 | 0 | 0-0 |
-| 45 | mvpatel2000.biden | 1500 | 0 | 0-0 |
-| 46 | naalit.mukrush | 1500 | 0 | 0-0 |
-| 47 | nickel-dime.piedPiper | 1500 | 0 | 0-0 |
-| 48 | nsortur.piedPiper | 1500 | 0 | 0-0 |
-| 49 | paulmure.sprintplayer | 1500 | 0 | 0-0 |
-| 50 | pranayagra.finalbot11 | 1500 | 0 | 0-0 |
-| 51 | qawsedrftgzh.battlecode2021 | 1500 | 0 | 0-0 |
-| 52 | raytran.dlmoreram010921 | 1500 | 0 | 0-0 |
-| 53 | rqi3.qualification_bot | 1500 | 0 | 0-0 |
-| 54 | ryanbai1412.sprint_0 | 1500 | 0 | 0-0 |
-| 55 | saivivekvenna.Ba_ba_booie | 1500 | 0 | 0-0 |
-| 56 | sasank02.framework3_mr_density | 1500 | 0 | 0-0 |
-| 57 | thevaliantthird.bot1 | 1500 | 0 | 0-0 |
-| 58 | unai-gurbindo.camelmanplayer | 1500 | 0 | 0-0 |
-| 59 | winkelmantanner.tannerplayer | 1500 | 0 | 0-0 |
-| 60 | woodstockcs.fanandflag | 1500 | 0 | 0-0 |
-| 61 | wstan2001.boundfinder | 1500 | 0 | 0-0 |
-| 62 | jmerle.camel_case_v7_sprint_2 | 1485 | 6 | 4-2 |
-| 63 | TylerQube.sandmenplayer | 1484 | 1 | 0-1 |
-| 64 | alextheimer.player | 1484 | 1 | 0-1 |
-| 65 | max-titov.sprintplayer | 1415 | 6 | 1-5 |
-| 66 | **us** | 1380 | 48 | 14-34 |
+| 7 | jmerle.camel_case_v7_sprint_2 | 1485 | 6 | 4-2 |
+| 8 | max-titov.sprintplayer | 1415 | 6 | 1-5 |
+| 9 | **us** | 1380 | 48 | 14-34 |
+
+Not yet met (1500 until their first game against us): Ahhorse1.WinstonPlayer, Aryan34.bot, Aryo-Patel.finalBot, BSreenivas0713.musketeerplayerfinal, BattlecodeTeam4.robotalpha, BoluAdubi.bot1, BryceKan3.bot.tournament.sprint, ChiragKalra.gen5, IvanGeffner.thirtyone, JCRaymond.bot.tournament.sprint, JasonYe4273.finals, Mahpare.hackatrainee_v1, OliverMKing.bot.tournament.sprint, SLaGrave.AlphaCentauri, Sihal3.cavShieldv705, StoneT2000.sprinttuna, TeamSerpentine.mars, Techno-coder.muckrakers, TylerQube.sandmenplayer, Victoriano012.SprintBot2, VittalT.final_usqualplayer3_subm, abhishekshree.bot2, aidan-mundy.final_usqualplayer3_subm, alextheimer.player, ama29.v6, angelaloh09.camelmanplayer, anshgs.ho4, astelmach20.piedPiper, davidfang00.Rushbot3, diegorod9000.Newcomer, dominicmkennedy.playerj3, edlwang.sprint2, ehiggins98.initialbot, evan-schott.bugplayer, iyzg.sbot17, jay20162016.ecobot, jjtippetts.influencerforceplayer, mama4294.Maloneplayer, mhahn2003.finals, mhbtz1.presprint, mvpatel2000.biden, naalit.mukrush, nickel-dime.piedPiper, nsortur.piedPiper, paulmure.sprintplayer, pranayagra.finalbot11, qawsedrftgzh.battlecode2021, raytran.dlmoreram010921, rqi3.qualification_bot, ryanbai1412.sprint_0, saivivekvenna.Ba_ba_booie, sasank02.framework3_mr_density, thevaliantthird.bot1, unai-gurbindo.camelmanplayer, winkelmantanner.tannerplayer, woodstockcs.fanandflag, wstan2001.boundfinder

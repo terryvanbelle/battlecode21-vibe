@@ -124,3 +124,7 @@ We're going to make a structural change to better simulate actual contest condit
 ## 26. 2026-09-17
 
 It would be great to maintain a constantly updated ELO-ranked bot list, so that we can see our submission climb over time.  We'd focus our scrimmage challenges on those slightly ahead of us in the rankings
+
+## 27. 2026-09-17
+
+See if you can do the ladder without having external bots play against each other.  That's a waste of VM resources.  I'm ok with having a less accurate ranking, but only play our bot vs external bots

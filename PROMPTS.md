@@ -141,3 +141,9 @@ Thanks for the summary, sounds like you made some good progress.  What's your es
 ```text
 Understood about this being a limitation of the infrastructure.  Let's try reducing the cells per decision.  Can you work out how many cells are needed to obtain statistical significance?
 ```
+
+## Prompt 21: 72-cell accepts
+
+```text
+I'm good with a 72-cell accept.  If it looks like we're flailing, we can always do a one-off 108 cell run
+```

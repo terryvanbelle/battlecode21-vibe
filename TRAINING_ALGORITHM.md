@@ -285,7 +285,10 @@ One change per candidate; never bundle. Then:
   ~9-11 on 108 (8-10%), ~13-15 on 216 (6-7%). The effects real accepts
   produce are 8-10% of cells, so **72 cells is the floor for a roster
   decision, not a ceiling to cut**; 108 (screen set plus two maps) resolves
-  them properly. Savings come from elsewhere:
+  them properly. Decision (user, 2026-09-17): accept on 72 cells; a one-off
+  108-cell run only when a decision looks like flailing (a margin at the
+  threshold, or two accepts in a row that the next baseline fails to confirm).
+  Savings come from elsewhere:
   - the 24-game head-to-head resolves only 18-21% effects, so it is not a
     gate for doctrine or map-knowledge changes (it stays a regression check
     on an accept, and the first instrument for economy and bidding changes);

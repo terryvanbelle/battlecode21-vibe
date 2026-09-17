@@ -1,0 +1,32 @@
+opponent                                   W   L   ?   rate  tier
+BSreenivas0713.musketeerplayerfinal        0   5   1   0.00  locked
+IvanGeffner.thirtyone                      0   6   0   0.00  locked
+JasonYe4273.finals                         0   5   1   0.00  locked
+StoneT2000.sprinttuna                      0   4   2   0.00  locked
+mhahn2003.finals                           0   4   2   0.00  locked
+pranayagra.finalbot11                      0   4   2   0.00  locked
+rqi3.qualification_bot                     0   6   0   0.00  locked
+Victoriano012.SprintBot2                   1   5   0   0.17  locked
+VittalT.final_usqualplayer3_subm           1   5   0   0.17  locked
+aidan-mundy.final_usqualplayer3_subm       1   5   0   0.17  locked
+anshgs.ho4                                 1   5   0   0.17  locked
+edlwang.sprint2                            1   5   0   0.17  locked
+iyzg.sbot17                                1   5   0   0.17  locked
+mvpatel2000.biden                          1   5   0   0.17  locked
+ryanbai1412.sprint_0                       1   5   0   0.17  locked
+winkelmantanner.tannerplayer               1   5   0   0.17  locked
+rzhan11.sprint2                            1   4   1   0.20  roster
+awesomelemonade.sprint1bot                 2   4   0   0.33  roster
+arya-k.quals_v1                            9  15   0   0.38  roster
+iliao2345.attacker                         9  15   0   0.38  roster
+max-titov.sprintplayer                     9  15   0   0.38  roster
+Scott-Poole.spright8                       2   3   1   0.40  roster
+123kevinlee.atomFinalQualifier            12  12   0   0.50  roster
+jmerle.camel_case_v7_sprint_2              3   3   0   0.50  roster
+Sihal3.cavShieldv705                      13  11   0   0.54  peer
+astelmach20.piedPiper                     13  11   0   0.54  peer
+nickel-dime.piedPiper                     13  11   0   0.54  peer
+nsortur.piedPiper                         13  11   0   0.54  peer
+qawsedrftgzh.battlecode2021               16   8   0   0.67  peer
+
+roster (8): rzhan11.sprint2 awesomelemonade.sprint1bot arya-k.quals_v1 iliao2345.attacker max-titov.sprintplayer Scott-Poole.spright8 123kevinlee.atomFinalQualifier jmerle.camel_case_v7_sprint_2

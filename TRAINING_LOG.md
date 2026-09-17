@@ -1313,6 +1313,20 @@ with the two Sihal3 Arena wins now annihilations instead of votes and
 arya-k Arena B won; counters as logged (52 deposits in the long game). The
 72-cell roster check decides, with the futility rule at 36.
 
+**Re-tier on `g_iter4` (14:00 UTC): 20 formerly locked bots on the three
+stage-1 maps (`gauntlet/20260917-110555-retier-g_iter4`, 17/120, 6
+timeouts among the finalists), combined with the 216-cell roster baseline
+(`gauntlet/tiers-g_iter4.txt`).** Unlocked: awesomelemonade 2/6,
+Scott-Poole 2/5, jmerle 3/6, rzhan11 1/5; ten bots sit at exactly 1/6
+(Victoriano, VittalT, aidan-mundy, anshgs, edlwang, iyzg, mvpatel2000,
+ryanbai1412, winkelmantanner) and seven remain at 0 (IvanGeffner, JasonYe,
+BSreenivas, StoneT2000, mhahn, pranayagra, rqi3). Ladder position: 13 bots
+at or above 20% (was 9). New band (8): rzhan11 20%, awesomelemonade 33%,
+arya-k, iliao2345 and max-titov 38%, Scott-Poole 40%, 123kevinlee and
+jmerle 50%; Sihal3, the three piedPipers (54%) and qawsedrftgzh (67%) move
+to peers. The roster file switches to the new band after the deposit
+decision, so its 72-cell comparison stays on one roster.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

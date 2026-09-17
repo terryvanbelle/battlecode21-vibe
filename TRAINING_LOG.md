@@ -1438,6 +1438,20 @@ against the g_iter4 baseline plus its top-up (+5), head-to-head as a
 regression check on an accept. Falsifier: no `@opening capture` by r120
 (neutrals not known in time or too expensive), or ECs at r400 unchanged.
 
+**opening Stage 0, 5 of 8 read (16:05 UTC): 2 wins (Gridlock vs arya-k A,
+Gridlock vs max-titov A) against `g_iter4`'s 0/8 on these cells.** The
+mechanism fires: on Gridlock we hold 2 ECs at r100 (baseline 1); on
+Andromeda the logged dev game (`LOG_OUT`, run-dev.sh now resolves benchmark
+names through the manifest) shows the first neutral report only at r100
+(nEC=0 at r50, 2 at r100), `@opening capture r=109 target=151 cost=195`,
+the capturer arriving around r215 (2 ECs at r220), and the new EC lost by
+r260 while arya-k went 1-3-5-6 ECs at r100-400. So the reachability premise
+("scouts report the first neutral by r50") holds on Gridlock, not on
+Andromeda, where the scouts hunt edges and symmetry candidates and the
+capturer walks 19 tiles in 100 rounds. Roster check launched at once (64
+cells, `gauntlet/*-roster-opening`, +5 over 26/64, futility at 32 if 3 or
+more behind); the last three Stage 0 games finish beside it.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

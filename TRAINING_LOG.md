@@ -1378,6 +1378,27 @@ untried lever is the opening: the starting 150 plus the first fifty rounds
 of passive income is a full-price capturer for any neutral under ~300, and
 the scouts report the first neutral by r50 on the large maps.
 
+### Census, final numbers (2026-09-17 15:40 UTC)
+
+All 107 parsed roster losses: ECs 1.8 v 2.7 at r200, 1.6 v 4.6 at r400,
+1.8 v 5.3 at r800; influence earned by r300 median 6,859 v 40,436 (ratio
+5.2x); units alive at r600 median 221 v 454; first EC lost at median r288
+holding 19; 55 vote losses, 52 annihilations. By map at r400 (us v them):
+Andromeda 1.3 v 4.5 (18 losses), Gridlock 2.2 v 5.3 (18), Corridor 1.0 v 5.3
+(15), Maze 2.0 v 4.8 (13), Snowflake 1.1 v 2.9 (12).
+
+The 14 losses to the four newly unlocked bots (speech shares now filled;
+`loss-census.sh` had empty columns under mawk): same mechanism on the
+multi-neutral maps (ECs 0-3 v 3-8 at r400, first EC lost r122-447 holding
+5-27; rzhan11 takes every neutral by r400 and spends 41-80% of its politician
+conviction on its own ECs, i.e. the deposit mechanism at scale). The four
+maptestsmall losses are a second, smaller mechanism: single-EC map, income
+level or better than theirs at r300 (8,036 v 13,645; 6,193 v 6,077; 9,925 v
+3,807; 8,589 v 6,104), yet the EC falls at r587-630 holding 15-110 to
+annihilation. Our politicians spend 78-79% of conviction on enemy units there
+and only 8-11% on friendlies, so the bank is never built; theirs is. Ranked
+second, behind the opening (which the multi-neutral maps decide).
+
 ## Iteration 16 (in development, structural) -- the opening capture (2026-09-17 15:10 UTC)
 
 **Target: the census's single mechanism.** Neutral ECs are taken early by

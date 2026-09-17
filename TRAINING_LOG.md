@@ -677,8 +677,8 @@ not fall; then head-to-head vs `g_iter3` (quick, +4) and the roster gauntlet
 against the g_iter3 roster baseline now running. Falsifier: slanderer count
 unchanged (some other branch starves them) or EC influence at r200 lower.
 
-**Iteration 6 REJECTED at Stage 0 (`gauntlet/20260917-*-cap24-s0`): 0/6 read
-(two games left), against the baseline's 3/8 on these cells; both Sihal3
+**Iteration 6 REJECTED at Stage 0 (`gauntlet/20260917-013401-cap24-s0`): 0/8
+against the baseline's 3/8 on these cells; both Sihal3
 Arena cells, baseline wins, lost.** Counters: slanderers 24 at r100 in every
 game (baseline 12-19: the cap moved), but EC influence at r200 unchanged
 (64-230) and politicians 29-34 at r200: the extra income went straight into

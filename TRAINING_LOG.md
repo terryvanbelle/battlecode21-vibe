@@ -1182,6 +1182,18 @@ finishes at 7 jobs and decides the ledger wording: +5 or better keeps the
 army as the re-open path (with the head-to-head gate re-examined for
 doctrine changes), anything less closes it.
 
+**Iteration 13 REJECTED (11:05 UTC): the army.** Roster check on the
+screen set: 31 vs `g_iter4`'s 33 on the first 70 shared cells with two left
+(final numbers appended when the run closes); head-to-head early-stopped at
+6/14, twelve of fourteen decided on votes. The mechanism was the strongest
+of the session -- 300+ politicians 18/27 per phase against 1/6, nine
+hostile ECs converted in one game -- and it moves the roster by nothing:
+what it takes in ECs it gives back in the late economy and the vote, and
+against army bots (arya-k) it trades even. Reverted to `g_iter4`. Ledger:
+attack politicians from the spare branch alone are a wash; the army needs
+timing (waves, not a stream) and a bank behind it, i.e. the doctrine is a
+schedule, not a branch.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -1193,6 +1205,7 @@ doctrine changes), anything less closes it.
 | neutral-EC captures | Iterations 5 (race) and 11 (capture bank), both rejected | captured ECs now hold 250+ when hit but still fall; 2 rejects |
 | scouting / map knowledge | edge-seeking waypoints, fact cycling, sibling IDs | symmetry still often unresolved on multi-EC maps |
 | navigation | greedy + bug + oscillation guard | aba 1-3% of moves; 0-18 on Gridlock vs the roster (both g_iter3 and g_iter4): next target |
+| army / attack doctrine | Iteration 13 attack politicians (rejected, roster 31 vs 33) | converts ECs in bunches, loses the late economy; 1 reject |
 | combat micro (politician speech) | radius/value evaluation, chip rule vs ECs | works vs example bot; unmeasured vs real opponents |
 | EC defence vs politician streams | Iteration 3 wall (rejected) | target-tier losses are EC conversions r300-600 by 500-1750-conviction speeches; 1 reject |
 | slanderer safety | Iteration 12 relayed flight (rejected, +2 roster, exposures halved) | hunters expose 12-22 per game vs iliao2345 and max-titov; 1 reject |
@@ -1204,6 +1217,7 @@ doctrine changes), anything less closes it.
 |---|---|---|---|
 | short-round smoke maps via map files | engine-impossible | map format has no round field; 400-round map played 1500 | never |
 | one-round spawn ORDER flag | refuted | newborn acts next round; 0 captures -> 6 with two-round hold | never |
+| attack politicians (300+) from the spare branch at the nearest hostile EC, no guards/hunters | rejected | 300+ politicians 18-27 per phase (vs 1-6), 9 ECs taken in one game, roster 31 vs 33 on 70 cells, head-to-head 6/14 on votes | as a scheduled wave with a bank behind it |
 | EC relays the nearest enemy; slanderers flee relayed threats within 8 tiles | rejected | exposures halved (iliao2345 1-7 by r300 vs 12), roster +2 on 72 cells (noise), head-to-head 6/14 | as a component of an army doctrine that kills hunters |
 | capture politicians carry a 300 bank (three arms) | rejected | surplus 311 and captured ECs hold 5x longer, but 31 vs 33 on 68 roster cells: captures come later and the army gap decides | an army that can hold ground |
 | threat-sized guards, else bank | rejected | the EC sees a 600+ attacker 3-5 rounds before the speech; bank fired 0-3 rounds; ECs converted holding 8-159 | standing posture only, never a reaction |

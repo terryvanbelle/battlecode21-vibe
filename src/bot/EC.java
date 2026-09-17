@@ -33,7 +33,7 @@ public strictfp class EC extends Robot {
         readSiblings();
         int inf = rc.getInfluence();
         boolean danger = nearestEnemyD2 < 1 << 30;   // any enemy in our 40 r2 sensor range
-        if (round > C.OPENING_UNTIL || (C.OPENING_EXIT_NO_NEUTRAL && MapState.boundsKnown() && MapState.nNeutral == 0 && round > 20)) openingDone = true;
+        if (round > C.OPENING_SAVE_UNTIL) openingDone = true;
         if (rc.isReady()) build(inf, danger);
         doBid();
         updateBroadcast(danger);
@@ -63,15 +63,14 @@ public strictfp class EC extends Robot {
         }
         else if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
-        else if (C.OPENING_CAPTURE && !openingDone && round <= C.OPENING_UNTIL) {
-            // the opening: one slanderer for income, then bank until the first affordable neutral is known and take it at full price
-            int best = -1, bestInf = 1 << 30;
-            for (int i = MapState.nNeutral; --i >= 0;) if (MapState.neutralInf[i] <= C.OPENING_MAX_TARGET && MapState.neutralInf[i] < bestInf) { bestInf = MapState.neutralInf[i]; best = i; }
-            if (best >= 0 && inf - 5 >= bestInf + 14 + C.OPENING_BANK) {
+        else if (C.OPENING_CAPTURE && !openingDone && round <= C.OPENING_SAVE_UNTIL && cheapestNeutral() >= 0) {
+            // saving mode: a cheap neutral is known early; keep the first two slanderers, save everything else, take it at full price
+            int best = cheapestNeutral(), bestInf = MapState.neutralInf[best];
+            if (inf - 5 >= bestInf + 14 + C.OPENING_BANK) {
                 captureTargetIdx = best; t = RobotType.POLITICIAN; cost = bestInf + 14 + C.OPENING_BANK; role = Roles.CAPTURE; openingDone = true;
-                Debug.log("@opening capture r=" + round + " target=" + bestInf + " cost=" + cost);
+                Debug.log("@opening capture r=" + round + " target=" + bestInf + " cost=" + cost + " saved=" + openingBank);
             }
-            else if (slanderers == 0 && Econ.bestSize(inf - 5) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 85)); role = Roles.ECON; }
+            else if (slanderers < 2 && !danger && Econ.bestSize(inf - 5) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 85)); role = Roles.ECON; }
             else { openingBank++; return; }
         }
         else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
@@ -111,6 +110,12 @@ public strictfp class EC extends Robot {
     private int idleRounds = 0, spendBuilds = 0, openingBank = 0; private boolean openingDone = false;   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
     private int enemyEcInf = 0;   // last reported influence of the enemy EC we target (bucketed)
 
+    /** Index of the cheapest known neutral EC at or under OPENING_MAX_TARGET, or -1. */
+    private int cheapestNeutral() {
+        int best = -1, bestInf = C.OPENING_MAX_TARGET + 1;
+        for (int i = MapState.nNeutral; --i >= 0;) if (MapState.neutralInf[i] < bestInf) { bestInf = MapState.neutralInf[i]; best = i; }
+        return best;
+    }
     private int reserve() { return Math.min(Math.max(bid * 2, 10), Math.max(10, rc.getInfluence() / 2)); }   // keep enough to bid next round, never more than half
 
     private int captureAffordable(int inf) {

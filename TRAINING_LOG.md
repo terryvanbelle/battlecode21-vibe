@@ -1478,6 +1478,31 @@ recovering all four flips while keeping at least two of the three wins;
 below that the opening is rejected and the next candidate targets the
 maptestsmall attrition mechanism (deposit refinement).
 
+**opening dose 2: REJECTED at Stage 0, 0/4 on the four flipped cells
+(17:20 UTC).** All four stay lost (arya-k maptestsmall B r458, rzhan11
+maptestsmall A r1016, awesomelemonade Arena A r373, B r453); the remaining
+four cells were not played. The logged dev game of arya-k maptestsmall B
+shows why the exit signal never fired: the scouts had found only two of the
+four edges by r50 and three by r100, so "bounds known and no neutral" never
+held; the EC banked 161 by r50 with one slanderer, spent it on three
+30-guards at r57-80 under threat, and at r86 the normal enemy-EC branch
+(`inf - reserve() >= 200`) threw the remaining 202 at the enemy EC; the
+economy stood at 1 slanderer until r150 (3) and 11 at r200, and the EC died
+at r458. Bank-first is structurally priced on every map without an early
+neutral, and the exit signals are unreliable.
+
+*Dose 3 (pre-registered), "saving mode":* no bank-first. The normal
+`g_iter4` build runs from round 1; only when a neutral of at most 320 is
+known before r150 does the EC switch to saving (keeps its first two
+slanderers, emergency guards keep priority, everything else saved) until it
+can send the full-price capturer (+30 bank); after r150 the normal capture
+branch applies. Maps with no early neutral pay nothing, which is the
+falsifier for the four flipped cells: they must all be won again (they are
+`g_iter4`'s game there). The three dose-1 wins (Gridlock A vs arya-k and
+max-titov, Andromeda B vs max-titov) measure what saving mode keeps of
+bank-first; bar: 4/4 flips recovered and at least 1 of the 3 wins kept.
+Stage 0 on the same 8 cells (`gauntlet/*-stage0-opening3`).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

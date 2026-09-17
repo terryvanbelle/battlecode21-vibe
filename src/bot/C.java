@@ -7,11 +7,12 @@ public final class C {
     public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
-    // Iteration 16 (opening capture): bank from round 1 and spend the starting influence on the first neutral the scouts report
+    // Iteration 16 (opening capture), dose 3 "saving mode": no bank-first. The normal build runs until a neutral of at most
+    // OPENING_MAX_TARGET is known before OPENING_SAVE_UNTIL; then the EC keeps only its first two slanderers and saves every
+    // other influence until it can send a full-price capturer (+OPENING_BANK). Maps with no early neutral pay nothing.
     public static final boolean OPENING_CAPTURE = true;  // dose: false = g_iter4
-    public static final int OPENING_UNTIL = 80;          // give up the opening after this round (dose 2; dose 1 was 120)
+    public static final int OPENING_SAVE_UNTIL = 150;    // a neutral reported after this round is left to the normal capture branch
     public static final int OPENING_MAX_TARGET = 320;    // neutrals above this wait for the economy
-    public static final boolean OPENING_EXIT_NO_NEUTRAL = true;  // dose 2: end the opening once the map bounds are known and no neutral has been reported
     public static final int OPENING_BANK = 30;           // extra conviction so the new EC starts with a small bank
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)

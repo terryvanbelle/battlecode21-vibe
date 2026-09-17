@@ -1810,6 +1810,39 @@ alternative is the untested areas of the functional map (navigation on
 Gridlock, muckraker hunting), each cheaper but with weaker evidence. The
 VM is stopped.
 
+## Iteration 21 (in development, structural) -- capture and hold (2026-09-18 04:40 UTC)
+
+User authorization (PROMPTS 24): any number and degree of bot changes
+without approval. This candidate combines the two halves the census
+asked for and the day's rejects tested separately.
+
+*(a) Opening, saving mode* (Iteration 16 dose 3, which won the opening:
+Arena ECs 5 v 2 at r450): when a neutral of at most 320 influence within
+d² 500 of home is known before r150, the EC keeps its first two
+slanderers and saves until it can send a full-price capturer; the
+capturer now carries a **100** bank (was 30), so the new EC starts able
+to build two guards and survive a 107-conviction hit.
+
+*(b) Garrison:* every neutral capture order arms three 60-conviction
+guards, built right after the emergency-guard priority over the next
+200 rounds and ordered to the captured EC's location; a garrison guard
+treats that EC as its home (leash, ring, muckraker chase) and reverts to
+home if the post is held by the enemy or is not an EC. Captured ECs run
+the same code, so they garrison their own captures.
+
+Counters (logged dev game, awesomelemonade Arena A, the day's reference
+game): `@opening capture` round and target, `@garrison` count and
+`@garrison-guard post=` arrivals, ECs at r200/r400/r600 (dose 3: 3/4/2),
+converted-EC influence at the hit (`--hits`; dose 3: 5-61), first-EC-loss
+round (dose 3: r264), income by r300/r600. Price: three 60-guards per
+capture is 180 not spent at home; the rush cells (awesomelemonade Arena
+A/B, rzhan11 maptestsmall A) are the watch list. Gate (structural,
+4.5.1): 64-cell roster check first (`roster-hold`, +5 over 26/64,
+futility at 32 if 3 or more behind), head-to-head as the regression check
+on an accept. Falsifier per half: (a) no `@opening capture` by r150 on
+Arena; (b) captured ECs still converted at under 100 influence with no
+garrison guard within d² 20 at the hit.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

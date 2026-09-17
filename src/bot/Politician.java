@@ -11,6 +11,7 @@ import battlecode.common.*;
 public strictfp class Politician extends Robot {
     private int role = Roles.GUARD;
     private MapLocation target;          // capture target
+    private MapLocation post;            // Iteration 21: a garrison guard's EC (null = home)
     private int targetInf = 0;
     private boolean orderRead = false;
 
@@ -22,7 +23,9 @@ public strictfp class Politician extends Robot {
 
     @Override protected void turn() throws GameActionException {
         sense();
-        if (!orderRead) { int f = readHome(); orderRead = true; if (f >= 0 && Comms.type(f) == Comms.ORDER) { role = Comms.extra(f); target = Comms.loc(f, loc); } }
+        if (!orderRead) { int f = readHome(); orderRead = true; if (f >= 0 && Comms.type(f) == Comms.ORDER) { role = Comms.extra(f); target = Comms.loc(f, loc);
+            if (role == Roles.GUARD && target != null && MapState.home != null && !target.equals(MapState.home)) { post = target; Debug.log("@garrison-guard post=" + post); } } }
+        if (post != null && rc.canSenseLocation(post)) { RobotInfo pr = rc.senseRobotAtLocation(post); if (pr == null || pr.type != RobotType.ENLIGHTENMENT_CENTER || pr.team == them) post = null; }   // the post fell (or never was an EC): guard home again
         else if (round % 4 == 0) readHome();
         if (role == Roles.CAPTURE && target != null) { capture(); return; }
         guard();
@@ -75,7 +78,7 @@ public strictfp class Politician extends Robot {
             if (r2 > 0 && rc.canEmpower(r2)) { Debug.log("@speech role=guard r2=" + r2 + " conv=" + conv + " n=" + nearby.length); rc.empower(r2); return; }
         }
         // move: toward the nearest enemy muckraker (they kill our slanderers) if within leash, else hold a ring around home
-        MapLocation home = MapState.home;
+        MapLocation home = post != null ? post : MapState.home;
         if (nearestEnemyMuck != null && (home == null || nearestEnemyMuck.location.distanceSquaredTo(home) <= C.GUARD_LEASH_D2 * 2)) { nav.setTarget(nearestEnemyMuck.location); nav.step(); return; }
         if (nearestEnemy != null && nearestEnemy.type != RobotType.ENLIGHTENMENT_CENTER && (home == null || nearestEnemy.location.distanceSquaredTo(home) <= C.GUARD_LEASH_D2)) { nav.setTarget(nearestEnemy.location); nav.step(); return; }
         if (home == null) return;

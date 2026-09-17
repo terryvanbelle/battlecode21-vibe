@@ -159,3 +159,7 @@ I don't know how much of this you're already doing, but we should be taking full
 ```text
 Sorry, by roster I guess I meant ladder, i.e. the external bots that substitute as our scrimmage
 ```
+
+## 24. 2026-09-18
+
+You are at all times authorized to make whatever number and degree of changes to the bot that you think are appropriate, no need for my approval

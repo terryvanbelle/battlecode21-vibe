@@ -7,6 +7,19 @@ public final class C {
     public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
+    // Iteration 21 (capture and hold): two mechanisms in one candidate (user-authorized 2026-09-18).
+    // (a) opening, saving mode: when a neutral of at most OPENING_MAX_TARGET within OPENING_MAX_D2 is known before
+    //     OPENING_SAVE_UNTIL, keep the first two slanderers and save until a full-price capturer (+OPENING_BANK) can go.
+    // (b) garrison: every neutral capture order is followed by GARRISON_GUARDS guards of GARRISON_SIZE ordered to the
+    //     captured EC (they guard it as their home); the order lapses GARRISON_WINDOW rounds after the capture.
+    public static final boolean OPENING_CAPTURE = true;
+    public static final int OPENING_SAVE_UNTIL = 150;
+    public static final int OPENING_MAX_TARGET = 320;
+    public static final int OPENING_MAX_D2 = 500;
+    public static final int OPENING_BANK = 100;         // the new EC starts with this (Iteration 16 used 30 and lost ECs at 5-61)
+    public static final int GARRISON_GUARDS = 3;
+    public static final int GARRISON_SIZE = 60;
+    public static final int GARRISON_WINDOW = 200;
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

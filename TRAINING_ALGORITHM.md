@@ -316,6 +316,12 @@ One change per candidate; never bundle. Then:
   accept the number and log the attribution as OPEN; do not back-fill a story.
 - **Near miss**: refine the same mechanism, up to 3 times, with a different dose
   or a narrower trigger. Not a new mechanism.
+- **One change per candidate is the default, not a limit** (user, 2026-09-18:
+  "authorized to make whatever number and degree of changes to the bot").
+  When the census points at a structural change that single mechanisms
+  cannot test (Iterations 16-20: capturing neutrals and holding them each
+  failed alone), pre-register the combined candidate with counters for
+  each half, so a reject still says which half failed.
 - **Reject** otherwise. Trace the flipped games; a specific understood failure
   mode earns one targeted refinement, else revert fully. A rejection that turns
   a belief into a measurement paid for its run: record what it closed.

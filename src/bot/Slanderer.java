@@ -24,7 +24,7 @@ public strictfp class Slanderer extends Robot {
             asPolitician.turnAs(round); return;
         }
         sense();
-        if (round % 2 == 0) readHome();   // Iteration 12: every 2 rounds (was 5) so relayed threats arrive in time
+        readHome();   // Iteration 12: every round (was every 5): the EC acts before us within a round and rewrites its flag every round, so a relay set on an odd round is gone by the next even one
         if (!rc.isReady()) return;
         if (nearestEnemy != null) {
             // flee: away from the nearest enemy, biased toward home

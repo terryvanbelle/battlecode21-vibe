@@ -1041,6 +1041,13 @@ run): exposures must fall; then the roster on the screen set vs `g_iter4`'s
 baseline (+5). Falsifier: exposures unchanged (the relay arrives too late or
 the flee runs into the hunter) or slanderer income falls.
 
+**relay Stage 0, first arm (4 games read): the relay never fired**
+(`@relayflee` 0 in every game; exposures vs iliao2345 13 by r300 as in the
+baseline). Cause: the EC sets the relay on odd rounds and rewrites its flag
+on even rounds; it acts before its slanderers within a round, so a slanderer
+reading on even rounds never sees the odd-round flag. Completeness fix:
+slanderers read the home flag every round (one flag read). Relaunched.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

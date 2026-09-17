@@ -1074,6 +1074,14 @@ screen set follows when the Stage 0 slots free.
 went to r1500). Counters moved as pre-registered; the head-to-head (+5
 gate, early stop) and the 72-cell roster check decide.
 
+**relay head-to-head vs `g_iter4`: early-stopped at 6/14 (cannot reach
+17 of 24, the +5 gate).** By the rule this rejects Iteration 12. The
+head-to-head's opponent fields hunters only through the spare branch, so it
+prices the defence weakly; the 72-cell roster check is allowed to finish
+(now at 6 jobs) for the ledger's sake: if it comes in at +5 or better on the
+shared cells the mechanism is kept as a re-open condition, otherwise
+slanderer safety by relayed flight is closed.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -1621,6 +1621,21 @@ early stop at `wins + remaining < 15`), then the 64-cell roster check.
 Falsifier: the mirror still lost on votes, or lost by annihilation before
 r900 (then the floor's price is paid before it can be released).
 
+**Implementation bug found and fixed before the refinement was read (21:50
+UTC).** The first six cells of `h2h-floor2` repeated dose 1's results
+game for game (same rounds), and the maptestsmall A replay shows why the
+floor lost votes: the floored EC held 146-235 from r300 (the floor) with
+**0 slanderers from r450** while the twin kept 11-15. The regular guard
+branch (`inf >= 20 && guards < GUARD_BASE + slanderers/2`) tests raw
+influence, not `floored()`, so with the floor binding it ate every surplus
+20 as a guard and the slanderer branches (`inf - floored() >= 21`) never
+fired: the floor starved the economy instead of banking. Dose 1 and the
+refinement both ran this bug, so the mechanism has not been tested yet.
+Fix: the guard branch is floored too (cost from the surplus); emergency
+guards, scouts (1 influence) and neutral captures stay unfloored. The
+head-to-head restarts as `h2h-floor3` under the same pre-registration
+(floor released r900-1200). Deposit2 final: 26/64, the baseline's number.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

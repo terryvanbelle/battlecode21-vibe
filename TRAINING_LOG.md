@@ -1345,6 +1345,39 @@ the ladder census (user instruction) to rank it against the other causes.
 **Roster switched to the g_iter4 band (8 bots)**; the four newcomers get
 their baseline cells on the screen set now (`roster-topup`).
 
+## Ladder census, `g_iter4` roster baseline (2026-09-17 15:00 UTC, user instruction)
+
+`tools/loss-census.sh` over the 109 loss replays of
+`gauntlet/20260917-044622-roster-g_iter4` (97 read at the time of writing;
+the 14 losses to the four newly unlocked bots follow as a second pass):
+
+- **How lost:** 51 annihilations (median r839) and 46 vote losses at r1500
+  (median deficit 222 votes).
+- **The EC:** our first EC is converted in 87 of 97 losses, at r214 / r278 /
+  r460 (quartiles), by an attacker of median conviction 395, while holding a
+  median of 19 influence.
+- **The snowball:** ECs at r400 1.6 vs 4.7, at r800 1.7 vs 5.5; influence
+  earned by r300 median 6741 vs 40436 (5.2x); units at r600 200 vs 455;
+  slanderers exposed by r600 median 9, ten or more in 36 games.
+- **Where:** Andromeda 16, Gridlock 16, Corridor 14, Snowflake 11, Maze 10,
+  CrossStitch 7, Arena 7, Blotches 6, Circles 5, Saturn 4, Radial 1,
+  maptestsmall 0. The two maps without neutral ECs produce one loss between
+  them; the multi-neutral maps produce 67 of 97.
+- **Who:** arya-k, iliao2345 and max-titov 15 each; 123kevinlee 12; Sihal3,
+  astelmach20 and nickel-dime 11; nsortur 7.
+
+Reading: the losses are one mechanism seen from different angles. Neutral
+ECs are taken early by the opponent (first landings at r89-145 on Gridlock
+in earlier traces), the extra ECs multiply production and income five-fold
+by r300, and a 400-conviction politician converts our single EC, which holds
+nothing because the never-idle branch spends everything, at r278. Every
+capture candidate so far (race, capbank) waited for slanderer income
+before capturing and was starved or late; the deposit candidate banks only
+after the first slanderers expire at r310, after the median EC loss. The
+untried lever is the opening: the starting 150 plus the first fifty rounds
+of passive income is a full-price capturer for any neutral under ~300, and
+the scouts report the first neutral by r50 on the large maps.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

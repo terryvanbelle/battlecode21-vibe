@@ -25,6 +25,9 @@ public final class C {
     public static final int CROWD_D2 = 2;                // neighbours within this d^2 count as crowding
     public static final int CROWD_MAX = 2;               // more than this many adjacent friends -> spread out
 
+    // threat-sized guards (Iteration 10): a guard must beat the largest enemy politician the EC can see, else the EC banks
+    public static final int THREAT_MARGIN = 12;          // guard cost = threat conviction + this (share > conviction at n = 1, after the 10 tax)
+    public static final int THREAT_MIN = 40;             // enemy politicians below this are ignored by the rule (cheap guards still handle muckrakers)
     // politician
     public static final int GUARD_LEASH_D2 = 80;        // guards wander this far from home
     public static final int GUARD_RING_MIN = 20;        // guards hold outside the slanderer ring

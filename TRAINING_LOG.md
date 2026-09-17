@@ -860,6 +860,41 @@ the roster while the other three maps are 33-21; a map-specific failure,
 outside "production mix" (3 rejects there) -- scouting, navigation or
 capture on a large map.
 
+## Iteration 10 (in development, structural) -- threat-sized guards, else bank (2026-09-17 05:00 UTC)
+
+**Target: the Gridlock 0-18, traced.** `nsortur.piedPiper` Gridlock as B
+(`gauntlet/20260917-011706-roster-g_iter3/losses/`): we converted neutrals
+at r126, r179, r193 and r276 (3 ECs to their 2 at r200) and lost every one:
+r234 (a 1014 speech on an EC holding 5), r273 (436 on 23), r503 (526 on
+10), r686 (1419 on 54). Each captured EC spent itself to nothing on
+20-influence guards: 10-20 `t1c20` builds in a row from the moment it saw an
+enemy (the `danger && guards < 2` branch, and the guard branch's
+`min(max(20, inf/4), 60)`), because those guards die on contact and the
+count drops below 2 again. Same shape in astelmach20 and arya-k Gridlock
+games (ECs 2-3 -> 1 by r400-800). The opponents' captured ECs hold
+thousands. Attempt cadence: four incremental attempts since Iteration 5
+(cap 24, guard ratio, size, bid): this is the structural one.
+
+*Pre-registration, candidate "threat":* the EC reads the largest enemy
+politician conviction in its sensor range (ignoring < 40); a guard built
+under threat costs at least `threat + 12` (a share above the attacker's
+conviction at n = 1 after the tax), and if the EC cannot afford that it
+builds nothing and banks (`bank=` counter) -- influence is conviction. Both
+guard branches; the spend branch's big guards are unchanged. Decision-point
+counters: guard costs from `@spawn t=1 role=2` (baseline: 20 in 80% of
+builds under threat), `bank=` rounds, EC conversions of our ECs per game
+(baseline 3-4 on Gridlock), captured-EC influence at conversion (baseline
+5-54). Reachability: every EC turn with an enemy politician in range.
+Price: fewer cheap guards against muckraker floods (they still get the
+cheap guard when no politician is visible); banked influence idles.
+History: the wall (rejected) diluted hits; this one either beats or banks.
+Dose ladder: margin 12 / 40; THREAT_MIN 40 / 100. Gate: Stage 0 = Gridlock
+vs astelmach20 and nsortur, both sides (4 cells; baseline 0/4): EC
+conversions must drop and captured ECs must hold > 100 influence when hit;
+then the roster on the screen set (72) vs `g_iter4`'s record on those cells
+from the running quick-set baseline (+4). Falsifier: guard costs unchanged
+(another branch buys 20s) or ECs still converted while holding < 100.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

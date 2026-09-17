@@ -939,6 +939,13 @@ cells from the running baseline (+4). Falsifier: surplus unchanged (captures
 happen through another branch, e.g. the enemy-EC or all-in branch) or new
 ECs still converted holding < 100.
 
+**Stage 0, capbank, first arm, first game (astelmach20, Gridlock, A): lost
+at r1050; surplus unchanged (28-104).** The capture branch still fired at
+the old threshold (`neutralInf + 14` affordable) and `min(spare, +300)` gave
+270-294, so the bank never formed; our ECs were converted holding 8-72 as
+before. Completeness fix: the branch waits until `neutralInf + 14 + 300` is
+spare. Relaunched.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

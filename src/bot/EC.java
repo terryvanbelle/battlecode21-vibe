@@ -104,7 +104,7 @@ public strictfp class EC extends Robot {
     private int captureAffordable(int inf) {
         int best = -1, bestCost = 1 << 30;
         for (int i = MapState.nNeutral; --i >= 0;) {
-            int c = MapState.neutralInf[i] + 14;
+            int c = MapState.neutralInf[i] + 14 + C.CAPTURE_BANK;   // Iteration 11: wait until the bank is affordable too
             if (c <= inf - reserve() && c < bestCost && capturers < 2) { best = i; bestCost = c; }
         }
         return best;

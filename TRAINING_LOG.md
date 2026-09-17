@@ -1652,7 +1652,7 @@ guards, scouts and neutral captures unfloored. Same counters and gate
 (`h2h-floor4`). If this loses the mirror too, the floor family is closed:
 against ourselves, whatever is banked is out-produced.
 
-**floor4 (sink-only) head-to-head: 11/22 with two games left (23:40
+**floor4 (sink-only) head-to-head: 13/24 final, 11/22 when read (23:40
 UTC): level with the twin, the +5 gate out of reach.** Wins on Arena both
 sides, CrossStitch both sides, maptestsmall both sides, Blotches B,
 Circles A, Corridor B, Maze A, Radial A; losses on Andromeda both sides,

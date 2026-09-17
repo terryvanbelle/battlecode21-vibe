@@ -128,3 +128,7 @@ It would be great to maintain a constantly updated ELO-ranked bot list, so that 
 ## 27. 2026-09-17
 
 See if you can do the ladder without having external bots play against each other.  That's a waste of VM resources.  I'm ok with having a less accurate ranking, but only play our bot vs external bots
+
+## 28. 2026-09-17
+
+OK, I'm going to switch us from Fable to Opus so that we don't blow our weekly budget.  Please do whatever you need in order to make the transition smoothly

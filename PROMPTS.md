@@ -129,3 +129,9 @@ OK, understood.  Do what you can to use our cycles efficiently, and I guess we j
 ```text
 I just got up, can you summarize the last 8 hours?
 ```
+
+## Prompt 19: Time blocked on the VM
+
+```text
+Thanks for the summary, sounds like you made some good progress.  What's your estimate of the % of time you are blocked on waiting for runs to finish in the VM?
+```

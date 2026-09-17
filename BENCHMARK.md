@@ -57,7 +57,7 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `123kevinlee.atomAlphaV14` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
 | `123kevinlee.atomFinal` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
 | `123kevinlee.atomFinalHS` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
-| `123kevinlee.atomFinalQualifier` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
+| `123kevinlee.atomFinalQualifier` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | 33 | 6 | target | 33 |
 | `123kevinlee.atomFinalV22` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
 | `123kevinlee.atomStorm` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
 | `123kevinlee.atomV11` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
@@ -81,14 +81,14 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `Aryan34.spam4` | Aryan34_battlecode21 (02b5342) | - | - | untested |  |
 | `Aryan34.spam5` | Aryan34_battlecode21 (02b5342) | - | - | untested |  |
 | `Aryan34.spam6` | Aryan34_battlecode21 (02b5342) | - | - | untested |  |
-| `Aryo-Patel.finalBot` | Aryo-Patel_battlecode2021-team-confused (729461c) | - | - | untested |  |
+| `Aryo-Patel.finalBot` | Aryo-Patel_battlecode2021-team-confused (729461c) | 100 | 2 | peer(>90 once) | 100 |
 | `Aryo-Patel.philenaRobot` | Aryo-Patel_battlecode2021-team-confused (729461c) | - | - | untested |  |
 | `BSreenivas0713.StuckyMucky` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.auxExplorerPlayer` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.auxMusketeerPlayer` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.ecs` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.musketeerPlayer` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
-| `BSreenivas0713.musketeerplayerfinal` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
+| `BSreenivas0713.musketeerplayerfinal` | BSreenivas0713_Battlecode2021 (d24af14) | 0 | 2 | locked | 0 |
 | `BSreenivas0713.musketeerplayerjan8` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.musketeerplayerpostqual` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.musketeerplayerqual` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
@@ -102,12 +102,12 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `BSreenivas0713.naivesuey` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.smarterecs` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.sprintfirstversion` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
-| `BattlecodeTeam4.robotalpha` | BattlecodeTeam4_battlecode21-team4 (3afe434) | - | - | untested |  |
+| `BattlecodeTeam4.robotalpha` | BattlecodeTeam4_battlecode21-team4 (3afe434) | 100 | 4 | peer(>90 once) | 100 |
 | `BattlecodeTeam4.robotbeta` | BattlecodeTeam4_battlecode21-team4 (3afe434) | - | - | untested |  |
 | `BattlecodeTeam4.robotdelta` | BattlecodeTeam4_battlecode21-team4 (3afe434) | - | - | untested |  |
 | `BattlecodeTeam4.robotgamma` | BattlecodeTeam4_battlecode21-team4 (3afe434) | - | - | untested |  |
-| `BoluAdubi.bot1` | BoluAdubi_MIT-Battlecode21-Build (be71329) | - | - | untested |  |
-| `BryceKan3.bot.tournament.sprint` | BryceKan3_battlecode-2021 (14e4015) | - | - | untested |  |
+| `BoluAdubi.bot1` | BoluAdubi_MIT-Battlecode21-Build (be71329) | 100 | 4 | peer(>90 once) | 100 |
+| `BryceKan3.bot.tournament.sprint` | BryceKan3_battlecode-2021 (14e4015) | 100 | 4 | peer(>90 once) | 100 |
 | `BryceKan3.donothingbot` | BryceKan3_battlecode-2021 (14e4015) | - | - | untested |  |
 | `BryceKan3.hashingtestbed` | BryceKan3_battlecode-2021 (14e4015) | - | - | untested |  |
 | `BryceKan3.jacobtestbot3` | BryceKan3_battlecode-2021 (14e4015) | - | - | untested |  |
@@ -118,31 +118,31 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `ChiragKalra.gen2` | ChiragKalra_battlecode (ad1373f) | - | - | untested |  |
 | `ChiragKalra.gen3` | ChiragKalra_battlecode (ad1373f) | - | - | untested |  |
 | `ChiragKalra.gen4` | ChiragKalra_battlecode (ad1373f) | - | - | untested |  |
-| `ChiragKalra.gen5` | ChiragKalra_battlecode (ad1373f) | - | - | untested |  |
-| `IvanGeffner.thirtyone` | IvanGeffner_battlecode2021 (1471e6a) | - | - | untested |  |
-| `JCRaymond.bot.tournament.sprint` | JCRaymond_battlecode-2021 (14e4015) | - | - | untested |  |
+| `ChiragKalra.gen5` | ChiragKalra_battlecode (ad1373f) | 75 | 8 | peer | 50 75 |
+| `IvanGeffner.thirtyone` | IvanGeffner_battlecode2021 (1471e6a) | 0 | 2 | locked | 0 |
+| `JCRaymond.bot.tournament.sprint` | JCRaymond_battlecode-2021 (14e4015) | 100 | 4 | peer(>90 once) | 100 |
 | `JCRaymond.donothingbot` | JCRaymond_battlecode-2021 (14e4015) | - | - | untested |  |
 | `JCRaymond.hashingtestbed` | JCRaymond_battlecode-2021 (14e4015) | - | - | untested |  |
 | `JCRaymond.jacobtestbot3` | JCRaymond_battlecode-2021 (14e4015) | - | - | untested |  |
 | `JCRaymond.oliverrushbot2` | JCRaymond_battlecode-2021 (14e4015) | - | - | untested |  |
 | `JCRaymond.templatebot` | JCRaymond_battlecode-2021 (14e4015) | - | - | untested |  |
 | `JasonYe4273.attackNeutrals` | JasonYe4273_et-battlecode-2021 (1edd3b7) | - | - | untested |  |
-| `JasonYe4273.finals` | JasonYe4273_et-battlecode-2021 (1edd3b7) | - | - | untested |  |
+| `JasonYe4273.finals` | JasonYe4273_et-battlecode-2021 (1edd3b7) | 0 | 4 | locked | 0 |
 | `JasonYe4273.oldquals` | JasonYe4273_et-battlecode-2021 (1edd3b7) | - | - | untested |  |
 | `JasonYe4273.quals` | JasonYe4273_et-battlecode-2021 (1edd3b7) | - | - | untested |  |
 | `JasonYe4273.sprint1` | JasonYe4273_et-battlecode-2021 (1edd3b7) | - | - | untested |  |
 | `JasonYe4273.sprint2` | JasonYe4273_et-battlecode-2021 (1edd3b7) | - | - | untested |  |
-| `Mahpare.hackatrainee_v1` | Mahpare_battlecode2021 (f94804e) | - | - | untested |  |
+| `Mahpare.hackatrainee_v1` | Mahpare_battlecode2021 (f94804e) | 100 | 4 | peer(>90 once) | 100 |
 | `Masonwindu77.testPlayerv01` | Masonwindu77_battlecode21-scaffold-master (4bef620) | - | - | untested |  |
 | `Masonwindu77.testPlayerv09` | Masonwindu77_battlecode21-scaffold-master (4bef620) | - | - | untested |  |
-| `OliverMKing.bot.tournament.sprint` | OliverMKing_battlecode-2021 (14e4015) | - | - | untested |  |
+| `OliverMKing.bot.tournament.sprint` | OliverMKing_battlecode-2021 (14e4015) | 100 | 4 | peer(>90 once) | 100 |
 | `OliverMKing.donothingbot` | OliverMKing_battlecode-2021 (14e4015) | - | - | untested |  |
 | `OliverMKing.hashingtestbed` | OliverMKing_battlecode-2021 (14e4015) | - | - | untested |  |
 | `OliverMKing.jacobtestbot3` | OliverMKing_battlecode-2021 (14e4015) | - | - | untested |  |
 | `OliverMKing.oliverrushbot2` | OliverMKing_battlecode-2021 (14e4015) | - | - | untested |  |
 | `OliverMKing.templatebot` | OliverMKing_battlecode-2021 (14e4015) | - | - | untested |  |
-| `SLaGrave.AlphaCentauri` | SLaGrave_battlecode21 (9ae0ff4) | - | - | untested |  |
-| `Scott-Poole.spright8` | Scott-Poole_battlecode21 (57f898a) | - | - | untested |  |
+| `SLaGrave.AlphaCentauri` | SLaGrave_battlecode21 (9ae0ff4) | 100 | 4 | peer(>90 once) | 100 |
+| `Scott-Poole.spright8` | Scott-Poole_battlecode21 (57f898a) | 12 | 8 | locked | 0 12 |
 | `Sihal3.cavShieldv05` | Sihal3_cavshield (7a90425) | - | - | untested |  |
 | `Sihal3.cavShieldv1` | Sihal3_cavshield (7a90425) | - | - | untested |  |
 | `Sihal3.cavShieldv2` | Sihal3_cavshield (7a90425) | - | - | untested |  |
@@ -151,7 +151,7 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `Sihal3.cavShieldv5` | Sihal3_cavshield (7a90425) | - | - | untested |  |
 | `Sihal3.cavShieldv6` | Sihal3_cavshield (7a90425) | - | - | untested |  |
 | `Sihal3.cavShieldv7` | Sihal3_cavshield (7a90425) | - | - | untested |  |
-| `Sihal3.cavShieldv705` | Sihal3_cavshield (7a90425) | - | - | untested |  |
+| `Sihal3.cavShieldv705` | Sihal3_cavshield (7a90425) | 50 | 8 | peer | 50 50 |
 | `Sihal3.cavShieldv8` | Sihal3_cavshield (7a90425) | - | - | untested |  |
 | `Sihal3.nihaltest` | Sihal3_cavshield (7a90425) | - | - | untested |  |
 | `StoneT2000.alaskaroll` | StoneT2000_Battlecode2021 (5c2a7ee) | - | - | untested |  |
@@ -173,21 +173,21 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `StoneT2000.soupdelastone` | StoneT2000_Battlecode2021 (5c2a7ee) | - | - | untested |  |
 | `StoneT2000.spammusabisushi` | StoneT2000_Battlecode2021 (5c2a7ee) | - | - | untested |  |
 | `StoneT2000.spammusabisushiold` | StoneT2000_Battlecode2021 (5c2a7ee) | - | - | untested |  |
-| `StoneT2000.sprinttuna` | StoneT2000_Battlecode2021 (5c2a7ee) | - | - | untested |  |
+| `StoneT2000.sprinttuna` | StoneT2000_Battlecode2021 (5c2a7ee) | 0 | 4 | locked | 0 |
 | `StoneT2000.superecosushi` | StoneT2000_Battlecode2021 (5c2a7ee) | - | - | untested |  |
 | `StoneT2000.tunaroll` | StoneT2000_Battlecode2021 (5c2a7ee) | - | - | untested |  |
 | `StoneT2000.veggiesoup` | StoneT2000_Battlecode2021 (5c2a7ee) | - | - | untested |  |
 | `StoneT2000.wallsoup` | StoneT2000_Battlecode2021 (5c2a7ee) | - | - | untested |  |
 | `TeamSerpentine.idle` | TeamSerpentine_battlecode-2021-mars (6f54a42) | - | - | untested |  |
-| `TeamSerpentine.mars` | TeamSerpentine_battlecode-2021-mars (6f54a42) | - | - | untested |  |
+| `TeamSerpentine.mars` | TeamSerpentine_battlecode-2021-mars (6f54a42) | 100 | 8 | peer(>90 once) | 50 100 |
 | `Techno-coder.example` | Techno-coder_battlecode21 (3414b3e) | - | - | untested |  |
 | `Techno-coder.failure.monopoly` | Techno-coder_battlecode21 (3414b3e) | - | - | untested |  |
-| `Techno-coder.muckrakers` | Techno-coder_battlecode21 (3414b3e) | - | - | untested |  |
+| `Techno-coder.muckrakers` | Techno-coder_battlecode21 (3414b3e) | 100 | 4 | peer(>90 once) | 100 |
 | `Techno-coder.system` | Techno-coder_battlecode21 (3414b3e) | - | - | untested |  |
-| `TylerQube.sandmenplayer` | TylerQube_sandmen-battlecode21 (522a5fe) | - | - | untested |  |
-| `Victoriano012.SprintBot2` | Victoriano012_BattleCode-2021 (2517f10) | - | - | untested |  |
+| `TylerQube.sandmenplayer` | TylerQube_sandmen-battlecode21 (522a5fe) | 100 | 4 | peer(>90 once) | 100 |
+| `Victoriano012.SprintBot2` | Victoriano012_BattleCode-2021 (2517f10) | 38 | 8 | target | 0 38 |
 | `VittalT.donothingplayer` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
-| `VittalT.final_usqualplayer3_subm` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
+| `VittalT.final_usqualplayer3_subm` | VittalT_Battlecode2021-EZMoney (49bc713) | 12 | 8 | locked | 0 12 |
 | `VittalT.pathtestingplayer` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
 | `VittalT.simpleplayer1` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
 | `VittalT.simpleplayer2` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
@@ -198,9 +198,9 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `VittalT.usqualplayer2` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
 | `VittalT.usqualplayer2_nopol` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
 | `VittalT.usqualplayer3` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
-| `abhishekshree.bot2` | abhishekshree_BattleCode (5f6e829) | - | - | untested |  |
+| `abhishekshree.bot2` | abhishekshree_BattleCode (5f6e829) | 100 | 4 | peer(>90 once) | 100 |
 | `aidan-mundy.donothingplayer` | aidan-mundy_Battlecode2021 (49bc713) | - | - | untested |  |
-| `aidan-mundy.final_usqualplayer3_subm` | aidan-mundy_Battlecode2021 (49bc713) | - | - | untested |  |
+| `aidan-mundy.final_usqualplayer3_subm` | aidan-mundy_Battlecode2021 (49bc713) | 12 | 8 | locked | 0 12 |
 | `aidan-mundy.pathtestingplayer` | aidan-mundy_Battlecode2021 (49bc713) | - | - | untested |  |
 | `aidan-mundy.simpleplayer1` | aidan-mundy_Battlecode2021 (49bc713) | - | - | untested |  |
 | `aidan-mundy.simpleplayer2` | aidan-mundy_Battlecode2021 (49bc713) | - | - | untested |  |
@@ -211,20 +211,20 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `aidan-mundy.usqualplayer2` | aidan-mundy_Battlecode2021 (49bc713) | - | - | untested |  |
 | `aidan-mundy.usqualplayer2_nopol` | aidan-mundy_Battlecode2021 (49bc713) | - | - | untested |  |
 | `aidan-mundy.usqualplayer3` | aidan-mundy_Battlecode2021 (49bc713) | - | - | untested |  |
-| `alextheimer.player` | alextheimer_battlecode-2021 (92053c0) | - | - | untested |  |
-| `ama29.v6` | ama29_battlecode21 (8418a9b) | - | - | untested |  |
-| `angelaloh09.camelmanplayer` | angelaloh09_BattleCode2021-CamelMan (1a1ad19) | - | - | untested |  |
+| `alextheimer.player` | alextheimer_battlecode-2021 (92053c0) | 100 | 4 | peer(>90 once) | 100 |
+| `ama29.v6` | ama29_battlecode21 (8418a9b) | 62 | 8 | peer | 50 62 |
+| `angelaloh09.camelmanplayer` | angelaloh09_BattleCode2021-CamelMan (1a1ad19) | 100 | 4 | peer(>90 once) | 100 |
 | `angelaloh09.camelmanplayer_old` | angelaloh09_BattleCode2021-CamelMan (1a1ad19) | - | - | untested |  |
-| `anshgs.ho4` | anshgs_Fandead (00ef0fd) | - | - | untested |  |
+| `anshgs.ho4` | anshgs_Fandead (00ef0fd) | 12 | 8 | locked | 0 12 |
 | `arya-k.quals` | arya-k_bc21 (7791795) | - | - | untested |  |
-| `arya-k.quals_v1` | arya-k_bc21 (7791795) | - | - | untested |  |
+| `arya-k.quals_v1` | arya-k_bc21 (7791795) | 62 | 8 | peer | 0 62 |
 | `arya-k.refactor` | arya-k_bc21 (7791795) | - | - | untested |  |
 | `arya-k.seeding` | arya-k_bc21 (7791795) | - | - | untested |  |
 | `arya-k.seeding_bad_econ` | arya-k_bc21 (7791795) | - | - | untested |  |
 | `arya-k.slander_feed` | arya-k_bc21 (7791795) | - | - | untested |  |
 | `arya-k.sprint_plus` | arya-k_bc21 (7791795) | - | - | untested |  |
 | `astelmach20.notABotJustTest` | astelmach20_battlecode21 (faad413) | - | - | untested |  |
-| `astelmach20.piedPiper` | astelmach20_battlecode21 (faad413) | - | - | untested |  |
+| `astelmach20.piedPiper` | astelmach20_battlecode21 (faad413) | 50 | 8 | peer | 25 50 |
 | `awesomelemonade.baselinelatticebot` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.bettertargetting` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.biddingbot` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
@@ -262,7 +262,7 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `awesomelemonade.pdefense2` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.ppbot` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.spreadout` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
-| `awesomelemonade.sprint1bot` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
+| `awesomelemonade.sprint1bot` | awesomelemonade_battlecode-2021 (e9c4afc) | 0 | 4 | locked | 0 |
 | `awesomelemonade.trollbigps` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.v1_10` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.waves` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
@@ -272,8 +272,8 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `davidfang00.Defbot2` | davidfang00_DaMa_battlecode21 (14e4839) | - | - | untested |  |
 | `davidfang00.Rushbot` | davidfang00_DaMa_battlecode21 (14e4839) | - | - | untested |  |
 | `davidfang00.Rushbot2` | davidfang00_DaMa_battlecode21 (14e4839) | - | - | untested |  |
-| `davidfang00.Rushbot3` | davidfang00_DaMa_battlecode21 (14e4839) | - | - | untested |  |
-| `diegorod9000.Newcomer` | diegorod9000_Battlecode-2021-DJTN (9a8b876) | - | - | untested |  |
+| `davidfang00.Rushbot3` | davidfang00_DaMa_battlecode21 (14e4839) | 100 | 4 | peer(>90 once) | 100 |
+| `diegorod9000.Newcomer` | diegorod9000_Battlecode-2021-DJTN (9a8b876) | 100 | 4 | peer(>90 once) | 100 |
 | `dominicmkennedy.comms_bot` | dominicmkennedy_battlecode-2021 (0849c3a) | - | - | untested |  |
 | `dominicmkennedy.dom0` | dominicmkennedy_battlecode-2021 (0849c3a) | - | - | untested |  |
 | `dominicmkennedy.dom1` | dominicmkennedy_battlecode-2021 (0849c3a) | - | - | untested |  |
@@ -281,17 +281,17 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `dominicmkennedy.playerj0` | dominicmkennedy_battlecode-2021 (0849c3a) | - | - | untested |  |
 | `dominicmkennedy.playerj1` | dominicmkennedy_battlecode-2021 (0849c3a) | - | - | untested |  |
 | `dominicmkennedy.playerj2` | dominicmkennedy_battlecode-2021 (0849c3a) | - | - | untested |  |
-| `dominicmkennedy.playerj3` | dominicmkennedy_battlecode-2021 (0849c3a) | - | - | untested |  |
+| `dominicmkennedy.playerj3` | dominicmkennedy_battlecode-2021 (0849c3a) | 100 | 4 | peer(>90 once) | 100 |
 | `dominicmkennedy.troll_bot` | dominicmkennedy_battlecode-2021 (0849c3a) | - | - | untested |  |
 | `edlwang.oldPlayer` | edlwang_Battlecode2021 (2319047) | - | - | untested |  |
 | `edlwang.slandererOnly` | edlwang_Battlecode2021 (2319047) | - | - | untested |  |
-| `edlwang.sprint2` | edlwang_Battlecode2021 (2319047) | - | - | untested |  |
+| `edlwang.sprint2` | edlwang_Battlecode2021 (2319047) | 0 | 4 | locked | 0 |
 | `edlwang.testplayer` | edlwang_Battlecode2021 (2319047) | - | - | untested |  |
-| `ehiggins98.initialbot` | ehiggins98_bc21 (d333a36) | - | - | untested |  |
-| `evan-schott.bugplayer` | evan-schott_battlecode2021 (1d7b865) | - | - | untested |  |
+| `ehiggins98.initialbot` | ehiggins98_bc21 (d333a36) | 100 | 4 | peer(>90 once) | 100 |
+| `evan-schott.bugplayer` | evan-schott_battlecode2021 (1d7b865) | 100 | 4 | peer(>90 once) | 100 |
 | `evan-schott.nullplayer` | evan-schott_battlecode2021 (1d7b865) | - | - | untested |  |
 | `evan-schott.simpleplayer` | evan-schott_battlecode2021 (1d7b865) | - | - | untested |  |
-| `iliao2345.attacker` | iliao2345_Battlecode2021 (d620569) | - | - | untested |  |
+| `iliao2345.attacker` | iliao2345_Battlecode2021 (d620569) | 50 | 8 | peer | 0 50 |
 | `iliao2345.buryguard` | iliao2345_Battlecode2021 (d620569) | - | - | untested |  |
 | `iliao2345.donothing` | iliao2345_Battlecode2021 (d620569) | - | - | untested |  |
 | `iliao2345.explore_test` | iliao2345_Battlecode2021 (d620569) | - | - | untested |  |
@@ -321,7 +321,7 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `iyzg.sbot14` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
 | `iyzg.sbot15` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
 | `iyzg.sbot16` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
-| `iyzg.sbot17` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
+| `iyzg.sbot17` | iyzg_battlecode21 (13595c5) | 12 | 8 | locked | 0 12 |
 | `iyzg.sbot2` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
 | `iyzg.sbot3` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
 | `iyzg.sbot4` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
@@ -330,7 +330,7 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `iyzg.sbot7` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
 | `iyzg.sbot8` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
 | `iyzg.sbot9` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
-| `jay20162016.ecobot` | jay20162016_Battlecode2021 (93b587c) | - | - | untested |  |
+| `jay20162016.ecobot` | jay20162016_Battlecode2021 (93b587c) | 100 | 4 | peer(>90 once) | 100 |
 | `jay20162016.ecobot2` | jay20162016_Battlecode2021 (93b587c) | - | - | untested |  |
 | `jay20162016.ecobot3` | jay20162016_Battlecode2021 (93b587c) | - | - | untested |  |
 | `jay20162016.initialjaybot` | jay20162016_Battlecode2021 (93b587c) | - | - | untested |  |
@@ -347,7 +347,7 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `jay20162016.tankbot7` | jay20162016_Battlecode2021 (93b587c) | - | - | untested |  |
 | `jay20162016.thunderbird` | jay20162016_Battlecode2021 (93b587c) | - | - | untested |  |
 | `jay20162016.votekamibot` | jay20162016_Battlecode2021 (93b587c) | - | - | untested |  |
-| `jjtippetts.influencerforceplayer` | jjtippetts_battlecode2021repo (5902209) | - | - | untested |  |
+| `jjtippetts.influencerforceplayer` | jjtippetts_battlecode2021repo (5902209) | 100 | 4 | peer(>90 once) | 100 |
 | `jjtippetts.newerplayer` | jjtippetts_battlecode2021repo (5902209) | - | - | untested |  |
 | `jjtippetts.pathfindingplayer` | jjtippetts_battlecode2021repo (5902209) | - | - | untested |  |
 | `jjtippetts.templateBot` | jjtippetts_battlecode2021repo (5902209) | - | - | untested |  |
@@ -359,25 +359,25 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `jmerle.camel_case_v4` | jmerle_battlecode-2021 (5f4a269) | - | - | untested |  |
 | `jmerle.camel_case_v5` | jmerle_battlecode-2021 (5f4a269) | - | - | untested |  |
 | `jmerle.camel_case_v6_sprint_1` | jmerle_battlecode-2021 (5f4a269) | - | - | untested |  |
-| `jmerle.camel_case_v7_sprint_2` | jmerle_battlecode-2021 (5f4a269) | - | - | untested |  |
-| `mama4294.Maloneplayer` | mama4294_Battlecode21 (583166a) | - | - | untested |  |
+| `jmerle.camel_case_v7_sprint_2` | jmerle_battlecode-2021 (5f4a269) | 38 | 8 | target | 17 38 |
+| `mama4294.Maloneplayer` | mama4294_Battlecode21 (583166a) | 100 | 4 | peer(>90 once) | 100 |
 | `max-titov.ECtest` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
 | `max-titov.commsplayer` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
 | `max-titov.muckattack` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
 | `max-titov.navtest` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
 | `max-titov.navtest2` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
 | `max-titov.playertemplate` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
-| `max-titov.sprintplayer` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
+| `max-titov.sprintplayer` | max-titov_2021.battlecode-KFA (168559c) | 12 | 8 | locked | 0 12 |
 | `max-titov.voting_test` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
 | `mhahn2003.bug` | mhahn2003_bc21 (175fd93) | - | - | untested |  |
 | `mhahn2003.coms` | mhahn2003_bc21 (175fd93) | - | - | untested |  |
 | `mhahn2003.ducks` | mhahn2003_bc21 (175fd93) | - | - | untested |  |
 | `mhahn2003.feeder` | mhahn2003_bc21 (175fd93) | - | - | untested |  |
-| `mhahn2003.finals` | mhahn2003_bc21 (175fd93) | - | - | untested |  |
+| `mhahn2003.finals` | mhahn2003_bc21 (175fd93) | 0 | 4 | locked | 0 |
 | `mhahn2003.init` | mhahn2003_bc21 (175fd93) | - | - | untested |  |
 | `mhahn2003.quals` | mhahn2003_bc21 (175fd93) | - | - | untested |  |
-| `mhbtz1.presprint` | mhbtz1_boib-battlecode21 (ead60a2) | - | - | untested |  |
-| `mvpatel2000.biden` | mvpatel2000_Battlecode2021 (e31afc2) | - | - | untested |  |
+| `mhbtz1.presprint` | mhbtz1_boib-battlecode21 (ead60a2) | 100 | 4 | peer(>90 once) | 100 |
+| `mvpatel2000.biden` | mvpatel2000_Battlecode2021 (e31afc2) | 0 | 4 | locked | 0 |
 | `mvpatel2000.clinton` | mvpatel2000_Battlecode2021 (e31afc2) | - | - | untested |  |
 | `mvpatel2000.fdr` | mvpatel2000_Battlecode2021 (e31afc2) | - | - | untested |  |
 | `mvpatel2000.gore` | mvpatel2000_Battlecode2021 (e31afc2) | - | - | untested |  |
@@ -390,14 +390,14 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `mvpatel2000.trump` | mvpatel2000_Battlecode2021 (e31afc2) | - | - | untested |  |
 | `mvpatel2000.wbush` | mvpatel2000_Battlecode2021 (e31afc2) | - | - | untested |  |
 | `naalit.bufftest` | naalit_battlecode21 (fd8a2c2) | - | - | untested |  |
-| `naalit.mukrush` | naalit_battlecode21 (fd8a2c2) | - | - | untested |  |
+| `naalit.mukrush` | naalit_battlecode21 (fd8a2c2) | 100 | 4 | peer(>90 once) | 100 |
 | `naalit.redarmy` | naalit_battlecode21 (fd8a2c2) | - | - | untested |  |
 | `naalit.starfleet` | naalit_battlecode21 (fd8a2c2) | - | - | untested |  |
 | `naalit.testplayer` | naalit_battlecode21 (fd8a2c2) | - | - | untested |  |
 | `nickel-dime.notABotJustTest` | nickel-dime_battlecode21 (0d64622) | - | - | untested |  |
-| `nickel-dime.piedPiper` | nickel-dime_battlecode21 (0d64622) | - | - | untested |  |
+| `nickel-dime.piedPiper` | nickel-dime_battlecode21 (0d64622) | 50 | 8 | peer | 25 50 |
 | `nsortur.notABotJustTest` | nsortur_battlecode21 (faad413) | - | - | untested |  |
-| `nsortur.piedPiper` | nsortur_battlecode21 (faad413) | - | - | untested |  |
+| `nsortur.piedPiper` | nsortur_battlecode21 (faad413) | 50 | 8 | peer | 25 50 |
 | `paulmure.bidold` | paulmure_battlecode21 (35ccd80) | - | - | untested |  |
 | `paulmure.bugfixplayer` | paulmure_battlecode21 (35ccd80) | - | - | untested |  |
 | `paulmure.cloudplayer` | paulmure_battlecode21 (35ccd80) | - | - | untested |  |
@@ -406,12 +406,12 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `paulmure.mucknerfplayer` | paulmure_battlecode21 (35ccd80) | - | - | untested |  |
 | `paulmure.oldeco` | paulmure_battlecode21 (35ccd80) | - | - | untested |  |
 | `paulmure.ourplayer` | paulmure_battlecode21 (35ccd80) | - | - | untested |  |
-| `paulmure.sprintplayer` | paulmure_battlecode21 (35ccd80) | - | - | untested |  |
+| `paulmure.sprintplayer` | paulmure_battlecode21 (35ccd80) | 100 | 4 | peer(>90 once) | 100 |
 | `paulmure.stinkierbot` | paulmure_battlecode21 (35ccd80) | - | - | untested |  |
 | `paulmure.stinkybot` | paulmure_battlecode21 (35ccd80) | - | - | untested |  |
 | `paulmure.zdoNothing` | paulmure_battlecode21 (35ccd80) | - | - | untested |  |
 | `pranayagra.finalbot10` | pranayagra_Battlecode2021 (18340f7) | - | - | untested |  |
-| `pranayagra.finalbot11` | pranayagra_Battlecode2021 (18340f7) | - | - | untested |  |
+| `pranayagra.finalbot11` | pranayagra_Battlecode2021 (18340f7) | 0 | 4 | locked | 0 |
 | `pranayagra.sprint` | pranayagra_Battlecode2021 (18340f7) | - | - | untested |  |
 | `pranayagra.teambot` | pranayagra_Battlecode2021 (18340f7) | - | - | untested |  |
 | `pranayagra.teambot1` | pranayagra_Battlecode2021 (18340f7) | - | - | untested |  |
@@ -422,7 +422,7 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `pranayagra.teambotnewestcodebutoldattack` | pranayagra_Battlecode2021 (18340f7) | - | - | untested |  |
 | `pranayagra.teambotnewframeworkbutoldattack` | pranayagra_Battlecode2021 (18340f7) | - | - | untested |  |
 | `pranayagra.teambotold` | pranayagra_Battlecode2021 (18340f7) | - | - | untested |  |
-| `qawsedrftgzh.battlecode2021` | qawsedrftgzh_battlecode2021-player (934ffe0) | - | - | untested |  |
+| `qawsedrftgzh.battlecode2021` | qawsedrftgzh_battlecode2021-player (934ffe0) | 50 | 8 | peer | 0 50 |
 | `raytran.baseplayer` | raytran_bc2021 (fae8f86) | - | - | untested |  |
 | `raytran.baseplayer2` | raytran_bc2021 (fae8f86) | - | - | untested |  |
 | `raytran.baseplayer3` | raytran_bc2021 (fae8f86) | - | - | untested |  |
@@ -433,7 +433,7 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `raytran.baseplayerturtleonly` | raytran_bc2021 (fae8f86) | - | - | untested |  |
 | `raytran.betterpathing` | raytran_bc2021 (fae8f86) | - | - | untested |  |
 | `raytran.circletest` | raytran_bc2021 (fae8f86) | - | - | untested |  |
-| `raytran.dlmoreram010921` | raytran_bc2021 (fae8f86) | - | - | untested |  |
+| `raytran.dlmoreram010921` | raytran_bc2021 (fae8f86) | 100 | 4 | peer(>90 once) | 100 |
 | `raytran.dlmoreram011021_01` | raytran_bc2021 (fae8f86) | - | - | untested |  |
 | `raytran.dlmoreram011021_02` | raytran_bc2021 (fae8f86) | - | - | untested |  |
 | `raytran.dlmoreram011021_03` | raytran_bc2021 (fae8f86) | - | - | untested |  |
@@ -481,28 +481,28 @@ Filled in by `tools/bench-compile.sh` (compile status) and by evaluation runs
 | `rqi3.pathfindingtest` | rqi3_battlecode-2021 (f59941b) | - | - | untested |  |
 | `rqi3.pold` | rqi3_battlecode-2021 (f59941b) | - | - | untested |  |
 | `rqi3.politician_tester` | rqi3_battlecode-2021 (f59941b) | - | - | untested |  |
-| `rqi3.qualification_bot` | rqi3_battlecode-2021 (f59941b) | - | - | untested |  |
+| `rqi3.qualification_bot` | rqi3_battlecode-2021 (f59941b) | 0 | 4 | locked | 0 |
 | `ryanbai1412.antimuckrush` | ryanbai1412_Battlecode2021 (2ffbfa8) | - | - | untested |  |
 | `ryanbai1412.eco` | ryanbai1412_Battlecode2021 (2ffbfa8) | - | - | untested |  |
-| `ryanbai1412.sprint_0` | ryanbai1412_Battlecode2021 (2ffbfa8) | - | - | untested |  |
+| `ryanbai1412.sprint_0` | ryanbai1412_Battlecode2021 (2ffbfa8) | 0 | 4 | locked | 0 |
 | `ryanbai1412.template` | ryanbai1412_Battlecode2021 (2ffbfa8) | - | - | untested |  |
 | `rzhan11.muckspam` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
 | `rzhan11.newday` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
 | `rzhan11.sprint` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
-| `rzhan11.sprint2` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
+| `rzhan11.sprint2` | rzhan11_Battlecode2021 (f21c274) | 0 | 4 | locked | 0 |
 | `rzhan11.template` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
 | `rzhan11.wander_defense` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
-| `saivivekvenna.Ba_ba_booie` | saivivekvenna_BattleCode-2021 (636ec61) | - | - | untested |  |
+| `saivivekvenna.Ba_ba_booie` | saivivekvenna_BattleCode-2021 (636ec61) | 100 | 4 | peer(>90 once) | 100 |
 | `sasank02.framework1` | sasank02_battlecode21-solexa-scaffold (61220fe) | - | - | untested |  |
 | `sasank02.framework2` | sasank02_battlecode21-solexa-scaffold (61220fe) | - | - | untested |  |
-| `sasank02.framework3_mr_density` | sasank02_battlecode21-solexa-scaffold (61220fe) | - | - | untested |  |
-| `thevaliantthird.bot1` | thevaliantthird_BattleCode2021 (949248e) | - | - | untested |  |
-| `unai-gurbindo.camelmanplayer` | unai-gurbindo_Battlecode (b14a2f6) | - | - | untested |  |
-| `winkelmantanner.tannerplayer` | winkelmantanner_battlecode2021_waffle (d3e8fc7) | - | - | untested |  |
-| `woodstockcs.fanandflag` | woodstockcs_bc21 (a22241f) | - | - | untested |  |
+| `sasank02.framework3_mr_density` | sasank02_battlecode21-solexa-scaffold (61220fe) | 100 | 4 | peer(>90 once) | 100 |
+| `thevaliantthird.bot1` | thevaliantthird_BattleCode2021 (949248e) | 100 | 4 | peer(>90 once) | 100 |
+| `unai-gurbindo.camelmanplayer` | unai-gurbindo_Battlecode (b14a2f6) | 100 | 4 | peer(>90 once) | 100 |
+| `winkelmantanner.tannerplayer` | winkelmantanner_battlecode2021_waffle (d3e8fc7) | 0 | 4 | locked | 0 |
+| `woodstockcs.fanandflag` | woodstockcs_bc21 (a22241f) | 100 | 4 | peer(>90 once) | 100 |
 | `woodstockcs.muckrush` | woodstockcs_bc21 (a22241f) | - | - | untested |  |
 | `wstan2001.badbot001` | wstan2001_Battlecode2021 (b71774e) | - | - | untested |  |
-| `wstan2001.boundfinder` | wstan2001_Battlecode2021 (b71774e) | - | - | untested |  |
+| `wstan2001.boundfinder` | wstan2001_Battlecode2021 (b71774e) | 100 | 4 | peer(>90 once) | 100 |
 | `wstan2001.opcodebot01` | wstan2001_Battlecode2021 (b71774e) | - | - | untested |  |
 | `wstan2001.supermuck` | wstan2001_Battlecode2021 (b71774e) | - | - | untested |  |
 | `wstan2001.v1` | wstan2001_Battlecode2021 (b71774e) | - | - | untested |  |

@@ -9,7 +9,10 @@ ap = argparse.ArgumentParser(); ap.add_argument('run'); ap.add_argument('--label
 a = ap.parse_args(); run = os.path.basename(a.run.rstrip('/'))
 if any(r['run'] == run for r in elolib.load()): print('already recorded', run); sys.exit(0)
 new = []
-for i, line in enumerate(open(os.path.join(a.run, 'results.raw'))):
+src = os.path.join(a.run, 'results.raw')
+if not os.path.exists(src): src = os.path.join(a.run, 'results.csv')   # gauntlet.sh keeps only the sorted csv (same columns, header first)
+for i, line in enumerate(open(src)):
+    if line.startswith('opponent,'): continue
     f = line.rstrip('\n').split(',')
     if run.endswith('-ladder'):
         if len(f) < 6 or f[3] not in ('A', 'B'): continue

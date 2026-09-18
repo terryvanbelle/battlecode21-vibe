@@ -390,6 +390,25 @@ are still deciding something. A candidate that is merely neutral is
 rejected at a cost close to the old panel's; a real improvement is now
 detectable, which it was not before.
 
+**Provisional changes and the stack (2026-09-18).** Iteration 22 ended
+111-97 (53.4%) over 208 games: inconclusive, and that is the common case,
+because separating a true 55% from 50% needs roughly 800 games (~11
+VM-hours) and the SPRT's two hypotheses straddle it. Discarding every
+such result would mean never improving at this budget, and keeping each
+one on faith would accumulate noise. The policy is therefore:
+
+- **inconclusive and >= 53% over >= 200 games** -> keep it *provisionally*
+  (`src/bot` grows; no snapshot, no submission, ladder untouched);
+- **inconclusive and < 53%**, or REJECT -> revert it;
+- each further candidate is built **on top of the provisional stack** and
+  its SPRT is run against the **incumbent**, not against the stack. As the
+  stack grows the edge grows: three true 55% changes are about 65%
+  together, which the same test resolves in 60-100 games;
+- the stack is snapshotted as `g_iterN` only when it reaches **ACCEPT**
+  against the incumbent, and only then does it play a scrimmage block and
+  move the team rating. A stack that reaches REJECT loses its most recent
+  member, which is the change that broke it.
+
 The archetypes stay as a **regression check on an accept** (they catch a
 rush or bidding vulnerability the incumbent itself does not punish), and
 the scrimmage block stays as the ladder standing for a new submission.

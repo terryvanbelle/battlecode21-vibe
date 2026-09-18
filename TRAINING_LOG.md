@@ -2032,6 +2032,36 @@ incumbent, random map and side per game, batches of 16, H0 p=0.50 against
 H1 p=0.58 with alpha = beta = 0.05, stopping at ACCEPT or REJECT. Iteration
 22 is the first candidate through it (running).
 
+**Iteration 22 through the new gate: 111-97 = 53.4% over 208 games,
+INCONCLUSIVE (2026-09-18 04:10 UTC, `gauntlet/mirror-save.log`).** The
+first honest measurement of a candidate here: positive, and too small for
+the test's 58% hypothesis. Separating 55% from 50% needs ~800 games, so
+this is the budget's resolution limit, not a property of the change.
+**Kept provisionally** under the new stacking policy (4.5.3): `src/bot` =
+`g_iter4` + saving mode; no snapshot, no submission, the ladder is
+untouched.
+
+## Iteration 23 (in development, doctrine) -- the collapse (2026-09-18 04:15 UTC)
+
+**Target: the census's clearest fact.** Our first EC falls holding 6-24
+influence, and in six of the nine pre-r600 losses the converting
+politician carries only 66-201 conviction. Our guards are held *outside*
+the ring (`GUARD_RING_MIN` 20), so the attacker walks to an empty tile
+beside the EC and speaks at r^2 1 with n=1: the whole conviction lands on
+the EC.
+
+Candidate: a guard within d^2 64 of its EC, while an enemy politician is
+within d^2 25 of that EC, takes the free adjacent tile nearest the
+threat and holds it, leaving at least four adjacent tiles free so the EC
+can still spawn; when the threat goes, the guard returns to the ring.
+Iteration 21 dose 2 hugged permanently and cost -4 by sealing the spawn
+ring; this collapses only under threat, when the EC is defending rather
+than building. Counters: `@collapse move`/`@collapse hold`, our
+converted-EC influence at the hit (baseline 6-24), n in the converting
+speech (baseline 1-4), first-EC-loss round (baseline r336). Gate: SPRT
+against `g_iter4` **on top of the provisional stack**; ACCEPT snapshots
+`g_iter5`, REJECT drops the collapse and keeps saving mode.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

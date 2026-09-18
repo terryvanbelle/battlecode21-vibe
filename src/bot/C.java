@@ -17,6 +17,13 @@ public final class C {
     public static final int SAVE_MAX_TARGET = 600;     // covers the 500-influence neutrals that sit near home
     public static final int SAVE_SLANDERERS = 2;       // income kept while saving
     public static final int SAVE_BANK = 60;            // the new EC starts with this
+    // Iteration 23 (the collapse): a guard within COLLAPSE_FROM_D2 of its EC moves onto a tile adjacent to it while an
+    // enemy politician is within COLLAPSE_TRIGGER_D2 of that EC, then returns to the ring. Dilutes the conversion speech
+    // (n rises) and takes the tiles the attacker wants. Permanent hugging was Iteration 21 dose 2 and cost -4 (sealed spawns).
+    public static final boolean COLLAPSE = true;          // false = g_iter4
+    public static final int COLLAPSE_TRIGGER_D2 = 25;     // enemy politician this close to the EC arms it
+    public static final int COLLAPSE_FROM_D2 = 64;        // guards this close to the EC answer
+    public static final int COLLAPSE_MAX = 4;             // at most this many tiles taken (the EC keeps the rest to spawn)
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

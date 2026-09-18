@@ -22,8 +22,10 @@ public final class C {
     // (n rises) and takes the tiles the attacker wants. Permanent hugging was Iteration 21 dose 2 and cost -4 (sealed spawns).
     public static final boolean COLLAPSE = true;          // false = g_iter4
     public static final int COLLAPSE_TRIGGER_D2 = 25;     // enemy politician this close to the EC arms it
+    public static final int COLLAPSE_MIN_CONV = 50;       // ... and only one that could actually convert it (dose 1 triggered on 15s)
     public static final int COLLAPSE_FROM_D2 = 64;        // guards this close to the EC answer
-    public static final int COLLAPSE_MAX = 4;             // at most this many tiles taken (the EC keeps the rest to spawn)
+    public static final int COLLAPSE_MAX = 4;             // at most this many of the EC's neighbours are ours while collapsed
+    public static final int COLLAPSE_KEEP_FREE = 2;       // ... and this many tiles stay free to spawn (dose 1 demanded 5 and so never moved)
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

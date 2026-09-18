@@ -2062,6 +2062,24 @@ speech (baseline 1-4), first-EC-loss round (baseline r336). Gate: SPRT
 against `g_iter4` **on top of the provisional stack**; ACCEPT snapshots
 `g_iter5`, REJECT drops the collapse and keeps saving mode.
 
+**Collapse dose 1 was broken and the logged game said so before the test
+could (2026-09-18 05:05 UTC): 397 `@collapse hold`, **0** `@collapse
+move`.** Two faults. It triggered on any enemy politician within d^2 25,
+including 15-20 conviction ones that cannot convert anything, so guards
+sat still near harmless enemies; and its move branch demanded more than
+four free tiles beside the EC, which a walled map with our own units
+around the EC almost never has, so no guard ever stepped in. The stack's
+45-35 at that point was saving mode, not the collapse. Test stopped.
+
+*Dose 2:* the trigger needs conviction >= `COLLAPSE_MIN_CONV` 50 (the
+census's converters carry 66-201); the move needs only that more than
+`COLLAPSE_KEEP_FREE` 2 tiles stay free and that fewer than
+`COLLAPSE_MAX` 4 of the EC's neighbours are already ours; a guard
+already beside the EC holds only while the ring is not crowded with our
+own bodies, which is what made Iteration 21 dose 2 seal the spawn ring.
+The logged Gridlock game runs first and must show `@collapse move`
+before the SPRT is worth anything.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

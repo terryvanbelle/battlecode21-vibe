@@ -2080,6 +2080,17 @@ own bodies, which is what made Iteration 21 dose 2 seal the spawn ring.
 The logged Gridlock game runs first and must show `@collapse move`
 before the SPRT is worth anything.
 
+**Iteration 23 (the collapse): REJECTED (2026-09-18 07:10 UTC).** With
+the mechanism verified acting (65 moves, 48 holds in the diagnostic), the
+stack of saving mode + collapse ran 70-74 (48.6%) against `g_iter4` over
+144 games, while saving mode alone had been 111-97 (53.4%) over 208. The
+collapse costs roughly five points: a guard that steps beside its EC
+stops chasing the muckrakers that kill our slanderers, and it is one
+fewer body in the ring exactly when the enemy is arriving in force.
+Ledger: bodies beside the EC are not worth their absence from the ring,
+whether they are posted there (Iteration 21 dose 2, -4) or sent there by
+a threat (this, -5). The stack keeps saving mode only.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -2117,6 +2128,7 @@ before the SPRT is worth anything.
 | deposit: expired slanderers speak at the EC (dose 2: politician-only threat, share with two, speak after 8 rounds) | rejected | 36% of expiries deposit (was 14%), 12k conviction in a game, EC spends it within 200 rounds; roster 26 v 26 on 64 | the guard sink is gone |
 | big standing guards (cap 60 -> 200, spare/2) | rejected | mirror 4/12 (votes), roster 2 v 5 at 13 cells: the same three rush cells as the floor | never as a size rule |
 | invest the surplus (spare >= 300 buys a slanderer of that size) | rejected | fires as designed (368-605 slanderers, EC 5,314 at r800) but roster 12 v 14 at 33 cells, no flip for: income after r400 is too late | with an opening that holds its neutrals |
+| guards collapse onto the EC's adjacent tiles while a converter closes | rejected | mechanism verified (65 moves), stack 70-74 against saving mode's 111-97: -5 points; the guards stop chasing muckrakers and leave the ring | never: bodies beside the EC cost more than they dilute |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap

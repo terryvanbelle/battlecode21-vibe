@@ -76,31 +76,6 @@ public strictfp class Politician extends Robot {
         }
         // move: toward the nearest enemy muckraker (they kill our slanderers) if within leash, else hold a ring around home
         MapLocation home = MapState.home;
-        if (C.COLLAPSE && home != null && role == Roles.GUARD) {
-            // collapse: a politician big enough to convert our EC is closing on it, and we are near enough to screen
-            RobotInfo threat = null;
-            for (int i = nEnemy; --i >= 0;) { RobotInfo r = enemies[i]; if (r.type == RobotType.POLITICIAN && r.conviction >= C.COLLAPSE_MIN_CONV && r.location.distanceSquaredTo(home) <= C.COLLAPSE_TRIGGER_D2 && (threat == null || r.conviction > threat.conviction)) threat = r; }
-            if (threat != null && loc.distanceSquaredTo(home) <= C.COLLAPSE_FROM_D2) {
-                int ours = 0, free = 0; MapLocation best = null; int bd = 1 << 30;
-                for (int i = 8; --i >= 0;) {
-                    MapLocation n = home.add(DIRS[i]);
-                    if (!rc.canSenseLocation(n) || !rc.onTheMap(n)) continue;
-                    RobotInfo occ = rc.senseRobotAtLocation(n);
-                    if (occ != null) { if (occ.team == us && occ.type != RobotType.ENLIGHTENMENT_CENTER) ours++; continue; }
-                    free++;
-                    int d = n.distanceSquaredTo(threat.location);
-                    if (d < bd) { bd = d; best = n; }
-                }
-                int d2 = loc.distanceSquaredTo(home);
-                if (d2 <= 2) {   // already beside it: hold the tile unless the ring is crowded with our own bodies
-                    if (ours <= C.COLLAPSE_MAX) { Debug.log("@collapse hold ours=" + ours + " free=" + free + " threat=" + threat.conviction); return; }
-                }
-                else if (best != null && free > C.COLLAPSE_KEEP_FREE && ours < C.COLLAPSE_MAX) {
-                    Debug.log("@collapse move free=" + free + " ours=" + ours + " threat=" + threat.conviction);
-                    nav.setTarget(best); nav.step(); return;
-                }
-            }
-        }
         if (nearestEnemyMuck != null && (home == null || nearestEnemyMuck.location.distanceSquaredTo(home) <= C.GUARD_LEASH_D2 * 2)) { nav.setTarget(nearestEnemyMuck.location); nav.step(); return; }
         if (nearestEnemy != null && nearestEnemy.type != RobotType.ENLIGHTENMENT_CENTER && (home == null || nearestEnemy.location.distanceSquaredTo(home) <= C.GUARD_LEASH_D2)) { nav.setTarget(nearestEnemy.location); nav.step(); return; }
         if (home == null) return;

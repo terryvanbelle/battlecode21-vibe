@@ -64,5 +64,10 @@ Read `CLAUDE.md`, then this file, then the tail of `TRAINING_LOG.md`.
   the pgrep pattern must match the original `-P N`.
 - `vm-sync.sh` replaces `src tools test` on the VM at every `vm-run.sh`; never launch a
   second run while another is still compiling (first ~30 s).
+- `pgrep -c "battlecode.server.Main"` **counts two processes per game**: gauntlet.sh
+  wraps each game in `timeout 1200 java ...`, and the wrapper's command line contains
+  the class name too. Divide by two, or match `[j]ava .*battlecode.server.Main`.
+- Killing a `mirror.sh` run means killing the **script** (`pkill -f "[m]irror.sh"`),
+  not just its `xargs`: the batch loop simply starts the next batch otherwise.
 - The VM is shared with other projects (their games also show as
   `battlecode.server.Main`); our cap is 7 games at once.

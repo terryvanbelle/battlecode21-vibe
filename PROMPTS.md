@@ -140,3 +140,7 @@ OK, switched from Fable to Opus
 ## 30. 2026-09-17
 
 That sounds to me like a reasonable change
+
+## 31. 2026-09-18
+
+Agreed about doing a diagnostic run first to avoid doing unnecessary work.  Make sure that's encoded in TRAINING_ALGORITHM.md so we don't lose it

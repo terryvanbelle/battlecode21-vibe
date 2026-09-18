@@ -18,5 +18,9 @@ Read `SETUP.md` before running anything, and `HANDOFF.md` for the current state 
    against a benchmark bot (user rule 2026-09-17, TRAINING_ALGORITHM 4.5.2).
    Our own snapshots and archetypes stay unrestricted.
 
+4. **Never start a test before a diagnostic game proves the mechanism fires**
+   (TRAINING_ALGORITHM 4.5, step 1). Three candidates were implemented, compiled
+   and completely inert; only the `@tag` counters in a logged game showed it.
+
 Working rules that already live elsewhere: `TRAINING_ALGORITHM.md` (the loop),
 `BENCHMARK.md` (never read benchmark source; the 20% rule), `tools/README.md`.

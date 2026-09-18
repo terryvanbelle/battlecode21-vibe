@@ -246,16 +246,36 @@ One change per candidate; never bundle. Then:
 
 ### 4.5 Evaluate
 
-1. **Head-to-head** vs. the last accepted snapshot, full corpus, both sides.
-   Report win count, margin, swept maps each way, and the arm-to-arm identity
-   count (how many cells are byte-identical; all-identical voids the run).
-2. **Roster gauntlet** (`tools/roster.txt`, the target tier) on the same map set. Diff game by game against
-   the baseline run and read the **shape**: scattered mixed-direction flips are
-   churn; one-directional flips, or flips concentrated on one map or side across
-   several opponents, are a real effect to trace before deciding.
-3. **Fixed roster**, if the head-to-head margin is thin (within 1 sd of the
-   gate) -- run it *before* accepting, not after.
-4. Locked-tier scores are recorded every time but never decide anything alone.
+**Step 1 is always a diagnostic game, and no test may start before it
+passes.** (User rule, 2026-09-18, PROMPTS 31; earned by Iterations 16, 21
+and 23.) Run one logged game against the incumbent on a map the mechanism
+is supposed to change:
+
+```
+LOG_OUT=gauntlet/devlogs/<name>.log tools/run-dev.sh bot g_iter4 <Map> \
+    gauntlet/devlogs/<name>.bc21 -Dbc.server.robot-player-to-system-out=true
+```
+
+then grep the pre-registered `@tag` counters. The candidate proceeds only
+if the mechanism **fires and acts**, at the rate and in the way the
+pre-registration claimed. It costs one game (about eight minutes) and it
+has caught three candidates that a statistical test would have measured
+for hours while they did nothing:
+
+| iteration | what the test would have measured | what the log showed |
+|---|---|---|
+| 16 / 21 opening | a 48-cell panel, twice | `@opening capture` fired **0** times: the caps excluded every neutral on those maps |
+| 21 garrison | +3, attributed to the garrison | guards were posted, then the ring rule walked them 4-9 tiles away |
+| 23 collapse | a 240-game SPRT | 397 holds, **0** moves: the free-tile rule was unreachable and the trigger fired on 15-conviction enemies |
+
+A mechanism that compiles, runs and logs nothing useful is the normal
+failure, not the exception. "It is implemented" is not evidence that it
+happens; only the counters are. If the diagnostic fails, fix the dose or
+the trigger and run the diagnostic again -- never spend games on it.
+
+**Step 2 is the gate**: the SPRT mirror of 4.5.3. **Step 3, only on an
+accept**: the archetype regression check, then a scrimmage block for the
+ladder.
 
 ### 4.5.1 Evaluation budget (2021: a game costs ~6 CPU-minutes)
 

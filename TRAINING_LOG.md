@@ -2201,6 +2201,34 @@ each addition spends influence or unit-turns that the baseline spends on
 army and economy, and at our income that trade is negative. The next
 candidate should *free* resources rather than spend them.
 
+## Iteration 26 (in development, economy) -- yield the bid war (2026-09-18 14:20 UTC)
+
+**The engine rule, read from the source rather than assumed**
+(`GameWorld.java`): the vote's winner pays its full bid; the **loser pays
+half of its bid**, rounded up, and only each team's *highest* bidder pays
+anything. So chasing a richer opponent costs half of every failed bid,
+every round, for nothing.
+
+**The magnitude, measured in a real scrimmage loss** (123kevinlee,
+BlobWithLegs): by r1500 we had placed 282,089 influence of bids against
+184,267 spent building units. Even after correcting for the several ECs
+that bid redundantly each round (only the highest is charged) and for the
+half-price losses, bidding consumes a third to a half of everything we
+produce -- and it bought 645 votes in a game we lost. This is the first
+candidate that *frees* resources rather than spending them, which is what
+the last three rejections argued for.
+
+Candidate: the adaptive rule currently raises the bid by a quarter after
+every loss. Now a loss **while already at the cap** increments
+`capLossStreak`; after 8 of them the EC yields -- a token bid of 2 for 60
+rounds, then it probes again from a low bid. A token bid still wins the
+rounds the opponent skips, and the escalation can restart if the race
+turns. Counters: `@yield` (round, count, votes, estimated enemy votes) and
+the `yields=` field in `@econ`; the diagnostic must show at least one
+yield. Price: votes conceded during each famine, which matters because a
+r1500 finish is decided on votes even below the 751 majority. Gate: SPRT
+against `g_iter4` on top of the saving-mode stack.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

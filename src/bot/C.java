@@ -23,6 +23,8 @@ public final class C {
     // units, for 645 votes in a game we still lost. After BID_YIELD_AFTER consecutive losses at our cap we stop
     // escalating and place only a token bid for BID_YIELD_ROUNDS, then probe again from a low bid.
     public static final int BID_YIELD_AFTER = 8;       // consecutive losses at cap before yielding
+    public static final int BID_YIELD_MIN_BID = 5;     // ... and only a cap-loss worth counting (before r50 the cap is 3)
+    public static final int BID_YIELD_FROM = 50;       // no yielding before this round
     public static final int BID_YIELD_ROUNDS = 60;     // rounds of token bidding
     public static final int BID_YIELD_BID = 2;         // the token bid (still wins rounds the enemy skips)
     // economy

@@ -169,7 +169,7 @@ public strictfp class EC extends Robot {
             if (votes > lastVotes) { votesWon++; bid = Math.max(1, bid - bid / 10); capLossStreak = 0; }
             else {
                 votesLost++; bid = Math.min(bid + bid / 4 + 1, Math.max(1, inf));
-                if (bidAtCap) capLossStreak++;                       // Iteration 26: only a loss while maxed out says the race is lost
+                if (bidAtCap && bid >= C.BID_YIELD_MIN_BID && round >= C.BID_YIELD_FROM) capLossStreak++;   // Iteration 26: a cap-loss counts only when the bid was real
                 if (capLossStreak >= C.BID_YIELD_AFTER && round > yieldUntil) {
                     yieldUntil = round + C.BID_YIELD_ROUNDS; yields++; capLossStreak = 0; bid = C.BID_YIELD_BID;
                     Debug.log("@yield r=" + round + " n=" + yields + " votes=" + votes + " eVotes~" + enemyVotesEst);

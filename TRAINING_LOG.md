@@ -2091,6 +2091,47 @@ Ledger: bodies beside the EC are not worth their absence from the ring,
 whether they are posted there (Iteration 21 dose 2, -4) or sent there by
 a threat (this, -5). The stack keeps saving mode only.
 
+## Engine speed: measured, not assumed (2026-09-18 09:00 UTC, PROMPTS 32)
+
+The user passed on a general article about 2021 being slow. Measured on
+battlecode-dev with the engine's determinism making every variant play an
+identical match (`tools/bench-flags.sh`, `tools/bench-throughput.sh`):
+
+| single game, Gridlock | time |
+|---|---|
+| current (SerialGC 512m, indicators on) | 252.5 s |
+| indicators off | 255.1 s |
+| indicators off, no replay written | 265.0 s |
+| G1 2g | 248.4 s |
+| ParallelGC 1g | 241.9 s |
+| SerialGC 1g, C2 only | 256.7 s |
+
+| 6 parallel games | wall | per game |
+|---|---|---|
+| SerialGC 512m, Gridlock (64x64) | 408.6 s | 68.1 s |
+| ParallelGC 1g, Gridlock | 401.2 s | 66.9 s |
+| SerialGC 512m, **Arena (32x32)** | 187.0 s | **31.2 s** |
+
+**Nothing in the article applies.** We were already headless. Indicators
+cost nothing because our bot never calls `setIndicatorDot/Line`, so the
+flag has nothing to strip; writing the replay costs nothing measurable;
+every GC and JIT variant is inside noise, and ParallelGC's 4% on an idle
+box shrinks to 1.8% under load while doubling memory per game. The cost
+is the engine simulating instrumented bytecode for 200-400 robots over
+1500 rounds, which no flag touches.
+
+**Two facts worth keeping.** Six parallel games give 3.7x, not 6x (252 s
+alone, 68 s amortised), so the box is near its limit at 6-7 jobs: ~53
+games/hour, and a 200-game SPRT costs ~3.8 hours. And a 32x32 map is
+**2.2x cheaper** than a 64x64 one.
+
+**Map size is not used to speed up the gate.** Screening on small maps
+would bias every decision toward them, and the census puts our worst
+deficits on the large multi-neutral maps (Gridlock, Andromeda, Corridor).
+It *is* used for diagnostics: a diagnostic game only has to show the
+mechanism firing, so it runs on a 32x32 map unless the mechanism is
+specific to a large one.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

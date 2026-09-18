@@ -256,7 +256,13 @@ LOG_OUT=gauntlet/devlogs/<name>.log tools/run-dev.sh bot g_iter4 <Map> \
     gauntlet/devlogs/<name>.bc21 -Dbc.server.robot-player-to-system-out=true
 ```
 
-then grep the pre-registered `@tag` counters. The candidate proceeds only
+then grep the pre-registered `@tag` counters. Run it on a **32x32 map**
+(Arena, maptestsmall, Bog, Smile) unless the mechanism needs a large one:
+measured 2026-09-18, a small map costs 31 s against 68 s for a 64x64,
+and a diagnostic is not a statistical test, so the map choice costs
+nothing. (Small maps are *not* used for the SPRT gate: that would bias
+every decision toward them, and our worst deficits are on the large
+multi-neutral maps.) The candidate proceeds only
 if the mechanism **fires and acts**, at the rate and in the way the
 pre-registration claimed. It costs one game (about eight minutes) and it
 has caught three candidates that a statistical test would have measured

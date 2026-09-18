@@ -2182,6 +2182,25 @@ the diagnostic (dose 1 reached 1), ECs at r200/r400, income by r300.
 Price: the second and third saves delay the army further into the midgame.
 Gate: SPRT against `g_iter4`, diagnostic on Arena first.
 
+**Iteration 25 (saving mode dose 2): REJECTED by SPRT, 67-77 = 46.5% over
+144 games (2026-09-18 13:40 UTC, `gauntlet/mirror-save2.log`).** The
+mechanism repeated as designed (diagnostic: `@save capture` at r55, r103,
+r152 against dose 1's single firing), and repeating it is worse than doing
+it once: the last three batches ran 6-10, 6-10, 4-12 as the extra saves
+bit. The first save is cheap because the EC has nothing better to do with
+150 influence before r60; the second and third fall after r100, when the
+same influence would be slanderers and guards, and that trade loses.
+`src/bot` back to **dose 1**, which stands as the only surviving change
+(53.4% over 208 games, provisional).
+
+**What the three SPRT verdicts together say about the stack.** Dose 1 is
++3.4 points; every attempt to add to it -- collapse (-5), relay (-7.5),
+its own dose 2 (-7) -- has been worse than the incumbent, not merely
+neutral. The stack is not accumulating, and the reason is consistent:
+each addition spends influence or unit-turns that the baseline spends on
+army and economy, and at our income that trade is negative. The next
+candidate should *free* resources rather than spend them.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

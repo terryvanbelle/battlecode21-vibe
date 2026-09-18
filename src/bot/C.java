@@ -13,11 +13,10 @@ public final class C {
     // Once any neutral is known and round <= SAVE_UNTIL, the EC keeps SAVE_SLANDERERS slanderers for income and saves
     // everything else until it can send one full-price capturer (+SAVE_BANK, so the new EC is not converted while empty).
     public static final boolean SAVE_MODE = true;      // false = g_iter4
-    public static final int SAVE_UNTIL = 300;          // dose 2 (was 200): keep taking neutrals this way through r300
+    public static final int SAVE_UNTIL = 200;          // dose 1 (dose 2 extended this to 300 and repeated: rejected, 46.5%)
     public static final int SAVE_MAX_TARGET = 600;     // covers the 500-influence neutrals that sit near home
     public static final int SAVE_SLANDERERS = 2;       // income kept while saving
     public static final int SAVE_BANK = 60;            // the new EC starts with this
-    public static final int SAVE_MAX_CAPTURES = 3;     // dose 2: repeat the cycle (dose 1 saved for one neutral only)
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

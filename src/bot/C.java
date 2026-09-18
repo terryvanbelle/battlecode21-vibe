@@ -17,16 +17,6 @@ public final class C {
     public static final int SAVE_MAX_TARGET = 600;     // covers the 500-influence neutrals that sit near home
     public static final int SAVE_SLANDERERS = 2;       // income kept while saving
     public static final int SAVE_BANK = 60;            // the new EC starts with this
-    // Iteration 26 (yield the bid war): the engine charges the winner its full bid and the LOSER HALF of its bid
-    // (GameWorld: highestBidders[i].addInfluenceAndConviction(-(bid+1)/2) when the vote is lost), so chasing a richer
-    // opponent burns half of every failed bid. Measured in a real loss: 282k of bid influence against 184k spent on
-    // units, for 645 votes in a game we still lost. After BID_YIELD_AFTER consecutive losses at our cap we stop
-    // escalating and place only a token bid for BID_YIELD_ROUNDS, then probe again from a low bid.
-    public static final int BID_YIELD_AFTER = 8;       // consecutive losses at cap before yielding
-    public static final int BID_YIELD_MIN_BID = 5;     // ... and only a cap-loss worth counting (before r50 the cap is 3)
-    public static final int BID_YIELD_FROM = 50;       // no yielding before this round
-    public static final int BID_YIELD_ROUNDS = 60;     // rounds of token bidding
-    public static final int BID_YIELD_BID = 2;         // the token bid (still wins rounds the enemy skips)
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

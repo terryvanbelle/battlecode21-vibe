@@ -2229,6 +2229,29 @@ yield. Price: votes conceded during each famine, which matters because a
 r1500 finish is decided on votes even below the 751 majority. Gate: SPRT
 against `g_iter4` on top of the saving-mode stack.
 
+**Iteration 26 (yield the bid war): REJECTED by SPRT, 68-76 = 47.2% over
+144 games (2026-09-18 16:05 UTC, `gauntlet/mirror-yield.log`).** The
+mechanism fired correctly after the dose fix (2 yields at r182 and r187,
+both while behind on votes, against 17 spurious ones when a cap of 3
+counted as a real bid). Conceding the vote race still loses: the votes
+given up at a r1500 finish are worth more than the half-bids saved.
+
+**The honest caveat, recorded before it can become an excuse.** The mirror
+is the *unfavourable* case for this change: it concedes to an opponent of
+identical income, where the bid war is even and worth contesting, whereas
+the argument for yielding is against the 4.4x-income opponents on the
+ladder. The change is reverted and the direction is **not** re-opened on
+that basis: a candidate that needs a friendlier instrument to pass is
+exactly what the panel era taught us to distrust. If it returns it must be
+as a *conditional* rule (yield only when the opponent's income is visibly
+far ahead), which is a different mechanism with its own diagnostic.
+
+**Bid economics, kept for whoever comes next.** Winner pays its full bid,
+loser pays half, only the highest bidder on each team pays, and all of our
+ECs bid every round so the placed-bid totals in `--metrics` overstate the
+cost by roughly the number of ECs. Real spend in a lost game is on the
+order of a third of unit spending, not the half the raw totals suggest.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

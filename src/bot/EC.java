@@ -37,7 +37,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " yields=" + yields + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
     }
 
     // ---------------------------------------------------------------- production
@@ -158,7 +158,6 @@ public strictfp class EC extends Robot {
     }
 
     // ---------------------------------------------------------------- bidding
-    private int capLossStreak = 0, yieldUntil = -1, yields = 0;   // Iteration 26
     private int enemyVotesEst = 0;   // rounds in which we did not gain a vote after round 1 (assumes the opponent bid; conservative)
     private void doBid() throws GameActionException {
         int votes = rc.getTeamVotes();
@@ -166,15 +165,8 @@ public strictfp class EC extends Robot {
         int remaining = 1500 - round;
         // Adapt only on rounds where we actually bid last round (otherwise a lost vote says nothing about our bid).
         if (round > 1 && bidLastRound) {
-            if (votes > lastVotes) { votesWon++; bid = Math.max(1, bid - bid / 10); capLossStreak = 0; }
-            else {
-                votesLost++; bid = Math.min(bid + bid / 4 + 1, Math.max(1, inf));
-                if (bidAtCap && bid >= C.BID_YIELD_MIN_BID && round >= C.BID_YIELD_FROM) capLossStreak++;   // Iteration 26: a cap-loss counts only when the bid was real
-                if (capLossStreak >= C.BID_YIELD_AFTER && round > yieldUntil) {
-                    yieldUntil = round + C.BID_YIELD_ROUNDS; yields++; capLossStreak = 0; bid = C.BID_YIELD_BID;
-                    Debug.log("@yield r=" + round + " n=" + yields + " votes=" + votes + " eVotes~" + enemyVotesEst);
-                }
-            }
+            if (votes > lastVotes) { votesWon++; bid = Math.max(1, bid - bid / 10); }
+            else { votesLost++; bid = Math.min(bid + bid / 4 + 1, Math.max(1, inf)); }
         }
         if (round > 1 && votes == lastVotes) enemyVotesEst++;
         lastVotes = votes; bidLastRound = false;
@@ -189,11 +181,9 @@ public strictfp class EC extends Robot {
         if (C.ARCHETYPE == 2 && round > 1 && votes == lastVotes) bid = bid * 2 + 1;
         if (round < 20) cap = Math.min(cap, 3);
         if (bid > cap) bid = cap;
-        bidAtCap = bid >= cap;
-        if (round <= yieldUntil) bid = Math.min(bid, C.BID_YIELD_BID);   // Iteration 26: yielding -- token bid only
         if (bid > 0 && rc.canBid(bid)) { rc.bid(bid); bidLastRound = true; }
     }
-    private boolean bidLastRound = false, bidAtCap = false;
+    private boolean bidLastRound = false;
 
     // ---------------------------------------------------------------- comms
     private void readChildren() throws GameActionException {

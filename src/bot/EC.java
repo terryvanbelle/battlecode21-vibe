@@ -218,6 +218,7 @@ public strictfp class EC extends Robot {
         int f;
         if (round == pendingOrderRound || round + 1 == pendingOrderRound) f = pendingOrder;
         else if (MapState.nEnemy > 0 && (round / 3) % 2 == 0) f = Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(round / 6) % MapState.nEnemy]);
+        else if (danger && nearestEnemy != null && (round & 1) == 1) f = Comms.encode(Comms.ENEMY_UNIT, nearestEnemy.type.ordinal(), nearestEnemy.location);   // Iteration 24: relay the nearest enemy
         else if (MapState.nNeutral > 0 && (round / 3) % 2 == 1) f = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[(round / 6) % MapState.nNeutral]), MapState.neutralEC[(round / 6) % MapState.nNeutral]);
         else {
             f = -1;

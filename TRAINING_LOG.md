@@ -2132,6 +2132,26 @@ It *is* used for diagnostics: a diagnostic game only has to show the
 mechanism firing, so it runs on a 32x32 map unless the mechanism is
 specific to a large one.
 
+## Iteration 24 (in development, doctrine) -- the relay, re-tested (2026-09-18 09:30 UTC)
+
+**Why an old reject comes back.** The new gate changes which past verdicts
+are trustworthy. Iteration 12 (the relay: the EC broadcasts the nearest
+enemy while in danger, slanderers flee a relayed position before it enters
+their own r^2 20 sensor) had its **mechanism verified** -- exposures
+against us fell from 11.8 by r300 to 1 in the logged games -- and was then
+rejected on a roster margin of +2 on 72 cells and a head-to-head
+early-stopped at 6/14. Both are inside what the old instruments could
+resolve; neither would decide anything today.
+
+The census makes it worth the re-test: their muckrakers expose a median of
+**13** of our slanderers by r600. Each exposure is a dead slanderer *and*
+a permanent increase to their empower factor, which is the most likely
+reason a 66-201 conviction politician converts our ECs (the census's
+sharpest fact). Applied on top of the provisional saving-mode stack and
+tested by SPRT against `g_iter4`. Diagnostic first, on Arena (32x32, the
+cheap map): `@relayflee` must be non-zero, as it was in Iteration 12's
+second arm.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

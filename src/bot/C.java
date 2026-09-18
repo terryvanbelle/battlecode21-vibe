@@ -17,6 +17,11 @@ public final class C {
     public static final int SAVE_MAX_TARGET = 600;     // covers the 500-influence neutrals that sit near home
     public static final int SAVE_SLANDERERS = 2;       // income kept while saving
     public static final int SAVE_BANK = 60;            // the new EC starts with this
+    // Iteration 24 (the relay, re-test of Iteration 12): the EC relays the nearest enemy while in danger and
+    // slanderers flee a relayed position before it enters their own sensor (r^2 20). Verified in Iteration 12 to cut
+    // exposures against us from ~12 by r300 to ~1; rejected there by an instrument that could not resolve it.
+    public static final int RELAY_FLEE_D2 = 64;          // 8 tiles
+    public static final int RELAY_TTL = 12;              // rounds a relayed position stays actionable
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

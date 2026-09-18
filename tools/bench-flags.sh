@@ -10,15 +10,16 @@ run () {   # run <label> <extra jvm args...> -- <extra -D args...>
   local label="$1"; shift; local jvm=() dee=()
   while [ "$1" != "--" ]; do jvm+=("$1"); shift; done; shift; dee=("$@")
   local rep; rep="$(mktemp -u /tmp/bench-XXXX.bc21)"
-  local t0 t1; t0=$(date +%s.%N)
+  local t0 t1; t0=$(date +%s%3N)
   java "${jvm[@]}" -Dbc.server.mode=headless -Dbc.server.map-path="$ENGINE_DIR/maps" -Dbc.game.map-path="$ENGINE_DIR/maps" \
     -Dbc.server.robot-player-to-system-out=false -Dbc.server.debug=false -Dbc.engine.debug-methods=false \
     -Dbc.engine.enable-profiler=false -Dbc.game.team-a="$TA" -Dbc.game.team-b="$TB" \
     -Dbc.game.team-a.url="$OUT" -Dbc.game.team-b.url="$OUT" -Dbc.game.maps="$MAP" \
     "${dee[@]}" -cp "$(engine_cp)" battlecode.server.Main -c=- > /tmp/bench-out.txt 2>&1 || true
-  t1=$(date +%s.%N)
+  t1=$(date +%s%3N)
   local rounds; rounds=$(sed -n 's/.*wins (round \([0-9]*\)).*/\1/p' /tmp/bench-out.txt | tail -1)
-  printf '%-34s %7.1f s   rounds=%s  replay=%s\n' "$label" "$(echo "$t1 - $t0" | bc)" "${rounds:-?}" "$(du -h "$rep" 2>/dev/null | cut -f1 || echo none)"
+  local ms=$((t1 - t0))
+  printf '%-34s %4d.%03d s   rounds=%s  replay=%s\n' "$label" $((ms / 1000)) $((ms % 1000)) "${rounds:-?}" "$(du -h "$REP" 2>/dev/null | cut -f1 || echo none)"
   rm -f "$rep"
 }
 REP=/tmp/bench-keep.bc21

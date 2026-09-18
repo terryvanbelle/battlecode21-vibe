@@ -159,3 +159,7 @@ task check
 ## 34. 2026-09-18
 
 /loop 15m task check
+
+## 35. 2026-09-18
+
+I agree with your instinct to look at the behaviors of your opponents who beat you.  Given how expensive games are, any effort invested in generating the best possible hypothesis and solution will pay off.  I recommend you spend extra time here.  Are you using all the information provided by the replaydump tool?

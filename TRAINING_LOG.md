@@ -2294,6 +2294,46 @@ Price: slanderers built while a distant muckraker closes in may be exposed
 before they camouflage. Gate: SPRT against `g_iter4` on the saving-mode
 stack, diagnostic first.
 
+## What three opponents do that we do not (2026-09-18 17:30 UTC)
+
+Read from the aggregate lines of three scrimmage losses (`--every`, the
+mode this project had not been using; also checked `--bytecode`, and
+verified in the engine that muckrakers **can** see through camouflage, so
+an early guess about dead expose code was wrong).
+
+| by r200 | our muckrakers | theirs | our exposes | their buff |
+|---|---|---|---|---|
+| rzhan11, Stonks | 24 | 41 | 0 | 0 |
+| awesomelemonade, SeaFloor | 18 | 119 | 0 | 84 |
+| iliao2345, Sediment | 26 | 135 | 0 | 0 |
+
+iliao2345 reaches **678 muckrakers by r600** with *no* slanderers at all and
+annihilates us. In every one of the three games **we expose nothing all
+game and our buff stays 0**, while theirs runs 84-888.
+
+**Three defects, in order of size.**
+
+1. *(In test, Iteration 27.)* Their muckraker swarm is not only hunting our
+   slanderers, it is switching our production off through the `danger`
+   gate. This is why the swarm hurts *us* more than it should.
+2. **Our muckrakers do nothing.** 168 built in one game, 0 exposures, 0
+   buff, in three games out of three. `Muckraker.turn()` ignores its role
+   and, once the enemy EC is known, walks to it and sits *adjacent*
+   (d^2 <= 2). Enemy slanderers hold a ring at d^2 8-45 from their own EC,
+   so a muckraker on the EC tile is inside the ring and mostly out of the
+   r^2 12 expose radius, and it dies to the guards there. The unit type is
+   a write-off as written: ~36% of our build actions for nothing.
+   Candidate: hunt the *ring*, not the tile.
+3. **We buy every early vote; they buy none.** vs rzhan11 we had placed
+   150 bids by r50 and 900 by r300 while they had placed **zero** until
+   r250; vs iliao2345 we led 199-0 on votes at r200 and were annihilated
+   anyway. Early votes only matter if they survive to r1500. By r600 we had
+   placed 8,840 influence of bids against 20,575 of living units.
+
+Ranked next: (2) then (3), both after Iteration 27 resolves, and both
+"free a wasted resource" rather than "spend more", which is the only class
+that has survived anything so far.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -2252,6 +2252,48 @@ ECs bid every round so the placed-bid totals in `--metrics` overstate the
 cost by roughly the number of ECs. Real spend in a lost game is on the
 order of a third of unit spending, not the half the raw totals suggest.
 
+## Watching a strong opponent build (2026-09-18 16:40 UTC)
+
+Four candidates in a row failed, so instead of a fifth guess I read what
+rzhan11 actually does, from a scrimmage loss replay we already had
+(`rzhan11.sprint2__Stonks__botA.bc21`; watching a replay is what a
+scrimmage gives you, unlike reading their source). Its opening, per EC:
+a **130-influence slanderer at r1**, then a **1-influence muckraker every
+4 rounds** through r33, then an 18-influence politician at r37 and a
+**200-influence capturer at r41**. Twenty-seven muckrakers in the first
+33 rounds, against our four scouts.
+
+The same replay, both sides over time:
+
+| round | us: muc / sla / pol | them: muc / sla / pol |
+|---|---|---|
+| 100 | 12 / 36 / 27 | 24 / 18 / 33 |
+| 300 | 38 / 71 / 114 | 60 / 63 / 79 |
+| 600 | 168 / **3** / 173 | 114 / **117** / 207 |
+
+**Our economy collapses and theirs compounds.** By r600 we hold three
+slanderers and 168 one-influence muckrakers; they hold 117 slanderers.
+
+## Iteration 27 (in development, structural) -- danger means a real threat (2026-09-18 16:45 UTC)
+
+**The cause, found in our own code.** `danger` is
+`nearestEnemyD2 < 1 << 30`: *any* enemy inside the EC's r^2 40 sensor,
+about six tiles. It gates **all three** slanderer branches (`!danger`).
+So one 1-influence enemy muckraker loitering near our EC stops our entire
+economy, and the opponents build those in bulk -- 24 by r100, 114 by r600
+in the replay above. Their muckraker spam is not just hunting our
+slanderers; it is switching our production off.
+
+Candidate: `danger` still governs guards, but the slanderer branches use a
+new `econDanger` -- an enemy **politician** of at least 20 conviction in
+sensor range, or an enemy **muckraker within d^2 9** (close enough to
+expose a newborn slanderer at once). Everything else is ignored.
+Counters: `eDanger=` rounds in `@econ`, slanderers alive at r300/r600
+(baseline 71 then 3), muckrakers built (baseline 168), income by r600.
+Price: slanderers built while a distant muckraker closes in may be exposed
+before they camouflage. Gate: SPRT against `g_iter4` on the saving-mode
+stack, diagnostic first.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

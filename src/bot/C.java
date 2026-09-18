@@ -17,6 +17,13 @@ public final class C {
     public static final int SAVE_MAX_TARGET = 600;     // covers the 500-influence neutrals that sit near home
     public static final int SAVE_SLANDERERS = 2;       // income kept while saving
     public static final int SAVE_BANK = 60;            // the new EC starts with this
+    // Iteration 27 (danger means a real threat): `danger` is any enemy inside the EC's r^2 40 sensor, and it gates every
+    // slanderer branch -- so one 1-influence enemy muckraker within ~6 tiles stops our economy dead. The opponents build
+    // exactly those in bulk (rzhan11 on Stonks: 24 muckrakers by r100, 114 by r600), and our slanderers fall from 71 at
+    // r300 to 3 at r600 while theirs rise to 117. Production now stops only for something that can actually hurt:
+    // an enemy politician in sensor range, or a muckraker close enough to expose a newborn slanderer at once.
+    public static final int ECON_DANGER_POL_CONV = 20;   // an enemy politician of at least this conviction blocks the economy
+    public static final int ECON_DANGER_MUCK_D2 = 9;     // ... as does a muckraker this close (it would expose the newborn)
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

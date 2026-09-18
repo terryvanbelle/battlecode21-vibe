@@ -2334,6 +2334,30 @@ Ranked next: (2) then (3), both after Iteration 27 resolves, and both
 "free a wasted resource" rather than "spend more", which is the only class
 that has survived anything so far.
 
+## Iteration 27: ACCEPTED -- snapshot `g_iter5` (2026-09-18 18:05 UTC)
+
+**SPRT ACCEPT at 44-20 = 68.8% over 64 games** (`gauntlet/mirror-econdanger.log`;
+batches 11-5, 9-7, 12-4, 12-4). The first accept since Iteration 9, and the
+clearest vindication of the instrument change: a 69% effect existed in the
+code the whole time and the old 48-cell panel, which could only resolve
+~75%, would have called it noise.
+
+**What was wrong.** `danger` -- *any* enemy inside the EC's r^2 40 sensor --
+gated all three slanderer branches. One 1-influence enemy muckraker within
+six tiles switched our economy off, and every strong opponent builds those
+by the hundred. `danger` still drives guards; the slanderer branches now
+use `econDanger`: an enemy politician of >= 20 conviction in sensor range,
+or a muckraker within d^2 9 (close enough to expose a newborn). Diagnostic:
+economy blocked in 25 rounds of 850 (was most of the game), slanderers
+holding at the cap of 24 from r700 where the baseline collapsed to 3.
+
+`g_iter5` = `g_iter4` + saving mode (Iteration 22, provisional at 53.4%)
++ this. The provisional change is promoted with it, as the stacking policy
+says: the stack is snapshotted when the *stack* reaches ACCEPT.
+
+Post-accept: archetype regression check and a 48-game scrimmage block as
+the new submission (the block moves the team rating; candidates never do).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -2372,6 +2396,7 @@ that has survived anything so far.
 | big standing guards (cap 60 -> 200, spare/2) | rejected | mirror 4/12 (votes), roster 2 v 5 at 13 cells: the same three rush cells as the floor | never as a size rule |
 | invest the surplus (spare >= 300 buys a slanderer of that size) | rejected | fires as designed (368-605 slanderers, EC 5,314 at r800) but roster 12 v 14 at 33 cells, no flip for: income after r400 is too late | with an opening that holds its neutrals |
 | guards collapse onto the EC's adjacent tiles while a converter closes | rejected | mechanism verified (65 moves), stack 70-74 against saving mode's 111-97: -5 points; the guards stop chasing muckrakers and leave the ring | never: bodies beside the EC cost more than they dilute |
+| `danger` = any enemy in sensor range gating slanderer production | **fixed (Iteration 27, accepted 68.8%)** | one 1-influence muckraker within 6 tiles stopped the economy; opponents build 119-678 of them | n/a -- the rule now distinguishes a threat from a scout |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap

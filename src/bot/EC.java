@@ -63,11 +63,11 @@ public strictfp class EC extends Robot {
         }
         else if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
-        else if (C.SAVE_MODE && !saveDone && round <= C.SAVE_UNTIL && cheapNeutral() >= 0) {
+        else if (C.SAVE_MODE && !saveDone && saveCaptures < C.SAVE_MAX_CAPTURES && capturers == 0 && round <= C.SAVE_UNTIL && cheapNeutral() >= 0) {
             int best = cheapNeutral(), price = MapState.neutralInf[best] + 14 + C.SAVE_BANK;
             if (inf - 5 >= price) {
-                captureTargetIdx = best; t = RobotType.POLITICIAN; cost = price; role = Roles.CAPTURE; saveDone = true;
-                Debug.log("@save capture r=" + round + " target=" + MapState.neutralInf[best] + " cost=" + cost + " saved=" + saveRounds);
+                captureTargetIdx = best; t = RobotType.POLITICIAN; cost = price; role = Roles.CAPTURE; saveCaptures++;
+                Debug.log("@save capture r=" + round + " n=" + saveCaptures + " target=" + MapState.neutralInf[best] + " cost=" + cost + " saved=" + saveRounds);
             }
             else if (slanderers < C.SAVE_SLANDERERS && Econ.bestSize(inf - 5) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 85)); role = Roles.ECON; }
             else { saveRounds++; return; }
@@ -106,7 +106,7 @@ public strictfp class EC extends Robot {
         Debug.log("@spawn t=" + t.ordinal() + " inf=" + cost + " role=" + role + " dir=" + d + " ecInf=" + rc.getInfluence());
     }
     private int pendingOrder = 0, pendingOrderRound = -10;
-    private int idleRounds = 0, spendBuilds = 0, saveRounds = 0; private boolean saveDone = false;   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
+    private int idleRounds = 0, spendBuilds = 0, saveRounds = 0, saveCaptures = 0; private boolean saveDone = false;   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
     private int enemyEcInf = 0;   // last reported influence of the enemy EC we target (bucketed)
 
     /** Cheapest known neutral EC at or under SAVE_MAX_TARGET, or -1. No distance cap: the capturer walks. */
@@ -218,7 +218,6 @@ public strictfp class EC extends Robot {
         int f;
         if (round == pendingOrderRound || round + 1 == pendingOrderRound) f = pendingOrder;
         else if (MapState.nEnemy > 0 && (round / 3) % 2 == 0) f = Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(round / 6) % MapState.nEnemy]);
-        else if (danger && nearestEnemy != null && (round & 1) == 1) f = Comms.encode(Comms.ENEMY_UNIT, nearestEnemy.type.ordinal(), nearestEnemy.location);   // Iteration 24: relay the nearest enemy
         else if (MapState.nNeutral > 0 && (round / 3) % 2 == 1) f = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[(round / 6) % MapState.nNeutral]), MapState.neutralEC[(round / 6) % MapState.nNeutral]);
         else {
             f = -1;

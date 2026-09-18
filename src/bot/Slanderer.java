@@ -13,26 +13,14 @@ public strictfp class Slanderer extends Robot {
     Slanderer(RobotController rc) { super(rc); }
     private Politician asPolitician = null;
 
-    private MapLocation threatLoc = null; private int threatRound = -100; private int relayFlees = 0;
-
-    @Override protected void absorb(int f, MapLocation ref) {
-        super.absorb(f, ref);
-        if (Comms.type(f) == Comms.ENEMY_UNIT) { threatLoc = Comms.loc(f, ref); threatRound = round; }
-    }
-
     @Override protected void turn() throws GameActionException {
         if (rc.getType() == RobotType.POLITICIAN) {        // camouflage expired
             if (asPolitician == null) { asPolitician = new Politician(rc); asPolitician.adoptFrom(this); Debug.log("@camo id=" + id + " conv=" + rc.getConviction()); }
             asPolitician.turnAs(round); return;
         }
         sense();
-        readHome();   // Iteration 24: every round -- the EC acts first and rewrites its flag each round
+        if (round % 5 == 0) readHome();
         if (!rc.isReady()) return;
-        if (threatLoc != null && round - threatRound <= C.RELAY_TTL && loc.distanceSquaredTo(threatLoc) <= C.RELAY_FLEE_D2) {
-            relayFlees++; if (relayFlees % 10 == 1) Debug.log("@relayflee d2=" + loc.distanceSquaredTo(threatLoc) + " n=" + relayFlees);
-            if (nav.fleeFrom(threatLoc)) return;
-        }
-
         if (nearestEnemy != null) {
             // flee: away from the nearest enemy, biased toward home
             if (nav.fleeFrom(nearestEnemy.location)) return;

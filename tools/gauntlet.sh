@@ -53,7 +53,8 @@ resolve () {  # name -> "package url" ; our packages first, then manifest
 
 # compile our sources once, fresh
 CLASSES="${CLASSES:-$REPO/build/classes}"   # CLASSES=build/other lets a second gauntlet run beside one that owns build/classes
-rm -rf "$CLASSES" && compile_src "$REPO/src" "$CLASSES" || { echo "!! compile failed" >&2; exit 1; }
+if [ "${SKIP_COMPILE:-0}" = 1 ] && [ -d "$CLASSES" ]; then echo "reusing $CLASSES (SKIP_COMPILE=1)" >&2
+else rm -rf "$CLASSES" && compile_src "$REPO/src" "$CLASSES" || { echo "!! compile failed" >&2; exit 1; }; fi
 
 RUN_ID="$(date +%Y%m%d-%H%M%S)${TAG:+-$TAG}"
 while ! mkdir -p "$REPO/gauntlet" && mkdir "$REPO/gauntlet/$RUN_ID" 2>/dev/null; do RUN_ID="$(date +%Y%m%d-%H%M%S)-$$"; done

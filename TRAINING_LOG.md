@@ -2152,6 +2152,36 @@ tested by SPRT against `g_iter4`. Diagnostic first, on Arena (32x32, the
 cheap map): `@relayflee` must be non-zero, as it was in Iteration 12's
 second arm.
 
+**Iteration 24 (the relay): REJECTED by SPRT, 34-46 = 42.5% over 80 games
+(2026-09-18 11:15 UTC, `gauntlet/mirror-relay.log`).** The mechanism fired
+as strongly as in Iteration 12 (182 `@relayflee` lines, each 10 flees), and
+the doctrine still costs more than it saves: a slanderer that spends its
+turn fleeing a relayed position is not earning, and the income lost
+outweighs the exposures avoided. This is the clean closure Iteration 12
+could not give (+2 on 72 cells, inside the old instrument's noise). The
+direction is closed for good. `src/bot` back to the saving-mode stack.
+
+**Re-testing old rejects: the rule.** The new gate makes some past verdicts
+worth revisiting, but only where the *mechanism was verified to fire* and
+the margin was inside the old instrument's resolution. Two have now been
+re-tested: the collapse family (-5) and the relay (-7.5). Both were worse
+than the instrument suggested, not better. Remaining re-test candidate:
+capbank (captured ECs held 5x longer, 31 v 33). Priority is below fresh
+mechanisms from the census.
+
+## Iteration 25 (in development, structural) -- saving mode, dose 2 (2026-09-18 11:20 UTC)
+
+Dose 1 is the only change to survive the new gate (53.4% over 208 games,
+provisional). Its pre-registered dose 2: the cycle **repeats**. Dose 1
+saved for exactly one neutral and then never again (`saveDone` latched);
+dose 2 allows up to `SAVE_MAX_CAPTURES` 3 saved captures, extends the
+window to r300 (was 200), and only enters saving mode when no capturer is
+already walking (`capturers == 0`), so the EC never stalls behind a
+capture in flight. Counters: `@save capture ... n=` must reach 2 or 3 in
+the diagnostic (dose 1 reached 1), ECs at r200/r400, income by r300.
+Price: the second and third saves delay the army further into the midgame.
+Gate: SPRT against `g_iter4`, diagnostic on Arena first.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

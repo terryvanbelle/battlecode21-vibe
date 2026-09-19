@@ -2714,6 +2714,38 @@ where the mechanism can fire *and* sanity-checked on one where it cannot.
 solvent for them (reserve). Iteration 32 was the second half without the
 first. The next candidate is the first half.
 
+## The correlation method, validated (2026-09-19 20:30 UTC, PROMPTS 43-46)
+
+A free 32-game mirror (`g_iter6` vs `g_iter4`) kept wins as well as losses
+-- 15 and 14 -- and was studied and correlated. At **r200**, ranked by
+correlation with the result:
+
+| metric (us - them) | corr | win median | loss median |
+|---|---|---|---|
+| ECs | **+0.47** | 0.0 | -0.5 |
+| influence in living units | +0.32 | 1,754 | 410 |
+| moves | +0.30 | +3,212 | -10,680 |
+| map coverage | +0.27 | +5.6 pts | -8.3 pts |
+
+**It independently reproduces the diagnosis that hours of replay reading
+produced**: expansion first, coverage behind it. That is the validation
+that matters -- the cheap automatic method found what the expensive manual
+one found.
+
+**And it demonstrates its own trap.** At r600 nearly every metric reads
++0.53 to +0.61 (ecInf, unitInf, muc, sla, pol), because by then the winner
+leads on everything; a naive reading would announce five causes of victory.
+At r200 the signal discriminates. One limitation found and fixed: on mirror
+data the within-opponent column is empty (one opponent, 29 maps), so the
+stratification now falls back to grouping by map.
+
+**Documented in `METHOD.md`** (linked from `CLAUDE.md`): the portable
+account of the method for future years -- instrument resolution, the
+diagnostic-first rule and the four candidates that earned it, block mining,
+correlation with its three traps, the limits of self-play, when to re-test
+an old rejection, and the housekeeping that cost real time. Each rule
+carries its evidence.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

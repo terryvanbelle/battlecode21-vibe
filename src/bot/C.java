@@ -24,6 +24,13 @@ public final class C {
     // an enemy politician in sensor range, or a muckraker close enough to expose a newborn slanderer at once.
     public static final int ECON_DANGER_POL_CONV = 20;   // an enemy politician of at least this conviction blocks the economy
     public static final int ECON_DANGER_MUCK_D2 = 9;     // ... as does a muckraker this close (it would expose the newborn)
+    // Iteration 32 (a reserve for the next neutral): measured against awesomelemonade on FindYourWay -- four 150-influence
+    // neutrals; they convert three between r173 and r285 (driving each to -8, -22, -158, i.e. paying just enough) and go
+    // 1 EC -> 4 while we stay at 2. We capture once and stop, because the spare branch spends down to the bid reserve
+    // every round, so the EC holds 116 at r150 and 163 at r450 and can never afford the 164 a 150-neutral costs.
+    // This does NOT idle the EC (that was Iteration 22 dose 2, rejected): it only stops the surplus being spent below
+    // what the cheapest known neutral would cost, so the normal capture branch fires as income arrives.
+    public static final int CAPTURE_RESERVE_UNTIL = 600;  // hold the reserve while expansion is still worth it
     // economy
     public static final int MAX_SLANDERERS = 20;        // Iteration 30 (was 12): the cap, not influence, was capping our economy
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

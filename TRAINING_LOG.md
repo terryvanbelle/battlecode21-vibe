@@ -2613,6 +2613,37 @@ both sides get the extra capturers, so a change that genuinely helps
 expansion partly cancels. The result is still a fair statement that the
 change is not affordable-and-useful enough to beat an equal opponent.
 
+## Iteration 32 (in development, economy) -- a reserve for the next neutral (2026-09-19 15:40 UTC)
+
+**From the one opponent we have never beaten.** On FindYourWay (four
+150-influence neutrals) awesomelemonade converts three between r173 and
+r285 -- driving each to -8, -22, -158, i.e. paying just enough -- and goes
+from 1 EC to 4 while we stay at 2. We are not declining to expand: our EC
+holds 116 influence at r150 and 163 at r450, and a 150-neutral costs 164.
+The never-idle rule spends us below the price every round, so we are never
+solvent at the moment of decision.
+
+Candidate: non-capture spending (slanderers, guards, the spare branch)
+must leave `spendFloor()` behind -- the bid reserve, or the price of the
+cheapest known neutral if that is larger and at most two thirds of the
+bank -- while the capture branches keep using the plain `reserve()`. The
+EC never idles; it simply stops spending below the price of the next
+neutral.
+
+**Two diagnostics, two corrections, no games wasted.** The first version
+put the price *into* `reserve()`, which the capture test subtracts, so a
+capture needed twice the price: the candidate finished with 1 EC against
+the incumbent's 4. The second ran on Arena, where the cheap neutrals are
+27 tiles away and the near ones cost 500, so nothing could fire and both
+sides sat at 2 ECs -- a reminder that a diagnostic map must be one where
+the mechanism *can* act. On FindYourWay the corrected version gives
+**4 ECs at r400 against the incumbent's 2**, 106 slanderers against 33,
+a bank of 13,091 against 2,727, and the win.
+
+Gate: SPRT against `g_iter6`. Note in advance that the mirror is the
+unfavourable instrument here -- both sides gain the reserve, so a change
+that only matches what opponents already do largely cancels.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

@@ -72,7 +72,9 @@ def report(path, cols, label):
                 c2 = pointbiserial(pairs)
                 if c2 is None: continue
                 kf = (lambda r, k=key, u=us, t=th: num(r[k]) if k else (None if num(r[u]) is None or num(r[t]) is None else num(r[u]) - num(r[t])))
-                pw = partial_by_group(rs, kf, lambda r: (r['opp'], r['map']))
+                # stratify by whichever key actually has repeats: opponent (ladder blocks) or map (mirrors)
+                nopp = len({r['opp'] for r in rs}); gf = (lambda r: r['opp']) if nopp > 1 else (lambda r: r['map'])
+                pw = partial_by_group(rs, kf, gf)
                 cw = pointbiserial(pw) if len(pw) >= 6 else None
                 w = [p[0] for p in pairs if p[1] == 1.0]; l = [p[0] for p in pairs if p[1] == 0.0]
                 out.append((abs(cw if cw is not None else c2), name, c2, cw, st.median(w) if w else float('nan'), st.median(l) if l else float('nan')))

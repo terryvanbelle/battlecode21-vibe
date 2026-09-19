@@ -1,6 +1,6 @@
 # battlecode21-vibe: session rules
 
-Read `SETUP.md` before running anything, and `HANDOFF.md` for the current state of the loop. The two rules that past sessions got wrong:
+Read `METHOD.md` for how this project measures things (it is portable across years), `SETUP.md` before running anything, and `HANDOFF.md` for the current state of the loop. The two rules that past sessions got wrong:
 
 1. **Never run engine games on this machine (`claude-driver`).** It is an e2-small
    (2 vCPU, 2 GB) that exists only to host the Claude session. A single heavy

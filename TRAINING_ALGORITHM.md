@@ -473,6 +473,24 @@ politicians, exposures, buff, and influence embodied in living units.
 Read it as "what do the bots that beat us do that we do not", and let the
 largest divergence choose the next candidate.
 
+**Metrics are collected on wins as well as losses, and correlated with the
+outcome** (user, 2026-09-19, PROMPTS 43). `scrim.sh` now passes
+`KEEP_ALL=1` so winning replays survive, `scrim-study.sh` studies both and
+records a `won` column, and `tools/correlate.py` reports, for every
+metric and for the us-minus-them gap, the point-biserial correlation with
+the result plus the medians in wins and losses.
+
+This removes a real blind spot: until now every number we had came from
+games we lost, so there was no way to tell a *cause* of losing from a mere
+*feature* of it. **But read the output with the caveat it prints:**
+correlation at r600 is largely the outcome leaking backwards -- a team
+that is winning holds more ECs *because* it is winning. Metrics at r200
+precede almost the whole game and are the ones worth acting on. The
+project has already been burned by exactly this confusion once: the
+opponents' unit sizes and allocation correlated strongly with their wins,
+and rebuilding their allocation as `arch_big` lost 0-24, because the
+allocation was downstream of an advantage rather than the source of it.
+
 **Exploration is tracked on every block** (user rule, 2026-09-19,
 PROMPTS 41): the same script writes `nav.tsv` with each side's map
 coverage, moves, moves per unit, oscillation, swamp steps and the round of

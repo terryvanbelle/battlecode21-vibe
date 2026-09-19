@@ -19,7 +19,7 @@ n = int(sys.argv[1]); random.seed(int(sys.argv[2])); ref = sys.argv[3]; maps = s
 for _ in range(n): print(ref, random.choice(maps), random.choice("AB"))
 PY
   # compile once: every batch after the first reuses build/classes (was ~25 s per batch)
-  OUT=$(CELLS="$CELLS" BOT="$BOT" TAG="$TAG-b$i" MAXJOBS="$MAXJOBS" SKIP_COMPILE=$([ $i -gt 1 ] && echo 1 || echo 0) "$REPO/tools/gauntlet.sh" | sed -n 's#^wrote \(.*\)/$#\1#p')
+  OUT=$(CELLS="$CELLS" BOT="$BOT" TAG="$TAG-b$i" MAXJOBS="$MAXJOBS" KEEP_ALL="${KEEP_ALL:-0}" SKIP_COMPILE=$([ $i -gt 1 ] && echo 1 || echo 0) "$REPO/tools/gauntlet.sh" | sed -n 's#^wrote \(.*\)/$#\1#p')
   rm -f "$CELLS"
   bw=$(awk -F, '$6=="win"{n++} END{print n+0}' "$OUT/results.csv"); bl=$(awk -F, '$6=="loss"{n++} END{print n+0}' "$OUT/results.csv")
   W=$((W + bw)); L=$((L + bl))

@@ -187,3 +187,11 @@ That kind of thing should show up in slower unit speeds vs. competitors.  Have y
 ## 41. 2026-09-19
 
 Please add map exploration to the list of metrics that you track when you do the ladder runs
+
+## 42. 2026-09-19
+
+What is the full list of metrics that you collect on ladder runs?
+
+## 43. 2026-09-19
+
+Would it be possible to calculate all metrics on wins as well, and perhaps use correlation of win rate vs. each metric to decide what to work on next?

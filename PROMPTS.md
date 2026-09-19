@@ -231,3 +231,7 @@ Let's normalize the metrics so that a high degree of positive correlation with w
 ## 52. 2026-09-19
 
 Can I see the new graph?
+
+## 53. 2026-09-19
+
+When you save this graph in Github, please also include a doc that explains the abbreviations and explains how the metrics are calculated

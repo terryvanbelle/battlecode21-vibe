@@ -97,6 +97,9 @@ Three traps, two with fixes:
    not its source. Only a diagnostic game distinguishes a lever from a
    symptom.
 
+See `progress/METRICS.md` for what every metric means, how it is computed
+from the replay stream, and the orientation convention.
+
 ## 5. Self-play is free but it cannot see everything
 
 Against a twin, any *symmetric* improvement partly cancels: both sides scout

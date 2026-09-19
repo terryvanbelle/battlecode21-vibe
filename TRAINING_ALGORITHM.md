@@ -516,6 +516,9 @@ opponents' unit sizes and allocation correlated strongly with their wins,
 and rebuilding their allocation as `arch_big` lost 0-24, because the
 allocation was downstream of an advantage rather than the source of it.
 
+Metric definitions, computation and the orientation convention live in
+`progress/METRICS.md`, next to the graphs they explain.
+
 **Exploration is tracked on every block** (user rule, 2026-09-19,
 PROMPTS 41): the same script writes `nav.tsv` with each side's map
 coverage, moves, moves per unit, oscillation, swamp steps and the round of

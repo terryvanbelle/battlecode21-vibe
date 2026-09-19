@@ -27,5 +27,10 @@ Read `METHOD.md` for how this project measures things (it is portable across yea
    caught a column misalignment that had been silently reporting cumulative moves
    as map coverage.
 
+6. **Run `tools/unit-tests.sh` after every bot change too** (user rule,
+   2026-09-19). It runs the bot tests (`test/bot/*Test.java`: comms round-trips,
+   slanderer economics, map knowledge, distance, and invariants between the
+   tuning constants) and the metrics tests in one command.
+
 Working rules that already live elsewhere: `TRAINING_ALGORITHM.md` (the loop),
 `BENCHMARK.md` (never read benchmark source; the 20% rule), `tools/README.md`.

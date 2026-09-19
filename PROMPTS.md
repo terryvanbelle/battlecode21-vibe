@@ -255,3 +255,7 @@ Try out iteration 33, it'll provide independent verification.  I'd also like you
 ## 58. 2026-09-19
 
 Good, glad to know the tests caught a real bug.  Make sure to run them every time you change the scripts
+
+## 59. 2026-09-19
+
+I'd also like you to write unit tests for the bot and run them after every change

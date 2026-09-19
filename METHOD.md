@@ -141,6 +141,22 @@ was wrong. The integrity check that caught it was the simplest one -- coverage
 must lie in [0, 1000]. Write those first, and run the suite on every script
 change, not only on bot changes.
 
+## 6c. Unit-test the bot's pure logic, especially the tuning constants
+
+Most of a Battlecode bot needs a game to exercise it, but the parts that decide
+*sizes and targets* are pure functions and belong under test: the slanderer
+breakpoint table and `bestSize` (which sizes every economic unit), the comms
+flag encoding, the map-knowledge registry, and Chebyshev distance.
+
+Add invariant tests over the tuning constants themselves. A dose ladder means
+constants change constantly, and the failure mode is silent: set the
+spare-branch slanderer cap below the normal cap and surplus influence can never
+become economy, with nothing to indicate it but a worse win rate weeks later.
+Tests that assert the *relationships* (`SPEND_SLANDERER_CAP >=
+MAX_SLANDERERS`, ring inside leash, size cap is a real breakpoint) catch that in
+a second. Verify the tests bite by breaking an invariant on purpose and
+checking they fail.
+
 ## 7. Housekeeping that cost us real time
 
 - **`pgrep -c battlecode.server.Main` double-counts**: each game runs under a

@@ -2571,6 +2571,30 @@ stands corrected. It was tested under the 72-cell instrument *and* while
 the `danger` bug suppressed slanderer production, so it never had a
 chance to show; with the defect fixed, the same idea is worth +9 points.
 
+**`g_iter6` submitted: 14/48 = 29.2% (2026-09-19 11:10 UTC).** Regression
+first: **31/32** against the four archetypes (muckraker rush 8/8, bidder
+8/8, `arch_big` 8/8, politician rush 7/8), up from `g_iter5`'s 22/24.
+
+| submission | block | rate | 95% |
+|---|---|---|---|
+| `g_iter4` | 14/48 | 29.2% | 18.2-43.2% |
+| `g_iter5` | 12/48 | 25.0% | 14.9-38.8% |
+| `g_iter6` | 14/48 | 29.2% | 18.2-43.2% |
+
+Per opponent it improved where it could: arya-k 3/6, iliao2345 3/6 (from
+1/6), jmerle 3/6, 123kevinlee 2/6 -- but still **0/6 against
+awesomelemonade** and 1/6 against rzhan11, max-titov and Scott-Poole. No
+withdrawal: the rate is level with the best previous submission, not
+below it.
+
+**Two accepts worth +9 and +19 points in self-play have moved the ladder
+by nothing.** That is now a pattern rather than an anomaly, and it is the
+central open problem: our self-play gains are real (they beat the previous
+build, and the archetype sweep confirms no regression) and they do not
+transfer to opponents who out-earn us five to one. The next session should
+treat *that* as the subject -- what the strong bots do in the games we
+lose 0/6, not what we do in the games we win.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

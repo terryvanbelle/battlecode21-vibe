@@ -435,28 +435,29 @@ one on faith would accumulate noise. The policy is therefore:
   move the team rating. A stack that reaches REJECT loses its most recent
   member, which is the change that broke it.
 
-**The self-play gate is a screen, not the decision (added 2026-09-19).**
-Iteration 27 passed the mirror at 68.8% and then scored 12/48 on the
-ladder against the incumbent's 14/48 on the same eight opponents. A build
-that beats its own predecessor has not been shown to beat anyone else;
-that is the known failure mode of self-play testing and we have now met
-it. The gate is therefore two stages:
+**Self-play is the whole gate; the ladder is the consequence, not a test
+(user, 2026-09-19, PROMPTS 37).** A real competitor cannot scrimmage
+without submitting: every external game moves the rating. So there is no
+such thing as "testing against the ladder first", and the two-stage gate
+briefly adopted earlier today is withdrawn. The loop is:
 
-1. **Screen: the self-play SPRT** as described above (60-200 games). It is
-   cheap and it catches real defects -- it found the `danger` bug that
-   three candidates had failed around. A REJECT here ends the candidate.
-2. **Decide: the ladder SPRT.** Scrimmages under the contest rules
-   (`tools/scrim.sh`: random map, random side, rotating pool -- a fixed
-   external opponent is *not* allowed, so this is a one-sample test), with
-   `tools/sprt.py <w> <l> --p0 <incumbent rate> --p1 <incumbent + 0.08>`.
-   About 200 games resolves an 8-point gain, the same cost as the mirror
-   cap, and it measures the objective instead of a proxy. Only a build
-   that passes here becomes the submission and moves the team rating.
+1. **Decide in self-play.** The SPRT against the incumbent (4.5.3) is the
+   gate, and it is the only gate. It is free, it is unlimited, and it is
+   what a real team has.
+2. **Accepting means submitting.** A build that passes is snapshotted and
+   plays a scrimmage block, which *is* the submission: the rating moves
+   with it, up or down.
+3. **Withdraw if the rating falls.** A submission that clearly drops us
+   -- its block's Wilson upper bound below the previous submission's point
+   estimate -- is withdrawn: `src/bot` reverts to the previous snapshot,
+   which becomes the incumbent again, and the loss is left in the ladder
+   history because it really happened.
 
-Paired comparison against external bots is impossible (their cells cannot
-be replayed by both builds without doubling the cost for worse power), so
-the reference rate matters: re-measure the incumbent's block whenever the
-pool changes, and treat its interval as part of the decision.
+Consequences to hold onto: self-play improvements need not transfer
+(`g_iter5` won its mirror 68.8% and scored 12/48 against 14/48 on the
+ladder), so a *series* of self-play accepts that never moves the rating is
+the signal to distrust the proxy -- not any single block. Ladder games are
+never spent to answer a development question; they are spent to compete.
 
 The archetypes stay as a **regression check on an accept** (they catch a
 rush or bidding vulnerability the incumbent itself does not punish), and

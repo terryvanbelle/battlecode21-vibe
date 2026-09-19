@@ -167,3 +167,7 @@ I agree with your instinct to look at the behaviors of your opponents who beat y
 ## 36. 2026-09-18
 
 Congratulations!
+
+## 37. 2026-09-19
+
+No gating against external bots, because it wouldn't be realistic in an actual competition.  You can't scrimmage without submitting a bot (though you could always withdraw a submission if you find yourself falling in the ratings)

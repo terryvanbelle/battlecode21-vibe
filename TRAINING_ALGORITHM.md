@@ -473,6 +473,14 @@ politicians, exposures, buff, and influence embodied in living units.
 Read it as "what do the bots that beat us do that we do not", and let the
 largest divergence choose the next candidate.
 
+**Exploration is tracked on every block** (user rule, 2026-09-19,
+PROMPTS 41): the same script writes `nav.tsv` with each side's map
+coverage, moves, moves per unit, oscillation, swamp steps and the round of
+first contact with an enemy EC, and prints medians plus a per-opponent
+coverage column. Coverage is the share of tiles a team ever stood on, and
+it is the upstream term for expansion -- a neutral that is never seen is
+never captured.
+
 This is not a formality. Hand-done versions of exactly this produced the
 two best findings of the project within an hour: the `danger` gate that
 let one enemy muckraker switch our economy off (Iteration 27, accepted at

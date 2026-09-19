@@ -2677,6 +2677,25 @@ the expansion gap being chased in Iteration 32 -- *we cannot capture
 neutrals we have never seen* -- and it is measurable from replays we
 already own. Next candidate comes from there.
 
+**Exploration added to the standing block study (PROMPTS 41).**
+`tools/scrim-study.sh` now emits `nav.tsv` per block. First read, six
+losses from `g_iter6`'s block:
+
+| median | us | them |
+|---|---|---|
+| map coverage | 59.2% | **80.0%** |
+| moves per unit | 96.2 | 124.2 |
+| oscillation | 4.8% | 3.8% |
+| first contact with an enemy EC | **r48** | r288 |
+
+Per opponent the gap is uneven and tracks the results: Scott-Poole
+35.8% against 94.9% (we win 1/6), 123kevinlee 70.4% against 77.7% (we win
+2/6). And our scouts reach an enemy EC at **r48** against their r288 --
+we find the enemy almost immediately and then stop sweeping, which is
+`Muckraker.turn()` sending every scout to sit at the enemy EC once it is
+known. The map stays half unseen, so the neutrals that Iteration 32's
+reserve is saving for are never found.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

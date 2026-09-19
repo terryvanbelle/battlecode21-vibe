@@ -6,15 +6,25 @@
 # build at r300. Writes <run>/study.tsv and prints a per-opponent summary of how we lose.
 set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-RUN="${1:?usage: scrim-study.sh <run-dir> [sample]}"; SAMPLE="${2:-0}"
+RUN="${1:?usage: scrim-study.sh <run-dir> [sample]}"; SAMPLE="${2:-0}"; BOTNAME="${BOT:-bot}"
 OUT="$RUN/study.tsv"
 printf 'opp\tmap\tround\tus_ec\tus_ecInf\tus_sla\tus_muc\tus_pol\tus_exp\tus_buff\tus_unitInf\tth_ec\tth_ecInf\tth_sla\tth_muc\tth_pol\tth_exp\tth_buff\tth_unitInf\n' > "$OUT"
+NAV="$RUN/nav.tsv"
+printf 'opp\tmap\tside\tus_cov\tth_cov\tus_moves\tth_moves\tus_meanMoves\tth_meanMoves\tus_aba\tth_aba\tus_swamp\tth_swamp\tus_firstEC\tth_firstEC\n' > "$NAV"
 n=0
 for f in "$RUN"/losses/*.bc21; do
   [ -e "$f" ] || continue
   n=$((n+1)); [ "$SAMPLE" -gt 0 ] && [ "$n" -gt "$SAMPLE" ] && break
   b=$(basename "$f" .bc21); opp=${b%%__*}; rest=${b#*__}; map=${rest%%__*}; side=${b##*bot}
   U=$side; T=$([ "$side" = A ] && echo B || echo A)
+  # exploration (user rule, 2026-09-19, PROMPTS 41): coverage is the share of tiles a team ever stood on
+  nice -n 10 "$REPO/tools/replay-dump.sh" "$f" --navstats 2>/dev/null | grep "^  nav " | \
+    sed -E 's/^  nav ([^:]+): moves=([0-9]+) aba=[0-9]+ \(([0-9.]+)%\) ontoSwamp=[0-9]+ \(([0-9.]+)%\) coverage=([0-9.]+)%.*firstEnemyECContact=r(-?[0-9]+).*meanMoves=([0-9.]+).*/\1 \2 \3 \4 \5 \6 \7/' | \
+    awk -v opp="$opp" -v map="$map" -v side="$side" -v bot="$BOTNAME" '
+      { if (NR==1) { a=$0 } else { b=$0 } }
+      END { split(a,x," "); split(b,y," ");
+            if (x[1] ~ /^(bot|g_iter)/) { split(a,u," "); split(b,t," ") } else { split(b,u," "); split(a,t," ") }
+            printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", opp, map, side, u[5], t[5], u[2], t[2], u[7], t[7], u[3], t[3], u[4], t[4], u[6], t[6] }' >> "$NAV"
   nice -n 10 "$REPO/tools/replay-dump.sh" "$f" --metrics 2>/dev/null | awk -F, -v U="$U" -v T="$T" -v opp="$opp" -v map="$map" '
     NR==1{for(i=1;i<=NF;i++)h[$i]=i; next}
     $1==200||$1==400||$1==600 {printf "%s\t%s\t%s", opp, map, $1;
@@ -25,3 +35,4 @@ for f in "$RUN"/losses/*.bc21; do
 done
 echo "wrote $OUT ($(( $(wc -l < "$OUT") - 1 )) rows from $n replays)"
 "$REPO/tools/scrim-study.py" "$OUT"
+"$REPO/tools/scrim-study.py" "$NAV" --nav

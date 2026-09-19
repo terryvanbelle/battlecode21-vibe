@@ -183,3 +183,7 @@ Maps have passability scores between 0 and 1, right?  Doesn't that suggest an un
 ## 40. 2026-09-19
 
 That kind of thing should show up in slower unit speeds vs. competitors.  Have you found that to be the case?
+
+## 41. 2026-09-19
+
+Please add map exploration to the list of metrics that you track when you do the ladder runs

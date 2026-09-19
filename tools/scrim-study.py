@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Summarise a study.tsv from tools/scrim-study.sh: medians per opponent and overall, us vs them."""
 import csv, sys, statistics as st, collections
+NAV = '--nav' in sys.argv
 rows = list(csv.DictReader(open(sys.argv[1]), delimiter='\t'))
 def num(x):
     try: return float(x)
@@ -8,6 +9,17 @@ def num(x):
 def med(rs, k):
     v = [num(r[k]) for r in rs]; v = [x for x in v if x is not None]
     return st.median(v) if v else float('nan')
+if NAV:
+    print(f"\n== exploration ({len(rows)} losses)   [coverage = share of tiles the team ever stood on]")
+    print(f"{'':22s} {'coverage%':>11s} {'moves':>11s} {'moves/unit':>12s} {'aba%':>8s} {'swamp%':>9s} {'firstEnemyEC':>13s}")
+    for who, p in (('us (median)', 'us_'), ('them (median)', 'th_')):
+        print(f"{who:22s} {med(rows,p+'cov'):11.1f} {med(rows,p+'moves'):11.0f} {med(rows,p+'meanMoves'):12.1f} {med(rows,p+'aba'):8.1f} {med(rows,p+'swamp'):9.1f} {med(rows,p+'firstEC'):13.0f}")
+    by = collections.defaultdict(list)
+    for r in rows: by[r['opp']].append(r)
+    print("  per opponent (our coverage / theirs):")
+    for o, v in sorted(by.items(), key=lambda kv: med(kv[1], 'us_cov') - med(kv[1], 'th_cov')):
+        print(f"    {o[:30]:30s} {med(v,'us_cov'):5.1f}% / {med(v,'th_cov'):5.1f}%")
+    sys.exit(0)
 for rnd in ('200', '400', '600'):
     rs = [r for r in rows if r['round'] == rnd]
     if not rs: continue

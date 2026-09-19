@@ -263,3 +263,7 @@ I'd also like you to write unit tests for the bot and run them after every chang
 ## 60. 2026-09-19
 
 Is everything checked in?  When I look at the onset-ladder.png graph you generated, I see a negative correlation for coverage and coverage average.  Only unitinf metrics are positively correlated throughout
+
+## 61. 2026-09-19
+
+Your interpretation seems right to me.  Let's proceed with the methodology, and see how it does

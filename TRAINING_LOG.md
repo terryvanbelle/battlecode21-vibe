@@ -2770,6 +2770,48 @@ neutrals we had never found.
 
 Queued behind the ladder block so the two do not compete for the machine.
 
+## The measurement apparatus, audited (2026-09-19 23:30 UTC, PROMPTS 57-61)
+
+**A real bug, found by a unit test, that had reversed a finding.** Per-round
+navigation columns were added to the metrics CSV header after `empowers`
+but to the values *before* it, shifting every later column: what the
+analysis reported as coverage was cumulative moves. The check that caught
+it was the dullest one -- coverage must lie in [0, 1000] and it read
+76,165. On corrected data the conclusion **reverses**: the coverage *lead*
+correlates +0.42 at r200 rising to +0.58, so out-exploring the opponent
+does go with winning, and the retraction I had issued was itself wrong.
+
+**Tests now cover both the bot and the apparatus**, run by one command
+(`tools/unit-tests.sh`, wired per PROMPTS 58-59):
+
+- `test/bot/EconTest` -- breakpoints, `bestSize` monotone and never over
+  budget, and that income per influence *falls* with size (the property
+  every sizing decision leans on);
+- `test/bot/MapStateTest` -- the EC registry (duplicates, updates,
+  removals, overflow), symmetry images self-inverse, bounds;
+- `test/bot/NavTest` -- Chebyshev really equals the king-move count;
+- `test/bot/ConstantsTest` -- invariants *between* tuning constants, e.g.
+  `SPEND_SLANDERER_CAP >= MAX_SLANDERERS`, whose violation silently stops
+  surplus influence ever becoming economy;
+- `tools/test_metrics.py` -- orientation, correlation (hand-computed and
+  undefined cases), running mean, onset (a lone spike must not count),
+  stratification, and live-data integrity.
+
+Both suites were verified to *fail* when an invariant was broken on
+purpose, rather than trusted because they printed green.
+
+**Corrected ranking at r200** (`progress/ONSET.md`, 48 ladder games):
+unit-influence lead is the only metric positive from r50 (+0.37 to +0.68);
+banked influence from r100; **coverage lead and EC lead both from r200**
+(+0.42 and +0.45, peaking +0.58 and +0.59); our move count and early
+politician count are negative from r50 (-0.39, -0.45). Exposures and buff
+never clear the noise at any round -- two candidates and several hundred
+games were spent chasing them.
+
+The graph also had a presentation bug: it plotted the six earliest onsets,
+three of which were `~avg` duplicates, so coverage and ECs never appeared.
+It now shows eight distinct metrics.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

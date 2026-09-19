@@ -251,3 +251,7 @@ Aside from the graph, also show me this information in tabular form, sorted from
 ## 57. 2026-09-19
 
 Try out iteration 33, it'll provide independent verification.  I'd also like you to do a check for bugs on your metrics code, and write some unit tests.  But if all the tests pass, and especially if iteration 33 doesn't pan out, I say we trust the numbers
+
+## 58. 2026-09-19
+
+Good, glad to know the tests caught a real bug.  Make sure to run them every time you change the scripts

@@ -22,5 +22,10 @@ Read `METHOD.md` for how this project measures things (it is portable across yea
    (TRAINING_ALGORITHM 4.5, step 1). Three candidates were implemented, compiled
    and completely inert; only the `@tag` counters in a logged game showed it.
 
+5. **Run `tools/unit-tests.sh` after changing any analysis script**, not just bot
+   code (user rule, 2026-09-19). It now runs the metrics-pipeline tests too; they
+   caught a column misalignment that had been silently reporting cumulative moves
+   as map coverage.
+
 Working rules that already live elsewhere: `TRAINING_ALGORITHM.md` (the loop),
 `BENCHMARK.md` (never read benchmark source; the 20% rule), `tools/README.md`.

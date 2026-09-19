@@ -128,6 +128,19 @@ idea was worth +9 points. But be honest about the base rate: of the old
 rejects re-tested here, most were *worse* than they had looked
 (collapse -5, relay -7.5), not better.
 
+## 6b. Test the measuring apparatus, not just the bot
+
+The analysis code is as capable of being wrong as the bot, and its errors are
+worse because they are silent and they misdirect the next candidate.
+`tools/test_metrics.py` covers orientation, the correlation and its undefined
+cases, the running mean, onset detection, stratification, and **integrity
+checks on the live data**. It found a real bug on its first run: new per-round
+columns had been added to the CSV header in one position and to the values in
+another, so "coverage" was actually cumulative moves, and a finding built on it
+was wrong. The integrity check that caught it was the simplest one -- coverage
+must lie in [0, 1000]. Write those first, and run the suite on every script
+change, not only on bot changes.
+
 ## 7. Housekeeping that cost us real time
 
 - **`pgrep -c battlecode.server.Main` double-counts**: each game runs under a

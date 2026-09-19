@@ -175,3 +175,11 @@ No gating against external bots, because it wouldn't be realistic in an actual c
 ## 38. 2026-09-19
 
 You should, however, use the scrimmage games as much as possible to decide your next hypothesis
+
+## 39. 2026-09-19
+
+Maps have passability scores between 0 and 1, right?  Doesn't that suggest an unrolled BFS for navigation might work better than bug nav?
+
+## 40. 2026-09-19
+
+That kind of thing should show up in slower unit speeds vs. competitors.  Have you found that to be the case?

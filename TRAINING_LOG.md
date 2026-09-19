@@ -2644,6 +2644,39 @@ Gate: SPRT against `g_iter6`. Note in advance that the mirror is the
 unfavourable instrument here -- both sides gain the reserve, so a change
 that only matches what opponents already do largely cancels.
 
+## Navigation: the hypothesis was checked and dropped (2026-09-19 16:40 UTC, PROMPTS 39-40)
+
+Passability is per tile in [0,1] and the engine charges
+`actionCooldown / passability` **of the tile you land on**, so a politician
+stepping onto a 0.1 tile cannot move *or speak* for ten rounds. That is a
+real cost model, and our `Nav.step()` is a one-step greedy
+(`cheb(n,target) + 1/passability(n)`) that cannot route around a ridge of
+swamp. A local Dijkstra over the 5x5 window fits the budget easily
+(politicians allow 15,000 bytecode; we use 300-6,400) and was written.
+
+**Then it was measured, and the symptom does not exist.** `--navstats` on a
+full loss to awesomelemonade:
+
+| | us | them |
+|---|---|---|
+| mean moves per unit | **86.1** | 84.0 |
+| steps onto low passability | 16.2% | **35.8%** |
+| oscillation (a-b-a) | 4.1% | 2.6% |
+| map coverage | **46.4%** | **92.8%** |
+
+Our units are not slower -- per unit they move slightly *more* than the
+bot that beats us -- and we already avoid swamp more than twice as
+carefully as it does while it wins stepping onto swamp 36% of the time.
+Better pathfinding would optimise something we are already winning. The
+Dijkstra was **reverted unrun**: no games spent on a hypothesis the
+existing instruments contradict.
+
+**What the same table does show is coverage: 46% against 93%.** We explore
+half the map; they explore all of it. That is the likely upstream cause of
+the expansion gap being chased in Iteration 32 -- *we cannot capture
+neutrals we have never seen* -- and it is measurable from replays we
+already own. Next candidate comes from there.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

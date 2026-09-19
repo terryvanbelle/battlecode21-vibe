@@ -259,3 +259,7 @@ Good, glad to know the tests caught a real bug.  Make sure to run them every tim
 ## 59. 2026-09-19
 
 I'd also like you to write unit tests for the bot and run them after every change
+
+## 60. 2026-09-19
+
+Is everything checked in?  When I look at the onset-ladder.png graph you generated, I see a negative correlation for coverage and coverage average.  Only unitinf metrics are positively correlated throughout

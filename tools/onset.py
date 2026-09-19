@@ -104,9 +104,18 @@ for _, name, curve, onset in sorted(table):
 if o.plot:
     import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
     fig, ax = plt.subplots(figsize=(9, 5))
-    shown = [t for t in sorted(table) if t[3] is not None][:6]
-    if not shown: shown = sorted(table, key=lambda t: -max((abs(c) for c in t[2] if c is not None), default=0))[:6]
+    # one curve per distinct metric: plotting both x and "x ~avg" wastes half the panel on
+    # near-identical lines and pushes later-onset metrics (coverage, ECs) off the graph entirely
+    seen = set(); shown = []
+    for t in sorted(table):
+        base = t[1].replace(' ~avg', '')
+        if t[3] is None or base in seen: continue
+        seen.add(base); shown.append(t)
+        if len(shown) == 8: break
+    if not shown:
+        shown = sorted(table, key=lambda t: -max((abs(c) for c in t[2] if c is not None), default=0))[:8]
     cmap = plt.get_cmap('tab10')
+    ax.set_xlim(min(rounds), max(rounds))
     for i, (_, name, curve, onset) in enumerate(shown):
         xs = [rr for rr, c in zip(rounds, curve) if c is not None]
         ys = [c for c in curve if c is not None]

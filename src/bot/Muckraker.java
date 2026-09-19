@@ -8,7 +8,7 @@ import battlecode.common.*;
  * known, head there and sit adjacent (blocking a spawn tile) while exposing.
  */
 public strictfp class Muckraker extends Robot {
-    private Direction heading;
+    private Direction heading; int role = Roles.SCOUT;
     private int report = 0; private int reportRound = -10; private int lastSiblingReported = -1;
     private MapLocation explore;   // current exploration waypoint
 
@@ -16,6 +16,7 @@ public strictfp class Muckraker extends Robot {
 
     @Override protected void init() throws GameActionException {
         super.init();
+        int f = readHome(); if (f >= 0 && Comms.type(f) == Comms.ORDER) role = Comms.extra(f);
         // heading: away from home through our spawn tile
         heading = MapState.home != null ? MapState.home.directionTo(loc) : DIRS[nextInt(8)];
         if (heading == Direction.CENTER) heading = DIRS[nextInt(8)];
@@ -45,7 +46,7 @@ public strictfp class Muckraker extends Robot {
         for (int i = nEnemy; --i >= 0;) { RobotInfo r = enemies[i]; if (r.type == RobotType.SLANDERER && (best == null || loc.distanceSquaredTo(r.location) < loc.distanceSquaredTo(best.location))) best = r; }
         if (best != null) { nav.setTarget(best.location); nav.step(); return; }
         // known enemy EC: go sit next to it (newborn slanderers spawn adjacent, so this is where they are caught)
-        if (MapState.nEnemy > 0) {
+        if (MapState.nEnemy > 0 && !(role == Roles.SCOUT && round <= C.SCOUT_SWEEP_UNTIL)) {   // Iteration 33: scouts keep sweeping
             MapLocation e = nearestEnemyEC();
             if (loc.isAdjacentTo(e)) return;
             nav.setTarget(e); if (nav.step()) return;

@@ -2746,6 +2746,30 @@ correlation with its three traps, the limits of self-play, when to re-test
 an old rejection, and the housekeeping that cost real time. Each rule
 carries its evidence.
 
+## Iteration 33 (in development, doctrine) -- scouts keep scouting (2026-09-19 21:30 UTC)
+
+**Chosen by the correlation, confirmed by reading the code.** At r200 the
+EC-count difference is the strongest early predictor of the result
+(+0.47), with the coverage difference behind it (+0.27; wins are 5.6
+points of the map ahead, losses 8.3 behind). We see 59% of the map to
+their 80% and reach an enemy EC at **r48** against their r288 -- because
+`Muckraker.turn()` sends *every* muckraker that knows an enemy EC to walk
+there and sit, whatever role it was built for. Our scouts find the enemy
+immediately and then stop exploring, so the neutrals we could capture are
+never discovered.
+
+Candidate: a muckraker built as a SCOUT keeps sweeping until r400; only
+HUNT muckrakers camp the enemy EC. One line of condition, plus the scout
+reading its own role from the spawn order.
+
+**Diagnostic (FindYourWay, vs `g_iter6`): passes.** Coverage 65.9% against
+the incumbent's 50.6%, first contact pushed from r237 to r269, and
+**4 ECs at r400 against 2** -- the same expansion curve the opponents show
+and the one Iteration 32 could not produce because it was saving for
+neutrals we had never found.
+
+Queued behind the ladder block so the two do not compete for the machine.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

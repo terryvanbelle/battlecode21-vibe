@@ -2415,6 +2415,40 @@ Gate: the two-stage gate adopted today -- self-play SPRT against
 `g_iter5` as the screen, then a ladder SPRT against `g_iter5`'s measured
 25% before anything is submitted.
 
+## The block, mined (2026-09-19 02:00 UTC, `tools/scrim-study.sh`)
+
+32 of `g_iter5`'s losses, medians at r400:
+
+| | ECs | EC influence | slanderers | muckrakers | politicians | exposures | buff | influence in living units |
+|---|---|---|---|---|---|---|---|---|
+| us | 2.0 | 326 | 38.5 | 27 | 60.5 | 2 | 0 | **6,173** |
+| them | 4.0 | 3,414 | 50.5 | 115 | 98 | 6 | 10 | **37,547** |
+
+**Their unit *counts* are within a factor of two of ours; their unit
+*sizes* are not.** Influence per living unit: **143 for them, 49 for us**.
+The same signal as rzhan11's 206-influence muckraker against our
+1-influence one, now measured across 32 games rather than one. They also
+bank 10x more in their ECs (3,414 against 326), which is what pays for
+the big units.
+
+Worst cases at r600 (our influence in units / theirs): rzhan11 50 /
+138,504 with 0.5 ECs against 6.5; iliao2345 1 / 2,068 with **zero** ECs
+left. Best: max-titov 27,098 / 291,783 and arya-k 38,997 / 72,076, the two
+we beat 4/6.
+
+**Hypothesis family for the next candidates: our units are too small.**
+Iteration 28 (150-influence hunters) is one instance of it and is losing
+its self-play screen -- which is expected and not decisive, because the
+mirror opponent also builds small units, so a big unit has nothing
+oversized to beat. That is the transfer problem in miniature.
+
+*Method idea, to do next:* build the measured opponent doctrine as a new
+archetype (`arch_big`: 130-influence slanderer at r1, cheap muckrakers to
+r33, then 200-influence muckrakers and 1-18 influence politicians) and add
+it to the sparring set. It is our own code, so it costs no rating and can
+be played without limit, and it turns a scrimmage observation into a
+permanent test of exactly the doctrine that beats us.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

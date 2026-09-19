@@ -2473,6 +2473,37 @@ spending rating. If a bank-side change later succeeds, hunters are worth
 one more look *on top of it*, because their price is what failed, not
 their effect.
 
+## Iteration 29 (in development, economy) -- the surplus compounds (2026-09-19 04:00 UTC)
+
+**Where each side's influence actually goes**, aggregated from every spawn
+in the first 600 rounds of the rzhan11 loss (`--from 1 --to 600`, the
+event window the project had been using only for opening order):
+
+| | slanderers | politicians | muckrakers | total |
+|---|---|---|---|---|
+| us | 10,434 (36%) | **17,979 (63%)** | 222 (1%) | 28,635 |
+| rzhan11 | **74,637 (51%)** | 27,293 (19%) | 43,064 (30%) | 145,634 |
+
+Mean slanderer: **414 for them, 137 for us**; mean muckraker 267 against
+our 1.0. They spend five times what we do in total -- that is the income
+gap -- but they also spend *half* of it on the thing that produces income,
+where we spend nearly two thirds on politicians, most of them guards.
+
+**The sink is the spare branch**: any bank of 300+ becomes another guard.
+Candidate: that bank buys a slanderer instead (`INVEST_MIN` 300), with
+`MAX_SLANDERER_SIZE` lifted from 463 to any breakpoint so a large bank
+converts in one build action rather than many. Diagnostic: 149 `@invest`
+firings building slanderers of 282-368, which is their size range.
+
+*Why re-test.* This is Iteration 20, rejected on a 33-cell roster read of
+12 v 14 -- inside that instrument's noise -- with its mechanism verified
+(301 investments, EC bank 5,314). It also ran *before* Iteration 27
+removed the `danger` gate that was suppressing slanderer production, so it
+is being retried in a materially different bot. Note the tension to keep
+honest: per influence, small slanderers return more (2.4x at 21 influence,
+1.94x at 463), so this can only pay if the binding constraint is **build
+actions**, not influence -- which is what a large idle bank means.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

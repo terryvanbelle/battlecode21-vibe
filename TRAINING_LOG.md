@@ -2449,6 +2449,30 @@ it to the sparring set. It is our own code, so it costs no rating and can
 be played without limit, and it turns a scrimmage observation into a
 permanent test of exactly the doctrine that beats us.
 
+**Iteration 28 (hunters with conviction): REJECTED at both doses
+(2026-09-19 03:20 UTC).** 150-influence hunters 33-47 = 41.2%; 50-influence
+hunters 19-45 = 29.7%, the worst screen result of the project. The
+mechanism was never in question -- the diagnostic went from 0 exposures
+and 0 buff to **342 exposures and 8,881 buff**, with the enemy's
+slanderers falling from 95 to 16 -- and it still loses, at both prices.
+
+**What it closes, and the ordering it implies.** Influence spent on a
+muckraker is influence not compounding through a slanderer, and in
+self-play the compounding side wins even when the hunting works
+spectacularly. The study says the same thing from the other direction:
+what separates us from the bots that beat us is first the **bank** (EC
+influence 3,414 against our 326) and only then the unit size (143 per unit
+against 49) that the bank pays for. **Buying big units before fixing the
+bank is backwards**; the next candidates come from the bank side.
+
+Two caveats recorded rather than used as excuses: the mirror opponent
+builds small units too, so a big unit has nothing oversized to beat there;
+and `arch_big` (the measured opponent doctrine as a sparring partner) is
+still unbuilt, which is the honest way to test this family without
+spending rating. If a bank-side change later succeeds, hunters are worth
+one more look *on top of it*, because their price is what failed, not
+their effect.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -2488,6 +2512,7 @@ permanent test of exactly the doctrine that beats us.
 | invest the surplus (spare >= 300 buys a slanderer of that size) | rejected | fires as designed (368-605 slanderers, EC 5,314 at r800) but roster 12 v 14 at 33 cells, no flip for: income after r400 is too late | with an opening that holds its neutrals |
 | guards collapse onto the EC's adjacent tiles while a converter closes | rejected | mechanism verified (65 moves), stack 70-74 against saving mode's 111-97: -5 points; the guards stop chasing muckrakers and leave the ring | never: bodies beside the EC cost more than they dilute |
 | `danger` = any enemy in sensor range gating slanderer production | **fixed (Iteration 27, accepted 68.8%)** | one 1-influence muckraker within 6 tiles stopped the economy; opponents build 119-678 of them | n/a -- the rule now distinguishes a threat from a scout |
+| muckrakers with real conviction (150 then 50 influence) | rejected | 0 -> 342 exposures and 0 -> 8,881 buff in the diagnostic, enemy slanderers 95 -> 16, and still 41.2% then 29.7% in self-play: the influence compounds better as slanderers | after a bank-side change succeeds |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap

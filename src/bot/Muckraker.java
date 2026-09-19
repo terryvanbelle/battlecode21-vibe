@@ -11,7 +11,6 @@ public strictfp class Muckraker extends Robot {
     private Direction heading;
     private int report = 0; private int reportRound = -10; private int lastSiblingReported = -1;
     private MapLocation explore;   // current exploration waypoint
-    private MapLocation ringGoal; private int ringSet = -100;   // Iteration 28: patrol point on the enemy EC's slanderer ring
 
     Muckraker(RobotController rc) { super(rc); }
 
@@ -45,22 +44,11 @@ public strictfp class Muckraker extends Robot {
         // chase a visible slanderer
         for (int i = nEnemy; --i >= 0;) { RobotInfo r = enemies[i]; if (r.type == RobotType.SLANDERER && (best == null || loc.distanceSquaredTo(r.location) < loc.distanceSquaredTo(best.location))) best = r; }
         if (best != null) { nav.setTarget(best.location); nav.step(); return; }
-        // known enemy EC: patrol its slanderer ring (d^2 HUNT_RING_MIN..HUNT_RING_MAX) instead of sitting on the EC tile
+        // known enemy EC: go sit next to it (newborn slanderers spawn adjacent, so this is where they are caught)
         if (MapState.nEnemy > 0) {
             MapLocation e = nearestEnemyEC();
-            int d2 = loc.distanceSquaredTo(e);
-            if (d2 < C.HUNT_RING_MIN) { if (nav.fleeFrom(e)) return; }            // too close: step back out to the ring
-            else if (d2 > C.HUNT_RING_MAX) { nav.setTarget(e); if (nav.step()) return; }   // too far: close in
-            else {                                                                 // in the ring: circle it, sweeping for slanderers
-                if (ringGoal == null || loc.distanceSquaredTo(ringGoal) <= 4 || round - ringSet > 25) {
-                    int r2 = C.HUNT_RING_MIN + nextInt(C.HUNT_RING_MAX - C.HUNT_RING_MIN);
-                    int k = (id + round) % 8; Direction d = DIRS[k];
-                    int step = (int) Math.sqrt(r2);
-                    ringGoal = e.translate(d.getDeltaX() * step, d.getDeltaY() * step); ringSet = round;
-                    Debug.log("@ring goal=" + step + " d2=" + d2);
-                }
-                nav.setTarget(ringGoal); if (nav.step()) return;
-            }
+            if (loc.isAdjacentTo(e)) return;
+            nav.setTarget(e); if (nav.step()) return;
         }
         // explore: keep heading; bounce off edges and obstacles
         wander();

@@ -24,6 +24,12 @@ public final class C {
     // an enemy politician in sensor range, or a muckraker close enough to expose a newborn slanderer at once.
     public static final int ECON_DANGER_POL_CONV = 20;   // an enemy politician of at least this conviction blocks the economy
     public static final int ECON_DANGER_MUCK_D2 = 9;     // ... as does a muckraker this close (it would expose the newborn)
+    // Iteration 28 (hunt the ring, not the tile): measured across three scrimmage losses, our muckrakers exposed
+    // NOTHING all game (0 exposes, 0 buff, 168 muckrakers built in one game) because once the enemy EC is known they
+    // walk to it and sit adjacent. Enemy slanderers hold a ring at d^2 8-45 from their own EC, so a muckraker on the
+    // EC tile is inside that ring, mostly outside the r^2 12 expose radius, and in the guards' kill zone.
+    public static final int HUNT_RING_MIN = 10;   // patrol the enemy EC at this d^2 ...
+    public static final int HUNT_RING_MAX = 40;   // ... out to this, which is where their slanderers live
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

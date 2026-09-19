@@ -2394,6 +2394,27 @@ measures the objective directly. To be decided before the next candidate,
 because running more self-play candidates risks accumulating changes that
 only beat our own past.
 
+## Iteration 28 (in development, doctrine) -- hunt the ring, not the tile (2026-09-19 00:40 UTC)
+
+**The defect, measured in three scrimmage losses:** 0 exposures and 0 buff
+in every game, with up to 168 muckrakers built. `Muckraker.turn()` sends
+every muckraker to sit *adjacent* to the enemy EC once it is known. Enemy
+slanderers hold a ring at d^2 8-45 from their own EC, so our muckraker on
+the EC tile is inside that ring, mostly outside its own r^2 12 expose
+radius, and standing where the enemy guards are. An entire unit type, and
+about a third of our build actions, returns nothing.
+
+Candidate: a muckraker that knows the enemy EC now **patrols its ring**
+(d^2 10-40): it steps back out if it drifts inside, closes in if outside,
+and otherwise picks a point on the ring and sweeps, re-picking every 25
+rounds or on arrival. Chasing a visible slanderer and exposing within
+r^2 12 are unchanged, and they now happen where the slanderers are.
+Counters: exposures by r600 (baseline **0** in three games), team buff
+(baseline 0), enemy slanderers alive at r600 (baseline 117 for rzhan11).
+Gate: the two-stage gate adopted today -- self-play SPRT against
+`g_iter5` as the screen, then a ladder SPRT against `g_iter5`'s measured
+25% before anything is submitted.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

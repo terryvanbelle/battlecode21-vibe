@@ -463,6 +463,30 @@ The archetypes stay as a **regression check on an accept** (they catch a
 rush or bidding vulnerability the incumbent itself does not punish), and
 the scrimmage block stays as the ladder standing for a new submission.
 
+### 4.5.4 Every scrimmage block is mined for the next hypothesis (user, 2026-09-19, PROMPTS 38)
+
+Ladder games cost rating, so once played they must be squeezed. After
+every block, run `tools/scrim-study.sh <run>`: for each saved loss it
+pulls both teams' aggregates at r200/400/600 into `study.tsv` and prints
+medians per opponent -- ECs, EC influence, slanderers, muckrakers,
+politicians, exposures, buff, and influence embodied in living units.
+Read it as "what do the bots that beat us do that we do not", and let the
+largest divergence choose the next candidate.
+
+This is not a formality. Hand-done versions of exactly this produced the
+two best findings of the project within an hour: the `danger` gate that
+let one enemy muckraker switch our economy off (Iteration 27, accepted at
+68.8%), and the 1-influence muckrakers that exposed nothing all game while
+the opponents built 206-influence ones (Iteration 28). Both were invisible
+to every aggregate we had been keeping, and both came from reading the
+opponent's side of a game we had already paid for.
+
+Use the whole instrument: `--every` for the aggregate narrative,
+`--from/--to` for a spawn window (their unit *sizes*, which no aggregate
+shows), `--robot` to follow one unit's life, `--hits` for what converts
+our ECs, `--speeches` for where conviction lands, `--bytecode` to catch
+our own units running over the limit.
+
 ### 4.6 Decide
 
 - **Accept** when the head-to-head clears `AcceptMargin`, peers stay above

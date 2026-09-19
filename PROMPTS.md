@@ -171,3 +171,7 @@ Congratulations!
 ## 37. 2026-09-19
 
 No gating against external bots, because it wouldn't be realistic in an actual competition.  You can't scrimmage without submitting a bot (though you could always withdraw a submission if you find yourself falling in the ratings)
+
+## 38. 2026-09-19
+
+You should, however, use the scrimmage games as much as possible to decide your next hypothesis

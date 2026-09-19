@@ -235,3 +235,19 @@ Can I see the new graph?
 ## 53. 2026-09-19
 
 When you save this graph in Github, please also include a doc that explains the abbreviations and explains how the metrics are calculated
+
+## 54. 2026-09-19
+
+This graph seems to be missing quite a few metrics.  I don't see moves, meanMoves, aba or swamp, for example
+
+## 55. 2026-09-19
+
+You could also create progressive versions of these metrics, where they're computed over all the rounds *so far*
+
+## 56. 2026-09-19
+
+Aside from the graph, also show me this information in tabular form, sorted from earliest onset to latest
+
+## 57. 2026-09-19
+
+Try out iteration 33, it'll provide independent verification.  I'd also like you to do a check for bugs on your metrics code, and write some unit tests.  But if all the tests pass, and especially if iteration 33 doesn't pan out, I say we trust the numbers

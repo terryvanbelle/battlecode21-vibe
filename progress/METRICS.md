@@ -49,6 +49,23 @@ oriented by construction: further ahead is better.
 The result is a single reading rule: **a positive correlation always means
 "this being better goes with us winning"**, with no per-row sign-flipping.
 
+## Verification
+
+`tools/test_metrics.py` unit-tests this pipeline: the orientation convention,
+the correlation (against hand-computed values, and its undefined cases), the
+running mean, onset detection (including that a single spike does not count),
+within-group stratification, and integrity checks on the live `study.tsv`
+(coverage within range, cumulative counters never decreasing, every `us_`
+column having a `th_` twin). The shared statistics live in `tools/statlib.py`
+so both analysis scripts use one tested implementation rather than copies.
+
+**It has already earned its keep.** The integrity check "coverage is a share
+in [0,1000]" failed on its first run at 76,165: the per-round navigation
+columns had been added to the CSV *header* after `empowers` but to the *values*
+before it, shifting every later column. What the analysis was reporting as
+coverage was cumulative moves. Run the tests after any change to the dump
+format.
+
 ## Correlation, and what it can and cannot support
 
 The number reported is the point-biserial correlation between a metric and

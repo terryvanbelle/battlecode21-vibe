@@ -143,3 +143,51 @@ run,seq,teamA,teamB,map,winner,rounds,reason
 20260919-102324-scrim-bot,46,us:g_iter6,rzhan11.sprint2,FrogOrBath,B,1117,The winning team won by annihilating the
 20260919-102324-scrim-bot,47,rzhan11.sprint2,us:g_iter6,OneCallAway,B,1500,The winning team won by having more vote
 20260919-102324-scrim-bot,48,rzhan11.sprint2,us:g_iter6,SpaceInvaders,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,1,123kevinlee.atomFinalQualifier,us:g_iter6,AmidstWe,B,1490,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,2,123kevinlee.atomFinalQualifier,us:g_iter6,CowTwister,B,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,3,123kevinlee.atomFinalQualifier,us:g_iter6,FindYourWay,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,4,123kevinlee.atomFinalQualifier,us:g_iter6,HexesAndOhms,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,5,123kevinlee.atomFinalQualifier,us:g_iter6,Legends,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,6,us:g_iter6,123kevinlee.atomFinalQualifier,maptestsmall,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,7,Scott-Poole.spright8,us:g_iter6,Gridlock,A,1159,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,8,Scott-Poole.spright8,us:g_iter6,Networking,B,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,9,us:g_iter6,Scott-Poole.spright8,Punctuation,B,1178,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,10,us:g_iter6,Scott-Poole.spright8,Randomized,B,1350,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,11,Scott-Poole.spright8,us:g_iter6,TheClientMapEditorIsSuperiorToGoogleSheetsEom,B,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,12,Scott-Poole.spright8,us:g_iter6,UnbrandedWordGame,A,1198,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,13,arya-k.quals_v1,us:g_iter6,Andromeda,A,1077,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,14,arya-k.quals_v1,us:g_iter6,Flawars,B,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,15,arya-k.quals_v1,us:g_iter6,FrogOrBath,B,1219,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,16,us:g_iter6,arya-k.quals_v1,Networking,B,1289,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,17,arya-k.quals_v1,us:g_iter6,TheSnackThatSmilesBack,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,18,arya-k.quals_v1,us:g_iter6,Yoda,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,19,awesomelemonade.sprint1bot,us:g_iter6,MainCampus,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,20,awesomelemonade.sprint1bot,us:g_iter6,Networking,A,1296,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,21,us:g_iter6,awesomelemonade.sprint1bot,SeaFloor,B,551,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,22,awesomelemonade.sprint1bot,us:g_iter6,Superposition,A,955,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,23,us:g_iter6,awesomelemonade.sprint1bot,Tiger,B,832,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,24,us:g_iter6,awesomelemonade.sprint1bot,Zodiac,B,205,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,25,iliao2345.attacker,us:g_iter6,BadSnowflake,A,1471,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,26,us:g_iter6,iliao2345.attacker,CowTwister,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,27,iliao2345.attacker,us:g_iter6,Gridlock,A,1263,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,28,iliao2345.attacker,us:g_iter6,Star,A,1300,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,29,us:g_iter6,iliao2345.attacker,Surprised,B,1284,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,30,iliao2345.attacker,us:g_iter6,WhatISeeInMyDreams,B,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,31,jmerle.camel_case_v7_sprint_2,us:g_iter6,FrogOrBath,B,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,32,us:g_iter6,jmerle.camel_case_v7_sprint_2,Gridlock,B,1085,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,33,jmerle.camel_case_v7_sprint_2,us:g_iter6,MainCampus,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,34,jmerle.camel_case_v7_sprint_2,us:g_iter6,NoInternet,A,976,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,35,jmerle.camel_case_v7_sprint_2,us:g_iter6,Rainbow,A,883,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,36,us:g_iter6,jmerle.camel_case_v7_sprint_2,TheClientMapEditorIsSuperiorToGoogleSheetsEom,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,37,us:g_iter6,max-titov.sprintplayer,Networking,B,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,38,us:g_iter6,max-titov.sprintplayer,NoInternet,B,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,39,max-titov.sprintplayer,us:g_iter6,SpaceInvaders,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,40,max-titov.sprintplayer,us:g_iter6,Star,B,393,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,41,us:g_iter6,max-titov.sprintplayer,Tiger,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,42,max-titov.sprintplayer,us:g_iter6,Zodiac,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,43,us:g_iter6,rzhan11.sprint2,BattleCodeToo,B,621,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,44,rzhan11.sprint2,us:g_iter6,CowTwister,A,1487,The winning team won by annihilating the
+20260919-202921-scrim-g_iter6,45,us:g_iter6,rzhan11.sprint2,FindYourWay,B,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,46,us:g_iter6,rzhan11.sprint2,Misdirection,B,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,47,rzhan11.sprint2,us:g_iter6,Superposition,A,1500,The winning team won by having more vote
+20260919-202921-scrim-g_iter6,48,us:g_iter6,rzhan11.sprint2,VideoGames,B,451,The winning team won by annihilating the

@@ -16,6 +16,9 @@ POLARITY = {
     'unitInf': +1,      # influence embodied in our living units
     'cov': +1,          # share of the map we have seen
     'moves': +1, 'meanMoves': +1,
+    'navMoves': +1,     # cumulative moves by round
+    'navAba': -1,       # cumulative oscillating moves
+    'navSwamp': -1,     # cumulative steps onto low-passability tiles
     'aba': -1,          # oscillation: wasted turns
     'swamp': -1,        # steps onto low-passability tiles
     'firstEC': 0,       # round of first contact with an enemy EC: direction genuinely unclear

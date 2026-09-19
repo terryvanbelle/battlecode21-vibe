@@ -16,34 +16,17 @@ should choose the next candidate."""
 import csv, os, sys, math, argparse, statistics as st
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from polarity import orient, label
+from statlib import pointbiserial as _pb, onset as _onset, within_group as _within
 a = argparse.ArgumentParser(); a.add_argument('run'); a.add_argument('--round', type=int, default=0)
 o = a.parse_args()
 def num(x):
     try: return float(x)
     except: return None
 def partial_by_group(rows, key, groupf):
-    """Within-group (opponent x map) deviations, so a metric cannot score merely by
-    identifying which opponents are weak -- the strongest confound in block data."""
-    from collections import defaultdict
-    g = defaultdict(list)
-    for r in rows:
-        v = key(r)
-        if v is not None: g[groupf(r)].append((v, 1.0 if r['won'] == '1' else 0.0))
-    out = []
-    for _, vs in g.items():
-        if len(vs) < 2: continue
-        mv = sum(v for v, _ in vs)/len(vs); my = sum(y for _, y in vs)/len(vs)
-        for v, y in vs: out.append((v - mv, y - my))
-    return out
+    return _within(rows, key, groupf, lambda r: 1.0 if r['won'] == '1' else 0.0)
 
 def pointbiserial(pairs):
-    xs = [p[0] for p in pairs]; ys = [p[1] for p in pairs]
-    n = len(pairs)
-    if n < 6 or len(set(ys)) < 2: return None
-    mx, my = sum(xs)/n, sum(ys)/n
-    sx = math.sqrt(sum((x-mx)**2 for x in xs)/n); sy = math.sqrt(sum((y-my)**2 for y in ys)/n)
-    if sx == 0 or sy == 0: return None
-    return sum((x-mx)*(y-my) for x, y in pairs)/(n*sx*sy)
+    return _pb(pairs)
 def report(path, cols, label):
     if not os.path.exists(path): print(f"  (no {path})"); return
     rows = list(csv.DictReader(open(path), delimiter='\t'))
@@ -90,7 +73,7 @@ def report(path, cols, label):
             cws = f"{cw:+7.2f}" if cw is not None else "      -"
             print(f"{name:30s} {c2:+7.2f} {cws} {wm:12.1f} {lm:12.1f}")
 run = o.run.rstrip('/')
-report(os.path.join(run, 'study.tsv'), ['ec','ecInf','sla','muc','pol','exp','buff','unitInf'], 'economy')
+report(os.path.join(run, 'study.tsv'), ['ec','ecInf','sla','muc','pol','exp','buff','unitInf','cov','navMoves','navAba','navSwamp'], 'economy and exploration')
 report(os.path.join(run, 'nav.tsv'), ['cov','moves','meanMoves','aba','swamp','firstEC'], 'exploration')
 print("\nRead: 'corr' is raw; 'within' removes each opponent-and-map's own average, so it cannot")
 print("score merely by identifying weak opponents. Act on r200 -- later rounds are contaminated")

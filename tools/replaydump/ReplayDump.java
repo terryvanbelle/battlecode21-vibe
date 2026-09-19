@@ -359,17 +359,24 @@ public class ReplayDump {
     static void printMetricsHeader() {
         StringBuilder s = new StringBuilder("round");
         for (String t : new String[]{"A", "B"})
-            for (String c : new String[]{"votes", "ecs", "ecInf", "pol", "sla", "muc", "unitInf", "buff", "spawned", "spawnInf", "died", "empowers", "exposes", "bids", "bidInf", "conversions", "moves", "bcOver"})
+            for (String c : new String[]{"votes", "ecs", "ecInf", "pol", "sla", "muc", "unitInf", "buff", "spawned", "spawnInf", "died", "empowers", "cov", "navMoves", "navAba", "navSwamp", "exposes", "bids", "bidInf", "conversions", "moves", "bcOver"})
                 s.append(',').append(t).append('_').append(c);
         s.append(",neutralEcs");
         System.out.println(s);
     }
+    /** Tiles this team has stood on so far, per mille of the board -- an integer so the CSV stays uniform. */
+    static long coverageOf(int t) {
+        if (visited == null || width * height == 0) return 0;
+        int c = 0; for (boolean b : visited[t]) if (b) c++;
+        return Math.round(1000.0 * c / (width * height));
+    }
+
     static void printMetricsRow(int round) {
         Agg[] a = aggregate();
         StringBuilder s = new StringBuilder().append(round);
         for (int t = 1; t <= 2; t++) {
             Agg g = a[t];
-            for (long v : new long[]{votes[t], g.ecs, g.ecInf, g.n[1], g.n[2], g.n[3], g.unitInf, buffs[t], spawned[t], spawnInfluence[t], died[t], empowers[t], exposes[t], bidsPlaced[t], bidInfluence[t], conversions[t], moves[t], bcOverRounds[t]})
+            for (long v : new long[]{votes[t], g.ecs, g.ecInf, g.n[1], g.n[2], g.n[3], g.unitInf, buffs[t], spawned[t], spawnInfluence[t], died[t], empowers[t], coverageOf(t), moves[t], aba[t], swampMoves[t], exposes[t], bidsPlaced[t], bidInfluence[t], conversions[t], moves[t], bcOverRounds[t]})
                 s.append(',').append(v);
         }
         s.append(',').append(a[0].ecs);

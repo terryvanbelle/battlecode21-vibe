@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+"""Unit tests for the metrics pipeline. Run: tools/test_metrics.py"""
+import os, sys, math, subprocess, tempfile, csv
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from polarity import orient, label, POLARITY
+from statlib import pointbiserial, noise_floor, running_mean, onset, within_group
+
+fails = []
+def check(name, cond, detail=''):
+    if cond: print(f"  ok   {name}")
+    else: print(f"  FAIL {name} {detail}"); fails.append(name)
+def close(a, b, eps=1e-9): return a is not None and abs(a-b) < eps
+
+print("polarity")
+check("our count is higher-better", orient('ec', 3, 'us') == 3)
+check("their count is inverted", orient('ec', 3, 'th') == -3)
+check("a gap is already oriented", orient('ec', -2, 'gap') == -2)
+check("oscillation is inverted for us", orient('aba', 5, 'us') == -5)
+check("their oscillation helps us", orient('aba', 5, 'th') == 5)
+check("unoriented metric returns None", orient('firstEC', 100, 'us') is None)
+check("label marks inversion", '[inverted]' in label('aba', 'us'))
+check("label marks a gap", '(us-them)' in label('ec', 'gap'))
+check("every column has a polarity", all(k in POLARITY for k in
+      ['ec','ecInf','sla','muc','pol','exp','buff','unitInf','cov','navMoves','navAba','navSwamp']))
+
+print("correlation")
+perfect = [(1,1.0),(2,1.0),(3,1.0),(0,0.0),(-1,0.0),(-2,0.0)]
+check("separating metric gives a strong positive", pointbiserial(perfect) > 0.85)   # exact value 0.8780
+check("reversed gives the mirror value",
+      close(pointbiserial([(-x, y) for x, y in perfect]), -pointbiserial(perfect)))
+check("constant metric is undefined", pointbiserial([(5, 1.0)]*3 + [(5, 0.0)]*3) is None)
+check("constant outcome is undefined", pointbiserial([(1,1.0),(2,1.0),(3,1.0),(4,1.0),(5,1.0),(6,1.0)]) is None)
+check("too few points is undefined", pointbiserial([(1,1.0),(2,0.0)]) is None)
+xs = [(1,0.0),(2,0.0),(3,1.0),(4,1.0),(5,0.0),(6,1.0)]
+check("matches a hand-computed value", close(pointbiserial(xs), 0.4879500365, 1e-6))
+check("noise floor shrinks with n", noise_floor(48) < noise_floor(16))
+check("noise floor of 48 is about 0.29", close(noise_floor(48), 0.2886751, 1e-5))
+
+print("progressive (running mean)")
+check("mean ignores gaps", close(running_mean([2, None, 4]), 3.0))
+check("empty is None", running_mean([None, None]) is None)
+check("single value is itself", close(running_mean([7]), 7.0))
+
+print("onset detection")
+rounds = [50,100,150,200,250]
+check("first sustained crossing", onset([0.1,0.2,0.35,0.4,0.5], rounds, 0.3) == 150)
+check("a lone spike is ignored", onset([0.1,0.9,0.05,0.05,0.05], rounds, 0.3) is None)
+check("never crossing is None", onset([0.1,0.1,0.1,0.1,0.1], rounds, 0.3) is None)
+check("negative crossings count too", onset([-0.1,-0.4,-0.5,-0.5,-0.5], rounds, 0.3) == 100)
+check("crossing at the last sample counts", onset([0.1,0.1,0.1,0.1,0.9], rounds, 0.3) == 250)
+check("Nones are skipped", onset([None,None,0.4,0.45,0.5], rounds, 0.3) == 150)
+
+print("within-group stratification")
+rows = [{'g':'A','v':10,'w':1.0},{'g':'A','v':8,'w':0.0},{'g':'B','v':2,'w':1.0},{'g':'B','v':1,'w':0.0}]
+pw = within_group(rows, lambda r: r['v'], lambda r: r['g'], lambda r: r['w'])
+check("group means are removed", close(sum(v for v, _ in pw), 0.0, 1e-9))
+check("within-group signal survives", pointbiserial(pw + pw) > 0.9 if len(pw+pw) >= 6 else True)
+big = [{'g':'A','v':100,'w':1.0}]*3 + [{'g':'B','v':1,'w':0.0}]*3
+pw2 = within_group(big, lambda r: r['v'], lambda r: r['g'], lambda r: r['w'])
+check("a pure group effect is erased", all(abs(v) < 1e-9 for v, _ in pw2))
+check("singleton groups are dropped", within_group([{'g':'A','v':1,'w':1.0}], lambda r: r['v'], lambda r: r['g'], lambda r: r['w']) == [])
+
+print("study.tsv integrity (live data, if present)")
+run = 'gauntlet/20260919-202921-scrim-g_iter6'
+sp = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), run, 'study.tsv')
+rows = list(csv.DictReader(open(sp), delimiter='\t')) if os.path.exists(sp) else []
+if rows:
+    check("won is only 0 or 1", set(r['won'] for r in rows) <= {'0','1'})
+    check("every us_ column has a th_ twin",
+          all('th_'+k[3:] in rows[0] for k in rows[0] if k.startswith('us_')))
+    check("coverage is a share in [0,1000]",
+          all(0 <= float(r['us_cov']) <= 1000 for r in rows if r['us_cov']))
+    check("cumulative moves never decrease within a game", all(
+        all(float(g[i]['us_navMoves']) >= float(g[i-1]['us_navMoves']) for i in range(1, len(g)))
+        for g in [[r for r in rows if r['opp']==o and r['map']==m and r['won']==w]
+                  for o, m, w in {(r['opp'], r['map'], r['won']) for r in rows}]))
+    check("rounds are the 50-step grid", set(int(r['round']) for r in rows) <= set(range(50, 750, 50)))
+else:
+    print("  (skipped: study.tsv absent or being rewritten)")
+
+print()
+print(("FAILED: " + ", ".join(fails)) if fails else "all tests pass")
+sys.exit(1 if fails else 0)

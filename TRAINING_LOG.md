@@ -2504,6 +2504,40 @@ honest: per influence, small slanderers return more (2.4x at 21 influence,
 1.94x at 463), so this can only pay if the binding constraint is **build
 actions**, not influence -- which is what a large idle bank means.
 
+**Iteration 29 (the surplus compounds): REJECTED, 75-85 = 46.9% over 160
+games (2026-09-19 05:30 UTC).** It held level for 128 games (63-65, 71-73)
+before the last two batches settled it -- much the closest of the five
+reallocation candidates, and still not an improvement. The mechanism ran
+as designed (149 investments building 282-368 influence slanderers, their
+size range). Reverted; `src/bot` is `g_iter5` again.
+
+**Five reallocations, five rejections, one repair accepted.** Collapse
+(-5), relay (-7.5), saving dose 2 (-7), hunters (-9 and -20), surplus
+(-3). The only accept in this stretch, Iteration 27, *removed a defect*
+rather than moving influence between unit types. The arithmetic behind it
+is consistent: per influence, small slanderers out-return large ones
+(2.4x at 21 against 1.94x at 463), so trading economy for anything else
+loses against a mirror whose economy was just repaired.
+
+**The limit of the instrument, stated plainly.** Self-play cannot value a
+change aimed at an opponent who out-earns us five to one, because the
+sparring partner shares our income. That is not an excuse for the
+rejections -- they are real -- but it is why the next move is not another
+reallocation.
+
+## `arch_big`: the opponent's doctrine as a sparring partner
+
+Built from the measurement rather than invented (`src/arch_big`,
+`ARCHETYPE == 4`): a 130-influence slanderer at r1, a 1-influence
+muckraker screen to r33, then 414-influence slanderers, 267-influence
+muckrakers and throwaway 1-18 influence politicians -- rzhan11's measured
+allocation of roughly 51% economy, 30% muckrakers, 19% politicians. It is
+our own code, so it costs no rating and can be played without limit.
+First job: measure `g_iter5` against it on the quick set. If our incumbent
+loses to a reconstruction of their doctrine, the reconstruction is good
+enough to develop against, and the loop gets a target that the mirror
+cannot provide.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

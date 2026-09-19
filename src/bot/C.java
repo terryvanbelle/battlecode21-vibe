@@ -24,18 +24,12 @@ public final class C {
     // an enemy politician in sensor range, or a muckraker close enough to expose a newborn slanderer at once.
     public static final int ECON_DANGER_POL_CONV = 20;   // an enemy politician of at least this conviction blocks the economy
     public static final int ECON_DANGER_MUCK_D2 = 9;     // ... as does a muckraker this close (it would expose the newborn)
-    // Iteration 29 (the surplus compounds): measured over 600 rounds of a loss, our influence goes 63% to politicians
-    // and 36% to slanderers; rzhan11's goes 19% to politicians and 51% to slanderers, with a mean slanderer of 414
-    // against our 137. The sink is the spare branch, which turns any bank of 300+ into another guard. Re-tested from
-    // Iteration 20 (mechanism verified there: 301 investments, EC bank 5,314; rejected on a 33-cell roster read of
-    // 12 v 14, inside that instrument's noise) and now on top of the Iteration 27 economy fix.
-    public static final int INVEST_MIN = 300;           // a spare bank of this much buys a slanderer, not a guard
     // economy
     public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;
     public static final int EARLY_SCOUTS = 4;
-    public static final int MAX_SLANDERER_SIZE = 2674;  // Iteration 29: any breakpoint, so a big bank converts in one action   // largest breakpoint we buy
+    public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // (unused) historical cap
     public static final int BID_EARLY_DIV = 30;         // Iteration 9: before r600 bid at most influence / this (baseline: /12 before r200, /8 to r600); dose 12-8 / 30 / 60
     // never idle: when every capped branch declines and this much is spare above the reserve, build anyway

@@ -463,6 +463,31 @@ The archetypes stay as a **regression check on an accept** (they catch a
 rush or bidding vulnerability the incumbent itself does not punish), and
 the scrimmage block stays as the ladder standing for a new submission.
 
+### 4.5.3b Correlation is the hypothesis generator; the diagnostic is the filter (user, 2026-09-19, PROMPTS 43-45)
+
+The loop's standing method for choosing what to work on next:
+
+1. **Generate.** `tools/correlate.py <run>` over a block studied with wins
+   kept. For every metric, and for the us-minus-them gap, it reports the
+   point-biserial correlation with the result, a **within-opponent-and-map**
+   correlation that removes each pairing's own average (so a metric cannot
+   score merely by identifying weak opponents), and the medians in wins
+   against losses. Rank by the within column at **r200**.
+2. **Filter.** A correlation is a place to look, never a mechanism. Take
+   the top candidates and ask of each: can we move this at all, and what
+   does moving it cost? Then run the diagnostic game (4.5, step 1) to see
+   the mechanism act before any test is funded.
+3. **Decide.** The SPRT screen, then submission.
+
+**Why the filter is not optional.** Correlation finds symptoms as readily
+as causes, and this project has already paid for the confusion: the
+opponents' unit sizes and influence allocation correlated strongly with
+their winning, and `arch_big` -- their allocation rebuilt faithfully --
+lost 0-24 to our own bot, because the allocation was downstream of their
+advantage rather than its source. Round-600 metrics are worse still: a
+team holds more ECs at r600 *because* it is winning. Only r200 precedes
+enough of the game to be worth acting on.
+
 ### 4.5.4 Every scrimmage block is mined for the next hypothesis (user, 2026-09-19, PROMPTS 38)
 
 Ladder games cost rating, so once played they must be squeezed. After

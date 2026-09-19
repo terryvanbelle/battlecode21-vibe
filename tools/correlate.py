@@ -19,6 +19,21 @@ o = a.parse_args()
 def num(x):
     try: return float(x)
     except: return None
+def partial_by_group(rows, key, groupf):
+    """Within-group (opponent x map) deviations, so a metric cannot score merely by
+    identifying which opponents are weak -- the strongest confound in block data."""
+    from collections import defaultdict
+    g = defaultdict(list)
+    for r in rows:
+        v = key(r)
+        if v is not None: g[groupf(r)].append((v, 1.0 if r['won'] == '1' else 0.0))
+    out = []
+    for _, vs in g.items():
+        if len(vs) < 2: continue
+        mv = sum(v for v, _ in vs)/len(vs); my = sum(y for _, y in vs)/len(vs)
+        for v, y in vs: out.append((v - mv, y - my))
+    return out
+
 def pointbiserial(pairs):
     xs = [p[0] for p in pairs]; ys = [p[1] for p in pairs]
     n = len(pairs)
@@ -40,7 +55,7 @@ def report(path, cols, label):
             print(f"\n== {label}" + (f" r{rnd}" if rnd else "") + f": {len(rs)} games, {wins} wins -- no variation, nothing to correlate")
             continue
         print(f"\n== {label}" + (f" r{rnd}" if rnd else "") + f"  ({len(rs)} games, {wins} wins)")
-        print(f"{'metric':26s} {'corr':>7s} {'win median':>12s} {'loss median':>12s}")
+        print(f"{'metric':26s} {'corr':>7s} {'within':>7s} {'win median':>12s} {'loss median':>12s}")
         out = []
         for c in cols:
             us, th = 'us_'+c, 'th_'+c
@@ -56,11 +71,18 @@ def report(path, cols, label):
                     if v is not None: pairs.append((v, y))
                 c2 = pointbiserial(pairs)
                 if c2 is None: continue
+                kf = (lambda r, k=key, u=us, t=th: num(r[k]) if k else (None if num(r[u]) is None or num(r[t]) is None else num(r[u]) - num(r[t])))
+                pw = partial_by_group(rs, kf, lambda r: (r['opp'], r['map']))
+                cw = pointbiserial(pw) if len(pw) >= 6 else None
                 w = [p[0] for p in pairs if p[1] == 1.0]; l = [p[0] for p in pairs if p[1] == 0.0]
-                out.append((abs(c2), name, c2, st.median(w) if w else float('nan'), st.median(l) if l else float('nan')))
-        for _, name, c2, wm, lm in sorted(out, reverse=True)[:14]:
-            print(f"{name:26s} {c2:+7.2f} {wm:12.1f} {lm:12.1f}")
+                out.append((abs(cw if cw is not None else c2), name, c2, cw, st.median(w) if w else float('nan'), st.median(l) if l else float('nan')))
+        for _, name, c2, cw, wm, lm in sorted(out, reverse=True)[:14]:
+            cws = f"{cw:+7.2f}" if cw is not None else "      -"
+            print(f"{name:26s} {c2:+7.2f} {cws} {wm:12.1f} {lm:12.1f}")
 run = o.run.rstrip('/')
 report(os.path.join(run, 'study.tsv'), ['ec','ecInf','sla','muc','pol','exp','buff','unitInf'], 'economy')
 report(os.path.join(run, 'nav.tsv'), ['cov','moves','meanMoves','aba','swamp','firstEC'], 'exploration')
-print("\nActionable column is r200: later rounds are contaminated by the outcome itself.")
+print("\nRead: 'corr' is raw; 'within' removes each opponent-and-map's own average, so it cannot")
+print("score merely by identifying weak opponents. Act on r200 -- later rounds are contaminated")
+print("by the outcome itself. A correlation is a place to look, not a mechanism: confirm with a")
+print("diagnostic game that the mechanism exists and can be moved before spending a test.")

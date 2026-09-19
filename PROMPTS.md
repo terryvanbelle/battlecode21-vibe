@@ -195,3 +195,11 @@ What is the full list of metrics that you collect on ladder runs?
 ## 43. 2026-09-19
 
 Would it be possible to calculate all metrics on wins as well, and perhaps use correlation of win rate vs. each metric to decide what to work on next?
+
+## 44. 2026-09-19
+
+That seems wise to keep in mind.  Let's explore whether the correlation method can serve as a general-purpose hypothesis generation mechanism.  At a minimum, it seems like a good source of data to inform hypotheses, even if it doesn't end up being the full picture
+
+## 45. 2026-09-19
+
+That seems like a good approach to me

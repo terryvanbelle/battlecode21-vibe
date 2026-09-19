@@ -2538,6 +2538,39 @@ loses to a reconstruction of their doctrine, the reconstruction is good
 enough to develop against, and the loop gets a target that the mirror
 cannot provide.
 
+## Iteration 30: ACCEPTED -- snapshot `g_iter6` (2026-09-19 08:20 UTC)
+
+**SPRT ACCEPT at 123-85 = 59.1% over 208 games** (`gauntlet/mirror-caps.log`),
+seven of the last eight batches positive and a closing batch of 14-2. The
+second accept under the new gate, and like the first it *removes a
+constraint* rather than moving influence between unit types.
+
+**The chain of measurements that produced it**, each one correcting the
+last, all from replays we had already paid for:
+
+1. Aggregates across 32 losses: their influence per living unit is 143
+   against our 49, and they bank 3,414 against our 326.
+2. Spawn totals over 600 rounds: we put 63% of influence into politicians
+   and 36% into slanderers; rzhan11 puts 19% and 51%, with a mean
+   slanderer of 414 against our 137.
+3. `arch_big`, their measured allocation rebuilt as a sparring partner,
+   **lost 0-24 to `g_iter5`** -- so the allocation is a symptom, not a
+   cause, and copying it reproduces nothing.
+4. Per-unit tracking: their r41 200-influence politician sits beside its
+   own EC, and *neither side* captured a neutral before r500 on that map.
+   Both started with three ECs. Their edge was never expansion.
+5. What was left: at r300 they had 63 slanderers to our 71 -- but theirs
+   averaged 414 influence, ours 137, so 26k invested in economy against
+   our 9.7k. **Our own cap was binding**: `MAX_SLANDERERS` 12 per EC, after
+   which surplus became guards no matter how much influence we held.
+
+Caps raised to 20 and 40. `g_iter6` = `g_iter5` + this.
+
+**Note for the ledger:** the old "slanderer cap 12 -> 24 alone" reject
+stands corrected. It was tested under the 72-cell instrument *and* while
+the `danger` bug suppressed slanderer production, so it never had a
+chance to show; with the defect fixed, the same idea is worth +9 points.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -2578,6 +2611,7 @@ cannot provide.
 | guards collapse onto the EC's adjacent tiles while a converter closes | rejected | mechanism verified (65 moves), stack 70-74 against saving mode's 111-97: -5 points; the guards stop chasing muckrakers and leave the ring | never: bodies beside the EC cost more than they dilute |
 | `danger` = any enemy in sensor range gating slanderer production | **fixed (Iteration 27, accepted 68.8%)** | one 1-influence muckraker within 6 tiles stopped the economy; opponents build 119-678 of them | n/a -- the rule now distinguishes a threat from a scout |
 | muckrakers with real conviction (150 then 50 influence) | rejected | 0 -> 342 exposures and 0 -> 8,881 buff in the diagnostic, enemy slanderers 95 -> 16, and still 41.2% then 29.7% in self-play: the influence compounds better as slanderers | after a bank-side change succeeds |
+| slanderer caps 12/24 (the cap, not influence, limited our economy) | **fixed (Iteration 30, accepted 59.1%)** | at r300 their 63 slanderers averaged 414 influence to our 71 at 137; raising the caps to 20/40 is +9 points | n/a; supersedes the old "cap24" reject, which ran with the danger bug present |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap

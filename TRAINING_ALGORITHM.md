@@ -435,6 +435,29 @@ one on faith would accumulate noise. The policy is therefore:
   move the team rating. A stack that reaches REJECT loses its most recent
   member, which is the change that broke it.
 
+**The self-play gate is a screen, not the decision (added 2026-09-19).**
+Iteration 27 passed the mirror at 68.8% and then scored 12/48 on the
+ladder against the incumbent's 14/48 on the same eight opponents. A build
+that beats its own predecessor has not been shown to beat anyone else;
+that is the known failure mode of self-play testing and we have now met
+it. The gate is therefore two stages:
+
+1. **Screen: the self-play SPRT** as described above (60-200 games). It is
+   cheap and it catches real defects -- it found the `danger` bug that
+   three candidates had failed around. A REJECT here ends the candidate.
+2. **Decide: the ladder SPRT.** Scrimmages under the contest rules
+   (`tools/scrim.sh`: random map, random side, rotating pool -- a fixed
+   external opponent is *not* allowed, so this is a one-sample test), with
+   `tools/sprt.py <w> <l> --p0 <incumbent rate> --p1 <incumbent + 0.08>`.
+   About 200 games resolves an 8-point gain, the same cost as the mirror
+   cap, and it measures the objective instead of a proxy. Only a build
+   that passes here becomes the submission and moves the team rating.
+
+Paired comparison against external bots is impossible (their cells cannot
+be replayed by both builds without doubling the cost for worse power), so
+the reference rate matters: re-measure the incumbent's block whenever the
+pool changes, and treat its interval as part of the decision.
+
 The archetypes stay as a **regression check on an accept** (they catch a
 rush or bidding vulnerability the incumbent itself does not punish), and
 the scrimmage block stays as the ladder standing for a new submission.

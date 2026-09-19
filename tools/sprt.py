@@ -8,6 +8,8 @@ p1 = 0.58 is the smallest edge worth a snapshot here: ~56 Elo, and it is resolve
 import argparse, math
 a = argparse.ArgumentParser(); a.add_argument('wins', type=int); a.add_argument('losses', type=int)
 a.add_argument('--p0', type=float, default=0.50); a.add_argument('--p1', type=float, default=0.58)
+# Ladder use (one-sample, against the incumbent's measured scrimmage rate):
+#   tools/sprt.py <wins> <losses> --p0 0.29 --p1 0.37
 a.add_argument('--alpha', type=float, default=0.05); a.add_argument('--beta', type=float, default=0.05)
 o = a.parse_args(); w, l = o.wins, o.losses; n = w + l
 llr = w * math.log(o.p1 / o.p0) + l * math.log((1 - o.p1) / (1 - o.p0)) if n else 0.0

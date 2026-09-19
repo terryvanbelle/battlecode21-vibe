@@ -203,3 +203,7 @@ That seems wise to keep in mind.  Let's explore whether the correlation method c
 ## 45. 2026-09-19
 
 That seems like a good approach to me
+
+## 46. 2026-09-19
+
+Let's verify that it works in practice, and if so, let's make sure it's well documented so that future generations of competitors can take advantage of it.  But I'm getting ahead of myself

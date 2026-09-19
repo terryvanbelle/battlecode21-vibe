@@ -207,3 +207,27 @@ That seems like a good approach to me
 ## 46. 2026-09-19
 
 Let's verify that it works in practice, and if so, let's make sure it's well documented so that future generations of competitors can take advantage of it.  But I'm getting ahead of myself
+
+## 47. 2026-09-19
+
+Would applying the methodology on more rounds help?  With a finer-grained correlation graph, we should be able to identify which metric came to prominence *first*, which would be strong evidence that it's the causal agent
+
+## 48. 2026-09-19
+
+In fact, I'd like to see a graph of that
+
+## 49. 2026-09-19
+
+But we're applying this methodology to ladder runs, right?  The whole point is to find out which advantages of our opponents are the ones that we need to focus on
+
+## 50. 2026-09-19
+
+Right, we're using mirror games as a substitute to work out the method, but then we'll apply it to ladder games when we're ready
+
+## 51. 2026-09-19
+
+Let's normalize the metrics so that a high degree of positive correlation with winning is always good.  Otherwise, we'll have some metrics where negative correlation is good, and some where positive correlation is good
+
+## 52. 2026-09-19
+
+Can I see the new graph?

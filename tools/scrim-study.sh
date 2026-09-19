@@ -28,7 +28,7 @@ for f in "$RUN"/losses/*.bc21 "$RUN"/replays/*.bc21; do
             printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", opp, map, won, side, u[5], t[5], u[2], t[2], u[7], t[7], u[3], t[3], u[4], t[4], u[6], t[6] }' >> "$NAV"
   nice -n 10 "$REPO/tools/replay-dump.sh" "$f" --metrics 2>/dev/null | awk -F, -v U="$U" -v T="$T" -v opp="$opp" -v map="$map" -v won="$won" '
     NR==1{for(i=1;i<=NF;i++)h[$i]=i; next}
-    $1==200||$1==400||$1==600 {printf "%s\t%s\t%s\t%s", opp, map, won, $1;
+    $1%50==0 && $1>=50 && $1<=700 {printf "%s\t%s\t%s\t%s", opp, map, won, $1;
       for (k=1;k<=9;k++) { split("ecs ecInf sla muc pol exposes buff unitInf", c, " ") }
       printf "\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", $h[U"_ecs"],$h[U"_ecInf"],$h[U"_sla"],$h[U"_muc"],$h[U"_pol"],$h[U"_exposes"],$h[U"_buff"],$h[U"_unitInf"];
       printf "\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", $h[T"_ecs"],$h[T"_ecInf"],$h[T"_sla"],$h[T"_muc"],$h[T"_pol"],$h[T"_exposes"],$h[T"_buff"],$h[T"_unitInf"]; }' >> "$OUT"

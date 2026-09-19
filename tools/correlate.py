@@ -14,6 +14,8 @@ almost the whole game, so they are the ones worth acting on; the table prints th
 rounds separately for exactly that reason, and the r200 column is the one that
 should choose the next candidate."""
 import csv, os, sys, math, argparse, statistics as st
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from polarity import orient, label
 a = argparse.ArgumentParser(); a.add_argument('run'); a.add_argument('--round', type=int, default=0)
 o = a.parse_args()
 def num(x):
@@ -55,23 +57,29 @@ def report(path, cols, label):
             print(f"\n== {label}" + (f" r{rnd}" if rnd else "") + f": {len(rs)} games, {wins} wins -- no variation, nothing to correlate")
             continue
         print(f"\n== {label}" + (f" r{rnd}" if rnd else "") + f"  ({len(rs)} games, {wins} wins)")
-        print(f"{'metric':26s} {'corr':>7s} {'within':>7s} {'win median':>12s} {'loss median':>12s}")
+        print(f"{'metric (higher=better)':30s} {'corr':>7s} {'within':>7s} {'win median':>12s} {'loss median':>12s}")
         out = []
         for c in cols:
             us, th = 'us_'+c, 'th_'+c
             if us not in rs[0]: continue
-            for name, key in ((c, us), (c+' (us-them)', None)):
+            for side in ('us', 'gap'):
+                if orient(c, 0, side) is None: continue
+                name = label(c, side)
                 pairs = []
                 for r in rs:
                     y = 1.0 if r['won'] == '1' else 0.0
-                    if key: v = num(r[key])
+                    if side == 'us': v = num(r[us]); v = None if v is None else orient(c, v, 'us')
                     else:
                         a1, b1 = num(r[us]), num(r[th])
-                        v = None if a1 is None or b1 is None else a1 - b1
+                        v = None if a1 is None or b1 is None else orient(c, a1 - b1, 'gap')
                     if v is not None: pairs.append((v, y))
                 c2 = pointbiserial(pairs)
                 if c2 is None: continue
-                kf = (lambda r, k=key, u=us, t=th: num(r[k]) if k else (None if num(r[u]) is None or num(r[t]) is None else num(r[u]) - num(r[t])))
+                def kf(r, sd=side, u=us, t=th, c=c):
+                    if sd == 'us':
+                        v = num(r[u]); return None if v is None else orient(c, v, 'us')
+                    a2, b2 = num(r[u]), num(r[t])
+                    return None if a2 is None or b2 is None else orient(c, a2 - b2, 'gap')
                 # stratify by whichever key actually has repeats: opponent (ladder blocks) or map (mirrors)
                 nopp = len({r['opp'] for r in rs}); gf = (lambda r: r['opp']) if nopp > 1 else (lambda r: r['map'])
                 pw = partial_by_group(rs, kf, gf)
@@ -80,7 +88,7 @@ def report(path, cols, label):
                 out.append((abs(cw if cw is not None else c2), name, c2, cw, st.median(w) if w else float('nan'), st.median(l) if l else float('nan')))
         for _, name, c2, cw, wm, lm in sorted(out, reverse=True)[:14]:
             cws = f"{cw:+7.2f}" if cw is not None else "      -"
-            print(f"{name:26s} {c2:+7.2f} {cws} {wm:12.1f} {lm:12.1f}")
+            print(f"{name:30s} {c2:+7.2f} {cws} {wm:12.1f} {lm:12.1f}")
 run = o.run.rstrip('/')
 report(os.path.join(run, 'study.tsv'), ['ec','ecInf','sla','muc','pol','exp','buff','unitInf'], 'economy')
 report(os.path.join(run, 'nav.tsv'), ['cov','moves','meanMoves','aba','swamp','firstEC'], 'exploration')

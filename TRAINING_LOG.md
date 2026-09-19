@@ -2595,6 +2595,24 @@ transfer to opponents who out-earn us five to one. The next session should
 treat *that* as the subject -- what the strong bots do in the games we
 lose 0/6, not what we do in the games we win.
 
+**Iteration 31 (raise the neutral-capturer cap 2 -> 4): REJECTED, exactly
+120-120 over 240 games (2026-09-19 14:30 UTC).** The cleanest null result
+the project has produced: dead level after fifteen batches. Reverted.
+
+**Why this cap was not the last one.** Raising the *slanderer* cap paid
+(+9 points) because influence was piling up with nowhere to go once the
+cap bound. Raising the *capturer* cap pays nothing because the binding
+constraint on expansion is not how many capturers we may send but whether
+a neutral is affordable and reachable when we look: `captureAffordable`
+still demands the full price plus 14 in hand, and on most maps the second
+and third neutrals are far away or expensive. A cap only matters when
+something is queued behind it.
+
+Note the mirror's blind spot here, recorded but not used as an excuse:
+both sides get the extra capturers, so a change that genuinely helps
+expansion partly cancels. The result is still a fair statement that the
+change is not affordable-and-useful enough to beat an equal opponent.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -2636,6 +2654,7 @@ lose 0/6, not what we do in the games we win.
 | `danger` = any enemy in sensor range gating slanderer production | **fixed (Iteration 27, accepted 68.8%)** | one 1-influence muckraker within 6 tiles stopped the economy; opponents build 119-678 of them | n/a -- the rule now distinguishes a threat from a scout |
 | muckrakers with real conviction (150 then 50 influence) | rejected | 0 -> 342 exposures and 0 -> 8,881 buff in the diagnostic, enemy slanderers 95 -> 16, and still 41.2% then 29.7% in self-play: the influence compounds better as slanderers | after a bank-side change succeeds |
 | slanderer caps 12/24 (the cap, not influence, limited our economy) | **fixed (Iteration 30, accepted 59.1%)** | at r300 their 63 slanderers averaged 414 influence to our 71 at 137; raising the caps to 20/40 is +9 points | n/a; supersedes the old "cap24" reject, which ran with the danger bug present |
+| neutral-capturer cap 2 -> 4 | rejected | 120-120 over 240 games, dead level: the constraint on expansion is affordability and distance, not the cap | if captures ever queue up behind the cap |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap

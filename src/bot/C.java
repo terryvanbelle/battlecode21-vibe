@@ -25,7 +25,7 @@ public final class C {
     public static final int ECON_DANGER_POL_CONV = 20;   // an enemy politician of at least this conviction blocks the economy
     public static final int ECON_DANGER_MUCK_D2 = 9;     // ... as does a muckraker this close (it would expose the newborn)
     // economy
-    public static final int MAX_SLANDERERS = 12;        // alive at once (they become politicians after 300 rounds)
+    public static final int MAX_SLANDERERS = 20;        // Iteration 30 (was 12): the cap, not influence, was capping our economy
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;
     public static final int EARLY_SCOUTS = 4;
@@ -34,7 +34,7 @@ public final class C {
     public static final int BID_EARLY_DIV = 30;         // Iteration 9: before r600 bid at most influence / this (baseline: /12 before r200, /8 to r600); dose 12-8 / 30 / 60
     // never idle: when every capped branch declines and this much is spare above the reserve, build anyway
     public static final int SPARE_MIN = 60;             // dose ladder: 1<<30 (off, = g_iter2) / 60 / 20
-    public static final int SPEND_SLANDERER_CAP = 24;   // slanderer cap for the spare branch (the normal cap stays MAX_SLANDERERS)
+    public static final int SPEND_SLANDERER_CAP = 40;   // Iteration 30 (was 24): surplus keeps compounding instead of becoming guards
 
     // slanderer positioning
     public static final int SLANDERER_RING_MIN = 8;     // d^2 from home: stay well outside the spawn ring

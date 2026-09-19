@@ -2358,6 +2358,42 @@ says: the stack is snapshotted when the *stack* reaches ACCEPT.
 Post-accept: archetype regression check and a 48-game scrimmage block as
 the new submission (the block moves the team rating; candidates never do).
 
+**The ladder does not confirm the mirror (2026-09-19 00:10 UTC).**
+`g_iter5`'s 48-game block against the same eight opponents:
+
+| build | block | rate | 95% |
+|---|---|---|---|
+| `g_iter4` | 14/48 | 29.2% | 18.2-43.2% |
+| `g_iter5` | 12/48 | 25.0% | 14.9-38.8% |
+
+Two games *worse*, deep inside noise in both directions; per opponent
+`g_iter5` went arya-k 4/6 and max-titov 4/6 but 0/6 against both rzhan11
+and awesomelemonade. Team Elo 1328 after 96 scrimmages, rank 9 of 9 rated
+bots. The archetype regression was clean (22/24 against 20/24, and 7/8
+against the muckraker rush where the fix should show).
+
+**The accept stands** -- the pre-registered veto is the new build's Wilson
+*upper* bound falling below the incumbent's point estimate, and 38.8% is
+far above 29.2%, so nothing here licenses a revert -- but the tension is
+the finding, and it is recorded, not explained away:
+
+- The gate is **self-play**. A build that beats its own predecessor 69% of
+  the time has not been shown to beat anyone else. This is the known
+  failure mode of self-play testing and we have now seen it once.
+- 48 games cannot resolve a 4-point difference, so the honest statement is
+  **"no detectable change on the ladder"**, not "it got worse".
+- The economy fix is real (slanderers hold at the cap instead of
+  collapsing to 3) and beats the muckraker archetype more often. It may
+  simply not be the binding constraint against opponents who are 4.4x
+  ahead on income for other reasons.
+
+*Method change under consideration, not yet adopted:* the accept gate may
+need a ladder component -- e.g. an SPRT against a *fixed strong external
+opponent* rather than against ourselves. That costs the same per game and
+measures the objective directly. To be decided before the next candidate,
+because running more self-play candidates risks accumulating changes that
+only beat our own past.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

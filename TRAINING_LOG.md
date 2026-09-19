@@ -2696,6 +2696,24 @@ we find the enemy almost immediately and then stop sweeping, which is
 known. The map stays half unseen, so the neutrals that Iteration 32's
 reserve is saving for are never found.
 
+**Iteration 32 (a reserve for the next neutral): REJECTED, 33-47 = 41.2%
+over 80 games (2026-09-19 17:40 UTC).** Reverted; `src/bot` restored from
+the `g_iter6` snapshot (a plain `git checkout` was not enough -- the
+change had already been committed, a trap worth remembering).
+
+**And the exploration metric explains it.** The reserve holds influence
+back so the next cheap neutral stays affordable. But we cover 59% of the
+map to their 80%, and our scouts reach an enemy EC at r48 and then stop
+sweeping, so on most maps *there is no second known neutral to save for*:
+the reserve is pure cost. The diagnostic that looked decisive was run on
+FindYourWay, where four 150-influence neutrals sit in plain sight -- the
+best case, not the typical one. A candidate must be diagnosed on a map
+where the mechanism can fire *and* sanity-checked on one where it cannot.
+
+**Ordering, now explicit:** find the neutrals first (coverage), then be
+solvent for them (reserve). Iteration 32 was the second half without the
+first. The next candidate is the first half.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -2738,6 +2756,7 @@ reserve is saving for are never found.
 | muckrakers with real conviction (150 then 50 influence) | rejected | 0 -> 342 exposures and 0 -> 8,881 buff in the diagnostic, enemy slanderers 95 -> 16, and still 41.2% then 29.7% in self-play: the influence compounds better as slanderers | after a bank-side change succeeds |
 | slanderer caps 12/24 (the cap, not influence, limited our economy) | **fixed (Iteration 30, accepted 59.1%)** | at r300 their 63 slanderers averaged 414 influence to our 71 at 137; raising the caps to 20/40 is +9 points | n/a; supersedes the old "cap24" reject, which ran with the danger bug present |
 | neutral-capturer cap 2 -> 4 | rejected | 120-120 over 240 games, dead level: the constraint on expansion is affordability and distance, not the cap | if captures ever queue up behind the cap |
+| hold a reserve so the next neutral stays affordable | rejected | 33-47 (41.2%); decisive on a map with four visible 150-neutrals, pure cost elsewhere -- we see 59% of the map and stop sweeping at r48 | after coverage is fixed |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap

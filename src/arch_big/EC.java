@@ -65,6 +65,7 @@ public strictfp class EC extends Robot {
         if (C.ARCHETYPE == 4) {   // arch_big: the doctrine measured from rzhan11 (TRAINING_LOG, 2026-09-19)
             if (round <= 1 && slanderers == 0 && inf >= 130) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf, 130)); role = Roles.ECON; }
             else if (round <= 33 && scouts < 9) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
+            else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }   // their r41 200-influence capturer: expansion first
             else if (inf >= 420 && slanderers < 20) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 20, 497)); role = Roles.ECON; }   // mean 414
             else if (inf >= 280 && (round % 3) == 0) { t = RobotType.MUCKRAKER; cost = Math.min(inf - 20, 267); role = Roles.HUNT; }                 // mean 267
             else if (inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 18); role = (round % 2 == 0) ? Roles.CAPTURE : Roles.GUARD; }   // cheap politicians
@@ -73,7 +74,7 @@ public strictfp class EC extends Robot {
             rc.buildRobot(t, d4, cost); RobotInfo nb4 = rc.senseRobotAtLocation(loc.add(d4));
             if (nb4 != null && nChild < MAX_CHILDREN) { childId[nChild] = nb4.ID; childType[nChild] = role; childBirth[nChild] = round; nChild++; }
             if (role == Roles.ECON) slanderers++; else if (role == Roles.SCOUT) scouts++; else guards++;
-            pendingOrder = Comms.encode(Comms.ORDER, role, role == Roles.CAPTURE && MapState.nNeutral > 0 ? MapState.neutralEC[0] : loc); pendingOrderRound = round + 1; return;
+            pendingOrder = Comms.encode(Comms.ORDER, role, role == Roles.CAPTURE ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : (MapState.nEnemy > 0 ? MapState.enemyEC[0] : loc)) : loc); pendingOrderRound = round + 1; return;
         }
         if (C.ARCHETYPE == 3) {   // politician rush: 2 scouts, 2 small slanderers, then every 100+ influence becomes a capture politician aimed at the enemy EC
             if (scouts < 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }

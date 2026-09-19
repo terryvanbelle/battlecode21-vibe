@@ -82,16 +82,16 @@ public strictfp class EC extends Robot {
         }
         else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
-        else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - spendFloor()) >= 21 && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - spendFloor(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
+        else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= 21 && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
         else if (inf >= 30 && scouts < 3 + round / 300 + (inf > 400 ? 3 : 0) + (MapState.nEnemy == 0 && round > 150 ? 2 : 0)) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
-        else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - spendFloor()) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - spendFloor(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
-        else if (inf - spendFloor() >= 100 && guards < C.MAX_GUARDS) { t = RobotType.POLITICIAN; cost = Math.min(inf - spendFloor(), Math.max(50, inf / 3)); role = Roles.GUARD; }
+        else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
+        else if (inf - reserve() >= 100 && guards < C.MAX_GUARDS) { t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(50, inf / 3)); role = Roles.GUARD; }
         else if (MapState.nEnemy > 0 && inf - reserve() >= 300 && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - reserve(); role = Roles.CAPTURE; }   // rich and idle: throw everything at the enemy EC
-        else if (inf - spendFloor() >= C.SPARE_MIN) {
+        else if (inf - reserve() >= C.SPARE_MIN) {
             // never idle: every capped branch declined but influence is spare. Alternate bodies: a guard when guards
             // trail slanderers, else another slanderer up to the spare cap, else a 1-influence hunter.
-            int spare = inf - spendFloor();
+            int spare = inf - reserve();
             if (guards < slanderers + 2 || spare >= 300) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // a big bank buys big guards whatever the ratio
             else if (!econDanger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
             else { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }
@@ -124,17 +124,6 @@ public strictfp class EC extends Robot {
         return best;
     }
     private int reserve() { return Math.min(Math.max(bid * 2, 10), Math.max(10, rc.getInfluence() / 2)); }   // keep enough to bid next round, never more than half
-
-    /** Iteration 32: what NON-capture spending must leave behind, so the next cheap neutral stays affordable.
-     *  The capture branches keep using reserve() -- putting the price in reserve() would make a capture need it twice. */
-    private int spendFloor() {
-        int r = reserve();
-        if (round <= C.CAPTURE_RESERVE_UNTIL && capturers < 2) {
-            int c = cheapNeutral();
-            if (c >= 0) { int price = MapState.neutralInf[c] + 14; if (price <= rc.getInfluence()) r = Math.max(r, Math.min(price, rc.getInfluence() * 2 / 3)); }
-        }
-        return r;
-    }
 
     private int captureAffordable(int inf) {
         int best = -1, bestCost = 1 << 30;

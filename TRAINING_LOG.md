@@ -3711,3 +3711,26 @@ rather than sitting at six.
 coverage at r200 rises from ~145 toward their ~338; neutral centres known rises;
 and centres held at r100 rises. If coverage moves and captures do not, the
 change is knowledge without action again and must be rejected on that alone.
+
+### Iteration 38 dose 1: the diagnostic passes (2026-09-20 16:00 UTC)
+
+`bot` against `g_iter9` on NotAPuzzle, won on votes at r1500. Both sides of the
+same game, so this is a direct comparison rather than a cross-run one:
+
+| round | muckrakers A/B | coverage A/B | centres A/B | slanderers A/B |
+|---|---|---|---|---|
+| 100 | **13** / 4 | **77** / 55 | **2** / 1 | 21 / 24 |
+| 200 | **36** / 30 | **212** / 149 | **4** / 3 | 62 / 60 |
+| 400 | **163** / 121 | **525** / 398 | **5** / 3 | 199 / 147 |
+| 600 | 187 / 110 | 659 / 489 | 5 / 3 | 358 / 267 |
+
+All four pre-registered counters moved, including the one that would have
+disqualified it: **centres held rose with coverage**, 2 to 1 at r100 and 5 to 3
+from r300. Knowledge is being acted on this time, which is exactly what was
+missing when the same idea was rejected at 51.7% as Iteration 33.
+
+The economy is not paying for it. Slanderers are level early and ahead later
+(199 to 147 at r400), which fits: a muckraker costs 1 influence, so the price is
+the centre's build action, not its income.
+
+Counters met; to the gate.

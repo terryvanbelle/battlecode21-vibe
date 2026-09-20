@@ -73,6 +73,7 @@ public class ReplayDump {
     static int[][] bcMax = new int[3][4];
     // navigation statistics (--navstats): A-B-A oscillations, coverage of visited tiles, first contact with an enemy EC
     static boolean navStats = false;
+    static int threatTeam = 0;   // --threat: whose ECs to watch
     static long[] unitsLong = new long[3], unitsIdle = new long[3], unitMoves = new long[3]; static int lastRound = 0;
     static long[] aba = new long[3]; static boolean[][] visited; static int[] firstContact = {-1, -1, -1}; static long[] swampMoves = new long[3];
     static Map<Integer, int[]> prev2 = new HashMap<>();   // id -> {x2,y2,x1,y1}
@@ -97,6 +98,7 @@ public class ReplayDump {
                 case "--hits": hits = true; quiet = true; break;
                 case "--speeches": speeches = true; quiet = true; break;
                 case "--navstats": navStats = true; break;
+                case "--threat": threatTeam = args[++i].equals("A") ? 1 : 2; quiet = true; break;
                 default: System.err.println("unknown flag " + args[i]); System.exit(2);
             }
         }
@@ -142,6 +144,7 @@ public class ReplayDump {
         visited = new boolean[3][width * height]; prev2.clear();
         SpawnedBodyTable sb = m.bodies();
         spawnBodies(sb, 0);
+        if (threatTeam != 0) { System.out.println("round,ourECs,enemyMuckWithin3tiles,enemyMuckInSensor,enemyPolInSensor"); return; }
         if (metrics) { printMetricsHeader(); return; }
         int[] ecs = new int[3]; long[] ecInf = new long[3];
         for (Robot r : bots.values()) { ecs[r.team]++; ecInf[r.team] += r.influence; }
@@ -290,6 +293,7 @@ public class ReplayDump {
                 System.out.printf("  r%d HIT by %s conv=%d r2=%d d2=%d n=%d wall=%d ec#%d inf %d -> %s loss=%d ratio=%.2f%n", h[0], teamName[h[1]], h[2], h[3], h[4], h[5], h[8], h[6], h[7], after, loss, h[2] > 10 ? (double) loss / (h[2] - 10) : 0.0); }
             pendingHits.clear();
         }
+        if (threatTeam != 0) { if (round % 25 == 0) printThreatRow(round); return; }
         if (metrics) { if (round % every == 0) printMetricsRow(round); return; }
         if (!quiet && every > 0 && round % every == 0) printAggregate(round);
         if ((mapEvery > 0 && round % mapEvery == 0) || mapAt.contains(round)) printBoard(round);
@@ -369,6 +373,24 @@ public class ReplayDump {
         if (visited == null || width * height == 0) return 0;
         int c = 0; for (boolean b : visited[t]) if (b) c++;
         return Math.round(1000.0 * c / (width * height));
+    }
+
+    /** --threat: enemy units sitting close enough to the watched team's ECs to matter.
+     *  d^2 <= 9 is the range at which a muckraker can expose a newborn slanderer (our econ gate);
+     *  d^2 <= 40 is the EC's own sensor radius. Types: 0 EC, 1 POL, 2 SLA, 3 MUC. */
+    static void printThreatRow(int round) {
+        int muck9 = 0, muck40 = 0, pol40 = 0, ecs = 0;
+        for (Robot e : bots.values()) {
+            if (!e.alive || e.team != threatTeam || e.type != 0) continue;
+            ecs++;
+            for (Robot r : bots.values()) {
+                if (!r.alive || r.team == threatTeam || r.team == 0 || r.type == 0) continue;
+                int dx = r.x - e.x, dy = r.y - e.y, d2 = dx * dx + dy * dy;
+                if (r.type == 3) { if (d2 <= 9) muck9++; if (d2 <= 40) muck40++; }
+                else if (r.type == 1 && d2 <= 40) pol40++;
+            }
+        }
+        System.out.printf("%d,%d,%d,%d,%d%n", round, ecs, muck9, muck40, pol40);
     }
 
     static void printMetricsRow(int round) {

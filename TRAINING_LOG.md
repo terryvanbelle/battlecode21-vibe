@@ -3862,3 +3862,45 @@ Note this also re-locks a bot we could previously study: awesomelemonade went
 2/6 to 0/6 in the latest block, so its last rate is 0% and it is locked again.
 `rqi3.qualification_bot`, which beat us 6-0 on first contact, is locked from the
 start.
+
+## Iteration 39 (pre-registered) -- does `econDanger` starve us exactly when we are under attack?
+
+Source: the `g_iter9`+I38 block, restricted to **rzhan11.sprint2**, which at 33%
+is the strongest opponent `BENCHMARK.md` currently permits us to review.
+awesomelemonade (0%) and rqi3 (0%) are locked and were correctly skipped by the
+study. Sample is small -- 2 wins, 4 losses -- so this is a lead, not a result.
+
+Medians, ours then theirs:
+
+| | r200 wins | r400 wins | r200 losses | r400 losses |
+|---|---|---|---|---|
+| slanderers | 50 / 38 | 76 / 62 | 46 / 29 | **16** / 22 |
+| centre influence | 12,604 / 3,030 | 19,160 / 2,024 | 5,124 / 1,140 | 2,358 / 560 |
+| unit influence | 15,141 / 18,804 | 38,150 / 48,099 | 10,572 / 9,294 | 8,335 / 12,075 |
+| centres | 2 / 2 | 5 / 3 | 3 / 4 | 2 / 4 |
+
+**In losses our slanderer count collapses from 46 at r200 to 16 at r400** while
+theirs holds. In wins it grows, 50 to 76. That is the whole divergence: at r200
+the losses are close (unit influence 10,572 to 9,294, centres 3 to 4), and by
+r400 our economy is gone.
+
+**The hypothesis.** It is not exposure -- they field 16 muckrakers at r400 in
+those games to our 49. And it is not poverty -- the centre still holds 2,358
+influence with a cap of 40 slanderers and only 16 alive. Production is being
+*blocked*, and the only thing that blocks it is `econDanger`: an enemy
+politician of conviction >= 20 anywhere in the centre's sensor radius, or a
+muckraker within d^2 9. Against a bot running 54 politicians at r400 that
+condition is satisfied permanently, so the economy stops for the rest of the
+game precisely when it most needs to rebuild. Iteration 27 fixed this same rule
+for harmless muckrakers; the politician clause has never been examined.
+
+**Diagnostic first**, against `arch_polrush` (our own archetype, so no tier
+question): read `eDanger` in the `@econ` line. If it is a small number of rounds
+the hypothesis is wrong and this stops here. If the centre spends hundreds of
+rounds in `econDanger` while holding influence and sitting below the slanderer
+cap, the mechanism is confirmed and a dose follows.
+
+**Pre-registered second arm** (METHOD 5b, decided before the gate): this is a
+change whose value appears only against sustained pressure, which our own
+incumbent does not apply. The gate is the mirror **plus** a paired run against
+`arch_polrush`, stated as an A/B against the incumbent on identical cells.

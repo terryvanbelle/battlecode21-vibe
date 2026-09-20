@@ -20,7 +20,12 @@ for f in "$RUN"/losses/*.bc21 "$RUN"/replays/*.bc21; do
   U=$side; T=$([ "$side" = A ] && echo B || echo A)
   # exploration (user rule, 2026-09-19, PROMPTS 41): coverage is the share of tiles a team ever stood on
   if ! nice -n 10 "$REPO/tools/replay-dump.sh" "$f" --metrics --every 700 >/dev/null 2>&1; then
-    echo "  !! skipped $b (replay-dump failed; often OutOfMemoryError on a very long game)" >&2
+    rc=$?
+    if [ "$rc" = 3 ]; then
+      echo "  -- skipped $b: BENCHMARK.md rule 2, this opponent's games may not be reviewed" >&2
+    else
+      echo "  !! skipped $b (replay-dump failed, exit $rc; often OutOfMemoryError on a long game)" >&2
+    fi
     continue
   fi
   nice -n 10 "$REPO/tools/replay-dump.sh" "$f" --navstats 2>/dev/null | grep "^  nav " | \

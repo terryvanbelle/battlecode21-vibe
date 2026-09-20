@@ -24,6 +24,8 @@ column accordingly, so A/B never leaks into the numbers.
 | name | meaning | how it is computed |
 |---|---|---|
 | `ec` | enlightenment centres held | count of centres owned by the team at that round |
+| `ecGain` | centres taken so far | cumulative sum of the *increases* in `ec` over the game. Derived in `tools/derived.py`, not read from the replay. Separates expansion from the standing count: two teams both holding two centres at r400 are playing different games if one took two and lost none and the other took four and lost two |
+| `ecLoss` `[inverted]` | centres lost so far | cumulative sum of the *decreases* in `ec`. Lower is better |
 | `ecInf` | influence banked **in** centres | sum of the influence held by those centres — the war chest, not income |
 | `sla` | slanderers alive | count of living slanderers |
 | `muc` | muckrakers alive | count of living muckrakers |
@@ -48,6 +50,15 @@ oriented by construction: further ahead is better.
 
 The result is a single reading rule: **a positive correlation always means
 "this being better goes with us winning"**, with no per-row sign-flipping.
+
+## Derived quantities and how games are separated
+
+`ecGain` and `ecLoss` are computed from the study table rather than the replay,
+so the rows of one game have to be told apart from the next. The table carries a
+`game` column (the replay's basename) and that is used when present. Tables
+written before the column existed fall back to the rule that a round which does
+not increase starts a new game, which is exact because a study table is written
+one game at a time with its rounds ascending. Both paths are unit-tested.
 
 ## Verification
 

@@ -10,7 +10,10 @@ A metric of theirs is always -1: more for them is worse for us.
 Gaps (us - them) are +1 by construction: being further ahead is better.
 """
 POLARITY = {
-    'ec': +1, 'ecInf': +1, 'sla': +1, 'muc': +1, 'pol': +1,
+    'ec': +1, 'ecInf': +1,
+    'ecGain': +1,       # centres taken so far: cumulative positive changes in the count
+    'ecLoss': -1,       # centres lost so far: cumulative negative changes
+ 'sla': +1, 'muc': +1, 'pol': +1,
     'exp': +1,          # exposures WE achieve
     'buff': +1,         # our empower buff, which exposures earn
     'unitInf': +1,      # influence embodied in our living units

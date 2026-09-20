@@ -35,9 +35,11 @@ from polarity import orient, label
 from statlib import pointbiserial as _pb, onset as _onset, within_group as _within
 run = o.run.rstrip('/')
 rows = list(csv.DictReader(open(os.path.join(run, 'study.tsv')), delimiter='\t'))
+from derived import add_expansion
+if rows and 'us_ec' in rows[0]: add_expansion(rows)
 if not rows: sys.exit("no study.tsv rows")
 rounds = sorted({int(r['round']) for r in rows})
-cols = ['ec','ecInf','sla','muc','pol','exp','buff','unitInf','cov','navMoves','navAba','navSwamp']
+cols = ['ec','ecGain','ecLoss','ecInf','sla','muc','pol','exp','buff','unitInf','cov','navMoves','navAba','navSwamp']
 # every metric is oriented so that higher = better for us (tools/polarity.py),
 # hence a positive correlation always means "this being better goes with winning"
 # Progressive variants: the running mean of a metric over every sampled round up to r.

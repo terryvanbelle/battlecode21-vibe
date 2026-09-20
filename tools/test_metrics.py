@@ -21,7 +21,72 @@ check("unoriented metric returns None", orient('firstEC', 100, 'us') is None)
 check("label marks inversion", '[inverted]' in label('aba', 'us'))
 check("label marks a gap", '(us-them)' in label('ec', 'gap'))
 check("every column has a polarity", all(k in POLARITY for k in
-      ['ec','ecInf','sla','muc','pol','exp','buff','unitInf','cov','navMoves','navAba','navSwamp']))
+      ['ec','ecGain','ecLoss','ecInf','sla','muc','pol','exp','buff','unitInf','cov','navMoves','navAba','navSwamp']))
+
+print("derived expansion metrics")
+from derived import add_expansion, game_segments
+_rows = [{'game':'g1','round':'50','us_ec':'1','th_ec':'1'},
+         {'game':'g1','round':'100','us_ec':'3','th_ec':'1'},
+         {'game':'g1','round':'150','us_ec':'2','th_ec':'4'},
+         {'game':'g2','round':'50','us_ec':'1','th_ec':'1'},
+         {'game':'g2','round':'100','us_ec':'1','th_ec':'2'}]
+add_expansion(_rows)
+check("gains accumulate positive changes", _rows[2]['us_ecGain'] == 2.0)
+check("losses accumulate negative changes", _rows[2]['us_ecLoss'] == 1.0)
+check("their gains are tracked separately", _rows[2]['th_ecGain'] == 3.0)
+check("the first sample of a game is zero", _rows[0]['us_ecGain'] == 0.0)
+check("a new game does not inherit the previous one",
+      _rows[3]['th_ecGain'] == 0.0 and _rows[4]['th_ecGain'] == 1.0,
+      f"got {_rows[3]['th_ecGain']} then {_rows[4]['th_ecGain']}")
+# a table written before the `game` column existed: games are split on a round that does not increase
+_old = [dict(r) for r in _rows]
+for r in _old: del r['game']
+for r in _old:
+    for k in ('us_ecGain','us_ecLoss','th_ecGain','th_ecLoss'): r.pop(k, None)
+add_expansion(_old)
+check("falls back to the round rule without a game column",
+      _old[2]['us_ecGain'] == 2.0 and _old[3]['th_ecGain'] == 0.0 and _old[4]['th_ecGain'] == 1.0,
+      f"segments {list(game_segments(_old))}")
+check("gain is higher-better and loss is inverted",
+      orient('ecGain', 2, 'us') == 2 and orient('ecLoss', 2, 'us') == -2)
+check("a missing centre column does not crash",
+      add_expansion([{'round':'50'}, {'round':'100'}]) is not None)
+
+print("end to end (the scripts actually run)")
+_TOOLS = os.path.dirname(os.path.abspath(__file__))
+def _write_study(d):
+    """A tiny two-opponent block: four games, two won, with a real centre trajectory."""
+    hdr = ['game','opp','map','won','round'] + [s+'_'+c for s in ('us','th')
+          for c in ('ec','ecInf','sla','muc','pol','exp','buff','unitInf','cov','navMoves','navAba','navSwamp')]
+    rows = []
+    games = [('a.bot',1), ('a.bot',0), ('b.bot',1), ('b.bot',0),
+             ('c.bot',1), ('c.bot',0), ('d.bot',1), ('d.bot',0)]
+    for gi, (opp, won) in enumerate(games):
+        for k, rnd in enumerate((50,100,150,200)):
+            us_ec = 1 + k if won else 1 + (k > 2)
+            th_ec = 1 + (k > 2) if won else 1 + k
+            vals = [us_ec, 100*(k+1)*(1+won), 5*k+won, 3, 4, 0, 0, 900*(k+1)*(1+won), 40*(k+1), 60*k, 2, 1,
+                    th_ec, 100*(k+1), 5*k, 3, 4, 0, 0, 900*(k+1), 40*(k+1), 60*k, 2, 1]
+            rows.append([f'g{gi}', opp, f'map{gi}', won, rnd] + vals)
+    with open(os.path.join(d, 'study.tsv'), 'w') as f:
+        f.write('\t'.join(hdr) + '\n')
+        for r in rows: f.write('\t'.join(str(x) for x in r) + '\n')
+def _run(script, *args):
+    return subprocess.run([sys.executable, os.path.join(_TOOLS, script)] + list(args),
+                          capture_output=True, text=True)
+with tempfile.TemporaryDirectory() as _d:
+    _write_study(_d)
+    _c = _run('correlate.py', _d)
+    check("correlate.py exits cleanly", _c.returncode == 0, _c.stderr.strip()[-300:])
+    check("correlate.py reports the expansion metric", 'ecGain' in _c.stdout)
+    check("correlate.py reports a gap row", '(us-them)' in _c.stdout)
+    _o = _run('onset.py', _d)
+    check("onset.py exits cleanly", _o.returncode == 0, _o.stderr.strip()[-300:])
+    check("onset.py reports the expansion metric", 'ecGain' in _o.stdout)
+    # the scripts must not silently score raw map-confounded metrics ahead of gaps by default
+    check("no traceback reached stdout", 'Traceback' not in _c.stdout + _o.stdout)
+    _rounds = [l.split(' r')[1].split()[0] for l in _c.stdout.splitlines() if l.startswith('== economy') and ' r' in l]
+    check("rounds are reported in numeric order", _rounds == sorted(_rounds, key=int), f"got {_rounds}")
 
 print("correlation")
 perfect = [(1,1.0),(2,1.0),(3,1.0),(0,0.0),(-1,0.0),(-2,0.0)]

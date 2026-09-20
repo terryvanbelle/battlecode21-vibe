@@ -16,6 +16,7 @@ should choose the next candidate."""
 import csv, os, sys, math, argparse, statistics as st
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from polarity import orient, label
+from derived import add_expansion
 from statlib import pointbiserial as _pb, onset as _onset, within_group as _within
 a = argparse.ArgumentParser(); a.add_argument('run'); a.add_argument('--round', type=int, default=0)
 o = a.parse_args()
@@ -27,19 +28,23 @@ def partial_by_group(rows, key, groupf):
 
 def pointbiserial(pairs):
     return _pb(pairs)
-def report(path, cols, label):
+def report(path, cols, title):
     if not os.path.exists(path): print(f"  (no {path})"); return
     rows = list(csv.DictReader(open(path), delimiter='\t'))
     if not rows: return
-    rounds = sorted({r['round'] for r in rows}) if 'round' in rows[0] else [None]
+    if 'us_ec' in rows[0] and 'round' in rows[0]: add_expansion(rows)
+    def _rk(x):
+        try: return (0, float(x))
+        except (TypeError, ValueError): return (1, 0.0)
+    rounds = sorted({r['round'] for r in rows}, key=_rk) if 'round' in rows[0] else [None]
     for rnd in rounds:
         rs = [r for r in rows if rnd is None or r['round'] == rnd]
         if o.round and rnd is not None and int(rnd) != o.round: continue
         wins = sum(1 for r in rs if r['won'] == '1')
         if wins == 0 or wins == len(rs): 
-            print(f"\n== {label}" + (f" r{rnd}" if rnd else "") + f": {len(rs)} games, {wins} wins -- no variation, nothing to correlate")
+            print(f"\n== {title}" + (f" r{rnd}" if rnd else "") + f": {len(rs)} games, {wins} wins -- no variation, nothing to correlate")
             continue
-        print(f"\n== {label}" + (f" r{rnd}" if rnd else "") + f"  ({len(rs)} games, {wins} wins)")
+        print(f"\n== {title}" + (f" r{rnd}" if rnd else "") + f"  ({len(rs)} games, {wins} wins)")
         print(f"{'metric (higher=better)':30s} {'corr':>7s} {'within':>7s} {'win median':>12s} {'loss median':>12s}")
         out = []
         for c in cols:
@@ -73,7 +78,7 @@ def report(path, cols, label):
             cws = f"{cw:+7.2f}" if cw is not None else "      -"
             print(f"{name:30s} {c2:+7.2f} {cws} {wm:12.1f} {lm:12.1f}")
 run = o.run.rstrip('/')
-report(os.path.join(run, 'study.tsv'), ['ec','ecInf','sla','muc','pol','exp','buff','unitInf','cov','navMoves','navAba','navSwamp'], 'economy and exploration')
+report(os.path.join(run, 'study.tsv'), ['ec','ecGain','ecLoss','ecInf','sla','muc','pol','exp','buff','unitInf','cov','navMoves','navAba','navSwamp'], 'economy and exploration')
 report(os.path.join(run, 'nav.tsv'), ['cov','moves','meanMoves','aba','swamp','firstEC'], 'exploration')
 print("\nRead: 'corr' is raw; 'within' removes each opponent-and-map's own average, so it cannot")
 print("score merely by identifying weak opponents. Act on r200 -- later rounds are contaminated")

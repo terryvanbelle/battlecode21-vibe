@@ -3326,3 +3326,49 @@ game closely enough to find the mechanism. The intervals still overlap
 (42.3-69.3 against 27.0-53.7), so one more block would be needed to call the
 difference proven, but the direction is consistent across regression, gate and
 ladder.
+
+## Iteration 36 (in development, comms) -- a captured centre says it is ours (2026-09-20 09:40 UTC)
+
+**The pre-registered hypothesis was wrong and the measurement said so.** The
+plan was "one capturer per centre": two capturers sent to the same cheapest
+neutral, the second aborting when the first converts it. Two things killed it.
+
+First, reading the abort condition: it fires on `t == null || t.type != EC ||
+t.team == us`. If the *opponent* had taken the centre, `t.team == them` and the
+branch never runs -- the capturer just proceeds against it as an enemy centre.
+So an abort can only ever mean *the centre is already ours*, and no diagnostic
+was needed to rule out the lost-race half of the hypothesis.
+
+Second, the ages. Of 41 aborts in `g_iter8`, **all 41 were "ours" and the median
+age was 0 rounds** (mean 79, total 3,254 unit-rounds of walking). Age 0 is not
+a race between two capturers; it is a capturer built for a centre the team had
+already taken.
+
+**The actual defect is a hole in comms.** A muckraker that sees a friendly
+non-home centre reports `OWN_EC_ID`, which carries an id and no location, so
+`MapState.addOwnEC` -- and with it `removeNeutral` -- never ran. The parent
+centre kept the captured centre on its neutral list, kept broadcasting it to
+the whole team as neutral, and kept buying capturers for it.
+
+**Change.** A captured centre (`birth > 1`) puts its own location on its flag
+on one slot of its broadcast rotation. Siblings absorb it as `OWN_EC`, which
+removes it from the neutral list. The home centre does not take the slot.
+
+| | `g_iter8` | dose 1 | dose 2 |
+|---|---|---|---|
+| capture aborts | 41 | 6 | **4** |
+| unit-rounds wasted walking | 3,254 | 377 | **133** |
+| capture speeches | 13 | 3 | 3 |
+| flips | 3 | 2 | 2 |
+
+Dose 1 also moved enemy and neutral onto a 3-slot cycle for *every* centre, so
+the home centre announced neutrals on 1 round in 3 rather than 1 in 2 -- a cut
+to the team's map knowledge unrelated to the fix. Dose 2 gives the slot only to
+captured centres and leaves the home rotation untouched.
+
+Fewer speeches is the intended effect, not a loss: the ones removed were
+capturers built for centres we already held. All three games were lost as A on
+NotAPuzzle, **including the baseline measurement run**, so the cell favours B
+and the losses are not evidence about the change.
+
+Counters met; to the gate.

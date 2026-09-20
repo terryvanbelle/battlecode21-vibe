@@ -283,3 +283,7 @@ Go ahead
 ## 65. 2026-09-20
 
 Nice!  Thinking good thoughts about the ladder test
+
+## 66. 2026-09-20
+
+/loop list, /loop delete f4764b51, then: /loop 15m task check.  If you're not working on anything and the VM is idle, start a new idea

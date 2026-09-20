@@ -3636,3 +3636,26 @@ makes block win rate non-comparable between blocks, because the field changes.
 From now on the headline for a submission is its rate **against the rated
 challengers**, with the exploration games reported separately. The old
 single-number comparison across submissions ends here.
+
+### Stale artefacts removed (2026-09-20 15:20 UTC)
+
+User rule (PROMPTS 70): nothing stale stays in the repository -- old
+documentation and graphs are either updated or deleted.
+
+Deleted: `progress/ladder.png` and `progress/vs_roster.png` (the gauntlet-era
+charts, superseded by `elo.png` when external bots became scrimmage-only on
+2026-09-17), `progress/onset-mirror.png` (superseded by `onset-ladder.png` once
+the method moved from mirrors to ladder blocks), and `progress/milestones.txt`
+(never held anything but its header comment). **Entries above this line that
+mention those files are a record of what was done at the time and are left as
+written; the log is append-only.**
+
+Updated: `BENCHMARK.md`, whose roster table had not regenerated since `g_iter4`
+because `bench-roster.py` read a column that `history.csv` has never had;
+`TRAINING_ALGORITHM.md`, whose post-accept routine and records section described
+a workflow that no longer exists and named three artefacts that never did
+(`vs_roster_history.csv`, `cumulative_iterations.png`, `replays/`) plus a
+`progress/scrims.csv` that should have read `games.csv`; `LEARNINGS.md`, whose
+strategy section was still headed "not yet measured against strong opponents"
+after eleven iterations; and `DESIGN.md`, which was missing `Roles.java` and any
+description of the centre's build chain.

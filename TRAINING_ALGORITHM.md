@@ -341,7 +341,7 @@ drawn at random from the released corpus (`tools/bc21-maps.txt`) and the
 side at random; opponents rotate (never the same one twice in a row, each
 at most ceil(N/pool) times per block). `tools/scrim.sh` is the only path
 (`gauntlet.sh` refuses external opponents otherwise); the block is
-recorded with `tools/scrim-record.py` into `progress/scrims.csv`, and
+recorded with `tools/scrim-record.py` into `progress/games.csv`, and
 `tools/elo.py` gives the contest standing (one team rating across our
 builds, K=32) plus per-build records with Wilson intervals. Our own
 snapshots and archetypes (`src/g_iter*`, `src/arch_*`) stay unrestricted:

@@ -3372,3 +3372,38 @@ NotAPuzzle, **including the baseline measurement run**, so the cell favours B
 and the losses are not evidence about the change.
 
 Counters met; to the gate.
+
+## Iteration 37 (pre-registered, not yet built) -- the capturer cap, re-tested
+
+From the Iteration 36 diagnostic, our home centre:
+
+| round | 150 | 200 | 250 | 300 |
+|---|---|---|---|---|
+| influence | 293 | 2,905 | 2,235 | 970 |
+| capturers in flight | 2 | 2 | 2 | 2 |
+| neutrals known | 5 | 5 | 5 | 5 |
+
+The cap of 2 is pinned for 150 rounds while five real centres are known and
+2,905 influence is banked -- roughly ten capturers' worth at this map's prices.
+Only 3 capture speeches happen in the whole game. Expansion is now limited by
+the cap on bodies in flight, not by money and not by knowledge.
+
+**Why re-test something already rejected.** "Capturer cap 2 -> 4" was rejected
+at **120-120 over 240 games**, as dead a null as this project has produced. But
+that test ran with both of the defects since fixed: the guard sink meant there
+was no money for extra capturers to spend (Iteration 35), and the stale neutral
+list meant extra capturers were dispatched to centres the team already owned
+(Iteration 36) -- so a higher cap bought more of exactly the waste that made up
+41 of 54 capture builds. The instrument was measuring a change that could not
+act. This is the case TRAINING_ALGORITHM 6 describes: re-test old rejections
+after fixing a defect that prevented the mechanism from working.
+
+**Doses.** Cap 2 -> 4, then 6 if that is inconclusive.
+
+**Counters before the gate.** Capturers in flight exceed 2 while neutrals
+remain; capture speeches rise well above 3; aborts stay near the 4 that
+Iteration 36 leaves, since more capturers must not mean more duplication.
+
+**Instrument.** The mirror, plus a check against `src/arch_expand`, which now
+exists precisely so an expansion change faces an opponent that contests
+centres rather than a twin that expands as badly as we do.

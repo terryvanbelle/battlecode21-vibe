@@ -3734,3 +3734,37 @@ The economy is not paying for it. Slanderers are level early and ahead later
 the centre's build action, not its income.
 
 Counters met; to the gate.
+
+## Iteration 38: INCONCLUSIVE at 57.5% (138-102) -- kept provisionally (2026-09-20 19:40 UTC)
+
+```
+batch  1: +9  -7   ==> 9-7     (56.2%)  LLR=+0.12
+batch  5: +6  -10  ==> 43-37   (53.8%)  LLR=-0.07
+batch 10: +11 -5   ==> 91-69   (56.9%)  LLR=+1.48
+batch 14: +10 -6   ==> 130-94  (58.0%)  LLR=+2.91   <- three hundredths short of the bound
+batch 15: +8  -8   ==> 138-102 (57.5%)  LLR=+2.70
+SPRT_INCONCLUSIVE 138-102 after 240 games
+```
+
+The standing rule: inconclusive at the cap, >= 53% over >= 200 games, so the
+change is **kept provisionally and NOT snapshotted**. `src/bot` stays at
+`g_iter9` + Iteration 38; there is no `g_iter10`.
+
+Fifteen batches of sixteen games each read 56, 44, 81, 50, 38, 56, 44, 69, 62,
+69, 50, 75, 56, 62 and 50 per cent. The running total never left the 50-60 band
+after game 32. That is what a true effect near 57% looks like against a test
+calibrated to separate 50% from 58%, and it is the case the sequential design
+handles best: a fixed 224-game test would have been forced to call +2.91 one way
+or the other.
+
+### Exploratory: the expander arm (not evidence for this candidate)
+
+PROMPTS 71 asked whether a mirror-neutral change that aligns us with the
+opponents who beat us is worth something. METHOD 5b now says the answer is to
+pre-register a second arm against an archetype carrying the property -- and
+that adding one *after* seeing a disappointing gate is itself the failure. This
+arm was not pre-registered, so it is recorded as exploratory: it informs the
+next pre-registration and is not counted towards Iteration 38.
+
+Paired design: the same 24 random map-and-side cells played by the candidate and
+by `g_iter9`, both against `arch_expand`, which takes 6 centres to our 2-3.

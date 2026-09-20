@@ -45,8 +45,16 @@ column accordingly, so A/B never leaks into the numbers.
 Defined in `tools/polarity.py`. Each quantity is marked higher-is-better
 (`+1`) or lower-is-better (`-1`), and the value is multiplied by that sign
 before anything is correlated. Anything belonging to the *opponent* is negated
-as well, since their advantage is our disadvantage. Differences are already
-oriented by construction: further ahead is better.
+as well, since their advantage is our disadvantage. A difference (us minus them)
+is multiplied by the metric's own sign: being further ahead on something good is
+good, but being further ahead on *oscillation*, or on *centres lost*, is bad.
+
+Until 2026-09-20 differences were returned unoriented, on the reasoning that
+"further ahead is better" — true only for higher-is-better metrics. Every
+inverted metric's difference row therefore read with its sign flipped. The
+affected rows were `aba`, `swamp`, `navAba` and `navSwamp`; the published
+`navAba (us-them)` figure of +0.36 at r50 should have read -0.36. Nothing was
+built on it. A unit test now pins each case.
 
 The result is a single reading rule: **a positive correlation always means
 "this being better goes with us winning"**, with no per-row sign-flipping.

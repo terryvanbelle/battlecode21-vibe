@@ -19,20 +19,24 @@ See `progress/METRICS.md` for how each quantity is computed.
 | r300 | sla (us-them) ~avg | +0.61 | +0.03 | +0.06 | +0.16 | +0.34 | +0.48 | +0.60 |
 | r350 | pol (us-them) | +0.53 | +0.21 | -0.09 | +0.13 | +0.28 | +0.37 | +0.50 |
 | r400 | ec (us-them) | +0.57 | +0.12 | -0.18 | +0.14 | +0.25 | +0.40 | +0.54 |
+| r400 | ecGain (us-them) | +0.51 | . | -0.20 | +0.14 | +0.23 | +0.33 | +0.47 |
+| r400 | ecLoss (us-them) [inverted] | +0.58 | . | -0.12 | +0.02 | +0.20 | +0.38 | +0.54 |
 | r400 | pol (us-them) ~avg | +0.48 | +0.21 | -0.00 | +0.07 | +0.20 | +0.30 | +0.45 |
 | r400 | unitInf (us-them) | +0.54 | +0.27 | +0.29 | +0.22 | +0.23 | +0.30 | +0.45 |
 | r500 | ec (us-them) ~avg | +0.47 | +0.12 | -0.14 | +0.11 | +0.12 | +0.23 | +0.42 |
+| r500 | ecLoss (us-them) [inverted] ~avg | +0.48 | . | -0.12 | +0.03 | +0.06 | +0.21 | +0.42 |
 | r500 | navMoves (us-them) | +0.45 | -0.01 | +0.07 | +0.04 | +0.12 | +0.23 | +0.39 |
 | r500 | unitInf (us-them) ~avg | +0.45 | +0.27 | +0.29 | +0.23 | +0.24 | +0.27 | +0.38 |
+| r550 | ecGain (us-them) ~avg | +0.39 | . | -0.20 | +0.09 | +0.11 | +0.19 | +0.34 |
 | r550 | muc (us-them) | +0.43 | +0.00 | +0.06 | +0.12 | +0.07 | +0.18 | +0.36 |
 | r600 | navMoves (us-them) ~avg | +0.36 | -0.01 | +0.06 | +0.05 | +0.09 | +0.16 | +0.31 |
 | r700 | muc (us-them) ~avg | +0.31 | +0.00 | +0.04 | +0.10 | +0.07 | +0.11 | +0.25 |
-| r700 | navAba (us-them) | +0.36 | +0.36 | +0.02 | -0.09 | -0.07 | +0.03 | +0.24 |
+| r700 | navAba (us-them) [inverted] | -0.36 | -0.36 | -0.02 | +0.09 | +0.07 | -0.03 | -0.24 |
 | - | buff (us-them) | +0.27 | +0.18 | +0.09 | +0.21 | +0.17 | +0.03 | +0.12 |
 | - | buff (us-them) ~avg | +0.28 | +0.18 | +0.09 | +0.20 | +0.24 | +0.20 | +0.18 |
-| - | navAba (us-them) ~avg | +0.36 | +0.36 | +0.05 | -0.06 | -0.07 | -0.03 | +0.13 |
-| - | navSwamp (us-them) | . | . | . | . | . | . | . |
-| - | navSwamp (us-them) ~avg | . | . | . | . | . | . | . |
+| - | navAba (us-them) [inverted] ~avg | -0.36 | -0.36 | -0.05 | +0.06 | +0.07 | +0.03 | -0.13 |
+| - | navSwamp (us-them) [inverted] | . | . | . | . | . | . | . |
+| - | navSwamp (us-them) [inverted] ~avg | . | . | . | . | . | . | . |
 
 **Reading it.** Earliest onset is the first place to look: temporal precedence is the one causal hint a
 correlation can honestly give. Late-onset metrics are usually the scoreboard rather than the cause -- by then

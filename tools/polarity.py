@@ -7,7 +7,10 @@ reader's head -- which is where misreadings come from.
 
   +1  higher is better for us        -1  lower is better for us
 A metric of theirs is always -1: more for them is worse for us.
-Gaps (us - them) are +1 by construction: being further ahead is better.
+A gap (us - them) is multiplied by the metric's own sign: being further ahead on
+something good is good, but being further ahead on *oscillation* or on *centres
+lost* is bad. This was wrong until 2026-09-20 -- gaps were returned unoriented,
+so every inverted metric's gap row read with its sign flipped.
 """
 POLARITY = {
     'ec': +1, 'ecInf': +1,
@@ -31,11 +34,11 @@ def orient(metric, value, side):
     """side: 'us', 'th', or 'gap'. Returns the oriented value, or None if unoriented."""
     p = POLARITY.get(metric, 0)
     if p == 0: return None
-    if side == 'gap': return value            # already us-minus-them
+    if side == 'gap': return p * value        # us-minus-them, then the metric's own sign
     if side == 'us': return p * value
     return -p * value                         # theirs: their advantage is our disadvantage
 def label(metric, side):
     p = POLARITY.get(metric, 0)
-    tag = '' if p == +1 or side == 'gap' else (' [inverted]' if p == -1 else ' [unoriented]')
+    tag = '' if p == +1 else (' [inverted]' if p == -1 else ' [unoriented]')
     base = metric + (' (us-them)' if side == 'gap' else ('' if side == 'us' else ' (theirs)'))
     return base + tag

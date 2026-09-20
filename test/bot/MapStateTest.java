@@ -29,6 +29,25 @@ public class MapStateTest {
         check(MapState.nNeutral == 1, "duplicates must not grow the list");
         check(MapState.neutralInf[0] == 150, "influence stored");
 
+        // A centre we own can never be neutral again: centres are neutral only at the start of the
+        // game. Without this the captured-centre broadcast ping-pongs against a stale scout report
+        // and the centre keeps buying capturers for ground it already holds (131 aborts in one game).
+        reset();
+        MapLocation cap = new MapLocation(30, 30);
+        check(MapState.addNeutralEC(cap, 200), "a neutral centre is recorded");
+        MapState.addOwnEC(cap);
+        check(MapState.nNeutral == 0, "capturing it drops it from the neutral list");
+        check(!MapState.addNeutralEC(cap, 200), "a stale neutral report about it is refused");
+        check(MapState.nNeutral == 0, "and does not put it back");
+        reset();
+        MapLocation p2 = new MapLocation(10, 10);
+        check(MapState.addNeutralEC(p2, 150), "unrelated neutrals still register");
+        check(MapState.nNeutral == 1, "one neutral recorded again");
+        check(MapState.addNeutralEC(new MapLocation(20, 20), 150) && MapState.nNeutral == 2, "and a second");
+        reset();
+        check(MapState.addNeutralEC(p, 150), "first add is new (restored)");
+        check(MapState.neutralInf[0] == 150, "influence stored (restored)");
+
         // a re-report with a better influence estimate should update in place, not duplicate
         MapState.addNeutralEC(p, 333);
         check(MapState.nNeutral == 1, "re-report must not duplicate");

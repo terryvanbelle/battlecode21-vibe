@@ -45,6 +45,11 @@ public final class MapState {
         enemyEC[nEnemy++] = l; removeNeutral(l); return true;
     }
     public static boolean addNeutralEC(MapLocation l, int inf) {
+        // A centre we own was never neutral again: centres are neutral only at the start of the game.
+        // Without this the captured-centre broadcast ping-pongs -- the centre drops it from the neutral
+        // list, a scout whose own copy is still stale re-broadcasts it as neutral, the centre re-adds it
+        // and buys another capturer for ground it already holds. Measured: 131 aborts in one game.
+        for (int i = nOwn; --i >= 0;) if (ownEC[i].equals(l)) return false;
         for (int i = nNeutral; --i >= 0;) if (neutralEC[i].equals(l)) { neutralInf[i] = inf; return false; }
         if (nNeutral >= MAX_ECS) return false;
         neutralEC[nNeutral] = l; neutralInf[nNeutral] = inf; nNeutral++; return true;

@@ -3659,3 +3659,55 @@ a workflow that no longer exists and named three artefacts that never did
 strategy section was still headed "not yet measured against strong opponents"
 after eleven iterations; and `DESIGN.md`, which was missing `Roles.java` and any
 description of the centre's build chain.
+
+## Iteration 38 (in development, scouting) -- coverage, re-tested now that expansion works
+
+Mined from the `g_iter9` block, restricted to the **four strong opponents**
+(awesomelemonade, rzhan11, Scott-Poole, jmerle), because the four newly met bots
+are much weaker and inflate every raw correlation.
+
+**Our centre count at r100 predicts the result almost monotonically:**
+
+| our ECs at r100 | games | wins | rate |
+|---|---|---|---|
+| 1 | 11 | 2 | 18% |
+| 2 | 5 | 2 | 40% |
+| 3 | 7 | 4 | 57% |
+| 5 | 1 | 1 | 100% |
+
+And in the losses their count runs away while ours does not: `1/1 -> 1/4 -> 1/7`
+(FiveOfHearts), `2/2 -> 1/5 -> 1/7` (Legends), `1/1 -> 1/3 -> 0/5` (Hourglass).
+
+**Why we stop expanding: we cannot see the centres.** Coverage against the same
+four opponents (tiles a team has ever stood on):
+
+| round | us, wins | them, wins | us, losses | them, losses |
+|---|---|---|---|---|
+| 100 | 96 | 116 | 81 | 122 |
+| 200 | 234 | 302 | **145** | **338** |
+| 400 | 524 | 476 | 396 | 620 |
+
+In losses we see **less than half** the map they do at r200, and the coverage
+lead is the earliest honest predictor in the stratified ranking (+0.35 within
+opponent, onset r100). Muckraker count tracks it exactly: at r200 we field 17 to
+their 48. Our scout cap is `3 + round/300 + 3 if rich` -- six for most of the
+game, against the 22-48 they run.
+
+**This re-tests a rejection.** Iteration 33, "scouts keep sweeping instead of
+camping the enemy EC", was rejected at 51.7% over 240 games and the note read
+"coverage marks a winning position but is not a lever". That test ran before
+Iterations 35 and 37, when knowing about a neutral centre bought nothing: the
+guard sink left no influence to capture with, the capturer cap was 2, and a
+captured centre stayed on the neutral list. Knowledge with no way to act on it
+is worth nothing, which is what 51.7% said. All three are now fixed. This is the
+same enabling argument that made Iteration 37 work, and the same rule --
+re-test a rejection after removing the defect that prevented the mechanism from
+acting (TRAINING_ALGORITHM 6).
+
+**Dose 1.** Raise the scout cap so our muckraker count tracks the opponents'
+rather than sitting at six.
+
+**Counters before the gate.** Muckrakers at r200 rise from ~17 toward 30-45;
+coverage at r200 rises from ~145 toward their ~338; neutral centres known rises;
+and centres held at r100 rises. If coverage moves and captures do not, the
+change is knowledge without action again and must be rejected on that alone.

@@ -19,6 +19,7 @@ public strictfp class EC extends Robot {
     private final MapLocation[] childTgt = new MapLocation[MAX_CHILDREN];
     private int scouts = 0, slanderers = 0, guards = 0, capturers = 0;
     private int econDangerRun = 0;   // consecutive rounds econDanger has blocked the economy
+    private int econDangerReleases = 0, econDangerRunMax = 0;   // diagnostic: did the cap ever actually fire?
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
     private int broadcast = 0, broadcastAge = 0;
@@ -49,11 +50,12 @@ public strictfp class EC extends Robot {
         // Iteration 39: a pause, not a stop. Past ECON_DANGER_MAX consecutive blocked rounds the
         // threat is evidently not going away, and an economy switched off for the rest of the game
         // is worse than a slanderer that might die.
-        if (econDangerRun > C.ECON_DANGER_MAX) econDanger = false;
+        if (econDangerRun > econDangerRunMax) econDangerRunMax = econDangerRun;
+        if (econDangerRun > C.ECON_DANGER_MAX) { econDanger = false; econDangerReleases++; }
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " edRun=" + econDangerRunMax + " edRel=" + econDangerReleases + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
     }
 
     // ---------------------------------------------------------------- production

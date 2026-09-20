@@ -69,18 +69,26 @@ public strictfp class EC extends Robot {
             else if (MapState.nEnemy == 0 && scouts < 4 && inf >= 30) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
             else return;
         }
-        else if (C.ARCHETYPE == 4) {   // expander: scouts to find the neutrals, a thin income core, and a capturer for every one we can afford
-            int tgt = -1, tgtCost = 1 << 30;
-            for (int i = MapState.nNeutral; --i >= 0;) {
-                int c = MapState.neutralInf[i] + 14;
-                if (c <= inf - 5 && c < tgtCost && capturers < 6) { tgt = i; tgtCost = c; }
+        else if (C.ARCHETYPE == 4) {   // expander: scouts to find the neutrals, a thin income core, and one capturer per neutral
+            // Targets are spread across the known neutrals, not all aimed at the cheapest: six capturers
+            // converging on one 103-influence centre took it once and then jammed the cap forever
+            // (diagnostic 2026-09-20, cap=6 pinned from r100 with influence stuck at 173).
+            int nAfford = 0, pick = -1;
+            for (int i = MapState.nNeutral; --i >= 0;) if (MapState.neutralInf[i] + 14 <= inf - 5) nAfford++;
+            if (nAfford > 0 && capturers < Math.min(4, nAfford)) {
+                int want = capturers % nAfford, seen = 0;
+                for (int i = MapState.nNeutral; --i >= 0;) {
+                    if (MapState.neutralInf[i] + 14 > inf - 5) continue;
+                    if (seen++ == want) { pick = i; break; }
+                }
             }
             if (scouts < 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
             else if (slanderers < 3 && !econDanger && Econ.bestSize(inf - 5) >= 41) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 130)); role = Roles.ECON; }
-            else if (tgt >= 0) { captureTargetIdx = tgt; t = RobotType.POLITICIAN; cost = tgtCost; role = Roles.CAPTURE; Debug.log("@arch4 capture r=" + round + " inf=" + MapState.neutralInf[tgt] + " cost=" + cost); }
+            else if (pick >= 0) { captureTargetIdx = pick; t = RobotType.POLITICIAN; cost = MapState.neutralInf[pick] + 14; role = Roles.CAPTURE; Debug.log("@arch4 capture r=" + round + " idx=" + pick + " inf=" + MapState.neutralInf[pick] + " cost=" + cost + " cap=" + capturers + "/" + nAfford); }
             else if (scouts < 8 && inf >= 30) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
             else if (!econDanger && slanderers < 12 && Econ.bestSize(inf - 5) >= 41) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
             else if (inf >= 20 && guards < 4) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 40); role = Roles.GUARD; }
+            else if (inf >= 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }   // never idle: keep banking for the next centre
             else return;
         }
         else if (C.OPENING_SLANDERER_FIRST == 1 && slanderers == 0 && round < 10 && !econDanger && Econ.bestSize(inf - 5) >= 21) {
@@ -110,8 +118,8 @@ public strictfp class EC extends Robot {
             // never idle: every capped branch declined but influence is spare. Alternate bodies: a guard when guards
             // trail slanderers, else another slanderer up to the spare cap, else a 1-influence hunter.
             int spare = inf - reserve();
-            if (guards < slanderers + 2 || spare >= 300) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // a big bank buys big guards whatever the ratio
-            else if (!econDanger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
+            if (!econDanger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }   // Iteration 35: economy before standing bodies
+            else if (guards < C.SPEND_GUARD_CAP) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // Iteration 35 dose 2: no big-bank escape -- a big bank is what buys a centre
             else { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }
             spendBuilds++;
         }

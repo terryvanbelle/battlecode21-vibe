@@ -3904,3 +3904,36 @@ cap, the mechanism is confirmed and a dose follows.
 change whose value appears only against sustained pressure, which our own
 incumbent does not apply. The gate is the mirror **plus** a paired run against
 `arch_polrush`, stated as an A/B against the incumbent on identical cells.
+
+### Iteration 39 diagnostic: confirmed against the real opponent (2026-09-20 21:55 UTC)
+
+**The archetype was useless as a proxy.** Against `arch_polrush` on Gridlock,
+`eDanger` was **0 for the entire game** -- our politician-rush archetype never
+creates the pressure rzhan11 does. That is the second time today an archetype
+failed this way (`arch_muck` did the same against the muckraker-swarm
+hypothesis this morning), so a zero reading from an archetype means *the proxy
+did not reproduce the condition*, not that the hypothesis is refuted.
+
+**Against rzhan11 itself** -- tier `target` at 33%, so reviewable, on a random
+map and side (Networking, us as B) as the contest rules require:
+
+| our centre at r1500 | influence | slanderers | guards | rounds spent in econDanger |
+|---|---|---|---|---|
+| #1 | 3,882 | **0** | 12 | **1,192 of 1,500** |
+| #2 | 71,884 | **0** | 58 | 579 |
+| #3 | 72,253 | **0** | 66 | 0 |
+
+Every centre ends with **zero slanderers** while sitting on up to 72,000
+influence, and one spent 1,192 of 1,500 rounds with its economy blocked. The
+pre-registered criterion was "hundreds of rounds in econDanger while holding
+influence and below the slanderer cap". Comfortably met.
+
+We won this game on votes, which is the sting: the hoard becomes bid money, so
+the defect is survivable and therefore easy to miss. It is still 72,000
+influence that bought nothing but votes while the economy that could have
+compounded it sat switched off.
+
+**Dose 1.** The economy may pause for a threat but must never stop: after
+`ECON_DANGER_MAX` consecutive blocked rounds the centre builds anyway. The
+spawn tile is already chosen away from the nearest enemy, so a newborn
+slanderer is not placed under the politician that triggered the block.

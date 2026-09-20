@@ -18,6 +18,7 @@ public strictfp class EC extends Robot {
     // Stored as a location, not an index: removeNeutral compacts the array and every index shifts.
     private final MapLocation[] childTgt = new MapLocation[MAX_CHILDREN];
     private int scouts = 0, slanderers = 0, guards = 0, capturers = 0;
+    private int econDangerRun = 0;   // consecutive rounds econDanger has blocked the economy
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
     private int broadcast = 0, broadcastAge = 0;
@@ -44,7 +45,11 @@ public strictfp class EC extends Robot {
             if (r.type == RobotType.MUCKRAKER && r.location.distanceSquaredTo(loc) <= C.ECON_DANGER_MUCK_D2) { econDanger = true; break; }
         }
         if (round > C.SAVE_UNTIL) saveDone = true;
-        if (econDanger) econDangerRounds++;
+        if (econDanger) { econDangerRounds++; econDangerRun++; } else econDangerRun = 0;
+        // Iteration 39: a pause, not a stop. Past ECON_DANGER_MAX consecutive blocked rounds the
+        // threat is evidently not going away, and an economy switched off for the rest of the game
+        // is worse than a slanderer that might die.
+        if (econDangerRun > C.ECON_DANGER_MAX) econDanger = false;
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);

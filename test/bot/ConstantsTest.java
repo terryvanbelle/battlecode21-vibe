@@ -23,6 +23,9 @@ public class ConstantsTest {
         check(C.MAX_CAPTURERS >= 2, "the capturer cap never drops below the long-standing 2");
         // Iteration 38: the scout cap must stay a real ceiling and must grow with the round.
         check(C.SCOUT_BASE > 0 && C.SCOUT_PER_ROUND > 0, "scout cap terms are positive");
+        // Iteration 39: the economy must never be blockable for a whole game again.
+        check(C.ECON_DANGER_MAX > 0 && C.ECON_DANGER_MAX < 200,
+              "the economy pause is bounded and well short of a game");
         check(C.SCOUT_MAX >= C.SCOUT_BASE, "the scout ceiling is not below its own base");
         check(C.SCOUT_BASE + 1500 / C.SCOUT_PER_ROUND >= C.SCOUT_MAX,
               "the cap actually reaches its ceiling within a game, or the ceiling is dead weight");

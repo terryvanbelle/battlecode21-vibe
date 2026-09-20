@@ -3129,3 +3129,28 @@ counters show the mechanism firing, and these did not. Dose 2 removes the
 escape: the surplus that a rich centre used to spend on a 242-influence guard
 is exactly the surplus that buys a 264-influence centre. Re-running the same
 diagnostic cell before anything is gated.
+
+### When the expansion race is actually lost (2026-09-20 07:25 UTC)
+
+Derived from the centre-count series of all 47 games in the g_iter7 block:
+cumulative centres **gained** (sum of positive changes in a team's count) and
+**lost** (negative changes). Medians, wins then losses:
+
+| round | 150 | 250 | 350 | 450 | 550 | 650 |
+|---|---|---|---|---|---|---|
+| our gains | 1 / 1 | 1 / 1 | 1 / 2 | 2 / 2 | 2.5 / 2 | 3.5 / 2 |
+| their gains | 0 / 0.5 | 1 / 1.5 | 2 / 3 | 2 / 4 | 2.5 / 5 | 3 / 5 |
+| our losses | 0 / 0 | 0 / 0 | 0 / 0 | 0 / 1 | 0 / 2 | 0.5 / 2 |
+| corr(gain lead, result) | +0.15 | +0.18 | +0.24 | +0.40 | +0.48 | +0.50 |
+
+This corrects the framing of the previous entry. **Our expansion does not fail
+early; it stalls after r300.** Through r350 we gain the same one or two centres
+whether we win or lose, and we lose none at all. What diverges is theirs: in
+losses they reach three by r350, four by r450 and five by r550, while in wins
+they stop at two. Our own centres only start falling at r400.
+
+The correlation stays inside the +/-0.29 noise floor until about r350, so on
+the onset reading this is a late metric and mostly scoreboard. The mechanism
+evidence is the independent part: 46 standing guards at r250, and six of ten
+capture politicians arriving to find the target already taken. Iteration 35
+acts in exactly the r250+ window where our gains stall.

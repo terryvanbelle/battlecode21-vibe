@@ -3768,3 +3768,18 @@ next pre-registration and is not counted towards Iteration 38.
 
 Paired design: the same 24 random map-and-side cells played by the candidate and
 by `g_iter9`, both against `arch_expand`, which takes 6 centres to our 2-3.
+
+**Result of the expander arm: a dead heat.** Both builds went **19/24** on the
+identical cells. Of the 24 paired cells, 22 agreed; the candidate won one the
+baseline lost (Illusion as B) and lost one the baseline won (Maze as B).
+
+So the exploratory arm gives **no support** to the idea that this change is
+worth more against an opponent that contests centres than it is against our own
+build. Two honest caveats in the other direction: 24 paired cells can only see a
+large effect, and `arch_expand` is not a strong opponent overall -- we beat it
+79% of the time -- so it may not discriminate the way awesomelemonade would.
+What it does rule out is a *large* opponent-class effect, which was the version
+of the hypothesis worth acting on.
+
+The remaining arbiter is the ladder block, which is the one instrument that
+plays the bots we actually lose to.

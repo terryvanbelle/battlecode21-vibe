@@ -73,18 +73,23 @@ public strictfp class EC extends Robot {
             // Targets are spread across the known neutrals, not all aimed at the cheapest: six capturers
             // converging on one 103-influence centre took it once and then jammed the cap forever
             // (diagnostic 2026-09-20, cap=6 pinned from r100 with influence stuck at 173).
+            // Keep a bidding float. Without one it spent every influence on captures and held 0-160
+            // influence all game: it took 8 centres to g_iter8's 0 and still LOST on votes at r1500,
+            // which would make any candidate's win against it a verdict on bidding, not on expansion.
+            int float4 = Math.max(20, inf / 10);
+            int budget = inf - 5 - float4;
             int nAfford = 0, pick = -1;
-            for (int i = MapState.nNeutral; --i >= 0;) if (MapState.neutralInf[i] + 14 <= inf - 5) nAfford++;
+            for (int i = MapState.nNeutral; --i >= 0;) if (MapState.neutralInf[i] + 14 <= budget) nAfford++;
             if (nAfford > 0 && capturers < Math.min(4, nAfford)) {
                 int want = capturers % nAfford, seen = 0;
                 for (int i = MapState.nNeutral; --i >= 0;) {
-                    if (MapState.neutralInf[i] + 14 > inf - 5) continue;
+                    if (MapState.neutralInf[i] + 14 > budget) continue;
                     if (seen++ == want) { pick = i; break; }
                 }
             }
             if (scouts < 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
             else if (slanderers < 3 && !econDanger && Econ.bestSize(inf - 5) >= 41) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 130)); role = Roles.ECON; }
-            else if (pick >= 0) { captureTargetIdx = pick; t = RobotType.POLITICIAN; cost = MapState.neutralInf[pick] + 14; role = Roles.CAPTURE; Debug.log("@arch4 capture r=" + round + " idx=" + pick + " inf=" + MapState.neutralInf[pick] + " cost=" + cost + " cap=" + capturers + "/" + nAfford); }
+            else if (pick >= 0) { captureTargetIdx = pick; t = RobotType.POLITICIAN; cost = MapState.neutralInf[pick] + 14; role = Roles.CAPTURE; Debug.log("@arch4 capture r=" + round + " idx=" + pick + " inf=" + MapState.neutralInf[pick] + " cost=" + cost + " float=" + float4 + " cap=" + capturers + "/" + nAfford); }
             else if (scouts < 8 && inf >= 30) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
             else if (!econDanger && slanderers < 12 && Econ.bestSize(inf - 5) >= 41) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
             else if (inf >= 20 && guards < 4) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 40); role = Roles.GUARD; }

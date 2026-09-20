@@ -3070,15 +3070,29 @@ side (NotAPuzzle, us as A), lost at r610 by annihilation:
 | neutrals known | 2 | 3 | 4 | 4 | 4 | 4 | 4 |
 | capturers | 1 | 0 | 2 | 2 | 2 | 2 | 2 |
 
-Four neutral centres known from r150 to r450 and **not one taken**. In the
-whole 610-round game our capturers gave **four speeches**, one of them a flip
-(the r42 saving-mode capture) and three chips against targets of 537, 1272 and
-69 conviction. The centres cost 100-1272 and our centre influence never passed
-336, so they were never affordable.
+Four neutral centres known from r150 to r450 and **not one taken after r42**.
+Ten capture politicians were built in the 610-round game and this is what
+became of them:
+
+| outcome | count |
+|---|---|
+| flipped a centre | 1 (the r42 saving-mode capture, a 103-influence neutral) |
+| arrived, could only chip | 3 |
+| aborted, "target gone/ours" | 6 |
+
+**Six of ten arrived to find the target already taken.** That is the shape of
+the whole problem: this is a race we lose on rate, not a wall we cannot break.
+NotAPuzzle carries six neutrals holding 1,500 influence between them, about
+250 each, so a capturer costs about 264 -- affordable at r200-250 when the
+centre held 298-336, but the `capturers < 2` cap was full. (An earlier draft
+of this entry read the 1,272-conviction target in the r454 speech as a
+neutral. It was the enemy centre; the neutrals here are ordinary.)
 
 **Where the influence went.** The spare branch reads `guards < slanderers + 2`
 before it considers the economy, so every surplus became a standing body: 46
-guards at r250. That is the sink. It has been suspected twice before (Iteration
+guards at r250, against 40 slanderers. At roughly 30 influence each that is
+some 1,400 influence standing still -- five more captures at this map's prices.
+That is the sink. It has been suspected twice before (Iteration
 7's threat-scaled guards, the "cap 12 -> 24 alone" reject) but both attempts
 changed the *primary* guard branch and left the spare branch's ordering alone.
 

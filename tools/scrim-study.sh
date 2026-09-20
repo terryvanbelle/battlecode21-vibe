@@ -19,6 +19,10 @@ for f in "$RUN"/losses/*.bc21 "$RUN"/replays/*.bc21; do
   b=$(basename "$f" .bc21); opp=${b%%__*}; rest=${b#*__}; map=${rest%%__*}; side=${b##*bot}
   U=$side; T=$([ "$side" = A ] && echo B || echo A)
   # exploration (user rule, 2026-09-19, PROMPTS 41): coverage is the share of tiles a team ever stood on
+  if ! nice -n 10 "$REPO/tools/replay-dump.sh" "$f" --metrics --every 700 >/dev/null 2>&1; then
+    echo "  !! skipped $b (replay-dump failed; often OutOfMemoryError on a very long game)" >&2
+    continue
+  fi
   nice -n 10 "$REPO/tools/replay-dump.sh" "$f" --navstats 2>/dev/null | grep "^  nav " | \
     sed -E 's/^  nav ([^:]+): moves=([0-9]+) aba=[0-9]+ \(([0-9.]+)%\) ontoSwamp=[0-9]+ \(([0-9.]+)%\) coverage=([0-9.]+)%.*firstEnemyECContact=r(-?[0-9]+).*meanMoves=([0-9.]+).*/\1 \2 \3 \4 \5 \6 \7/' | \
     awk -v opp="$opp" -v map="$map" -v side="$side" -v won="$won" -v bot="$BOTNAME" '

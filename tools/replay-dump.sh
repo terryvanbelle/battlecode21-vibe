@@ -11,4 +11,7 @@ OUT="$REPO/build/replaydump-$SHA"
 if [ ! -f "$OUT/replaydump/ReplayDump.class" ]; then
   mkdir -p "$OUT"; javac -nowarn -d "$OUT" -cp "$CP" "$REPO/tools/replaydump/ReplayDump.java"
 fi
-exec java -Xmx256m -cp "$OUT:$CP" replaydump.ReplayDump "$@"
+# 256m was not enough for a long game: a 19 MB compressed replay (rzhan11 on FiveOfHearts,
+# 2026-09-20) decompresses past that and the dumper died with OutOfMemoryError, which aborted
+# the whole block study. Override with DUMP_XMX on a small box.
+exec java -Xmx"${DUMP_XMX:-1g}" -cp "$OUT:$CP" replaydump.ReplayDump "$@"

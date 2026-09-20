@@ -287,3 +287,7 @@ Nice!  Thinking good thoughts about the ladder test
 ## 66. 2026-09-20
 
 /loop list, /loop delete f4764b51, then: /loop 15m task check.  If you're not working on anything and the VM is idle, start a new idea
+
+## 67. 2026-09-20
+
+I just got up and saw we've moved from 9th place to 4th, good work!  We might want to bring some new bots into the scrimmage soon

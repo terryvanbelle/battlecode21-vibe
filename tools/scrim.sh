@@ -10,8 +10,11 @@
 set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BOT="${BOT:-bot}"; N="${N:-24}"; MAXJOBS="${MAXJOBS:-6}"
-# challenge pool: the 6 rated bots just above us plus 2 we know least (tools/elo.py --pool --explore); tools/roster.txt until 40 games exist
-POOL="${POOL:-$( [ -s "$REPO/progress/games.csv" ] && [ "$(grep -c . "$REPO/progress/games.csv")" -ge 40 ] && python3 "$REPO/tools/elo.py" --pool "${POOLSIZE:-6}" --explore "${EXPLORE:-2}" || tr '\n' ' ' < "$REPO/tools/roster.txt")}"
+# Challenge pool: the rated bots nearest above us, plus bots we have never met (tools/elo.py --pool --explore).
+# From 2026-09-20 the split is 4 + 4 rather than 6 + 2 (PROMPTS 67): we are 4th of 9 rated with only three
+# bots above us, so a pool of 6 "above" was padding itself with bots below us, and at 2 new bots per block
+# the 57 unmet ones would have taken 28 blocks to meet. tools/roster.txt is used until 40 games exist.
+POOL="${POOL:-$( [ -s "$REPO/progress/games.csv" ] && [ "$(grep -c . "$REPO/progress/games.csv")" -ge 40 ] && python3 "$REPO/tools/elo.py" --pool "${POOLSIZE:-4}" --explore "${EXPLORE:-4}" || tr '\n' ' ' < "$REPO/tools/roster.txt")}"
 SEED="${SEED:-$(date +%s%N | cut -c1-13)}"
 CELLS="$(mktemp)"
 python3 - "$N" "$SEED" "$POOL" "$(grep -v '^Cow$' "$REPO/tools/bc21-maps.txt" | tr '\n' ' ')" > "$CELLS" <<'PY'

@@ -3285,3 +3285,44 @@ first, because it separates duplication from the opponent and this table cannot.
 
 Not built yet: `src/bot` is the submission under measurement in the running
 ladder block, and will not be touched until that block is recorded.
+
+## `g_iter8` submitted: 27/48 (56.2%), Elo 1426 -> 1511, rank 7 -> 4 (2026-09-20 09:15 UTC)
+
+Regression first: **32/32**, 8/8 against each of the four archetypes.
+
+| submission | block | rate | 95% |
+|---|---|---|---|
+| `g_iter4` | 14/48 | 29.2% | 18.2-43.2% |
+| `g_iter5` | 12/48 | 25.0% | 14.9-38.8% |
+| `g_iter6` | 27/96 | 28.1% | 20.1-37.8% |
+| `g_iter7` | 19/48 | 39.6% | 27.0-53.7% |
+| **`g_iter8`** | **27/48** | **56.2%** | **42.3-69.3%** |
+
+**First winning record, and the first submission to break out of the bottom
+third of the ladder.** Elo 1426 to 1511, rank 7 of 9 to **4 of 9**, now within
+two points of third.
+
+Per opponent, `g_iter7` then `g_iter8`:
+
+| opponent | before | after |
+|---|---|---|
+| jmerle.camel_case_v7_sprint_2 | 1/6 | **4/6** |
+| 123kevinlee.atomFinalQualifier | 2/6 | **5/6** |
+| iliao2345.attacker | 3/6 | **5/6** |
+| arya-k.quals_v1 | 4/6 | 5/6 |
+| max-titov.sprintplayer | 4/6 | 4/6 |
+| awesomelemonade.sprint1bot | 0/6 | **1/6** |
+| Scott-Poole.spright8 | 3/6 | 2/6 |
+| rzhan11.sprint2 | 2/6 | 1/6 |
+
+**The first win ever against awesomelemonade**, after 0/18 across three blocks.
+Six opponents improved or held; two fell, both within what six games can do by
+chance.
+
+**What this confirms.** Two accepts in a row have now transferred to the
+ladder, after three that did not. Both were found the same way: measure our
+behaviour against what the opponents actually do, then read a single logged
+game closely enough to find the mechanism. The intervals still overlap
+(42.3-69.3 against 27.0-53.7), so one more block would be needed to call the
+difference proven, but the direction is consistent across regression, gate and
+ladder.

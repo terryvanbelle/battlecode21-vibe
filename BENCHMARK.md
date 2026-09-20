@@ -11,11 +11,27 @@ lineage. This is the closest available substitute for a live scrimmage ladder.
    `gradle.properties`, `build.gradle`, `README`) and directory listings.
    Compilation goes through `tools/bench-compile.sh`, which writes compiler
    diagnostics to a log file and prints only counts.
-2. **No game against a bot may be reviewed until we beat it at least 20% of the
-   time** on a full-corpus evaluation (both sides). "Reviewed" means any
-   replay, trace, log, board or per-game reason. Until then, only the score.
-   The gauntlet keeps losing replays, so the discipline is on the reader:
-   check the bot's tier in the table below before opening anything.
+2. **Do not study a bot we are not close to beating.** Below a 20% win rate a
+   bot is `locked`: its games are not reviewed -- no replay, trace, log, board
+   or per-game reason -- and only the score is used.
+
+   **The purpose is time allocation** (project owner, 2026-09-20): "to keep us
+   from spending too much time on bots that we aren't close to being able to
+   beat. Having some extra-hard bots on the roster isn't the end of the world,
+   and we're going to have to tackle that bot eventually." A locked bot is
+   therefore not forbidden ground forever; it is ground we have not earned yet,
+   and the tier says where iterations are worth spending today.
+
+   `tools/replay-dump.sh` enforces this through `tools/tier-check.sh`, which
+   fails closed: it refuses when the roster is missing or the opponent is not
+   listed, so an unknown tier never reads as permission. `BENCH_TIER_OVERRIDE=1`
+   lifts it for a deliberate decision to take a locked bot on -- the case the
+   owner's note describes -- not for a passing look.
+
+   This rule was breached on 2026-09-20: six awesomelemonade replays and a
+   logged game against it were reviewed while it was listed `locked`, because
+   the reader did not check. That is why the check now lives in the tooling
+   rather than in the reader's memory.
 3. Their stdout is silenced in every game (`bc.engine.silence-*`).
 
 ## Where they live

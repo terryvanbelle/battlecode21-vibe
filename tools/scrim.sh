@@ -14,7 +14,22 @@ BOT="${BOT:-bot}"; N="${N:-24}"; MAXJOBS="${MAXJOBS:-6}"
 # From 2026-09-20 the split is 4 + 4 rather than 6 + 2 (PROMPTS 67): we are 4th of 9 rated with only three
 # bots above us, so a pool of 6 "above" was padding itself with bots below us, and at 2 new bots per block
 # the 57 unmet ones would have taken 28 blocks to meet. tools/roster.txt is used until 40 games exist.
-POOL="${POOL:-$( [ -s "$REPO/progress/games.csv" ] && [ "$(grep -c . "$REPO/progress/games.csv")" -ge 40 ] && python3 "$REPO/tools/elo.py" --pool "${POOLSIZE:-4}" --explore "${EXPLORE:-4}" || tr '\n' ' ' < "$REPO/tools/roster.txt")}"
+# Refuse rather than fall back silently. The roster fallback is only legitimate before the ladder has
+# 40 games; a MISSING games.csv means the history did not reach this machine, and quietly substituting a
+# different set of opponents is how every block from 2026-09-17 to 2026-09-20 challenged the wrong bots.
+if [ -z "${POOL:-}" ]; then
+  if [ ! -f "$REPO/progress/games.csv" ]; then
+    echo "!! progress/games.csv is missing: the ladder history did not reach this machine." >&2
+    echo "!! Run tools/vm-sync.sh, or set POOL=\"a.b c.d\" to choose the opponents explicitly." >&2
+    exit 4
+  fi
+  if [ "$(grep -c . "$REPO/progress/games.csv")" -ge 40 ]; then
+    POOL="$(python3 "$REPO/tools/elo.py" --pool "${POOLSIZE:-4}" --explore "${EXPLORE:-4}")"
+  else
+    echo "ladder history has under 40 games: using tools/roster.txt" >&2
+    POOL="$(tr '\n' ' ' < "$REPO/tools/roster.txt")"
+  fi
+fi
 SEED="${SEED:-$(date +%s%N | cut -c1-13)}"
 CELLS="$(mktemp)"
 python3 - "$N" "$SEED" "$POOL" "$(grep -v '^Cow$' "$REPO/tools/bc21-maps.txt" | tr '\n' ' ')" > "$CELLS" <<'PY'

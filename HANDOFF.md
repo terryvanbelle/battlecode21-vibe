@@ -57,27 +57,25 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
 
 ## State right now
 
-- **Submission: `g_iter7`** = g_iter6 + Iteration 34 (the opening deployment).
-  Block: **19/48, 39.6%** (95% 27.0-53.7), the first submission to beat its
-  predecessors (g_iter4 29.2%, g_iter5 25.0%, g_iter6 28.1%). Elo **1426**,
-  rank 7 of 9 rated bots, 240 scrimmages. Regression 32/32 on all four archetypes.
-  Record against awesomelemonade: **0/18**.
-- **`src/bot` = g_iter7 + Iteration 35** (the guard sink): the spare branch now
-  fills the economy to `SPEND_SLANDERER_CAP` before building a guard, and caps
-  standing guards at `SPEND_GUARD_CAP` = 12. Pre-registered in TRAINING_LOG.md.
-  Not yet gated.
-- **In flight on the VM:**
-  - `gauntlet/scrim-iter7b.log` -- **VOID**, do not record it. See the run's `VOID.txt`.
-    The SPRT queued behind it started early and rebuilt its class tree mid-run.
-  - `gauntlet/diag-i35.log` -- the Iteration 35 diagnostic, `bot` vs `g_iter7` on
-    NotAPuzzle. `run-dev.sh` writes `LOG_OUT` only when the game ends, so the
-    `.out` file appearing is the completion signal. Check in the `@econ` lines that
-    guards at r200 fall from 38 toward 12-15, slanderers reach the cap sooner,
-    centre influence at r200-300 rises above 336, and `@speech role=capture` fires
-    more than four times.
-- **Next decision.** If the diagnostic shows the mechanism firing, run the SPRT
-  (`tools/mirror.sh bot g_iter7`) once the block frees the machine; the cap is 7
-  games at once and the block already uses 6.
+- **Submission: `g_iter8`** = g_iter7 + Iteration 35 (the guard sink). Accepted
+  by SPRT at **84.4% (27-5)**, the strongest gate result so far, in the minimum
+  two batches. Archetype regression **32/32**, 8/8 against each of
+  `arch_muck`, `arch_bidder`, `arch_polrush`, `arch_big`.
+- **`src/bot` = `g_iter8`.** Do not edit it while a ladder block is measuring it.
+- Previous submissions: g_iter4 14/48 (29.2%), g_iter5 12/48 (25.0%),
+  g_iter6 27/96 (28.1%), **g_iter7 19/48 (39.6%)**, Elo 1426, rank 7 of 9.
+- **In flight:** `gauntlet/scrim-iter8.log`, the 48-scrimmage ladder block for
+  `g_iter8`. When it prints `wrote`: `tools/vm-collect.sh <run-id>`, then
+  `tools/scrim-record.py <run-dir> --label g_iter8`, then `tools/elo.py`, then
+  `tools/scrim-study.sh <run-dir>` and `tools/onset.py <run-dir>`.
+- **Next candidate: Iteration 36, one capturer per centre**, pre-registered in
+  TRAINING_LOG.md. Roughly 41 of 56 capture politicians now abort because the
+  target is already taken, and the aborts scale with our own production, which
+  points at two capturers being sent to the same cheapest centre.
+- **Also pending:** `arch_expand` works (six centres by r600 against two or
+  three) but its never-idle rule builds a 1-influence unit every cooldown, so it
+  fields 600 muckrakers and is part swarm. Narrow it to bank while a neutral is
+  still known, so it isolates expansion rather than duplicating `arch_muck`.
 
 ## The open question the ladder is asking
 

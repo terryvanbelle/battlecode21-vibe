@@ -3248,3 +3248,40 @@ mechanism. That division of labour is the one the method claims, and this is
 the first iteration where it ran end to end.
 
 Next: the archetype regression, then a ladder block for the contest signal.
+
+## Iteration 36 (pre-registered, not yet built) -- one capturer per centre
+
+Capture outcomes across the three diagnostics on NotAPuzzle, our side only:
+
+| build | capture speeches | flips | aborts ("target gone/ours") |
+|---|---|---|---|
+| g_iter7 (vs awesomelemonade) | 4 | 1 | 6 |
+| Iteration 35 dose 1 | 10 | 4 | 17 |
+| Iteration 35 dose 2 (`g_iter8`) | 15 | 5 | **41** |
+
+Freeing the surplus bought more captures, but it bought far more *waste*:
+roughly 41 of some 56 capture politicians now walk to a centre and abort
+because it is no longer neutral.
+
+**Why duplication is the likely cause rather than the opponent.**
+`captureAffordable` returns the *cheapest* affordable neutral every time it is
+asked, and the cap allows two capturers in flight, so two built a few rounds
+apart are sent to the same centre; the first converts it and the second aborts.
+If the opponent taking centres were the cause, aborts would not scale with *our
+own* production -- and they scale almost exactly with it, 6 to 17 to 41 as the
+money grows, while flips rise only 1 to 4 to 5.
+
+**Mechanism.** The centre already tracks each live child's id and role
+(`childId`, `childType`). Add the neutral index each capturer was aimed at, and
+have `captureAffordable` skip an index a live capturer already claims. One
+capturer per centre, the cap then binding on distinct centres rather than on
+bodies.
+
+**Counters to check in the diagnostic before a test starts.** Aborts fall
+sharply relative to speeches; distinct centres flipped rises above 5; the
+`capturers` count stops sitting at the cap while centres go untaken. The abort
+log should also say *who* took the target, which it does not today -- add that
+first, because it separates duplication from the opponent and this table cannot.
+
+Not built yet: `src/bot` is the submission under measurement in the running
+ladder block, and will not be touched until that block is recorded.

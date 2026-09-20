@@ -1,10 +1,10 @@
-package bot;
+package arch_siege;
 
 /** Tunable constants. One place, so a dose ladder is a one-line diff. */
 public final class C {
     public static final boolean DEBUG = true;      // @tag log lines on/off
     /** Sparring archetype switch: 0 = the real bot; 1 = muckraker rush; 2 = aggressive bidder; 3 = politician rush; 4 = neutral-EC expander; 5 = siege. Set by tools/snapshot.sh <name> <archetype>. */
-    public static final int ARCHETYPE = 0;
+    public static final int ARCHETYPE = 5;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
     // Iteration 22 (saving mode, uncapped): the mechanism Iterations 16 and 21 pre-registered but never actually ran --

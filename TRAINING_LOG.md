@@ -2812,6 +2812,31 @@ The graph also had a presentation bug: it plotted the six earliest onsets,
 three of which were `~avg` duplicates, so coverage and ECs never appeared.
 It now shows eight distinct metrics.
 
+## A correction to my own reasoning (2026-09-20 03:10 UTC, PROMPTS 62)
+
+I had been writing, and saying, that a mirror undervalues "symmetric"
+changes because *both sides* get them. **That is simply wrong.**
+`tools/mirror.sh` plays the candidate, which has the change, against the
+incumbent, which does not. The opponent never receives the change.
+
+The excuse was applied to Iterations 32 (capture reserve, 41.2%) and 33
+(scouts keep sweeping, ~50.5%), and it should not have been. Both are
+offensive/economic changes: the incumbent is contesting the *same*
+neutrals on the *same* map, so scouting earlier or holding a capture
+reserve has every opportunity to pay in a mirror. Their results are
+therefore **real negative results about those changes**, not artefacts.
+
+The two genuine limitations, which the record does support:
+
+1. *Defensive* changes have nothing to defend against in a mirror -- relay
+   and scouts8 both stopped at exactly 6/14 against a twin that does not
+   punish the deficiency they fix.
+2. Mirror gains need not transfer: `g_iter5` won its mirror 68.8% and
+   moved the ladder by nothing.
+
+`METHOD.md` section 5 is corrected, with a note that the wrong version
+stood there for a day.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

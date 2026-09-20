@@ -102,10 +102,28 @@ from the replay stream, and the orientation convention.
 
 ## 5. Self-play is free but it cannot see everything
 
-Against a twin, any *symmetric* improvement partly cancels: both sides scout
-better, or expand harder, so the win rate barely moves. Our two accepted
-changes were worth +19 and +9 points in self-play and moved the ladder by
-**nothing** (14/48, 12/48, 14/48 across three submissions).
+A mirror pits the candidate (with the change) against the incumbent (without
+it), so the sides are **not** identical and an improvement is not cancelled by
+the opponent sharing it. Do not reach for that excuse -- it is wrong, and it was
+written here for a day before being caught.
+
+The two real limitations are narrower:
+
+- **Defensive changes have nothing to defend against.** If a change resists
+  something the *external* bots do and our incumbent does not -- muckraker
+  swarms, very fast expansion -- the mirror gives it no opportunity to pay, and
+  it reads ~50%. Documented here: relay and scouts8 both stopped at exactly
+  6/14 against a twin that never punished the deficiency they fixed.
+- **Mirror gains need not transfer upward.** Beating your own previous version
+  is not evidence of beating anyone stronger. Our two accepted changes were
+  worth +19 and +9 points in self-play and moved the ladder by **nothing**
+  (14/48, 12/48, 14/48 across three submissions).
+
+An *offensive or economic* change -- scouting more, expanding harder, spending
+differently -- has every chance to show itself in a mirror, because the
+incumbent is contesting the same neutrals and the same map. When such a
+candidate reads 50%, that is a real negative result about the change, not an
+artefact of the instrument.
 
 Consequences:
 

@@ -267,3 +267,7 @@ Is everything checked in?  When I look at the onset-ladder.png graph you generat
 ## 61. 2026-09-19
 
 Your interpretation seems right to me.  Let's proceed with the methodology, and see how it does
+
+## 62. 2026-09-20
+
+Wait, both sides have the same behavior in a mirror test?  I thought a mirror test posed the accepted bot against that bot with a change

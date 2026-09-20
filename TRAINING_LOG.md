@@ -3937,3 +3937,27 @@ compounded it sat switched off.
 `ECON_DANGER_MAX` consecutive blocked rounds the centre builds anyway. The
 spawn tile is already chosen away from the nearest enemy, so a newborn
 slanderer is not placed under the politician that triggered the block.
+
+### Iteration 39 dose 1: the release fires (2026-09-20 22:15 UTC)
+
+Instrumented `@econ` with the longest consecutive blocked run and the number of
+rounds released, because the cumulative counter could not tell a working cap
+from a quiet map. Against rzhan11 on a third random cell (FrogOrBath, us as A):
+
+| our centre | influence | slanderers | longest blocked run | rounds released |
+|---|---|---|---|---|
+| #1 | 24,264 | 12 | 77 | 106 |
+| #2 | 79,925 | 2 | 515 | 490 |
+| #3 | 15,032 | 0 | 103 | 114 |
+| #4 | 39,708 | 10 | 40 | 15 |
+| #5 | 31,220 | 15 | 79 | 76 |
+
+The cap fires as designed, and **slanderers survive to r1500** (12, 2, 10, 15)
+where in the `g_iter9` game every centre ended with zero. Counter met.
+
+**A second defect, found by the same instrument and not part of this
+iteration.** Two centres end with `sla=0`, `releases=0` and `eDanger` of 15 or
+0 -- no threat, 71,010 and 5,025 influence banked, and no slanderers being
+built. Something other than `econDanger` is stopping the economy at those
+centres. That is a separate lead and is logged here rather than folded in,
+because mixing it into a change already under test is how attribution is lost.

@@ -34,6 +34,14 @@ public class ConstantsTest {
         check(C.SAVE_SLANDERERS >= 1, "saving mode must keep some income");
         check(C.SAVE_BANK >= 0, "a negative bank is meaningless");
 
+        // Iteration 34: a minimum slanderer size must be a real breakpoint and must not exceed
+        // what the opening can ever afford, or the economy never starts
+        boolean minIsBreak = false;
+        for (int b : Econ.BREAK) if (b == C.MIN_SLANDERER_SIZE) minIsBreak = true;
+        check(minIsBreak, "MIN_SLANDERER_SIZE must be a breakpoint");
+        check(C.MIN_SLANDERER_SIZE <= 150, "a minimum above the starting influence would stall the opening");
+        check(C.MIN_SLANDERER_SIZE <= C.MAX_SLANDERER_SIZE, "minimum must not exceed the maximum");
+
         System.out.println(fails == 0 ? "OK ConstantsTest" : fails + " FAILURES in ConstantsTest");
         if (fails > 0) System.exit(1);
     }

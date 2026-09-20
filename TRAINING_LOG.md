@@ -2864,6 +2864,46 @@ have that status: exposures and buff (never clear the noise), coverage
 (clears it strongly, moves nothing), and the opponents' unit-size
 allocation (strong correlation, `arch_big` lost 0-24).
 
+## Iteration 34 (in development, economy) -- the opening deployment (2026-09-20 07:10 UTC)
+
+**Chosen by the corrected ranking.** With map-confounded raw metrics
+demoted, the **unit-influence lead** is the only metric predicting from
+r50 (+0.37, rising to +0.68). In losses we are already **226 behind at
+r50** from an identical 150-influence start; in wins only 45 behind, and
+ahead by r100.
+
+**The openings, side by side** (123kevinlee vs `g_iter6`, from the event
+stream): they spend their whole start on a **130-influence slanderer at
+r1**, then 1-influence muckrakers, then a second 107 slanderer at r23. We
+spend r1-r7 on four 1-influence scouts, deploy a **107 slanderer at r9**,
+then fragment the remainder into **21-influence slanderers** that earn 1
+per round each, one build action apiece.
+
+Candidate, two parts: the first slanderer is built at r1 with the full
+start, before the scouts; and no slanderer below `MIN_SLANDERER_SIZE` 41
+is ever built -- below that the EC spends the action on a 1-influence
+scout and waits. Constants test extended (the minimum must be a real
+breakpoint, must not exceed the starting influence, must not exceed the
+maximum).
+
+**Diagnostic (FindYourWay vs `g_iter6`): passes, twice over.** First run:
+`@open1 slanderer r=1 size=130`, but five 21s were still being built --
+two of my four edits had silently matched text from the reverted
+Iteration 32 and done nothing. With assertions added the script failed
+loudly instead of half-applying. Corrected run: sizes are 130, six 41s
+and a 63, **no 21s**, and the target metric moves throughout:
+
+| round | unit-influence gap vs incumbent |
+|---|---|
+| 50 | +80 |
+| 100 | +635 |
+| 200 | +2,376 |
+| 400 | +8,718 |
+
+*Method note:* a string replacement without an assertion is a silent
+no-op waiting to happen; the diagnostic is what turns it into a visible
+failure. Both are now standard.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

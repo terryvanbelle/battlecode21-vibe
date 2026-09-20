@@ -69,6 +69,10 @@ public strictfp class EC extends Robot {
             else if (MapState.nEnemy == 0 && scouts < 4 && inf >= 30) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
             else return;
         }
+        else if (C.OPENING_SLANDERER_FIRST == 1 && slanderers == 0 && round < 10 && !econDanger && Econ.bestSize(inf - 5) >= 21) {
+            t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, C.MAX_SLANDERER_SIZE)); role = Roles.ECON;   // Iteration 34: income before scouting
+            Debug.log("@open1 slanderer r=" + round + " size=" + cost);
+        }
         else if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
         else if (C.SAVE_MODE && !saveDone && round <= C.SAVE_UNTIL && cheapNeutral() >= 0) {
@@ -77,15 +81,15 @@ public strictfp class EC extends Robot {
                 captureTargetIdx = best; t = RobotType.POLITICIAN; cost = price; role = Roles.CAPTURE; saveDone = true;
                 Debug.log("@save capture r=" + round + " target=" + MapState.neutralInf[best] + " cost=" + cost + " saved=" + saveRounds);
             }
-            else if (slanderers < C.SAVE_SLANDERERS && Econ.bestSize(inf - 5) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 85)); role = Roles.ECON; }
+            else if (slanderers < C.SAVE_SLANDERERS && Econ.bestSize(inf - 5) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 85)); role = Roles.ECON; }
             else { saveRounds++; return; }
         }
         else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
-        else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= 21 && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
+        else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
         else if (inf >= 30 && scouts < 3 + round / 300 + (inf > 400 ? 3 : 0) + (MapState.nEnemy == 0 && round > 150 ? 2 : 0)) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
-        else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
+        else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf - reserve() >= 100 && guards < C.MAX_GUARDS) { t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(50, inf / 3)); role = Roles.GUARD; }
         else if (MapState.nEnemy > 0 && inf - reserve() >= 300 && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - reserve(); role = Roles.CAPTURE; }   // rich and idle: throw everything at the enemy EC
         else if (inf - reserve() >= C.SPARE_MIN) {
@@ -93,7 +97,7 @@ public strictfp class EC extends Robot {
             // trail slanderers, else another slanderer up to the spare cap, else a 1-influence hunter.
             int spare = inf - reserve();
             if (guards < slanderers + 2 || spare >= 300) { t = RobotType.POLITICIAN; cost = Math.min(spare, Math.max(20, spare / 3)); role = Roles.GUARD; }   // a big bank buys big guards whatever the ratio
-            else if (!econDanger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= 21) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
+            else if (!econDanger && slanderers < C.SPEND_SLANDERER_CAP && Econ.bestSize(spare) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(spare, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
             else { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }
             spendBuilds++;
         }

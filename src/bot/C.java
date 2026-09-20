@@ -24,6 +24,12 @@ public final class C {
     // an enemy politician in sensor range, or a muckraker close enough to expose a newborn slanderer at once.
     public static final int ECON_DANGER_POL_CONV = 20;   // an enemy politician of at least this conviction blocks the economy
     public static final int ECON_DANGER_MUCK_D2 = 9;     // ... as does a muckraker this close (it would expose the newborn)
+    // Iteration 34 (the opening deployment): the unit-influence LEAD is the only metric that predicts the result from
+    // r50 (+0.37, rising to +0.68), and in losses we are already 226 behind at r50 from an identical 150 start.
+    // Measured opening, 123kevinlee vs us: they spend their whole start on a 130-influence slanderer at r1; we spend
+    // r1-r7 on four 1-influence scouts, deploy a 107 slanderer at r9, then fragment the rest into 21s earning 1/round.
+    public static final int OPENING_SLANDERER_FIRST = 1;  // build the first slanderer before the scouts (0 = g_iter6)
+    public static final int MIN_SLANDERER_SIZE = 41;      // below this, spend the action on a 1-influence scout instead
     // economy
     public static final int MAX_SLANDERERS = 20;        // Iteration 30 (was 12): the cap, not influence, was capping our economy
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

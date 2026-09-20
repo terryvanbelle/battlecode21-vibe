@@ -3593,3 +3593,46 @@ morning: a silent fallback is worse than an error. `scrim.sh` should have
 refused to run rather than quietly substituting a different pool. Both failures
 were invisible because the thing still worked, just not as designed -- and both
 were found only by reading output that I could have skimmed past.
+
+## `g_iter9` submitted: 33/48 (68.8%), Elo 1692, rank 2 of 13 -- but read it carefully (2026-09-20 15:00 UTC)
+
+Regression: **38/40**. The four original archetypes are 32/32; both losses are
+to `arch_expand`, which is new to the regression set and has no baseline.
+
+| submission | block | rate |
+|---|---|---|
+| `g_iter7` | 19/48 | 39.6% |
+| `g_iter8` | 27/48 | 56.2% |
+| `g_iter9` | 33/48 | **68.8%** |
+
+**The 68.8% is not comparable to the 56.2%.** This was the first block with the
+corrected challenge pool, so half the field was bots we had never played, and
+they turned out to be weak. Split by opponent:
+
+| group | `g_iter8` | `g_iter9` |
+|---|---|---|
+| the four rated bots in both blocks | 8/24 (33.3%) | **9/24 (37.5%)** |
+| four opponents met for the first time | - | **24/24** |
+
+| shared opponent | before | after |
+|---|---|---|
+| awesomelemonade.sprint1bot | 1/6 | 2/6 |
+| rzhan11.sprint2 | 1/6 | 2/6 |
+| Scott-Poole.spright8 | 2/6 | 2/6 |
+| jmerle.camel_case_v7_sprint_2 | 4/6 | 3/6 |
+
+**So the like-for-like signal is 8/24 -> 9/24: one game, well inside noise.**
+The entire visible jump is the four new opponents, swept 24-0. Iteration 37 is
+solidly proven against *ourselves* (79.2% over 48 games) and against the
+archetypes; this block does **not** demonstrate it beats stronger opponents any
+more often than `g_iter8` did.
+
+The Elo move from 1511 to 1692, and rank 4 to 2 of 13, carries the same caveat:
+much of it is rating taken from four bots that entered at the default 1500 and
+are plainly far weaker. It will correct downward as they play more games.
+
+**Consequence for the instrument.** Mixing 4 rated challengers with 4 unmet bots
+makes block win rate non-comparable between blocks, because the field changes.
+From now on the headline for a submission is its rate **against the rated
+challengers**, with the exploration games reported separately. The old
+single-number comparison across submissions ends here.

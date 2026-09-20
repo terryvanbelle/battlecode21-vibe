@@ -57,33 +57,21 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
 
 ## State right now
 
-- **Submission: `g_iter8`** = g_iter7 + Iteration 35 (the guard sink). Accepted
-  by SPRT at **84.4% (27-5)**, the strongest gate result so far, in the minimum
-  two batches. Archetype regression **32/32**, 8/8 against each of
-  `arch_muck`, `arch_bidder`, `arch_polrush`, `arch_big`.
-- **`src/bot` = `g_iter8`** (restored after Iteration 36 was rejected; the only
-  lines differing from the snapshot are inside the dead `ARCHETYPE == 4` branch,
-  which carries the verified `arch_expand` v4). Do not edit it while a ladder
-  block is measuring it.
-- **Iteration 36 rejected at 45.1% (65-79)**: broadcasting a captured centre so
-  the team stops treating it as neutral. It fixes a measured bug -- 41 of 54
-  capture builds aborted as "already ours" -- and still lost, because an aborted
-  capturer becomes a guard and keeps its influence, so the bug cost time, not
-  influence.
-- Previous submissions: g_iter4 14/48 (29.2%), g_iter5 12/48 (25.0%),
-  g_iter6 27/96 (28.1%), **g_iter7 19/48 (39.6%)**, Elo 1426, rank 7 of 9.
-- **In flight:** `gauntlet/scrim-iter8.log`, the 48-scrimmage ladder block for
-  `g_iter8`. When it prints `wrote`: `tools/vm-collect.sh <run-id>`, then
-  `tools/scrim-record.py <run-dir> --label g_iter8`, then `tools/elo.py`, then
-  `tools/scrim-study.sh <run-dir>` and `tools/onset.py <run-dir>`.
-- **Next candidate: Iteration 36, one capturer per centre**, pre-registered in
-  TRAINING_LOG.md. Roughly 41 of 56 capture politicians now abort because the
-  target is already taken, and the aborts scale with our own production, which
-  points at two capturers being sent to the same cheapest centre.
-- **Also pending:** `arch_expand` works (six centres by r600 against two or
-  three) but its never-idle rule builds a 1-influence unit every cooldown, so it
-  fields 600 muckrakers and is part swarm. Narrow it to bank while a neutral is
-  still known, so it isolates expansion rather than duplicating `arch_muck`.
+- **Submission: `g_iter9`** = g_iter8 + Iteration 37 (capturer cap 4, a captured
+  centre announcing itself, and a neutral report for a centre we own refused).
+  Gate **79.2% (38-10)**. Regression **38/40** (32/32 on the four original
+  archetypes; both losses to the new `arch_expand`).
+- **Ladder: 33/48 (68.8%), Elo 1692, rank 2 of 13** -- *but* the headline is not
+  comparable to earlier blocks. Against the four rated bots also in the previous
+  block it is **9/24 against 8/24**, one game and inside noise; the four bots met
+  for the first time were swept 24-0. Report a submission's rate **against the
+  rated challengers** from now on, with exploration games separate.
+- **`src/bot` = `g_iter9`.** Do not edit it while a ladder block is measuring it.
+- The challenge pool is **4 rated + 4 never-played** (`POOLSIZE`/`EXPLORE` in
+  `tools/scrim.sh`). It only started working on 2026-09-20: `vm-sync.sh` had
+  never carried `progress/`, so `scrim.sh` silently used the 8-bot roster on
+  every block since 2026-09-17. It now refuses rather than falling back.
+- `tools/ladder-bots.txt` stays at 65 bots (user, PROMPTS 68); 460 are available.
 
 ## The open question the ladder is asking
 

@@ -3783,3 +3783,39 @@ of the hypothesis worth acting on.
 
 The remaining arbiter is the ladder block, which is the one instrument that
 plays the bots we actually lose to.
+
+## Iteration 38 on the ladder: 45.8% against the strong four (was 37.5%) (2026-09-20 21:10 UTC)
+
+Block: 26/48 overall, but as established that headline is not comparable
+between blocks because the exploration half of the pool changes. The comparison
+that survives is the four rated opponents present in both blocks:
+
+| | strong four | 95% |
+|---|---|---|
+| `g_iter9` | 9/24 (37.5%) | 21-57 |
+| `g_iter9` + Iteration 38 | **11/24 (45.8%)** | 28-65 |
+
+| opponent | before | after |
+|---|---|---|
+| jmerle.camel_case_v7_sprint_2 | 3/6 | **6/6** |
+| Scott-Poole.spright8 | 2/6 | 3/6 |
+| rzhan11.sprint2 | 2/6 | 2/6 |
+| awesomelemonade.sprint1bot | 2/6 | **0/6** |
+
+Two games better on twenty-four, with intervals that overlap almost entirely.
+This is not significant on its own.
+
+**The three instruments together.** Gate 57.5% over 240 games (LLR +2.70 against
+a +2.94 bound, so just short); ladder 45.8% against 37.5% on the strong four;
+expander arm a dead heat at 19/24 each. Every measurement points the same way --
+slightly positive -- and not one of them clears its own bar. Under the standing
+rule the change stays **provisional with no snapshot**, and the next iteration
+stacks on top of it. If a later gate accepts with this in the tree, it carries
+along; if the stack ever reads below 53%, this is the first thing to pull.
+
+**The ladder got harder, which is the point of exploration.**
+`rqi3.qualification_bot` beat us **6-0** on first contact and enters at Elo 1625,
+third on the board, and `StoneT2000.sprinttuna` went 3-3. Two of the four
+newcomers were swept and two were not. Our Elo reads 1596, rank 4 of 17 rated,
+but the honest reading is that the field is still filling in: seven bots now
+have exactly six games each.

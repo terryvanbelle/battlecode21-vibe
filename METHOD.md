@@ -176,6 +176,38 @@ was wrong. The integrity check that caught it was the simplest one -- coverage
 must lie in [0, 1000]. Write those first, and run the suite on every script
 change, not only on bot changes.
 
+## 6b-ii. A sparring partner is an instrument: run it before you trust it
+
+The diagnostic-first rule applies to the *opponents you build*, not only to the
+bot. An archetype that does not do the thing it is named for is worse than
+having none, because a candidate will read level against it and that null will
+be recorded as a real negative. In one session an expander archetype was written,
+committed, and only then run. It failed twice, in ways no code review caught:
+
+- It sent every capturer to the cheapest neutral, took it once, filled its own
+  cap permanently and then idled with its influence frozen for 1,300 rounds.
+- Fixed, it took 8 centres to the incumbent's 0 and 77,491 unit influence to 3
+  -- and lost on votes, because it spent every influence on captures and never
+  bid. A candidate's win against *that* would have been a verdict on bidding.
+
+Both are invisible in the win/loss column, which is exactly why the check has to
+be a logged game read for the mechanism: does it capture, how many distinct
+targets, how many bodies in flight, what is its influence doing. The same
+session found the correlation script dead on its first metric (a parameter
+shadowing an imported function), and the onset tool carrying a private copy of a
+rule that the shared module was supposed to own. Every one of these was found by
+*running the thing*, never by reading it.
+
+Rules worth keeping:
+
+- Re-run an instrument after every change to it, including changes you are sure
+  are cosmetic.
+- An end-to-end test that merely executes each script on a small synthetic input
+  catches a whole class of failure that unit tests on library functions cannot.
+- Before you queue one job behind another, **verify the wait predicate matches a
+  live process.** One that matched nothing started a run early, which rebuilt a
+  class tree underneath 48 games in flight and voided the block.
+
 ## 6c. Unit-test the bot's pure logic, especially the tuning constants
 
 Most of a Battlecode bot needs a game to exercise it, but the parts that decide

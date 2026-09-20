@@ -3407,3 +3407,34 @@ Iteration 36 leaves, since more capturers must not mean more duplication.
 **Instrument.** The mirror, plus a check against `src/arch_expand`, which now
 exists precisely so an expansion change faces an opponent that contests
 centres rather than a twin that expands as badly as we do.
+
+### `arch_expand` verified after three fixes (2026-09-20 11:10 UTC)
+
+The archetype was committed unrun and failed twice before working. Against
+`g_iter8` on NotAPuzzle (six neutrals), each version:
+
+| version | capture builds | distinct targets | its centres at r600 | its votes at r1500 | muckrakers |
+|---|---|---|---|---|---|
+| v1, all capturers to the cheapest | 51 | 1 | 2 | - | 140 |
+| v2, round-robin targets | 413 | 5 | 6 | - | 609 |
+| v3, banks instead of filler units | 71 | 4 | 6 | 0 bid, lost | 86 |
+| **v4, plus a bidding float** | **344** | **5** | **6** | **643 to 750** | - |
+
+v1 sent every capturer at the cheapest neutral, took it once, filled its own
+cap permanently and idled with frozen influence. v3 expanded properly but spent
+every influence on captures: it finished **8 centres to 0** and 77,491 unit
+influence to 3 and still **lost on votes**, which would have made any
+candidate's win against it a verdict on bidding rather than on expansion.
+
+v4 holds back `max(20, influence/10)`. It now takes 6 centres to our 2 and
+contests the vote to 643 against 750, so games against it are decided near the
+threshold and are sensitive to how well a candidate denies expansion.
+
+Note what its bidding shows: it spends **411,465 influence on bids to win 643
+votes**, against our 214,572 for 750. Bidding nearly twice as much for fewer
+votes is the loser-pays-half rule punishing big losing bids. That is a property
+of our archetype, not a finding about the opponents -- but it is a reminder that
+influence spent on lost bids is close to burned.
+
+No further tuning: making it win would make it a different bot rather than a
+characteristic opponent.

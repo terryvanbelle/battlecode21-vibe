@@ -17,6 +17,11 @@ public class ConstantsTest {
         check(capIsBreak, "MAX_SLANDERER_SIZE should be a breakpoint, not a value between them");
 
         check(C.GUARD_BASE >= 0 && C.MAX_GUARDS >= C.GUARD_BASE, "guard caps are ordered");
+        // Iteration 35: the spare branch may not become a guard factory again. The cap must be a real
+        // bound (not tied to the slanderer count) and must leave room for the economy to fill first.
+        check(C.SPEND_GUARD_CAP > 0, "spare-branch guard cap is positive");
+        check(C.SPEND_GUARD_CAP < C.SPEND_SLANDERER_CAP,
+              "spare-branch guards are capped below the slanderer cap, so surplus reaches the economy");
         check(C.GUARD_RING_MIN < C.GUARD_LEASH_D2, "a guard's ring must fit inside its leash");
         check(C.SLANDERER_RING_MIN < C.SLANDERER_RING_MAX, "slanderer ring is a real interval");
         check(C.EARLY_SCOUTS >= 1, "at least one early scout, or the map is never seen");

@@ -3026,3 +3026,67 @@ hoarded 4390 influence, unit counts frozen). Fixed: adapt only after a round
 in which we bid, clamp the bid to influence, cap the reserve at half the
 influence. A result against our own archetype is a smoke test, not evidence
 of bidding strength.
+
+## Iteration 35 (in development, economy) -- the guard sink (2026-09-20 07:40 UTC)
+
+Two threads closed and one opened.
+
+**The muckraker-swarm hypothesis is dead.** `ReplayDump --threat` counts, for
+each of our centres, the enemy muckrakers close enough to trip
+`ECON_DANGER_MUCK_D2` (d^2 9), the enemy muckrakers inside the centre's own
+sensor radius, and the enemy politicians there. Across all six awesomelemonade
+losses in the g_iter7 block the count within three tiles is **0 for the first
+125-250 rounds**. Their swarm also barely exposes anything: 124 muckrakers at
+r400 produced **2 exposures**. The muckraker clause of `econDanger` stays.
+
+**What the block actually says.** Median centres held, us then them:
+
+| round | 100 | 200 | 300 | 400 | 500 | 600 | 700 |
+|---|---|---|---|---|---|---|---|
+| wins | 2/2 | 3/3 | 3/3 | 3/3 | 3/3 | 4/2 | 3/3 |
+| losses | 2/1 | 2/2 | 2/3 | 2/4 | 2/5 | 2/5 | 2/6 |
+
+Our own expansion is flat at two centres in *both* columns. The variable is
+theirs. In losses the opponent starts behind and passes us at r300, and by
+r700 holds six centres to our two.
+
+**Why every expansion candidate has read level.** Four have been rejected --
+the neutral race, the opening capture bank, the capture reserve, the capturer
+cap (120-120 exactly) -- and all four were gated by a mirror against our own
+bot, where both sides expand identically and a denial change has nothing to
+deny. That is the same blind spot already recorded for defensive changes.
+`src/arch_expand` (ARCHETYPE 4) now exists to fix it: two scouts, three
+slanderers of income, then a capturer for every affordable neutral up to six
+in flight.
+
+**The diagnostic.** One logged game against awesomelemonade, random map and
+side (NotAPuzzle, us as A), lost at r610 by annihilation:
+
+| round | 50 | 100 | 150 | 200 | 250 | 300 | 350 |
+|---|---|---|---|---|---|---|---|
+| slanderers | 4 | 20 | 25 | 31 | 40 | 40 | 40 |
+| guards | 5 | 9 | 26 | 38 | 46 | 42 | 43 |
+| EC influence | 16 | 115 | 45 | 298 | 336 | 204 | 9 |
+| neutrals known | 2 | 3 | 4 | 4 | 4 | 4 | 4 |
+| capturers | 1 | 0 | 2 | 2 | 2 | 2 | 2 |
+
+Four neutral centres known from r150 to r450 and **not one taken**. In the
+whole 610-round game our capturers gave **four speeches**, one of them a flip
+(the r42 saving-mode capture) and three chips against targets of 537, 1272 and
+69 conviction. The centres cost 100-1272 and our centre influence never passed
+336, so they were never affordable.
+
+**Where the influence went.** The spare branch reads `guards < slanderers + 2`
+before it considers the economy, so every surplus became a standing body: 46
+guards at r250. That is the sink. It has been suspected twice before (Iteration
+7's threat-scaled guards, the "cap 12 -> 24 alone" reject) but both attempts
+changed the *primary* guard branch and left the spare branch's ordering alone.
+
+**Pre-registration.** Iteration 35 swaps the order inside the spare branch:
+fill the economy to `SPEND_SLANDERER_CAP` first, then build a guard only while
+`guards < SPEND_GUARD_CAP` (dose 1 = 12), keeping the "a big bank buys a big
+guard" escape at spare >= 300. Counters to check in the diagnostic before any
+test starts: guards at r200 fall from 38 toward 12-15, slanderers reach the
+cap sooner, centre influence at r200-300 rises above 336, and `@speech
+role=capture` fires more than four times. A `ConstantsTest` invariant now
+fails if the spare-branch guard cap is ever tied back to the slanderer count.

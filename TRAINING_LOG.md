@@ -3500,3 +3500,30 @@ Reverted: `src/bot` restored from `src/g_iter8`. The verified `arch_expand` v4
 branch was ported back in, since it is dead code at ARCHETYPE 0 and a future
 snapshot would otherwise regress to the v1 that jammed its own cap. Verified:
 every line differing from `g_iter8` is inside `ARCHETYPE == 4`.
+
+### Iteration 37: three doses to get the diagnostic right (2026-09-20 12:50 UTC)
+
+All against `g_iter8` on NotAPuzzle, our side:
+
+| build | capturers | speeches | flips | aborts | wasted rounds |
+|---|---|---|---|---|---|
+| `g_iter8` (baseline) | 2 | 13 | 3 | 41 | 3,254 |
+| Iteration 36 alone (rejected) | 2 | 3 | 2 | 4 | 133 |
+| dose 1: cap 4 + broadcast | 4 | 22 | 5 | 30 | 935 |
+| dose 2: + one capturer per centre | 4 | 18 | 7 | **131** | **5,185** |
+| **dose 3: + a centre we own is never neutral again** | 4 | 20 | **8** | 20 | 589 |
+
+Dose 2 looked like a regression and was the most useful run of the three. Its
+centre logged a neutral count of 5, 0, 0, 0, then 5 again: the captured-centre
+broadcast dropped the centre, a scout whose own copy was still stale
+re-broadcast it as neutral, and `addNeutralEC` happily put it back. The two
+reports ping-ponged all game and the centre kept buying capturers for ground it
+already held. That also explains why Iteration 36 was only ever a partial fix --
+it removed the entry and nothing stopped it returning.
+
+Dose 3 refuses a neutral report for a location already known to be ours, which
+is safe because centres are neutral only at the start of a game. The enemy list
+deliberately gets no such guard: a centre we hold can genuinely be lost.
+
+Against the baseline: **flips 3 -> 8**, aborts 41 -> 20, wasted walking
+3,254 -> 589. Counters met; to the gate.

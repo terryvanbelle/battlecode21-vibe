@@ -59,17 +59,51 @@ session. A lesson without a measurement is a belief -- mark it as such.
 - **Never `pkill -f` a pattern that appears in your own command line.** It
   killed the shell issuing it (exit 144) once.
 
-## Strategy (this season) -- early observations, not yet measured against strong opponents
+## Strategy (this season) -- measured
 
-- Against a non-bidding opponent a bid of 1 wins every vote; the game is then
-  decided by round 752. Against bidders the bid must adapt; the v1 rule
-  (grow by a third on a loss, shrink slowly on a win, cap at influence/6) is a
-  placeholder awaiting measurement.
-- Slanderers pay back ~2.3x in 50 rounds at small sizes and turn into
-  politicians at 300 rounds, so a steady slanderer stream is both the economy
-  and a free army. (Arithmetic from the spec; the army half is not yet
-  measured in combat.)
-- Scouting with raw compass headings through swamp took 150 rounds to cross a
-  32-tile map (traced scout: 10 rounds stuck on a 0.1 tile, 2.75 rounds per
-  step average). Waypoints reached via passability-aware navigation are the
-  fix being measured.
+Each line names what measured it. Rates in brackets are SPRT mirror results
+against the previous accepted build unless stated otherwise.
+
+- **The opening deployment is worth more than any later reallocation.** We spent
+  rounds 1-8 on four 1-influence scouts and deployed a 107-influence slanderer at
+  r9; the opponents put their whole 150 into a 130-influence slanderer at r1.
+  Fixing that was **+22 points (71.9%)** and it is the first change that carried
+  to the ladder (29% -> 40%). Iteration 34.
+- **Never let a rule stop the economy for something that cannot hurt it.**
+  `danger` was any enemy inside the centre's sensor radius, so one 1-influence
+  muckraker six tiles away halted slanderer production, and opponents build those
+  in bulk. Distinguishing a real threat was **68.8%**. Iteration 27.
+- **Find the constraint that actually binds before tuning anything else.** Three
+  separate accepts were removals of a cap or a defect, not new mechanisms: the
+  slanderer caps (**59.1%**), the spare branch's guard sink (**84.4%**, the
+  largest yet), and the capturer cap with its two comms bugs (**79.2%**).
+- **A surplus that becomes standing bodies is a surplus wasted.** The spare
+  branch tested `guards < slanderers + 2` before the economy, so a rich centre
+  bought a 242-influence guard instead of the 264-influence centre it could
+  afford: 46 guards at r250 and four known neutral centres never taken.
+  Iteration 35.
+- **"It is obviously a bug" is not evidence that fixing it helps.** Broadcasting
+  a captured centre so the team stops treating it as neutral fixed a measured
+  defect -- 41 of 54 capture builds walked to ground we already held -- and lost
+  **45.1%** on its own, because an aborted capturer becomes a guard and keeps its
+  influence. It was accepted only as part of a change that used the freed
+  capacity. Iterations 36 and 37.
+- **Bidding can carry a game the board has lost.** In one diagnostic our bot was
+  reduced to zero centres and three influence of units and still won on votes at
+  r1500. The loser pays half of its bid, so a large losing bid is close to burned
+  influence: an archetype spent 411,465 influence on bids for 643 votes against
+  our 214,572 for 750.
+- **Slanderers pay back ~2.3x in 50 rounds and become politicians at 300**, so a
+  steady stream is both the economy and a free army. The army half is now
+  measured: it is why removing wasteful capturers *hurt*.
+- **Coverage is the earliest honest predictor of the result** (onset r150,
+  rising to +0.58), ahead of centres (r400) and centre influence (r350). But
+  scouts sweeping more **did not** win games (51.7% over 240): coverage marks a
+  winning position without being a lever on its own.
+
+## How the loop itself should be run
+
+That has its own document: `METHOD.md`, written to be portable to a future
+Battlecode year. It covers the SPRT gate, why a diagnostic game must precede
+every test, what self-play can and cannot see, the correlation-and-onset
+hypothesis generator, and the instruments that turned out to be broken.

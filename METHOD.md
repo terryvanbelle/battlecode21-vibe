@@ -115,15 +115,29 @@ The two real limitations are narrower:
   it reads ~50%. Documented here: relay and scouts8 both stopped at exactly
   6/14 against a twin that never punished the deficiency they fixed.
 - **Mirror gains need not transfer upward.** Beating your own previous version
-  is not evidence of beating anyone stronger. Our two accepted changes were
-  worth +19 and +9 points in self-play and moved the ladder by **nothing**
-  (14/48, 12/48, 14/48 across three submissions).
+  is not evidence of beating anyone stronger. Of three accepted changes worth
+  +19, +9 and +22 points in self-play, the first two moved the ladder by
+  **nothing** (14/48, 12/48, 27/96 across three submissions) and only the third
+  carried (19/48). The one that carried was the one measured directly against
+  the opponents' behaviour rather than against our own past.
 
-An *offensive or economic* change -- scouting more, expanding harder, spending
-differently -- has every chance to show itself in a mirror, because the
-incumbent is contesting the same neutrals and the same map. When such a
-candidate reads 50%, that is a real negative result about the change, not an
-artefact of the instrument.
+An *economic* change -- spending differently, removing a constraint on your own
+production -- has every chance to show itself in a mirror, and both accepts of
+that kind transferred or at least held. When such a candidate reads 50%, that is
+a real negative result about the change, not an artefact of the instrument.
+
+**Expansion is the doubtful middle case.** A capture race does run in a mirror,
+because the incumbent contests the same neutrals, so a mirror result there is
+not obviously meaningless. But four expansion candidates in a row read level
+(the neutral race, the opening capture bank, the capture reserve, the capturer
+cap at 120-120 exactly) while the ladder said expansion was the single largest
+gap: in losses the opponent went from one centre to six between r100 and r700
+while we held two in *both* wins and losses. Two readings fit -- the changes
+were genuinely worthless, or a twin that expands exactly as badly as we do
+cannot show the difference. Do not assume the second; that is the excuse this
+section exists to forbid. Instead remove the ambiguity by sparring against an
+archetype that does the thing (`src/arch_expand`), which is a real opponent and
+a real result either way.
 
 Consequences:
 
@@ -134,7 +148,10 @@ Consequences:
   rating; never on a single block.
 - Repairs of your own defects transfer better than reallocations. Five
   reallocations (guards, hunters, deposits, surplus, capture reserve) were
-  all rejected; both accepts removed a constraint or a bug.
+  all rejected; all three accepts removed a constraint or a bug.
+- Keep one sparring archetype per thing the opponents do to you. When a whole
+  functional area accumulates rejects, suspect the sparring partner before the
+  hypotheses.
 
 ## 6. Re-test old rejections after you change the instrument or fix a defect
 

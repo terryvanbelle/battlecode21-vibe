@@ -3438,3 +3438,48 @@ influence spent on lost bids is close to burned.
 
 No further tuning: making it win would make it a different bot rather than a
 characteristic opponent.
+
+## Iteration 36: REJECTED by SPRT at 45.1% (65-79) -- reverted (2026-09-20 12:10 UTC)
+
+```
+batch 1: +9  -7   ==> 9-7   (56.2%)  LLR=+0.12  -> CONTINUE
+batch 2: +12 -4   ==> 21-11 (65.6%)  LLR=+1.20  -> CONTINUE
+batch 3: +5  -11  ==> 26-22 (54.2%)  LLR=+0.02  -> CONTINUE
+batch 4: +7  -9   ==> 33-31 (51.6%)  LLR=-0.51  -> CONTINUE
+batch 5: +8  -8   ==> 41-39 (51.2%)  LLR=-0.71  -> CONTINUE
+batch 6: +7  -9   ==> 48-48 (50.0%)  LLR=-1.24  -> CONTINUE
+batch 7: +6  -10  ==> 54-58 (48.2%)  LLR=-2.10  -> CONTINUE
+batch 8: +7  -9   ==> 61-67 (47.7%)  LLR=-2.63  -> CONTINUE
+batch 9: +4  -12  ==> 65-79 (45.1%)  LLR=-4.13  -> REJECT
+```
+
+**A clean negative on a change that fixes a real bug.** Both things are true
+and both belong in the record:
+
+- The defect is measured and unambiguous. A muckraker seeing a friendly
+  non-home centre reports `OWN_EC_ID`, which carries no location, so
+  `removeNeutral` never ran; the centre kept the captured centre on its neutral
+  list, broadcast it to the whole team as neutral, and kept buying capturers for
+  it. Of 54 capture builds in a game, 41 aborted with "already ours", median age
+  **0 rounds**, 3,254 unit-rounds of pointless walking. The fix cut aborts to 4
+  and wasted walking to 133.
+- Removing that waste does not win games. 144 games say 45.1%, and the trend
+  was monotonic against it from batch 2 onward.
+
+**Why the bug was cheaper than it looked.** An aborted capturer is not
+destroyed: it becomes a `GUARD` and keeps its influence on the board as a body.
+So the defect wasted *walking time and position*, not influence -- and the fix
+buys back the cheaper of the two. Worse, the capturers it stops building were
+also, accidentally, the source of guards; removing them removes bodies the
+defence was quietly relying on. That is the most likely reason the result is
+negative rather than merely level, and it is a hypothesis, not a measurement.
+
+**Lesson for the ledger.** "It is obviously a bug" is not evidence that fixing
+it helps. Iterations 27, 30 and 35 were all bug-or-constraint removals that
+paid; this one is the counter-example, and the difference is that those three
+freed *influence* while this one freed only time.
+
+Reverted: `src/bot` restored from `src/g_iter8`. The verified `arch_expand` v4
+branch was ported back in, since it is dead code at ARCHETYPE 0 and a future
+snapshot would otherwise regress to the v1 that jammed its own cap. Verified:
+every line differing from `g_iter8` is inside `ARCHETYPE == 4`.

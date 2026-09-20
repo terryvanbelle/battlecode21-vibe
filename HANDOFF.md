@@ -61,7 +61,15 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   by SPRT at **84.4% (27-5)**, the strongest gate result so far, in the minimum
   two batches. Archetype regression **32/32**, 8/8 against each of
   `arch_muck`, `arch_bidder`, `arch_polrush`, `arch_big`.
-- **`src/bot` = `g_iter8`.** Do not edit it while a ladder block is measuring it.
+- **`src/bot` = `g_iter8`** (restored after Iteration 36 was rejected; the only
+  lines differing from the snapshot are inside the dead `ARCHETYPE == 4` branch,
+  which carries the verified `arch_expand` v4). Do not edit it while a ladder
+  block is measuring it.
+- **Iteration 36 rejected at 45.1% (65-79)**: broadcasting a captured centre so
+  the team stops treating it as neutral. It fixes a measured bug -- 41 of 54
+  capture builds aborted as "already ours" -- and still lost, because an aborted
+  capturer becomes a guard and keeps its influence, so the bug cost time, not
+  influence.
 - Previous submissions: g_iter4 14/48 (29.2%), g_iter5 12/48 (25.0%),
   g_iter6 27/96 (28.1%), **g_iter7 19/48 (39.6%)**, Elo 1426, rank 7 of 9.
 - **In flight:** `gauntlet/scrim-iter8.log`, the 48-scrimmage ladder block for

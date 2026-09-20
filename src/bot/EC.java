@@ -165,7 +165,7 @@ public strictfp class EC extends Robot {
         int best = -1, bestCost = 1 << 30;
         for (int i = MapState.nNeutral; --i >= 0;) {
             int c = MapState.neutralInf[i] + 14;
-            if (c <= inf - reserve() && c < bestCost && capturers < 2) { best = i; bestCost = c; }
+            if (c <= inf - reserve() && c < bestCost && capturers < C.MAX_CAPTURERS) { best = i; bestCost = c; }
         }
         return best;
     }
@@ -261,6 +261,10 @@ public strictfp class EC extends Robot {
         // priority: a fresh spawn order (1 round) > enemy EC > neutral EC > status
         int f;
         if (round == pendingOrderRound || round + 1 == pendingOrderRound) f = pendingOrder;
+        // Iteration 36's mechanism, restored as half of Iteration 37: a captured centre puts its own
+        // location on its flag, so siblings call addOwnEC and stop treating it as neutral. Alone it was
+        // rejected at 45.1%; the cap raise is only meaningful if extra capturers go to distinct REAL targets.
+        else if (birth > 1 && (round / 3) % 3 == 2) f = Comms.encode(Comms.OWN_EC, 0, loc);
         else if (MapState.nEnemy > 0 && (round / 3) % 2 == 0) f = Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(round / 6) % MapState.nEnemy]);
         else if (MapState.nNeutral > 0 && (round / 3) % 2 == 1) f = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[(round / 6) % MapState.nNeutral]), MapState.neutralEC[(round / 6) % MapState.nNeutral]);
         else {

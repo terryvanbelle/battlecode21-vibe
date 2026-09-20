@@ -3398,6 +3398,23 @@ list meant extra capturers were dispatched to centres the team already owned
 act. This is the case TRAINING_ALGORITHM 6 describes: re-test old rejections
 after fixing a defect that prevented the mechanism from working.
 
+**Amended after Iteration 36 was rejected (2026-09-20 12:15 UTC).** The
+pre-registration above assumed the comms fix would be in the tree. It is not:
+Iteration 36 was rejected and reverted, so the stale neutral list is back, and
+raising the cap alone would dispatch the extra capturers to centres the team
+already owns -- reproducing exactly the conditions of the 120-120 null it is
+meant to escape.
+
+So Iteration 37 is a **combined candidate**: cap 2 -> 4 *and* Iteration 36's
+captured-centre broadcast. The two are not independent. The cap is only
+meaningful if extra capturers reach distinct real targets, and the broadcast is
+only worth its flag slot if something uses the capacity it frees. Iteration 36
+alone was a fix with nothing to exploit it, which is one reading of its 45.1%.
+
+If the pair accepts, a follow-up isolates the cap by re-running with the
+broadcast alone -- which is already measured at 45.1%, so the attribution is
+recoverable.
+
 **Doses.** Cap 2 -> 4, then 6 if that is inconclusive.
 
 **Counters before the gate.** Capturers in flight exceed 2 while neutrals

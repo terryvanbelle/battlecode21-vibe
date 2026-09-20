@@ -94,7 +94,7 @@ public strictfp class Politician extends Robot {
         if (round % 8 == 0 && MapState.nNeutral == 0 && MapState.nEnemy == 0) { /* no targets known any more */ }
         // is the target still capturable?
         RobotInfo t = null;
-        if (rc.canSenseLocation(target)) { t = rc.senseRobotAtLocation(target); if (t == null || t.type != RobotType.ENLIGHTENMENT_CENTER || t.team == us) { MapState.removeNeutral(target); MapState.removeEnemy(target); if (t != null && t.team == us) MapState.addOwnEC(target); role = Roles.GUARD; Debug.log("@capture abort target gone/ours"); return; } targetInf = t.influence; }
+        if (rc.canSenseLocation(target)) { t = rc.senseRobotAtLocation(target); if (t == null || t.type != RobotType.ENLIGHTENMENT_CENTER || t.team == us) { MapState.removeNeutral(target); MapState.removeEnemy(target); if (t != null && t.team == us) MapState.addOwnEC(target); role = Roles.GUARD; Debug.log("@capture abort by=" + (t == null ? "vanished" : t.type != RobotType.ENLIGHTENMENT_CENTER ? "notEC" : "ours") + " r=" + round + " age=" + (round - birth)); return; } targetInf = t.influence; }
         if (rc.isReady() && t != null && loc.isAdjacentTo(target)) {
             // Damage to an EC is permanent (it never heals except by income), so a speech that lands
             // mostly on the EC is worth giving even when it cannot flip it alone: the next capturer

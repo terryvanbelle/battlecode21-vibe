@@ -279,3 +279,7 @@ Go for it
 ## 64. 2026-09-20
 
 Go ahead
+
+## 65. 2026-09-20
+
+Nice!  Thinking good thoughts about the ladder test

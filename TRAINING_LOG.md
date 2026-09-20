@@ -3217,3 +3217,34 @@ something before anything is queued behind it.
 
 **What I should have done:** checked that the predicate matched a live process
 before trusting it. It costs one command.
+
+## Iteration 35: ACCEPTED -- snapshot `g_iter8` (2026-09-20 08:10 UTC)
+
+```
+batch 1: +13 -3  ==> 13-3 (81.2%)  LLR=+1.41  bounds [-2.94, 2.94]  -> CONTINUE
+batch 2: +14 -2  ==> 27-5 (84.4%)  LLR=+3.14  bounds [-2.94, 2.94]  -> ACCEPT
+```
+
+**84.4% over 32 games, the strongest gate result so far** (previous best 71.9%,
+Iteration 34). Accepted in two batches, the minimum the SPRT allows.
+
+The change is one branch. When every capped branch has declined but influence
+is spare, the centre now fills the economy to `SPEND_SLANDERER_CAP` first and
+only then builds a guard, and only while `guards < SPEND_GUARD_CAP` (12). The
+old rule tested `guards < slanderers + 2` before the economy and had a
+`spare >= 300` escape, so a rich centre spent its surplus on a 242-influence
+guard instead of the 264-influence centre it could have bought.
+
+Measured effect in the diagnostic cell: guards at r250 fall from 46 to 24,
+centre influence at r250 rises from 336 to 6,340, and capture speeches over the
+game go from 4 with 1 flip to 15 with 5.
+
+**Why this one was found.** Not by the correlation ranking -- `ec` and `ecGain`
+are late metrics there, onset r400, which the method itself calls scoreboard.
+It came from reading a single logged game closely enough to notice that four
+neutral centres sat known and untaken for 300 rounds while 46 guards stood
+around. The correlation method pointed at expansion; the diagnostic found the
+mechanism. That division of labour is the one the method claims, and this is
+the first iteration where it ran end to end.
+
+Next: the archetype regression, then a ladder block for the contest signal.

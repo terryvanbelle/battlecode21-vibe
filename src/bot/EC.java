@@ -88,7 +88,12 @@ public strictfp class EC extends Robot {
             else if (scouts < 8 && inf >= 30) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
             else if (!econDanger && slanderers < 12 && Econ.bestSize(inf - 5) >= 41) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
             else if (inf >= 20 && guards < 4) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 40); role = Roles.GUARD; }
-            else if (inf >= 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }   // never idle: keep banking for the next centre
+            // Bank while a neutral is still known: saving for the next centre IS this archetype's behaviour,
+            // and the 1-influence filler it used to build reached 609 muckrakers, which made it a swarm as
+            // well as an expander and duplicated arch_muck. Only once there is nothing left to take does it
+            // spend the spare action.
+            else if (MapState.nNeutral > 0) return;
+            else if (inf >= 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }
             else return;
         }
         else if (C.OPENING_SLANDERER_FIRST == 1 && slanderers == 0 && round < 10 && !econDanger && Econ.bestSize(inf - 5) >= 21) {

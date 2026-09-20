@@ -88,7 +88,12 @@ public strictfp class EC extends Robot {
             else if (scouts < 8 && inf >= 30) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
             else if (!econDanger && slanderers < 12 && Econ.bestSize(inf - 5) >= 41) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
             else if (inf >= 20 && guards < 4) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 40); role = Roles.GUARD; }
-            else if (inf >= 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }   // never idle: keep banking for the next centre
+            // Bank while a neutral is still known: saving for the next centre IS this archetype's behaviour,
+            // and the 1-influence filler it used to build reached 609 muckrakers, which made it a swarm as
+            // well as an expander and duplicated arch_muck. Only once there is nothing left to take does it
+            // spend the spare action.
+            else if (MapState.nNeutral > 0) return;
+            else if (inf >= 2) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.HUNT; }
             else return;
         }
         else if (C.OPENING_SLANDERER_FIRST == 1 && slanderers == 0 && round < 10 && !econDanger && Econ.bestSize(inf - 5) >= 21) {
@@ -251,6 +256,13 @@ public strictfp class EC extends Robot {
         // priority: a fresh spawn order (1 round) > enemy EC > neutral EC > status
         int f;
         if (round == pendingOrderRound || round + 1 == pendingOrderRound) f = pendingOrder;
+        // Iteration 36: a centre we captured says so. Nothing else did: a muckraker that sees a friendly
+        // non-home centre reports OWN_EC_ID, which carries an id and no location, so `removeNeutral` never
+        // ran and the parent kept the centre on its neutral list -- and kept broadcasting it as neutral.
+        // Measured on NotAPuzzle: 41 of 41 capture aborts were "the target is already ours", median age 0,
+        // i.e. capturers built for centres the team had already taken. Only a captured centre spends a slot
+        // on this, so the home centre's rotation is exactly what it was.
+        else if (birth > 1 && (round / 3) % 3 == 2) f = Comms.encode(Comms.OWN_EC, 0, loc);
         else if (MapState.nEnemy > 0 && (round / 3) % 2 == 0) f = Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(round / 6) % MapState.nEnemy]);
         else if (MapState.nNeutral > 0 && (round / 3) % 2 == 1) f = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[(round / 6) % MapState.nNeutral]), MapState.neutralEC[(round / 6) % MapState.nNeutral]);
         else {

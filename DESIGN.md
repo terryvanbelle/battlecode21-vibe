@@ -39,6 +39,7 @@ description of how the code is organised and why; strategy findings go to
 | `MapState.java` | discovered bounds, symmetry hypotheses, known ECs (own, enemy, neutral) |
 | `Econ.java` | slanderer size table and build-order arithmetic |
 | `Debug.java` | `@tag k=v` log lines for the replay dumper, gated by a compile-time flag |
+| `Roles.java` | the five role ids carried in ORDER flags: SCOUT, GUARD, ECON, CAPTURE, HUNT |
 | `C.java` | tunable constants, one place |
 
 ## The turn loop (`Robot.run`)
@@ -108,9 +109,22 @@ upgrade once the greedy step's failure modes are measured.
 
 ## Roles
 
-- **EC**: every round decides between bidding, building a slanderer (size from
-  `Econ`), building a politician (defence or capture), or a muckraker (scout or
-  hunt), then reads unit flags and updates its broadcast.
+- **EC**: every round it senses, reads its children's and siblings' flags,
+  builds at most one unit, bids, and updates its broadcast.
+
+  `build()` is a single ordered if/else chain and **the order is the strategy**.
+  Reading it top to bottom is the fastest way to understand what the bot does:
+  the opening slanderer before the scouts; early scouts; a guard when something
+  threatening is in sensor range; saving mode, which banks for the first neutral
+  capture; an affordable neutral capture; an attack on the enemy centre; the
+  economy up to `MAX_SLANDERERS`; standing guards; more scouts; and finally the
+  spare branch, which spends any surplus -- economy first to
+  `SPEND_SLANDERER_CAP`, then guards to `SPEND_GUARD_CAP`, then 1-influence
+  bodies. Two gates cut across it: `econDanger`, which stops the economy only
+  for a threat that can actually reach a newborn slanderer, and `MAX_CAPTURERS`,
+  which caps capture politicians in flight, one per centre.
+
+  Every constant named there lives in `C.java` with the measurement that set it.
 - **Slanderer**: stays within a safe radius of home on the side away from known
   enemies, flees any detected unit that is not a friendly, returns when safe.
 - **Politician**: guards slanderers (kills muckrakers within action range),

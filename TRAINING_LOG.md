@@ -2904,6 +2904,37 @@ and a 63, **no 21s**, and the target metric moves throughout:
 no-op waiting to happen; the diagnostic is what turns it into a visible
 failure. Both are now standard.
 
+## Iteration 34: ACCEPTED -- snapshot `g_iter7` (2026-09-20 09:05 UTC)
+
+**SPRT ACCEPT at 46-18 = 71.9% over 64 games** (batches 13-3, 12-4, 10-6,
+11-5), the largest effect this project has measured and comfortably
+outside what the retired 48-cell panel could ever have resolved.
+
+**The chain that produced it**, which is the method working end to end:
+
+1. The correlation audit demoted map-confounded raw metrics, leaving the
+   **unit-influence lead** as the only predictor from r50 (+0.37 -> +0.68).
+2. The gap tables said we are 226 behind at r50 in losses and 45 behind in
+   wins -- from an identical 150-influence start, so the first fifty rounds
+   decide it.
+3. The event stream showed the openings: they put the whole start into a
+   **130-influence slanderer at r1**; we spent r1-r7 on four 1-influence
+   scouts, deployed 107 at r9, then fragmented the rest into 21s.
+4. Two changes: slanderer first at r1 with the full start; never build a
+   slanderer below 41 influence (take a 1-influence scout and wait).
+5. The diagnostic verified both, and caught that two of my four edits had
+   silently no-opped against text from a reverted iteration.
+
+`g_iter7` = `g_iter6` + this. Regression check and a submission block are
+running.
+
+**Three things this vindicates.** The SPRT gate (a 72% effect was sitting
+in the opening the whole time). The correlation-plus-diagnostic method
+(it chose this candidate, and it rejected coverage, which looked equally
+promising and moved nothing). And the confound audit -- without demoting
+raw metrics I would have spent this candidate on early politician counts,
+which were an artefact of map size.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -2948,6 +2979,7 @@ failure. Both are now standard.
 | neutral-capturer cap 2 -> 4 | rejected | 120-120 over 240 games, dead level: the constraint on expansion is affordability and distance, not the cap | if captures ever queue up behind the cap |
 | hold a reserve so the next neutral stays affordable | rejected | 33-47 (41.2%); decisive on a map with four visible 150-neutrals, pure cost elsewhere -- we see 59% of the map and stop sweeping at r48 | after coverage is fixed |
 | scouts keep sweeping instead of camping the enemy EC | rejected | coverage 50.6% -> 65.9% and 4 ECs at r400 vs 2 in the diagnostic; 124-116 (51.7%) over 240 games: coverage marks a winning position but is not a lever | never as a coverage play; only if paired with something that uses the knowledge |
+| opening: scouts before the first slanderer, and slanderers as small as 21 | **fixed (Iteration 34, accepted 71.9%)** | first income unit moved from 107 at r9 to 130 at r1, no sub-41 slanderers; unit-influence lead +80 at r50 rising to +8,718 at r400 | n/a |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap

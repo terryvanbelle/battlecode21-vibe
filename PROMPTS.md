@@ -303,3 +303,7 @@ Can you update BENCHMARK.md with the new data?
 ## 70. 2026-09-20
 
 Yeah, I'd rather not have stale data in the repository, so old documentation and graphs should either be updated or deleted
+
+## 71. 2026-09-20
+
+If you come out neutral against the mirror, but in a way that better aligns you with the behavior of the opponents that beat you, maybe that's worth something

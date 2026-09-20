@@ -20,5 +20,5 @@ echo "pushing repo tree ..."
 # progress/games.csv, and silently falls back to the fixed 8-bot tools/roster.txt when that file has
 # fewer than 40 rows. It was never synced, so every ladder block since 2026-09-17 took the fallback
 # and the "challenge the bots just above us" rule never actually ran on the VM (found 2026-09-20).
-tar -C "$REPO" --exclude='tools/.venv' --exclude='__pycache__' -czf - src tools test progress | gssh "cd ~/$REMOTE_REPO && rm -rf src tools test progress && tar -xzf - && mkdir -p gauntlet matches build"
+tar -C "$REPO" --exclude='tools/.venv' --exclude='__pycache__' -czf - src tools test progress BENCHMARK.md | gssh "cd ~/$REMOTE_REPO && rm -rf src tools test progress && tar -xzf - && mkdir -p gauntlet matches build"
 echo "synced to $USER_NAME@$IP:~/$REMOTE_REPO"

@@ -13,8 +13,19 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 f="$(basename "${1:?usage: tier-check.sh <replay.bc21>}")"
 opp="${f%%__*}"
 case "$opp" in *.*) ;; *) exit 0 ;; esac          # our own snapshots and archetypes are unrestricted
+# Fail CLOSED if the roster is missing. An opponent name with a dot is a benchmark bot, and
+# a rule file that is simply absent must never read as permission (the VM had no BENCHMARK.md
+# at all when this guard was first written).
+if [ ! -f "$REPO/BENCHMARK.md" ]; then
+  echo "!! BENCHMARK.md is missing, so $opp's tier cannot be checked. Refusing." >&2
+  echo "!! Run tools/vm-sync.sh, or set BENCH_TIER_OVERRIDE=1 with the owner's say-so." >&2
+  exit 3
+fi
 row="$(grep -F "| \`$opp\` |" "$REPO/BENCHMARK.md" 2>/dev/null | head -1 || true)"
-[ -n "$row" ] || exit 0                            # not in the roster: nothing to enforce
+if [ -z "$row" ]; then
+  echo "!! $opp is not in the BENCHMARK.md roster, so its tier is unknown. Refusing." >&2
+  exit 3
+fi
 tier="$(printf '%s' "$row" | awk -F'|' '{gsub(/ /,"",$6); print $6}')"
 if [ "$tier" = "locked" ]; then
   pct="$(printf '%s' "$row" | awk -F'|' '{gsub(/ /,"",$4); print $4}')"

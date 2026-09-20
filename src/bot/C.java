@@ -24,12 +24,6 @@ public final class C {
     // an enemy politician in sensor range, or a muckraker close enough to expose a newborn slanderer at once.
     public static final int ECON_DANGER_POL_CONV = 20;   // an enemy politician of at least this conviction blocks the economy
     public static final int ECON_DANGER_MUCK_D2 = 9;     // ... as does a muckraker this close (it would expose the newborn)
-    // Iteration 33 (scouts keep scouting): correlation on a 32-game sample ranks the EC-count difference at r200 as the
-    // strongest early predictor of winning (+0.47), with the coverage difference behind it (+0.27, wins +5.6 points of
-    // the map, losses -8.3). We cover 59% to their 80% and reach an enemy EC at r48 against their r288 -- because every
-    // muckraker that knows an enemy EC walks to it and sits there forever, whatever role it was given.
-    // A SCOUT now keeps sweeping until the map is known; only HUNT muckrakers camp the enemy EC.
-    public static final int SCOUT_SWEEP_UNTIL = 400;   // after this a scout may settle like a hunter
     // economy
     public static final int MAX_SLANDERERS = 20;        // Iteration 30 (was 12): the cap, not influence, was capping our economy
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)

@@ -2837,6 +2837,33 @@ The two genuine limitations, which the record does support:
 `METHOD.md` section 5 is corrected, with a note that the wrong version
 stood there for a day.
 
+**Iteration 33 (scouts keep sweeping): REJECTED, 124-116 = 51.7% over 240
+games, inconclusive and below the 53% that would keep it (2026-09-20 04:20
+UTC).** Reverted to `g_iter6`.
+
+**This is a real negative result, and an instructive one.** The mechanism
+worked exactly as designed -- the diagnostic showed coverage rising from
+50.6% to 65.9%, first contact pushed from r237 to r269, and **4 ECs at
+r400 against the incumbent's 2**. The correlation that motivated it was
+also real: a coverage *lead* runs +0.42 at r200 up to +0.58. And more
+scouting still wins nothing against an opponent contesting the same
+neutrals on the same map.
+
+So **coverage marks a winning position without being a lever**. The teams
+that out-explore us are winning for some other reason and exploring as a
+consequence (their units survive, so they range further), and manufacturing
+the exploration directly buys nothing. That is precisely the
+symptom-versus-cause distinction the method exists to expose -- and note
+that the correlation alone could not have told us; only building the thing
+and testing it could.
+
+Candidate selection by correlation is **not** thereby discredited: it
+ranked a real pattern and the diagnostic confirmed the mechanism was
+movable. What it cannot do is tell a marker from a cause. Three things now
+have that status: exposures and buff (never clear the noise), coverage
+(clears it strongly, moves nothing), and the opponents' unit-size
+allocation (strong correlation, `arch_big` lost 0-24).
+
 ## Standing tables (updated in place)
 
 ### Functional-area map
@@ -2880,6 +2907,7 @@ stood there for a day.
 | slanderer caps 12/24 (the cap, not influence, limited our economy) | **fixed (Iteration 30, accepted 59.1%)** | at r300 their 63 slanderers averaged 414 influence to our 71 at 137; raising the caps to 20/40 is +9 points | n/a; supersedes the old "cap24" reject, which ran with the danger bug present |
 | neutral-capturer cap 2 -> 4 | rejected | 120-120 over 240 games, dead level: the constraint on expansion is affordability and distance, not the cap | if captures ever queue up behind the cap |
 | hold a reserve so the next neutral stays affordable | rejected | 33-47 (41.2%); decisive on a map with four visible 150-neutrals, pure cost elsewhere -- we see 59% of the map and stop sweeping at r48 | after coverage is fixed |
+| scouts keep sweeping instead of camping the enemy EC | rejected | coverage 50.6% -> 65.9% and 4 ECs at r400 vs 2 in the diagnostic; 124-116 (51.7%) over 240 games: coverage marks a winning position but is not a lever | never as a coverage play; only if paired with something that uses the knowledge |
 | EC wall of 1-influence muckrakers (4 or 7 adjacent tiles) | rejected | dilutes each hit to 0.2-0.35x but the units die to every big speech and the rebuild loses the race; roster 9/72 vs 13/72, five win->loss flips on maptestsmall B | wall units durable (conviction > share) or EC build cooldown much shorter |
 
 **Bidding v2 vs `arch_bidder` (our code with bid x2+1 on every lost vote, cap

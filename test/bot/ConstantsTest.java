@@ -21,6 +21,11 @@ public class ConstantsTest {
         // bound (not tied to the slanderer count) and must leave room for the economy to fill first.
         check(C.SPEND_GUARD_CAP > 0, "spare-branch guard cap is positive");
         check(C.MAX_CAPTURERS >= 2, "the capturer cap never drops below the long-standing 2");
+        // Iteration 38: the scout cap must stay a real ceiling and must grow with the round.
+        check(C.SCOUT_BASE > 0 && C.SCOUT_PER_ROUND > 0, "scout cap terms are positive");
+        check(C.SCOUT_MAX >= C.SCOUT_BASE, "the scout ceiling is not below its own base");
+        check(C.SCOUT_BASE + 1500 / C.SCOUT_PER_ROUND >= C.SCOUT_MAX,
+              "the cap actually reaches its ceiling within a game, or the ceiling is dead weight");
         check(C.SPEND_GUARD_CAP < C.SPEND_SLANDERER_CAP,
               "spare-branch guards are capped below the slanderer cap, so surplus reaches the economy");
         check(C.GUARD_RING_MIN < C.GUARD_LEASH_D2, "a guard's ring must fit inside its leash");

@@ -251,14 +251,15 @@ public strictfp class EC extends Robot {
         // priority: a fresh spawn order (1 round) > enemy EC > neutral EC > status
         int f;
         if (round == pendingOrderRound || round + 1 == pendingOrderRound) f = pendingOrder;
-        else if (MapState.nEnemy > 0 && (round / 3) % 3 == 0) f = Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(round / 6) % MapState.nEnemy]);
-        else if (MapState.nNeutral > 0 && (round / 3) % 3 == 1) f = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[(round / 6) % MapState.nNeutral]), MapState.neutralEC[(round / 6) % MapState.nNeutral]);
         // Iteration 36: a centre we captured says so. Nothing else did: a muckraker that sees a friendly
         // non-home centre reports OWN_EC_ID, which carries an id and no location, so `removeNeutral` never
         // ran and the parent kept the centre on its neutral list -- and kept broadcasting it as neutral.
         // Measured on NotAPuzzle: 41 of 41 capture aborts were "the target is already ours", median age 0,
-        // i.e. capturers built for centres the team had already taken.
+        // i.e. capturers built for centres the team had already taken. Only a captured centre spends a slot
+        // on this, so the home centre's rotation is exactly what it was.
         else if (birth > 1 && (round / 3) % 3 == 2) f = Comms.encode(Comms.OWN_EC, 0, loc);
+        else if (MapState.nEnemy > 0 && (round / 3) % 2 == 0) f = Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(round / 6) % MapState.nEnemy]);
+        else if (MapState.nNeutral > 0 && (round / 3) % 2 == 1) f = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[(round / 6) % MapState.nNeutral]), MapState.neutralEC[(round / 6) % MapState.nNeutral]);
         else {
             f = -1;
             for (int k = 0; k < 4 && f < 0; k++) {

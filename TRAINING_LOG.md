@@ -3154,3 +3154,33 @@ the onset reading this is a late metric and mostly scoreboard. The mechanism
 evidence is the independent part: 46 standing guards at r250, and six of ten
 capture politicians arriving to find the target already taken. Iteration 35
 acts in exactly the r250+ window where our gains stall.
+
+### Iteration 35 dose 2: the diagnostic passes (2026-09-20 07:30 UTC)
+
+Same cell, `bot` against `g_iter7` on NotAPuzzle, won on votes at r1500. Our
+main centre, the three doses side by side:
+
+| round | 150 | 200 | 250 | 300 | 350 |
+|---|---|---|---|---|---|
+| guards, dose 0 | 26 | 38 | 46 | 46 | 43 |
+| guards, dose 1 | 20 | 31 | 46 | 45 | - |
+| **guards, dose 2** | 20 | **24** | **24** | **24** | **28** |
+| centre influence, dose 0 | 45 | 298 | 336 | 204 | 9 |
+| centre influence, dose 1 | 295 | 776 | 121 | 254 | - |
+| **centre influence, dose 2** | 295 | **3,530** | **6,340** | **5,707** | **3,607** |
+
+Slanderers reach the cap of 40 by r200 in both doses. Capture speeches over
+the game: **15, of which 5 flipped a centre**, against 4 and 1 at dose 0.
+
+All four pre-registered counters moved. The guard count settles at exactly 24,
+which is the *other* guard branch's cap (`GUARD_BASE + slanderers/2` = 4 + 20)
+rather than the 12 this change sets -- so the spare branch has stopped building
+guards entirely, which is what was asked of it, and 24 is now the binding
+constraint. Gate permitted.
+
+**Note for the next iteration, not this one.** By r400 the centre is sitting on
+14,145 influence with five neutrals known and `capturers = 2`. The money is no
+longer the constraint; the capturer cap is. "Capturer cap 2 -> 4" was rejected
+at 120-120 exactly, but that test ran with the guard sink present, so there was
+never any money for the extra capturers to spend. It is a candidate to re-test
+after this one resolves, and `arch_expand` is the right sparring partner.

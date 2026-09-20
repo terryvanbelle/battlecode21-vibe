@@ -22,6 +22,7 @@ if os.path.exists(_venv) and '.venv' not in sys.prefix: os.execv(_venv, [_venv] 
 a = argparse.ArgumentParser(); a.add_argument('run'); a.add_argument('--threshold', type=float, default=0.30)
 a.add_argument('--metric', default=''); a.add_argument('--plot', default='')
 a.add_argument('--snapshot-only', action='store_true', help='skip the running-mean variants')
+a.add_argument('--raw', action='store_true', help='also show un-differenced metrics (confounded by map size)')
 a.add_argument('--md', default='', help='also write the ranked table as markdown')
 o = a.parse_args()
 def num(x):
@@ -68,9 +69,13 @@ for c in cols:
     def ours(r, c=c):
         v = num(r['us_'+c]); return None if v is None else orient(c, v, 'us')
     if orient(c, 0, 'gap') is not None: names.append((label(c, 'gap'), gap))
-    if orient(c, 0, 'us') is not None: names.append((label(c, 'us'), ours))
+    # Raw (un-differenced) metrics are confounded by the map: on a rich or large board BOTH
+    # teams build and move more. Measured at r50 the correlation between our value and theirs
+    # is +0.46 to +0.82, so a raw metric largely reports which map we drew. They are reported
+    # only with --raw, and never rank the candidate list.
+    if o.raw and orient(c, 0, 'us') is not None: names.append((label(c, 'us') + ' [map-confounded]', ours))
     if not o.snapshot_only:
-        for side in ('gap', 'us'):
+        for side in (('gap', 'us') if o.raw else ('gap',)):
             if orient(c, 0, side) is None: continue
             names.append((label(c, side) + ' ~avg', ('prog', c, side)))
 if o.metric: names = [(n, f) for n, f in names if n.startswith(o.metric)]

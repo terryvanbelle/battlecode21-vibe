@@ -60,6 +60,16 @@ pw2 = within_group(big, lambda r: r['v'], lambda r: r['g'], lambda r: r['w'])
 check("a pure group effect is erased", all(abs(v) < 1e-9 for v, _ in pw2))
 check("singleton groups are dropped", within_group([{'g':'A','v':1,'w':1.0}], lambda r: r['v'], lambda r: r['g'], lambda r: r['w']) == [])
 
+print("map confound (raw metrics must not be ranked)")
+import subprocess
+_out = subprocess.run(['tools/onset.py','gauntlet/20260919-202921-scrim-g_iter6'], capture_output=True, text=True).stdout
+check("default ranking excludes un-differenced metrics",
+      all('[map-confounded]' not in ln for ln in _out.splitlines()),
+      "raw metrics leaked into the default table")
+check("default ranking is gap metrics only",
+      all(('(us-them)' in ln or not ln.strip() or ln.startswith(('correlation','every','metric','-','Onset','temporal','diagnostic','wrote')))
+          for ln in _out.splitlines()))
+
 print("study.tsv integrity (live data, if present)")
 run = 'gauntlet/20260919-202921-scrim-g_iter6'
 sp = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), run, 'study.tsv')

@@ -153,6 +153,35 @@ Consequences:
   functional area accumulates rejects, suspect the sparring partner before the
   hypotheses.
 
+## 5b. When the mirror is the wrong opponent, add an arm -- do not reinterpret the null
+
+A mirror measures the candidate against your own previous build. If the change
+is built to exploit something the *external* opponents do and your incumbent
+does not, the mirror gives it less to work with, and a null there is weaker
+evidence than it looks. Coverage is the clear case: "see more of the map so you
+can contest centres" has little to contest against a twin that also fails to
+contest, while the bots that beat us take six or seven centres to our two.
+
+This is a real limitation and it is also the most dangerous one, because it is
+indistinguishable from an excuse. The rule that keeps it honest:
+
+- **Never reinterpret a null.** "It came out level but it aligns us with what
+  the winners do" is not evidence. Opponents win despite some of their
+  behaviour as well as because of it. This project has a counter-example:
+  Iteration 36 fixed a measured bug -- 41 of 54 capture politicians walked to
+  ground the team already held -- and lost 65-79.
+- **Instead, pre-register a second arm against an archetype that HAS the
+  property**, decided before the gate runs, not after seeing the number. Keep
+  one sparring archetype per thing the opponents do to you; `src/arch_expand`
+  exists for exactly this and is verified to take 6 centres to our 2-3.
+- **State the comparison as an A/B**: does the candidate beat that archetype
+  more often than the incumbent does? A null in the mirror plus a win in that
+  arm is a real finding about opponent classes. A null in both is a change that
+  does not pay, whatever it resembles.
+- A change that needs this treatment should say so **in its pre-registration**,
+  with the archetype named. If you find yourself reaching for the argument after
+  a disappointing gate, you have already failed the test.
+
 ## 6. Re-test old rejections after you change the instrument or fix a defect
 
 A verdict is only as good as the instrument and the bot that produced it.

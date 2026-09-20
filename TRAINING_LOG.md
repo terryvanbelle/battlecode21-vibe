@@ -2935,6 +2935,40 @@ promising and moved nothing). And the confound audit -- without demoting
 raw metrics I would have spent this candidate on early politician counts,
 which were an artefact of map size.
 
+## `g_iter7` submitted: 19/48 = 39.6% -- the ladder finally moves (2026-09-20 11:40 UTC)
+
+Regression first: **32/32**, a clean sweep of all four archetypes
+(muckraker rush, bidder, politician rush, `arch_big`), up from 31/32.
+
+| submission | block | rate | 95% |
+|---|---|---|---|
+| `g_iter4` | 14/48 | 29.2% | 18.2-43.2% |
+| `g_iter5` | 12/48 | 25.0% | 14.9-38.8% |
+| `g_iter6` | 27/96 | 28.1% | 20.1-37.8% |
+| **`g_iter7`** | **19/48** | **39.6%** | 27.0-53.7% |
+
+**The first submission to beat its predecessors**, and against the same
+eight opponents. Per opponent: arya-k 4/6 and max-titov 4/6, Scott-Poole
+and iliao2345 3/6 (from 2/6 and 2/6), rzhan11 **2/6 after 0/12 across two
+blocks**. Still 0/6 against awesomelemonade, now 0/18.
+
+**What moved it.** Not a new mechanism -- the opening build order. We were
+spending the first eight rounds on four 1-influence scouts, deploying a
+107-influence slanderer at r9, then fragmenting the rest into 21s earning
+1/round. The opponents put their whole 150 into a 130-influence slanderer
+at r1. Fixing that was worth +19 points in self-play and, unlike the two
+previous accepts, it carried to the ladder.
+
+**Why this one transferred when the others did not.** The `danger` fix and
+the slanderer caps repaired our behaviour *relative to our own past*; this
+one closed a gap measured directly against the opponents' opening. The
+method's value was in finding it: the confound audit left the
+unit-influence lead as the only honest early predictor, the gap tables put
+the damage before r50, and the event stream showed the exact sequence.
+
+Note the intervals still overlap (27.0-53.7% against 20.1-37.8%), so this
+is suggestive, not proven. The next block continues it.
+
 ## Standing tables (updated in place)
 
 ### Functional-area map

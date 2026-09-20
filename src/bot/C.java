@@ -44,6 +44,13 @@ public final class C {
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;
     public static final int EARLY_SCOUTS = 4;
+    // Iteration 38: the standing scout cap. It was `3 + round/300 + 3 if rich`, i.e. six for most of a
+    // game, while the strong opponents field 22 muckrakers at r100 and 48 at r200. In losses we see
+    // less than half the map they do at r200 (145 tiles to 338) and hold one centre to their four.
+    // Muckrakers cost 1 influence, so the price of this is the build action, not the economy.
+    public static final int SCOUT_BASE = 8;             // dose 1 (was 3)
+    public static final int SCOUT_PER_ROUND = 40;       // plus round/this (was round/300)
+    public static final int SCOUT_MAX = 40;             // absolute ceiling
     // Iteration 37: the cap on capture politicians in flight. Pinned at 2 from r150 to r300 while five
     // real centres were known and 2,905-14,145 influence sat banked -- ten capturers' worth. The 2 -> 4
     // test was rejected 120-120 before, but that ran with the guard sink (no money) and the stale neutral

@@ -3,7 +3,7 @@
 import os, sys, math, subprocess, tempfile, csv
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from polarity import orient, label, POLARITY
-from statlib import pointbiserial, noise_floor, running_mean, onset, within_group
+from statlib import pointbiserial, noise_floor, running_mean, onset, anti_onset, within_group
 
 fails = []
 def check(name, cond, detail=''):
@@ -89,6 +89,7 @@ with tempfile.TemporaryDirectory() as _d:
     _o = _run('onset.py', _d)
     check("onset.py exits cleanly", _o.returncode == 0, _o.stderr.strip()[-300:])
     check("onset.py reports the expansion metric", 'ecGain' in _o.stdout)
+    check("onset.py reports the anti column", 'anti' in _o.stdout)
     # the scripts must not silently score raw map-confounded metrics ahead of gaps by default
     check("no traceback reached stdout", 'Traceback' not in _c.stdout + _o.stdout)
     _rounds = [l.split(' r')[1].split()[0] for l in _c.stdout.splitlines() if l.startswith('== economy') and ' r' in l]
@@ -117,7 +118,16 @@ rounds = [50,100,150,200,250]
 check("first sustained crossing", onset([0.1,0.2,0.35,0.4,0.5], rounds, 0.3) == 150)
 check("a lone spike is ignored", onset([0.1,0.9,0.05,0.05,0.05], rounds, 0.3) is None)
 check("never crossing is None", onset([0.1,0.1,0.1,0.1,0.1], rounds, 0.3) is None)
-check("negative crossings count too", onset([-0.1,-0.4,-0.5,-0.5,-0.5], rounds, 0.3) == 100)
+# Signed since 2026-09-20: metrics are oriented so only a POSITIVE crossing is the onset
+# of a usable signal. |corr| dated ecInf to r50, where it correlates -0.35, the opposite
+# sign from the +0.54 it holds late -- a metric changing sign, not an early riser.
+check("a negative crossing is not an onset", onset([-0.1,-0.4,-0.5,-0.5,-0.5], rounds, 0.3) is None)
+check("a negative crossing is an anti-onset", anti_onset([-0.1,-0.4,-0.5,-0.5,-0.5], rounds, 0.3) == 100)
+check("a positive crossing is not an anti-onset", anti_onset([0.1,0.4,0.5,0.5,0.5], rounds, 0.3) is None)
+_sign = [-0.35,-0.31,0.10,0.36,0.48]
+check("a sign-changing metric onsets where it turns positive", onset(_sign, rounds, 0.3) == 200)
+check("a sign-changing metric is flagged early", anti_onset(_sign, rounds, 0.3) == 50)
+check("a lone negative spike is ignored", anti_onset([-0.1,-0.9,-0.05,-0.05,-0.05], rounds, 0.3) is None)
 check("crossing at the last sample counts", onset([0.1,0.1,0.1,0.1,0.9], rounds, 0.3) == 250)
 check("Nones are skipped", onset([None,None,0.4,0.45,0.5], rounds, 0.3) == 150)
 

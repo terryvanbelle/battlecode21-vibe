@@ -32,7 +32,7 @@ def corr(pairs):
     return _pb(pairs)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from polarity import orient, label
-from statlib import pointbiserial as _pb, onset as _onset, within_group as _within
+from statlib import pointbiserial as _pb, onset as _onset, anti_onset as _anti, within_group as _within
 run = o.run.rstrip('/')
 rows = list(csv.DictReader(open(os.path.join(run, 'study.tsv')), delimiter='\t'))
 from derived import add_expansion
@@ -84,7 +84,7 @@ if o.metric: names = [(n, f) for n, f in names if n.startswith(o.metric)]
 ngames = len({(r['opp'], r['map']) for r in rows})
 print(f"correlation with the result by round  ({ngames} games, noise floor ~{2/math.sqrt(max(1,ngames)):.2f})")
 print("every metric is oriented so HIGHER = BETTER FOR US, so a positive correlation is always good\n")
-hdr = "metric".ljust(24) + "".join(f"r{rr:<5d}" for rr in rounds) + "  onset"
+hdr = "metric".ljust(24) + "".join(f"r{rr:<5d}" for rr in rounds) + "  onset   anti"
 print(hdr); print("-" * len(hdr))
 table = []
 for name, f in names:
@@ -100,14 +100,16 @@ for name, f in names:
         else:
             pairs = [(v, 1.0 if r['won'] == '1' else 0.0) for r in rs for v in [f(r)] if v is not None]
         curve.append(corr(pairs))
-    onset = None
-    for i, c in enumerate(curve):
-        if c is not None and abs(c) >= o.threshold and (i + 1 >= len(curve) or (curve[i+1] is not None and abs(curve[i+1]) >= o.threshold * 0.8)):
-            onset = rounds[i]; break
-    table.append((onset if onset is not None else 10**6, name, curve, onset))
-for _, name, curve, onset in sorted(table):
+    # Signed, via statlib, so this rule lives in exactly one place. A metric whose
+    # correlation is strongly NEGATIVE early is not an early riser -- it is predicting
+    # the result backwards, which the `anti` column reports separately.
+    ons = _onset(curve, rounds, o.threshold)
+    anti = _anti(curve, rounds, o.threshold)
+    table.append((ons if ons is not None else 10**6, name, curve, ons, anti))
+for _, name, curve, ons, anti in sorted(table):
     cells = "".join((f"{c:+5.2f} " if c is not None else "   .  ") for c in curve)
-    print(name.ljust(24) + cells + ("  r%d" % onset if onset else "   -"))
+    print(name.ljust(24) + cells + ("  r%-6d" % ons if ons else "   -    ")
+          + ("r%d" % anti if anti else "-"))
 if o.plot:
     import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
     fig, ax = plt.subplots(figsize=(9, 5))
@@ -123,7 +125,7 @@ if o.plot:
         shown = sorted(table, key=lambda t: -max((abs(c) for c in t[2] if c is not None), default=0))[:8]
     cmap = plt.get_cmap('tab10')
     ax.set_xlim(min(rounds), max(rounds))
-    for i, (_, name, curve, onset) in enumerate(shown):
+    for i, (_, name, curve, onset, anti) in enumerate(shown):
         xs = [rr for rr, c in zip(rounds, curve) if c is not None]
         ys = [c for c in curve if c is not None]
         ax.plot(xs, ys, marker='o', ms=3.5, lw=1.8, color=cmap(i), label=name + (f"  (onset r{onset})" if onset else ""))
@@ -143,22 +145,25 @@ if o.md:
         fh.write(f"Noise floor about {2/math.sqrt(max(1,ngames)):.2f}; a correlation inside that band is not evidence.\n\n")
         fh.write("Every metric is oriented so **higher is better for us**, so a positive correlation always means\n")
         fh.write("\"this being better goes with winning\". `~avg` is the running mean over all rounds so far rather than\n")
-        fh.write("the snapshot at that round. Onset is the first round where the correlation reaches the threshold and holds.\n")
+        fh.write("the snapshot at that round. **Onset** is the first round where the correlation reaches *+*threshold and holds.\n")
+        fh.write("**Anti** is the first round where it reaches *-*threshold and holds: there the metric predicts the result\n")
+        fh.write("backwards, which means either the orientation is wrong or something counter-intuitive is happening early.\n")
+        fh.write("A metric with an early anti and a late onset is changing sign, not rising early.\n")
         fh.write("See `progress/METRICS.md` for how each quantity is computed.\n\n")
-        fh.write("| onset | metric | peak corr | r50 | r100 | r200 | r300 | r400 | r600 |\n")
-        fh.write("|---|---|---|---|---|---|---|---|---|\n")
+        fh.write("| onset | anti | metric | peak corr | r50 | r100 | r200 | r300 | r400 | r600 |\n")
+        fh.write("|---|---|---|---|---|---|---|---|---|---|\n")
         idx = {rr: i for i, rr in enumerate(rounds)}
         def at(curve, rr):
             i = idx.get(rr); 
             return "%+.2f" % curve[i] if i is not None and curve[i] is not None else "."
-        for _, name, curve, onset in rank:
+        for _, name, curve, onset, anti in rank:
             pk = max((c for c in curve if c is not None), key=abs, default=None)
-            fh.write(f"| {('r%d' % onset) if onset else '-'} | {name} | {('%+.2f' % pk) if pk is not None else '.'} | "
+            fh.write(f"| {('r%d' % onset) if onset else '-'} | {('r%d' % anti) if anti else '-'} | {name} | {('%+.2f' % pk) if pk is not None else '.'} | "
                      f"{at(curve,50)} | {at(curve,100)} | {at(curve,200)} | {at(curve,300)} | {at(curve,400)} | {at(curve,600)} |\n")
         fh.write("\n**Reading it.** Earliest onset is the first place to look: temporal precedence is the one causal hint a\n")
         fh.write("correlation can honestly give. Late-onset metrics are usually the scoreboard rather than the cause -- by then\n")
         fh.write("the winner leads on everything. A high correlation earns a diagnostic game, not a code change.\n")
     print('wrote', o.md)
-print(f"\nOnset = first round where |corr| >= {o.threshold} and holds. Earliest riser is the first place to look:")
+print(f"\nOnset = first round where the correlation reaches +{o.threshold} and holds; anti = where it reaches -{o.threshold}. Earliest riser is the first place to look:")
 print("temporal precedence is the one causal hint a correlation can honestly give. Confirm with a")
 print("diagnostic game that the metric can be moved before funding a test.")

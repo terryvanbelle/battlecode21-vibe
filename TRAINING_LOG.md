@@ -3104,3 +3104,28 @@ test starts: guards at r200 fall from 38 toward 12-15, slanderers reach the
 cap sooner, centre influence at r200-300 rises above 336, and `@speech
 role=capture` fires more than four times. A `ConstantsTest` invariant now
 fails if the spare-branch guard cap is ever tied back to the slanderer count.
+
+### Iteration 35 dose 1: the diagnostic refused it (2026-09-20 07:20 UTC)
+
+`bot` (dose 1) against `g_iter7` on NotAPuzzle, won on votes at r1500. Our
+main centre, against the dose 0 numbers from the awesomelemonade diagnostic:
+
+| round | 150 | 200 | 250 | 300 |
+|---|---|---|---|---|
+| slanderers | 32 (was 25) | 40 (was 31) | 40 (was 40) | 40 (was 40) |
+| guards | 20 (was 26) | 31 (was 38) | **46** (was 46) | **45** (was 46) |
+| centre influence | 295 (was 45) | 776 (was 298) | 121 (was 336) | 254 (was 204) |
+| neutrals known | 5 | 5 | 5 | 5 |
+
+Filling the economy before the standing bodies did move the early numbers --
+the slanderer cap is reached 50 rounds sooner and centre influence at r200 is
+776 against 298. But the pre-registered counter was **guards at r200 falling
+to 12-15**, and by r250 the guard count is identical to dose 0. The cap of 12
+never bound, because the same branch also fires on `spare >= 300`, and a rich
+centre takes that escape on every build.
+
+Not gated. Under the diagnostic-first rule a test does not start until the
+counters show the mechanism firing, and these did not. Dose 2 removes the
+escape: the surplus that a rich centre used to spend on a 242-influence guard
+is exactly the surplus that buys a 264-influence centre. Re-running the same
+diagnostic cell before anything is gated.

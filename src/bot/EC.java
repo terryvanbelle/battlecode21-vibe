@@ -18,8 +18,6 @@ public strictfp class EC extends Robot {
     // Stored as a location, not an index: removeNeutral compacts the array and every index shifts.
     private final MapLocation[] childTgt = new MapLocation[MAX_CHILDREN];
     private int scouts = 0, slanderers = 0, guards = 0, capturers = 0;
-    private int econDangerRun = 0;   // consecutive rounds econDanger has blocked the economy
-    private int econDangerReleases = 0, econDangerRunMax = 0;   // diagnostic: did the cap ever actually fire?
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
     private int broadcast = 0, broadcastAge = 0;
@@ -46,16 +44,11 @@ public strictfp class EC extends Robot {
             if (r.type == RobotType.MUCKRAKER && r.location.distanceSquaredTo(loc) <= C.ECON_DANGER_MUCK_D2) { econDanger = true; break; }
         }
         if (round > C.SAVE_UNTIL) saveDone = true;
-        if (econDanger) { econDangerRounds++; econDangerRun++; } else econDangerRun = 0;
-        // Iteration 39: a pause, not a stop. Past ECON_DANGER_MAX consecutive blocked rounds the
-        // threat is evidently not going away, and an economy switched off for the rest of the game
-        // is worse than a slanderer that might die.
-        if (econDangerRun > econDangerRunMax) econDangerRunMax = econDangerRun;
-        if (econDangerRun > C.ECON_DANGER_MAX) { econDanger = false; econDangerReleases++; }
+        if (econDanger) econDangerRounds++;
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " edRun=" + econDangerRunMax + " edRel=" + econDangerReleases + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
     }
 
     // ---------------------------------------------------------------- production
@@ -130,7 +123,7 @@ public strictfp class EC extends Robot {
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
-        else if (inf >= 30 && scouts < Math.min(C.SCOUT_MAX, C.SCOUT_BASE + round / C.SCOUT_PER_ROUND + (inf > 400 ? 3 : 0) + (MapState.nEnemy == 0 && round > 150 ? 2 : 0))) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
+        else if (inf >= 30 && scouts < 3 + round / 300 + (inf > 400 ? 3 : 0) + (MapState.nEnemy == 0 && round > 150 ? 2 : 0)) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf - reserve() >= 100 && guards < C.MAX_GUARDS) { t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(50, inf / 3)); role = Roles.GUARD; }
         else if (MapState.nEnemy > 0 && inf - reserve() >= 300 && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - reserve(); role = Roles.CAPTURE; }   // rich and idle: throw everything at the enemy EC

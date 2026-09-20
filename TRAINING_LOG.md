@@ -3961,3 +3961,48 @@ iteration.** Two centres end with `sla=0`, `releases=0` and `eDanger` of 15 or
 built. Something other than `econDanger` is stopping the economy at those
 centres. That is a separate lead and is logged here rather than folded in,
 because mixing it into a change already under test is how attribution is lost.
+
+## Iteration 39: REJECTED at 40.0% (32-48) -- reverted, and the instrument is the story
+
+```
+batch 1: +7  -9   ==> 7-9   (43.8%)  LLR=-0.53
+batch 3: +6  -10  ==> 20-28 (41.7%)  LLR=-1.91
+batch 5: +5  -11  ==> 32-48 (40.0%)  LLR=-3.62  -> REJECT
+```
+
+Reverted: `src/bot` restored from `src/g_iter9`.
+
+**The check was stated before the verdict**, at the batch-4 task check: "count
+how often the economy-release actually fired in the gate's own games. If the
+mirror never triggered the mechanism, the test measured nothing. If it
+triggered often and we still lost, the change is wrong." Here is the count --
+total rounds our centres spent in `econDanger` in a full game:
+
+| opponent | our centres' blocked rounds |
+|---|---|
+| `g_iter9`, the mirror opponent | 0, 0, 5, 33, **44** |
+| `rzhan11.sprint2`, the real one | 0, 579, **1,192** |
+
+**The mirror applies 44 rounds of the condition where rzhan11 applies 1,192 --
+27 times less.** The change can barely act in the instrument that judged it.
+
+**What that does and does not license.** It does not license shipping: a
+rejected gate is a rejected gate, and 32-48 is the result. Note also what
+SPRT_REJECT actually means -- the data favour p=0.50 over p=0.58, i.e. "not the
++8 points we hypothesised" -- and at 80 games the interval around 40% still
+contains 50%. So the fair summary is "no evidence of a large gain in the
+mirror", not "harmful".
+
+It does license fixing the instrument. The pre-registered second arm was
+`arch_polrush`, and that choice was simply wrong: it produces `eDanger=0` for a
+whole game. Naming an arm in advance is not enough if the arm cannot reproduce
+the condition.
+
+**Iteration 40, pre-registered.** Build `arch_siege`: an archetype that keeps
+politicians *near our centres* rather than throwing them at the enemy centre,
+since that is what sustains the condition. **Verify before the gate that it
+produces `eDanger` above 500 rounds against `g_iter9`** -- the same check that
+would have caught `arch_polrush` and `arch_muck`. Only then re-run this exact
+change against the mirror plus that arm. If `arch_siege` cannot reproduce the
+condition either, the mechanism is not testable with the instruments we have
+and the change stays out.

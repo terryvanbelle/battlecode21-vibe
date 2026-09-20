@@ -24,11 +24,6 @@ public final class C {
     // an enemy politician in sensor range, or a muckraker close enough to expose a newborn slanderer at once.
     public static final int ECON_DANGER_POL_CONV = 20;   // an enemy politician of at least this conviction blocks the economy
     public static final int ECON_DANGER_MUCK_D2 = 9;     // ... as does a muckraker this close (it would expose the newborn)
-    // Iteration 39: the economy may PAUSE for a threat but must never stop. Measured against rzhan11 on
-    // Networking: one centre spent 1,192 of 1,500 rounds in econDanger and all three ended the game with
-    // ZERO slanderers while holding 3,882 / 71,884 / 72,253 influence. After this many consecutive
-    // blocked rounds the centre builds anyway; spawnDir already picks a tile away from the nearest enemy.
-    public static final int ECON_DANGER_MAX = 25;        // dose 1 (was: unbounded)     // ... as does a muckraker this close (it would expose the newborn)
     // Iteration 34 (the opening deployment): the unit-influence LEAD is the only metric that predicts the result from
     // r50 (+0.37, rising to +0.68), and in losses we are already 226 behind at r50 from an identical 150 start.
     // Measured opening, 123kevinlee vs us: they spend their whole start on a 130-influence slanderer at r1; we spend
@@ -49,13 +44,6 @@ public final class C {
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;
     public static final int EARLY_SCOUTS = 4;
-    // Iteration 38: the standing scout cap. It was `3 + round/300 + 3 if rich`, i.e. six for most of a
-    // game, while the strong opponents field 22 muckrakers at r100 and 48 at r200. In losses we see
-    // less than half the map they do at r200 (145 tiles to 338) and hold one centre to their four.
-    // Muckrakers cost 1 influence, so the price of this is the build action, not the economy.
-    public static final int SCOUT_BASE = 8;             // dose 1 (was 3)
-    public static final int SCOUT_PER_ROUND = 40;       // plus round/this (was round/300)
-    public static final int SCOUT_MAX = 40;             // absolute ceiling
     // Iteration 37: the cap on capture politicians in flight. Pinned at 2 from r150 to r300 while five
     // real centres were known and 2,905-14,145 influence sat banked -- ten capturers' worth. The 2 -> 4
     // test was rejected 120-120 before, but that ran with the guard sink (no money) and the stale neutral

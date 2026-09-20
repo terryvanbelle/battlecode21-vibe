@@ -3564,3 +3564,32 @@ rejected mechanism is not necessarily a wrong one; it can be one whose value
 needs a second change to be realisable. That is a different lesson from
 "re-test after fixing a defect" -- here the *rejected change itself* was the
 enabler.
+
+### Incident: the challenge pool never ran on the VM (2026-09-20 14:00 UTC)
+
+Launching the `g_iter9` ladder block printed the pool as the same eight rated
+bots as always, not the 4 + 4 split just configured. The cause: `tools/scrim.sh`
+builds its pool with `tools/elo.py`, which reads `progress/games.csv`, and falls
+back to the fixed 8-bot `tools/roster.txt` when that file has fewer than 40
+rows. **`vm-sync.sh` pushed only `src tools test`, so `progress/` never existed
+on the VM** and the fallback fired every time.
+
+Consequences, all to targeting rather than to data:
+
+- Every ladder block since the rule was set on 2026-09-17 challenged the same
+  eight bots. The user's rule -- aim at the bots just above us -- was
+  implemented, committed and never actually executed.
+- Exploration of unmet bots never happened either, which is why 57 of the 65
+  bots on the ladder list are still unplayed after 288 games.
+- The recorded results are unaffected: the games that were played were played
+  correctly, under contest rules, and the Elo table built from them stands.
+
+Fixed: `vm-sync.sh` now carries `progress/`. Verified on the VM, which now
+chooses awesomelemonade, rzhan11, Scott-Poole and jmerle plus four bots we have
+never met.
+
+**The general lesson**, and it is the same one as the wait predicate this
+morning: a silent fallback is worse than an error. `scrim.sh` should have
+refused to run rather than quietly substituting a different pool. Both failures
+were invisible because the thing still worked, just not as designed -- and both
+were found only by reading output that I could have skimmed past.

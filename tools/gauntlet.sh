@@ -53,6 +53,14 @@ resolve () {  # name -> "package url" ; our packages first, then manifest
 
 # compile our sources once, fresh
 CLASSES="${CLASSES:-$REPO/build/classes}"   # CLASSES=build/other lets a second gauntlet run beside one that owns build/classes
+# Never recompile a class tree that another run's games are reading. On 2026-09-20 a queued SPRT
+# started while a scrimmage block was still running, deleted build/classes and rebuilt it from a
+# newer src, so the block's remaining games silently played a different bot and the block was void.
+if [ "${SKIP_COMPILE:-0}" != 1 ] && pgrep -f "[j]ava .*-Dbc.game.team-[ab].url=$CLASSES" >/dev/null 2>&1; then
+  echo "!! $CLASSES is in use by games already running -- refusing to recompile it." >&2
+  echo "!! Run this gauntlet with its own tree, e.g. CLASSES=$REPO/build/classes-\$\$ ..." >&2
+  exit 3
+fi
 if [ "${SKIP_COMPILE:-0}" = 1 ] && [ -d "$CLASSES" ]; then echo "reusing $CLASSES (SKIP_COMPILE=1)" >&2
 else rm -rf "$CLASSES" && compile_src "$REPO/src" "$CLASSES" || { echo "!! compile failed" >&2; exit 1; }; fi
 

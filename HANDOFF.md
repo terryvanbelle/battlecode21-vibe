@@ -67,9 +67,8 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   standing guards at `SPEND_GUARD_CAP` = 12. Pre-registered in TRAINING_LOG.md.
   Not yet gated.
 - **In flight on the VM:**
-  - `gauntlet/scrim-iter7b.log` -- a second 48-scrimmage block on `g_iter7`
-    (compiled before Iteration 35 was written, so the block is clean). Collect with
-    `tools/vm-collect.sh <run-id>`, then `scrim-record.py`, then `elo.py`.
+  - `gauntlet/scrim-iter7b.log` -- **VOID**, do not record it. See the run's `VOID.txt`.
+    The SPRT queued behind it started early and rebuilt its class tree mid-run.
   - `gauntlet/diag-i35.log` -- the Iteration 35 diagnostic, `bot` vs `g_iter7` on
     NotAPuzzle. `run-dev.sh` writes `LOG_OUT` only when the game ends, so the
     `.out` file appearing is the completion signal. Check in the `@econ` lines that
@@ -97,6 +96,13 @@ badly as we do; `arch_expand` now exists so the next one gets a real opponent.
   wrapper carries the class name). Match `[j]ava .*battlecode.server.Main`.
 - Killing a `mirror.sh` run means killing the **script** (`pkill -f "[m]irror.sh"`),
   not its `xargs`: the batch loop just starts the next batch otherwise.
+- **`gauntlet.sh` re-execs itself as `.reexec-gauntlet.<pid>`**, so `pgrep -f gauntlet.sh`
+  finds nothing while a gauntlet is running. A queued job that waited on that predicate
+  started immediately and destroyed a 48-game block (2026-09-20). Wait on `scrim.sh` or
+  `mirror.sh`, or on the run directory's `summary.txt` appearing, and *verify the
+  predicate matches something* before relying on it.
+- Two runs must not share a class tree: `mirror.sh` now defaults to `build/mirror-classes`
+  and `gauntlet.sh` refuses to recompile a tree that running games are reading.
 - `gauntlet.sh` compiles `src` into `build/classes` **once at the start**, so editing
   `src` during a run does not contaminate it -- but `vm-sync.sh` does replace
   `src tools test` on the VM at every `vm-run.sh`, so never launch a second run while

@@ -8,6 +8,9 @@ set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BOT="${BOT:-bot}"; REF="${REF:-g_iter4}"; N="${N:-200}"; BATCH="${BATCH:-16}"; MAXJOBS="${MAXJOBS:-6}"
 SEED="${SEED:-$(date +%s)}"; TAG="${TAG:-mirror-$BOT-vs-$REF}"
+# Own class tree by default: a mirror often runs beside a scrimmage block, and a shared
+# build/classes means whichever starts second rebuilds the bot the first one is playing.
+CLASSES="${CLASSES:-$REPO/build/mirror-classes}"
 MAPS="$(grep -v '^Cow$' "$REPO/tools/bc21-maps.txt" | tr '\n' ' ')"
 W=0; L=0; i=0
 while [ $((W + L)) -lt "$N" ]; do
@@ -19,7 +22,7 @@ n = int(sys.argv[1]); random.seed(int(sys.argv[2])); ref = sys.argv[3]; maps = s
 for _ in range(n): print(ref, random.choice(maps), random.choice("AB"))
 PY
   # compile once: every batch after the first reuses build/classes (was ~25 s per batch)
-  OUT=$(CELLS="$CELLS" BOT="$BOT" TAG="$TAG-b$i" MAXJOBS="$MAXJOBS" KEEP_ALL="${KEEP_ALL:-0}" SKIP_COMPILE=$([ $i -gt 1 ] && echo 1 || echo 0) "$REPO/tools/gauntlet.sh" | sed -n 's#^wrote \(.*\)/$#\1#p')
+  OUT=$(CELLS="$CELLS" CLASSES="$CLASSES" BOT="$BOT" TAG="$TAG-b$i" MAXJOBS="$MAXJOBS" KEEP_ALL="${KEEP_ALL:-0}" SKIP_COMPILE=$([ $i -gt 1 ] && echo 1 || echo 0) "$REPO/tools/gauntlet.sh" | sed -n 's#^wrote \(.*\)/$#\1#p')
   rm -f "$CELLS"
   bw=$(awk -F, '$6=="win"{n++} END{print n+0}' "$OUT/results.csv"); bl=$(awk -F, '$6=="loss"{n++} END{print n+0}' "$OUT/results.csv")
   W=$((W + bw)); L=$((L + bl))

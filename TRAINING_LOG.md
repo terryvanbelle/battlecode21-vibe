@@ -3184,3 +3184,36 @@ longer the constraint; the capturer cap is. "Capturer cap 2 -> 4" was rejected
 at 120-120 exactly, but that test ran with the guard sink present, so there was
 never any money for the extra capturers to spend. It is a candidate to re-test
 after this one resolves, and `arch_expand` is the right sparring partner.
+
+### Incident: the second g_iter7 block is void (2026-09-20 07:35 UTC)
+
+I queued the Iteration 35 SPRT to start when the ladder block finished, with
+`while pgrep -f "[g]auntlet.sh" >/dev/null; do sleep 60; done`. **The predicate
+matched nothing**, because `gauntlet.sh` re-execs itself as
+`.reexec-gauntlet.<pid>`, so the wait returned at once. The SPRT's first batch
+then did what a first batch does: `rm -rf build/classes` and recompile from
+`src` -- which by then held Iteration 35 -- while the block's games were still
+reading that directory.
+
+Consequences:
+
+- Every block game that started after 07:28:48 played Iteration 35 as `bot`
+  instead of `g_iter7`, and games in flight had their class tree deleted
+  underneath them. About the first 33 of 48 are clean, but the boundary cannot
+  be recovered from the log, so **the whole block is discarded**. A `VOID.txt`
+  in the run directory says so.
+- Both runs shared the machine at 24 games against a cap of 7.
+
+The g_iter7 ladder figure stays at **19/48 from the first block**. The SPRT
+itself is unaffected: both of its teams come from the tree it compiled, so
+`bot` is Iteration 35 and `g_iter7` is the snapshot, as intended. It continues.
+
+**Fixes, so this cannot recur.** `mirror.sh` now uses its own class tree
+(`build/mirror-classes`) rather than sharing `build/classes`, and `gauntlet.sh`
+refuses to recompile a tree that running games are reading, exiting 3 with the
+suggestion to pass its own `CLASSES`. The re-exec fact is now in the HANDOFF
+gotchas, with the rule that a wait predicate must be verified to match
+something before anything is queued behind it.
+
+**What I should have done:** checked that the predicate matched a live process
+before trusting it. It costs one command.

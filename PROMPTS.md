@@ -291,3 +291,7 @@ Nice!  Thinking good thoughts about the ladder test
 ## 67. 2026-09-20
 
 I just got up and saw we've moved from 9th place to 4th, good work!  We might want to bring some new bots into the scrimmage soon
+
+## 68. 2026-09-20
+
+65 is fine for now

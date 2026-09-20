@@ -3527,3 +3527,40 @@ deliberately gets no such guard: a centre we hold can genuinely be lost.
 
 Against the baseline: **flips 3 -> 8**, aborts 41 -> 20, wasted walking
 3,254 -> 589. Counters met; to the gate.
+
+## Iteration 37: ACCEPTED -- snapshot `g_iter9` (2026-09-20 13:25 UTC)
+
+```
+batch 1: +11 -5  ==> 11-5  (68.8%)  LLR=+0.76  -> CONTINUE
+batch 2: +13 -3  ==> 24-8  (75.0%)  LLR=+2.17  -> CONTINUE
+batch 3: +14 -2  ==> 38-10 (79.2%)  LLR=+3.90  -> ACCEPT
+```
+
+**79.2% over 48 games**, the second-strongest gate result after Iteration 35's
+84.4%, and accepted in three batches.
+
+Three mechanisms, shipped together because each is inert or harmful alone:
+
+1. `MAX_CAPTURERS` 2 -> 4. The cap sat pinned at 2 for 150 rounds while five
+   real centres were known and thousands of influence lay banked.
+2. A captured centre broadcasts its own location, so siblings stop treating it
+   as neutral. **Measured alone at 45.1% and rejected** as Iteration 36.
+3. `addNeutralEC` refuses a location already known to be ours.
+
+Mechanism 2 alone was a fix with nothing to exploit it. Mechanism 1 alone would
+have sent the extra capturers at the same cheapest centre and then at ground we
+already held -- which is exactly the state the original "cap 2 -> 4" reject
+(120-120) was measured in. Mechanism 3 was found only because dose 2's
+diagnostic *got worse*: aborts 30 -> 131, and the centre's neutral count
+oscillating 5, 0, 0, 0, 5 showed a stale scout report putting a captured centre
+back on the list.
+
+Diagnostic against `g_iter8`: centres flipped per game **3 -> 8**, aborts
+41 -> 20, wasted walking 3,254 -> 589 unit-rounds.
+
+**The ledger entry worth keeping:** Iteration 36 was a correct fix to a real bug
+that lost 65-79 on its own and is now part of a change that wins 38-10. A
+rejected mechanism is not necessarily a wrong one; it can be one whose value
+needs a second change to be realisable. That is a different lesson from
+"re-test after fixing a defect" -- here the *rejected change itself* was the
+enabler.

@@ -37,6 +37,9 @@ public final class C {
     // 38 at r200, 46 at r250 against 25-40 slanderers, EC influence never above 336 -- while four neutral centres
     // were known from r150 and cost 100-1272, so not one was affordable. Four capture speeches in 610 rounds.
     // The spare branch now fills the economy first and caps standing guards.
+    // Dose 1 capped the spare branch's guards at 12 but kept its `|| spare >= 300` escape, and the diagnostic
+    // showed the cap never bound: guards still reached 31 at r200 and 46 at r250, because a rich centre took the
+    // escape on every build. The escape is exactly backwards -- a big bank is what buys a centre. Dose 2 removes it.
     public static final int SPEND_GUARD_CAP = 12;       // dose 1 (was: unbounded, tracked slanderers + 2)
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;

@@ -55,19 +55,46 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   1 `arch_muck` muckraker rush, 2 `arch_bidder`, 3 `arch_polrush`, 4 `arch_expand`
   neutral-centre expander, plus `arch_big` (rebuilt allocation).
 
-## State right now (2026-09-21 08:30 UTC)
+## State right now (2026-09-21 13:20 UTC, written for a model switch)
 
 - **Submission: `g_iter10`** = g_iter9 + Iteration 38 (scout cap) + Iteration 40
-  (expired slanderers attack instead of guarding home). Gate 63.5% (61-35).
-  Regression 38/40.
-- **Ladder: Elo 1651, rank 3 of 21**, behind only awesomelemonade (1835) and
-  rzhan11 (1742). **35/48 on the fixed field**, 6/6 against four of the eight.
-- `src/bot` is byte-identical to `src/g_iter10`. Verify with the per-file diff
-  loop in TRAINING_LOG before assuming otherwise.
-- The challenge pool is **fixed**: the 8 most-played opponents
-  (`tools/elo.py --established 8`). Exploration is off at the owner's
-  instruction until our standing improves (`EXPLORE=n` re-enables it). This is
-  what finally made consecutive blocks comparable.
+  (expired slanderers attack instead of guarding home).
+- **Ladder: Elo 1651, rank 3 of 21.** 35/48 on the fixed field, 6/6 against four
+  of the eight. Only awesomelemonade (1835) and rzhan11 (1742) beat us.
+- **`src/bot` = `g_iter10` + Iteration 47** (the candidate below). It is NOT a
+  clean snapshot. Verify with the per-file diff loop before assuming otherwise:
+  `for f in src/g_iter10/*.java; do b=$(basename $f); diff -q <(sed 's/^package
+  g_iter10;/package bot;/' $f) src/bot/$b >/dev/null || echo $b; done`
+
+### In flight: Iteration 47 at the mirror gate
+
+`gauntlet/sprt-i47.log`, `BOT=bot REF=g_iter10`. At batch 3 it read **27-21
+(56.2%), LLR +0.35**, bounds +/-2.94, cap 240 games.
+
+The change: a guard's speech bar was `max(12, conviction/3)`, so a politician
+grew fussier as it grew bigger. It is now flat at `C.SPEECH_MIN_VALUE` = 12,
+with `C.SPEECH_CONV_DIV` = 0 selecting the flat rule (set it to 3 to restore the
+old one). Motivated by the first combat measurement of the project: our kills
+per speech match or beat theirs in all six rzhan11 games while **they speak up
+to 3.5x as often**.
+
+**On the verdict:**
+- **ACCEPT** -> `tools/snapshot.sh g_iter11 0`, then the archetype regression
+  (`OPPONENTS="arch_muck arch_bidder arch_polrush arch_big arch_expand"`,
+  `MAPS="maptestsmall Arena Maze Gridlock"`), then `BOT=bot N=48 tools/scrim.sh`,
+  then record with `scrim-record.py --label g_iter11`, `elo.py`,
+  `bench-roster.py`.
+- **REJECT or inconclusive below 53%** -> restore `src/bot` from `src/g_iter10`
+  and verify file by file.
+- **Inconclusive at or above 53%** -> keep provisionally, no snapshot, stack the
+  next change on top (that is how Iteration 38 shipped).
+
+### The next candidate, if 47 fails
+
+Volume was the finding, not the threshold: flattening the bar narrowed the gap
+only from 3.5x to 1.6-1.8x. `bestSpeech` only considers robots within d^2 9, and
+guards hold a ring near home, so **contact** may be the real constraint. That is
+untested and is the obvious dose 2.
 
 ## What is closed, with the evidence (do not re-tread)
 

@@ -315,3 +315,7 @@ Don't worry too much about awesomelemonade making it onto the roster.  The point
 ## 73. 2026-09-21
 
 It seems the methodology is a winner.  The thing I like about it is that it was developed out of necessity because games take so long this year.  So we took a weakness and turned it into an advantage
+
+## 74. 2026-09-21
+
+Let's hold off on adding any new opponents to the ladder until our standing improves

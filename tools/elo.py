@@ -11,12 +11,18 @@ _venv = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.venv', 'bin',
 if os.path.exists(_venv) and '.venv' not in sys.prefix: os.execv(_venv, [_venv] + sys.argv)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import elolib
 ap = argparse.ArgumentParser(); ap.add_argument('--pool', type=int, default=0); ap.add_argument('--explore', type=int, default=0); ap.add_argument('--build', default='')
+ap.add_argument('--established', type=int, default=0,
+                help='the N rated bots we have the most games against: a FIXED field, so consecutive '
+                     'blocks are comparable and a provisional rating from six games cannot select itself in')
 ap.add_argument('--quiet', action='store_true'); a = ap.parse_args()
 rows = elolib.load(); R, games, wins, hist = elolib.ratings(rows)
 bots = elolib.ladder_bots()
 rated = [b for b in bots if games[b] > 0]; unrated = [b for b in bots if games[b] == 0]
 table = sorted([(R[b], b) for b in rated] + [(R['us'], 'us')], key=lambda x: -x[0])
 rank = {b: i + 1 for i, (_, b) in enumerate(table)}
+if a.established:
+    rated = [b for b in elolib.ladder_bots() if games[b] > 0]
+    print(' '.join(sorted(rated, key=lambda b: (-games[b], -R[b]))[:a.established])); raise SystemExit
 if a.pool or a.explore:
     import random
     above = [b for _, b in table if b != 'us' and R[b] >= R['us']]

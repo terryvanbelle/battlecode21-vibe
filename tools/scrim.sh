@@ -10,10 +10,14 @@
 set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BOT="${BOT:-bot}"; N="${N:-24}"; MAXJOBS="${MAXJOBS:-6}"
-# Challenge pool: the rated bots nearest above us, plus bots we have never met (tools/elo.py --pool --explore).
-# From 2026-09-20 the split is 4 + 4 rather than 6 + 2 (PROMPTS 67): we are 4th of 9 rated with only three
-# bots above us, so a pool of 6 "above" was padding itself with bots below us, and at 2 new bots per block
-# the 57 unmet ones would have taken 28 blocks to meet. tools/roster.txt is used until 40 games exist.
+# Challenge pool: the rated bots nearest above us (tools/elo.py --pool --explore).
+# 2026-09-20 (PROMPTS 67): 4 rated + 4 never-played, to widen a thin field.
+# 2026-09-21 (PROMPTS 74): exploration OFF -- 8 rated, 0 new -- "hold off on adding any new opponents to
+# the ladder until our standing improves". Four blocks of exploration took the rated field from 9 bots to
+# 21 and our rank from 4th to 18th, which is the ladder becoming accurate rather than the bot getting
+# worse, but it also means consecutive blocks no longer share a field and their win rates cannot be
+# chained. A fixed pool fixes both. Set EXPLORE=n to sample new bots again.
+# tools/roster.txt is used until 40 games exist.
 # Refuse rather than fall back silently. The roster fallback is only legitimate before the ladder has
 # 40 games; a MISSING games.csv means the history did not reach this machine, and quietly substituting a
 # different set of opponents is how every block from 2026-09-17 to 2026-09-20 challenged the wrong bots.
@@ -24,7 +28,16 @@ if [ -z "${POOL:-}" ]; then
     exit 4
   fi
   if [ "$(grep -c . "$REPO/progress/games.csv")" -ge 40 ]; then
-    POOL="$(python3 "$REPO/tools/elo.py" --pool "${POOLSIZE:-4}" --explore "${EXPLORE:-4}")"
+    if [ "${EXPLORE:-0}" = 0 ]; then
+      # A FIXED field of the most-played rated bots. "Nearest above us" cannot be used here: our rank
+      # fell to 18th of 21 as exploration added bots, and the eight nearest above us are now seven bots
+      # we have beaten 6-0 whose ratings rest on six games each. Playing those would raise our Elo
+      # without telling us anything. The most-played set spans awesomelemonade at 4/54 to arya-k at
+      # 20/36 and does not change between blocks, so win rates finally chain.
+      POOL="$(python3 "$REPO/tools/elo.py" --established "${POOLSIZE:-8}")"
+    else
+      POOL="$(python3 "$REPO/tools/elo.py" --pool "${POOLSIZE:-8}" --explore "$EXPLORE")"
+    fi
   else
     echo "ladder history has under 40 games: using tools/roster.txt" >&2
     POOL="$(tr '\n' ' ' < "$REPO/tools/roster.txt")"

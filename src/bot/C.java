@@ -55,14 +55,7 @@ public final class C {
     // real centres were known and 2,905-14,145 influence sat banked -- ten capturers' worth. The 2 -> 4
     // test was rejected 120-120 before, but that ran with the guard sink (no money) and the stale neutral
     // list (extra capturers dispatched to centres already ours), so it could only buy waste.
-    public static final int MAX_CAPTURERS = 8;          // Iteration 41 dose 2 (was 4, and 2 before that)
-    // Iteration 41: a capturer's claim on a centre lapses after this many rounds. Iteration 37 gave each
-    // capturer an exclusive claim so four of them would not converge on one centre, which was right and
-    // necessary; but a claim never expired, so a capturer walking a long way -- or stuck -- blocked every
-    // replacement for its whole life. Measured vs VittalT on Superposition: 452 rounds in which a centre
-    // could afford a known neutral, had a free capturer slot, and declined because ALL candidates were
-    // claimed. That is the largest single reason it declines (against 195 unaffordable, 124 cap-full).
-    public static final int CLAIM_MAX_AGE = 100;        // dose 1 (was: never)
+    public static final int MAX_CAPTURERS = 4;          // dose 1 (was 2)
     public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // (unused) historical cap
     public static final int BID_EARLY_DIV = 30;         // Iteration 9: before r600 bid at most influence / this (baseline: /12 before r200, /8 to r600); dose 12-8 / 30 / 60

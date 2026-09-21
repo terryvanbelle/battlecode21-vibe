@@ -19,10 +19,6 @@ public strictfp class EC extends Robot {
     private final MapLocation[] childTgt = new MapLocation[MAX_CHILDREN];
     private int scouts = 0, slanderers = 0, guards = 0, capturers = 0;
     private int blockedRounds = 0;   // diagnostic: rounds a build was chosen but no adjacent tile was free
-    // Diagnostic (2026-09-21): --knowledge showed we SEE more neutral centres in losses than in wins
-    // (75% against 60% by r200) while banking influence, so the failure is the capture decision, not
-    // scouting. These count why captureAffordable declined while neutrals were known.
-    private int capNoneAfford = 0, capCapFull = 0, capAllClaimed = 0;
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
     private int broadcast = 0, broadcastAge = 0;
@@ -53,7 +49,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " capFull=" + capCapFull + " capPoor=" + capNoneAfford + " capClaim=" + capAllClaimed);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
     }
 
     // ---------------------------------------------------------------- production
@@ -174,19 +170,11 @@ public strictfp class EC extends Robot {
 
     private int captureAffordable(int inf) {
         int best = -1, bestCost = 1 << 30;
-        boolean anyAfford = false, anyUnclaimed = false;
         for (int i = MapState.nNeutral; --i >= 0;) {
             int c = MapState.neutralInf[i] + 14;
-            if (c <= inf - reserve()) anyAfford = true;
-            if (!claimed(MapState.neutralEC[i])) anyUnclaimed = true;
             if (c > inf - reserve() || c >= bestCost || capturers >= C.MAX_CAPTURERS) continue;
             if (claimed(MapState.neutralEC[i])) continue;   // a live capturer is already walking there
             best = i; bestCost = c;
-        }
-        if (best < 0 && MapState.nNeutral > 0) {           // why did we decline?
-            if (capturers >= C.MAX_CAPTURERS) capCapFull++;
-            else if (!anyAfford) capNoneAfford++;
-            else if (!anyUnclaimed) capAllClaimed++;
         }
         return best;
     }
@@ -194,9 +182,7 @@ public strictfp class EC extends Robot {
     /** Is a live capturer already aimed at this centre? Raising the cap without this just sends
      *  every extra capturer to the same cheapest target: with the cap at 4, aborts rose 4 -> 30. */
     private boolean claimed(MapLocation l) {
-        for (int i = nChild; --i >= 0;)
-            if (childType[i] == Roles.CAPTURE && childTgt[i] != null && childTgt[i].equals(l)
-                && round - childBirth[i] <= C.CLAIM_MAX_AGE) return true;   // a stale claim lapses
+        for (int i = nChild; --i >= 0;) if (childType[i] == Roles.CAPTURE && childTgt[i] != null && childTgt[i].equals(l)) return true;
         return false;
     }
 

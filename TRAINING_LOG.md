@@ -4370,3 +4370,43 @@ stops.
 between 3,956 and **160,737** influence banked. Iteration 40 reduced the spawn
 ring but the late-game economy still dies, and 160,737 unspent influence is a
 larger prize than any capture rule.
+
+## Iteration 41: CLOSED by its own stopping rule -- the blocking moved a third time (2026-09-21 05:20 UTC)
+
+Dose 2 (claims lapse + `MAX_CAPTURERS` 4 -> 8), same cell:
+
+| rounds a centre declined a capture | dose 0 | dose 1 | dose 2 |
+|---|---|---|---|
+| every candidate claimed | **452** | 11-92 | **140, 281, 298** |
+| capturer cap full | 124 | **151-293** | **0** |
+| nothing affordable | 195 | 31-234 | 0-152 |
+
+The cap stopped blocking entirely. The claims started blocking again, because
+eight capturers claim more targets than four did. The pre-registered rule was:
+"if it moves a third time, the answer is not a cap at all and the ladder stops."
+It moved a third time. **Reverted to `g_iter10`; every file is byte-identical to
+the snapshot.**
+
+**What this line of work established, which is worth more than the doses.**
+Across Iterations 37, 40 and 41 the capture decision has been fully
+instrumented, and the blocking is conserved: raise the cap and claims block;
+lapse the claims and the cap blocks; raise the cap again and claims block. A
+quantity that moves between three accounting buckets without shrinking is not
+being caused by any of them. The cause is **arrival time** -- a capturer spends
+so long walking that whatever bounds the number in flight becomes the binding
+constraint.
+
+That reframes the next candidate. Nothing about caps, claims or reserves will
+help; the options are to shorten the walk (build the capturer at the centre
+nearest the target rather than wherever the influence is), to make the walk
+survivable (capturers currently take the direct route into contested ground),
+or to stop needing the walk (take centres near home first rather than cheapest
+first, which is what `captureAffordable` does today). The third is a one-line
+change to a comparator and is the obvious first dose -- **for a fresh session,
+pre-registered here rather than started at 05:20.**
+
+**The standing anomaly remains unexplained and is now the biggest number in the
+log:** every centre ends these games with zero slanderers and up to **160,737**
+influence banked. Iteration 39 (the economy pause) was rejected, Iteration 40
+(the spawn ring) was accepted and helped, and the late economy still dies. No
+current hypothesis accounts for it.

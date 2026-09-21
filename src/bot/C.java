@@ -101,5 +101,22 @@ public final class C {
     // which walled it in for 458 rounds of the game. They are full-conviction politicians; send
     // them at the enemy instead. 0 = the old behaviour.
     public static final int CAMO_ATTACKS = 1;
+    // Iteration 49 (bank and knowledge hygiene): three doses, each with its own counter in @econ.
+    // (a) The save branch waited for a centre it could never afford. BlobWithLegs vs awesomelemonade: 187 save
+    //     rounds with 2 slanderers while doBid spent 1/30 of the bank every round -- 794 on bids by r200, the
+    //     bank fell 324 -> 119 against a price of 374, and nothing else was built until r200. Three of the
+    //     block's ten losses had 80-187 save rounds by r200 (one of 38 wins). While waiting: no bid, and a bound.
+    public static final int SAVE_NO_BID = 1;            // 0 = bid while saving (g_iter11)
+    public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
+    // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
+    //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence
+    //     capturers bought for the centre we already held (cheapest-first picks exactly the one just taken);
+    //     wins show hundreds of politicians sent at an enemy centre that was already ours. A capturer that
+    //     lands adjacent with a flipping share puts FLIP_INTENT(target) on its flag; home reads every child
+    //     by id before the child acts, marks the tile presumed-own and buys nothing for it for PRESUME_ROUNDS.
+    public static final int FLIP_INTENT = 1;            // 0 = silent flips (g_iter11)
+    public static final int PRESUME_ROUNDS = 100;
+    // (c) A politician that arrives to find the centre ours keeps OWN_EC(target) on its flag, so home learns for good.
+    public static final int ABORT_REPORT = 1;
     private C() {}
 }

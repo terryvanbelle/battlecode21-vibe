@@ -21,6 +21,19 @@ public strictfp class EC extends Robot {
     // Diagnostic (Iteration 48): what does a centre actually HEAR? Counts of flags absorbed by type, and
     // of neutral reports refused because the tile is already in ownEC.
     private int heardNeutral = 0, heardOwn = 0, heardOwnId = 0, heardEnemy = 0, refusedNeutral = 0, nearbyReads = 0;
+    // Iteration 49 counters and the presumed-own list (dose b): tiles a child announced it was about to flip
+    private int flipIntents = 0, presumedSkips = 0, saveBidSkipped = 0, saveAbandonedRound = -1, saveWaitRound = -10;
+    private final MapLocation[] presumed = new MapLocation[MapState.MAX_ECS]; private final int[] presumedRound = new int[MapState.MAX_ECS]; private int nPresumed = 0;
+    private void presume(MapLocation l) {
+        for (int i = nPresumed; --i >= 0;) if (presumed[i].equals(l)) { presumedRound[i] = round; return; }
+        int i = nPresumed < MapState.MAX_ECS ? nPresumed++ : round % MapState.MAX_ECS;
+        presumed[i] = l; presumedRound[i] = round;
+        Debug.log("@presume r=" + round + " tile=" + (l.x - MapState.minX) + "," + (l.y - MapState.minY));
+    }
+    private boolean presumed(MapLocation l) {
+        for (int i = nPresumed; --i >= 0;) if (presumed[i].equals(l) && round - presumedRound[i] < C.PRESUME_ROUNDS) return true;
+        return false;
+    }
     private int blockedRounds = 0;   // diagnostic: rounds a build was chosen but no adjacent tile was free
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
@@ -53,7 +66,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound);
     }
 
     // ---------------------------------------------------------------- production
@@ -122,16 +135,20 @@ public strictfp class EC extends Robot {
                 Debug.log("@save capture r=" + round + " target=" + MapState.neutralInf[best] + " cost=" + cost + " saved=" + saveRounds);
             }
             else if (slanderers < C.SAVE_SLANDERERS && Econ.bestSize(inf - 5) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 85)); role = Roles.ECON; }
-            else { saveRounds++; return; }
+            else {
+                saveRounds++; saveWaitRound = round;   // dose (a): doBid sees this and holds the bank
+                if (C.SAVE_MAX_WAIT > 0 && saveRounds >= C.SAVE_MAX_WAIT) { saveDone = true; saveAbandonedRound = round; Debug.log("@save abandoned r=" + round + " price=" + price + " inf=" + inf); }
+                return;
+            }
         }
         else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; Debug.log("@capbuild r=" + round + " cost=" + cost + " home=" + (birth <= 1)); }
-        else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
+        else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3 && !presumed(MapState.enemyEC[0])) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
         else if (inf >= 30 && scouts < Math.min(C.SCOUT_MAX, C.SCOUT_BASE + round / C.SCOUT_PER_ROUND + (inf > 400 ? 3 : 0) + (MapState.nEnemy == 0 && round > 150 ? 2 : 0))) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf - reserve() >= 100 && guards < C.MAX_GUARDS) { t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(50, inf / 3)); role = Roles.GUARD; }
-        else if (MapState.nEnemy > 0 && inf - reserve() >= 300 && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - reserve(); role = Roles.CAPTURE; }   // rich and idle: throw everything at the enemy EC
+        else if (MapState.nEnemy > 0 && inf - reserve() >= 300 && capturers < 3 && !presumed(MapState.enemyEC[0])) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - reserve(); role = Roles.CAPTURE; }   // rich and idle: throw everything at the enemy EC
         else if (inf - reserve() >= C.SPARE_MIN) {
             // never idle: every capped branch declined but influence is spare. Alternate bodies: a guard when guards
             // trail slanderers, else another slanderer up to the spare cap, else a 1-influence hunter.
@@ -174,7 +191,7 @@ public strictfp class EC extends Robot {
     /** Cheapest known neutral EC at or under SAVE_MAX_TARGET, or -1. No distance cap: the capturer walks. */
     private int cheapNeutral() {
         int best = -1, bestInf = C.SAVE_MAX_TARGET + 1;
-        for (int i = MapState.nNeutral; --i >= 0;) if (MapState.neutralInf[i] < bestInf) { bestInf = MapState.neutralInf[i]; best = i; }
+        for (int i = MapState.nNeutral; --i >= 0;) { if (presumed(MapState.neutralEC[i])) { presumedSkips++; continue; } if (MapState.neutralInf[i] < bestInf) { bestInf = MapState.neutralInf[i]; best = i; } }
         return best;
     }
     private int reserve() { return Math.min(Math.max(bid * 2, 10), Math.max(10, rc.getInfluence() / 2)); }   // keep enough to bid next round, never more than half
@@ -185,6 +202,7 @@ public strictfp class EC extends Robot {
             int c = MapState.neutralInf[i] + 14;
             if (c > inf - reserve() || c >= bestCost || capturers >= C.MAX_CAPTURERS) continue;
             if (claimed(MapState.neutralEC[i])) continue;   // a live capturer is already walking there
+            if (presumed(MapState.neutralEC[i])) { presumedSkips++; continue; }   // Iteration 49: a child announced its flip
             best = i; bestCost = c;
         }
         return best;
@@ -242,6 +260,7 @@ public strictfp class EC extends Robot {
         if (round > 1 && votes == lastVotes) enemyVotesEst++;
         lastVotes = votes; bidLastRound = false;
         if (votes > 751) return;                                // majority secured
+        if (C.SAVE_NO_BID == 1 && !saveDone && round - saveWaitRound <= 2) { saveBidSkipped++; return; }   // Iteration 49 dose (a): the bank is for a centre
         // Are we safe without bidding? If the opponent cannot catch up even winning every remaining vote, stop.
         if (votes > enemyVotesEst + remaining) return;
         // Influence is worth more early (it compounds through slanderers), so the cap ramps up over the game and
@@ -290,6 +309,7 @@ public strictfp class EC extends Robot {
         else if (ty == Comms.OWN_EC) heardOwn++;
         else if (ty == Comms.OWN_EC_ID) heardOwnId++;
         else if (ty == Comms.ENEMY_EC) heardEnemy++;
+        else if (ty == Comms.FLIP_INTENT) { flipIntents++; presume(Comms.loc(f, ref)); return; }
         super.absorb(f, ref);
         if (Comms.type(f) == Comms.ENEMY_EC && Comms.extra(f) > 0) enemyEcInf = Comms.unbucket(Comms.extra(f));
     }

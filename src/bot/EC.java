@@ -40,7 +40,7 @@ public strictfp class EC extends Robot {
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
     private int broadcast = 0, broadcastAge = 0;
-    private int captureTargetIdx = -1;
+    private int captureTargetIdx = -1, cheapIdx = -1;   // cheapIdx: the scan result, evaluated once per branch (Iteration 50)
 
     EC(RobotController rc) { super(rc); }
 
@@ -137,8 +137,8 @@ public strictfp class EC extends Robot {
         }
         else if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
-        else if (C.SAVE_MODE && !saveDone && round <= C.SAVE_UNTIL && cheapNeutral() >= 0) {
-            int best = cheapNeutral(), price = MapState.neutralInf[best] + 14 + C.SAVE_BANK;
+        else if (C.SAVE_MODE && !saveDone && round <= C.SAVE_UNTIL && (cheapIdx = cheapNeutral()) >= 0) {
+            int best = cheapIdx, price = MapState.neutralInf[best] + 14 + C.SAVE_BANK;
             if (inf - 5 >= price) {
                 captureTargetIdx = best; t = RobotType.POLITICIAN; cost = price; role = Roles.CAPTURE; saveDone = true;
                 Debug.log("@save capture r=" + round + " target=" + MapState.neutralInf[best] + " cost=" + cost + " saved=" + saveRounds);
@@ -150,7 +150,7 @@ public strictfp class EC extends Robot {
                 return;
             }
         }
-        else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; Debug.log("@capbuild r=" + round + " cost=" + cost + " home=" + (birth <= 1)); }
+        else if ((cheapIdx = captureAffordable(inf)) >= 0) { captureTargetIdx = cheapIdx; t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; Debug.log("@capbuild r=" + round + " cost=" + cost + " home=" + (birth <= 1)); }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3 && !presumed(MapState.enemyEC[0])) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
@@ -219,8 +219,12 @@ public strictfp class EC extends Robot {
 
     /** Is a live capturer already aimed at this centre? Raising the cap without this just sends
      *  every extra capturer to the same cheapest target: with the cap at 4, aborts rose 4 -> 30. */
+    // Iteration 50: the live capturers, collected once a turn in countAlive. claimed() used to scan all 96 children
+    // for every neutral, twice a turn -- with the Iteration 49 reads on top, home's turn passed 20k bytecodes and lost
+    // 121-404 rounds a game (g_iter11: 0-19). Profiled: build 7k, children 3-6k, nearby 2-3k, sense 2-3k of a 17k turn.
+    private static final int MAX_CAPIDX = 16; private final int[] capIdx = new int[MAX_CAPIDX]; private int nCapIdx = 0;
     private boolean claimed(MapLocation l) {
-        for (int i = nChild; --i >= 0;) if (childType[i] == Roles.CAPTURE && childTgt[i] != null && childTgt[i].equals(l)) return true;
+        for (int i = nCapIdx; --i >= 0;) { int c = capIdx[i]; if (childTgt[c] != null && childTgt[c].equals(l)) return true; }
         return false;
     }
 
@@ -244,11 +248,11 @@ public strictfp class EC extends Robot {
 
     private int countAlive() {
         // recount children cheaply via canGetFlag (5 bytecodes each) -- also compacts the list
-        int k = 0; int sl = 0, g = 0, sc = 0, cap = 0;
+        int k = 0; int sl = 0, g = 0, sc = 0, cap = 0; nCapIdx = 0;
         for (int i = 0; i < nChild; i++) {
             // a slanderer becomes a politician at roundsAlive == 300 (engine CAMOUFLAGE); it then guards, so count it as one
             if (childType[i] == Roles.ECON && round - childBirth[i] >= 300) childType[i] = Roles.GUARD;
-            if (rc.canGetFlag(childId[i])) { childId[k] = childId[i]; childType[k] = childType[i]; childBirth[k] = childBirth[i]; childTgt[k] = childTgt[i]; k++;
+            if (rc.canGetFlag(childId[i])) { childId[k] = childId[i]; childType[k] = childType[i]; childBirth[k] = childBirth[i]; childTgt[k] = childTgt[i]; k++; if (childType[i] == Roles.CAPTURE && nCapIdx < MAX_CAPIDX) capIdx[nCapIdx++] = k - 1;
                 switch (childType[i]) { case Roles.SCOUT: case Roles.HUNT: sc++; break; case Roles.GUARD: g++; break; case Roles.ECON: sl++; break; case Roles.CAPTURE: cap++; break; default: break; } }
         }
         nChild = k; slanderers = sl; guards = g; scouts = sc; capturers = cap;
@@ -306,8 +310,8 @@ public strictfp class EC extends Robot {
         // budget: read up to 24 child flags per turn, round-robin
         int n = nChild; if (n == 0) return;
         // Iteration 49 dose 2: a capturer's FLIP_INTENT lives one round, so every capture-role child is read every turn
-        if (C.FLIP_INTENT == 1) for (int i = n; --i >= 0;) {
-            if (childType[i] != Roles.CAPTURE || !rc.canGetFlag(childId[i])) continue;
+        if (C.FLIP_INTENT == 1) for (int j = nCapIdx; --j >= 0;) {
+            int i = capIdx[j]; if (!rc.canGetFlag(childId[i])) continue;
             int f = rc.getFlag(childId[i]); capReads++; absorbFrom = childId[i];
             if (Comms.type(f) != Comms.IDLE) absorb(f, loc);
         }

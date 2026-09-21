@@ -5155,3 +5155,47 @@ same path Iteration 38 took before Iteration 40's gate resolved it.
 The Iteration 48 gate now runs on the stack, `g_iter10` + 47 + 48, against
 `g_iter10`. An accept ships both; a reject reverts both and then 48 alone is
 re-run with `SPEECH_CONV_DIV = 3`, so the attribution is recoverable either way.
+
+## Iteration 48 (with 47): ACCEPTED -- snapshot `g_iter11` (2026-09-21 17:50 UTC)
+
+```
+batch 1: +12 -4   ==> 12-4  (75.0%)  LLR=+1.08
+batch 3: +10 -6   ==> 32-16 (66.7%)  LLR=+1.96
+batch 5: +11 -5   ==> 52-28 (65.0%)  LLR=+2.84
+batch 6: +11 -5   ==> 63-33 (65.6%)  LLR=+3.60  -> ACCEPT
+SPRT_ACCEPT 63-33
+```
+
+Six batches, every one positive, never below 64% cumulative. **The stack ships:**
+`g_iter11` = `g_iter10` + Iteration 47 (flat speech bar, provisional at 55.8%)
++ Iteration 48 doses 1-5. As with Iteration 38 inside 40, the provisional change
+is resolved by riding an accepted stack.
+
+**What Iteration 48 is, in order of importance:**
+1. A spawn order goes on the centre's flag only for a CAPTURE build. Before,
+   every build did it for two rounds, only politicians read orders and their
+   default already matched, readers skip orders -- so a centre that builds most
+   rounds broadcast its map to nobody, including its own scouts. This is the
+   whole finding; it was found by counting what a centre *hears*.
+2. A centre absorbs flags from every nearby friendly, not only its children.
+3. Scouts call on own centres they have not visited (couriers), and broadcast
+   home's id, which the sibling list excluded.
+4. Ownership travels as a tile in the fact rotation, on its own slot.
+5. Only one scout in four camps the enemy centre; the rest keep sweeping (the
+   mechanism rejected as Iteration 33 at 51.7%, when the channel was blocked and
+   it could barely act).
+
+Measured effect in the diagnostic: neutral reports reaching captured centres
+0 -> 1,268 / 913 / 199; capturers dispatched by captured centres 0 -> 5;
+capturers built for centres already ours 16 -> 7.
+
+**On method.** Four hypotheses about the r200 fork were raised and closed on
+evidence before this one -- the capture decision, a reporting gap to home,
+permanent erasure, inconsistent scouting -- and every one measured something
+real. The cause was one hop downstream of all of them, in what a newborn centre
+could hear, and no metric in the set measured that. The instrument that found
+it was built in an afternoon: six counters on the centre's intake. The
+correlation ranking pointed at "expansion"; the diagnostic found the mechanism;
+that division of labour is the method's claim, and this is its clearest case.
+
+Next: the archetype regression, then a ladder block on the fixed field.

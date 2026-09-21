@@ -4758,3 +4758,34 @@ evidence in this stretch: the capture decision, a reporting gap, permanent
 erasure, and inconsistent scouting. Each was a real measurement and none was a
 defect. The honest state is that `g_iter10` plays the fork about as well as its
 opponent does, and loses later for reasons this sequence has not located.
+
+### Fixing the knowledge tool's denominator (2026-09-21 10:10 UTC)
+
+`--knowledge` reported the number of neutral centres as *still-neutral plus
+ever-sensed*, derived from the live board. That silently omits every centre an
+opponent took before we ever saw it, which **flatters our share**. The true
+denominator is the count of neutral centres at round 0 and the replay header has
+it. Corrected; the earlier table changes:
+
+| game | before | after | map neutral count |
+|---|---|---|---|
+| kn1 | 4 of 4 (100%) | **4 of 6 (67%)** | 6 |
+| kn2 | 0 of 4 (0%) | 0 of 4 (0%) | 4 |
+| kn3 | 2 of 7 (29%) | **2 of 6 (33%)** | 6 |
+| kn4 | 3 of 5 (60%) | **3 of 4 (75%)** | 4 |
+
+The map-area conclusion survives -- the ordering by coverage is unchanged and
+kn1 no longer looks like a perfect score -- but this is the second instrument I
+built today that needed correcting after it had already been used, alongside the
+tier guard that refused our own diagnostics.
+
+**The pattern is worth stating for the methodology.** Every instrument built in
+this session was wrong on first use: `--threat` referenced classes that did not
+exist, `arch_expand` failed twice, `arch_siege` reproduced its condition but
+could not rank anything, `tier-check` refused legitimate files, and
+`--knowledge` used a denominator that flattered us. Each was caught, but only
+because something downstream looked odd -- never by inspection. The lesson
+already in METHOD 6b-ii is "run it before you trust it"; the sharper version is
+**run it on a case whose answer you already know.** kn1 reading "4 of 4, a
+perfect score" was the tell here, and a one-line check against the replay
+header would have caught it immediately.

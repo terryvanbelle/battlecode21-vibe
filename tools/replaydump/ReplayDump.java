@@ -76,6 +76,7 @@ public class ReplayDump {
     static int threatTeam = 0;   // --threat: whose ECs to watch
     static int knowTeam = 0;     // --knowledge: whose map knowledge to reconstruct
     static java.util.Set<Long> everSeen = new java.util.HashSet<>();   // neutral centres this team has sensed
+    static int neutralAtStart = 0;   // the true denominator, read from the map at round 0
     /** Sensor radius^2 by type index: EC, POL, SLA, MUC (battlecode 2021 RobotType). */
     static final int[] SENSOR = {40, 25, 20, 30};
     static long[] unitsLong = new long[3], unitsIdle = new long[3], unitMoves = new long[3]; static int lastRound = 0;
@@ -149,7 +150,15 @@ public class ReplayDump {
         visited = new boolean[3][width * height]; prev2.clear();
         SpawnedBodyTable sb = m.bodies();
         spawnBodies(sb, 0);
-        if (knowTeam != 0) { everSeen.clear(); System.out.println("round,neutralCentresOnMap,neutralCentresSensed,stillNeutral,ourCentres"); return; }
+        if (knowTeam != 0) {
+            everSeen.clear();
+            // The denominator is the number of centres that were neutral AT THE START. Deriving it from
+            // the live board (still-neutral + ever-sensed) undercounts every centre an opponent took
+            // before we ever saw it, which flatters our share (corrected 2026-09-21).
+            neutralAtStart = 0;
+            for (Robot r : bots.values()) if (r.alive && r.type == 0 && r.team == 0) neutralAtStart++;
+            System.out.println("round,neutralAtStart,neutralCentresSensed,stillNeutral,ourCentres"); return;
+        }
         if (threatTeam != 0) { System.out.println("round,ourECs,enemyMuckWithin3tiles,enemyMuckInSensor,enemyPolInSensor"); return; }
         if (metrics) { printMetricsHeader(); return; }
         int[] ecs = new int[3]; long[] ecInf = new long[3];
@@ -406,7 +415,7 @@ public class ReplayDump {
             if (r.team == 0) neutralNow++;
             else if (r.team == knowTeam) ours++;
         }
-        System.out.printf("%d,%d,%d,%d,%d%n", round, neutralNow + everSeen.size(), everSeen.size(), neutralNow, ours);
+        System.out.printf("%d,%d,%d,%d,%d%n", round, neutralAtStart, everSeen.size(), neutralNow, ours);
     }
 
     /** --threat: enemy units sitting close enough to the watched team's ECs to matter.

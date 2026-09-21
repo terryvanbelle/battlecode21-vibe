@@ -227,6 +227,14 @@ shadowing an imported function), and the onset tool carrying a private copy of a
 rule that the shared module was supposed to own. Every one of these was found by
 *running the thing*, never by reading it.
 
+**Run it on a case whose answer you already know.** Every instrument built in one
+session was wrong on first use -- a replay mode referencing classes that did not
+exist, two archetypes that failed for opposite reasons, a rule guard that refused
+legitimate files, and a knowledge tool whose denominator flattered us. All were
+caught downstream, by a number looking odd, never by inspection. A tool that
+reports "4 of 4, a perfect score" is telling you to check its denominator against
+a source you trust.
+
 Rules worth keeping:
 
 - Re-run an instrument after every change to it, including changes you are sure

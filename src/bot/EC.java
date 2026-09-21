@@ -121,6 +121,12 @@ public strictfp class EC extends Robot {
             else { saveRounds++; return; }
         }
         else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
+        // Iteration 44: nothing affordable outright, so chip. Cheapest unclaimed neutral we cannot yet
+        // buy, sent a politician worth everything spare; its damage is permanent and the next one finishes.
+        else if (C.CHIP_CAPTURE == 1 && (captureTargetIdx = chipTarget(inf)) >= 0) {
+            t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), MapState.neutralInf[captureTargetIdx] + 14); role = Roles.CAPTURE;
+            Debug.log("@chip r=" + round + " target=" + MapState.neutralInf[captureTargetIdx] + " send=" + cost);
+        }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
@@ -184,6 +190,20 @@ public strictfp class EC extends Robot {
     private boolean claimed(MapLocation l) {
         for (int i = nChild; --i >= 0;) if (childType[i] == Roles.CAPTURE && childTgt[i] != null && childTgt[i].equals(l)) return true;
         return false;
+    }
+
+    /** Cheapest known neutral we cannot afford outright but can meaningfully chip, or -1. */
+    private int chipTarget(int inf) {
+        int spare = inf - reserve();
+        if (spare < C.CHIP_MIN || capturers >= C.MAX_CAPTURERS) return -1;
+        int best = -1, bestInf = 1 << 30;
+        for (int i = MapState.nNeutral; --i >= 0;) {
+            int price = MapState.neutralInf[i];
+            if (price > C.CHIP_MAX_PRICE || price + 14 <= spare) continue;   // too big, or already affordable
+            if (claimed(MapState.neutralEC[i]) || price >= bestInf) continue;
+            best = i; bestInf = price;
+        }
+        return best;
     }
 
     /** Spawn tile: for a scout, spread around; else the most passable free tile away from the nearest enemy. */

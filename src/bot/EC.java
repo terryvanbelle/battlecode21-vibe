@@ -51,15 +51,18 @@ public strictfp class EC extends Robot {
     // Iteration 50 profiling: bytecodes at each stage of the turn, logged when the turn runs long
     private final int[] prof = new int[8]; private int profRound = -100;
     private void profLog(int used) throws GameActionException {
-        if (used < 12000 || round - profRound < 10) return; profRound = round;
+        if (used < 15000 || round - profRound < 25) return; profRound = round;
         Debug.log("@bcprof r=" + round + " sense=" + prof[0] + " edges=" + (prof[1] - prof[0]) + " children=" + (prof[2] - prof[1]) + " siblings=" + (prof[3] - prof[2]) + " nearby=" + (prof[4] - prof[3]) + " build=" + (prof[5] - prof[4]) + " bid=" + (prof[6] - prof[5]) + " bcast=" + (prof[7] - prof[6]) + " nearby.n=" + nearby.length + " nChild=" + nChild + " total=" + used);
     }
     @Override protected void turn() throws GameActionException {
         nSeen = 0; sense(); prof[0] = Clock.getBytecodeNum();
         probeEdges(); prof[1] = Clock.getBytecodeNum();
         readChildren(); prof[2] = Clock.getBytecodeNum();
-        readSiblings(); prof[3] = Clock.getBytecodeNum();
-        if (C.HANDOFF == 1) readNearbyFriendlies(); prof[4] = Clock.getBytecodeNum();
+        // Iteration 50: the build turn (every other round) is the one that overruns; siblings and neighbours are
+        // read on the off-turn instead. Flags persist for rounds, so nothing is missed, only delayed a round.
+        boolean offTurn = !rc.isReady();
+        if (offTurn || C.OFFTURN_READS == 0) readSiblings(); prof[3] = Clock.getBytecodeNum();
+        if (C.HANDOFF == 1 && (offTurn || C.OFFTURN_READS == 0)) readNearbyFriendlies(); prof[4] = Clock.getBytecodeNum();
         int inf = rc.getInfluence();
         boolean danger = nearestEnemyD2 < 1 << 30;   // any enemy in our 40 r2 sensor range (guards react to this)
         // Iteration 27: the economy stops only for a threat that can actually hurt, not for any passing muckraker
@@ -337,9 +340,9 @@ public strictfp class EC extends Robot {
     @Override protected void absorb(int f, MapLocation ref) {
         int ty = Comms.type(f);
         if (ty == Comms.NEUTRAL_EC) { heardNeutral++; MapLocation l = Comms.loc(f, ref); for (int i = MapState.nOwn; --i >= 0;) if (MapState.ownEC[i].equals(l)) { refusedNeutral++; break; } }
-        else if (ty == Comms.OWN_EC) { heardOwn++; MapLocation l = Comms.loc(f, ref); if (!MapState.known(MapState.ownEC, MapState.nOwn, l)) Debug.log("@ownheard r=" + round + " tile=" + (l.x - MapState.minX) + "," + (l.y - MapState.minY) + " from=" + absorbFrom + " raw=" + l.x + "," + l.y); }
+        else if (ty == Comms.OWN_EC) heardOwn++;
         else if (ty == Comms.OWN_EC_ID) heardOwnId++;
-        else if (ty == Comms.ENEMY_EC || ty == Comms.ENEMY_EC_ECHO) { heardEnemy++; MapLocation l = Comms.loc(f, ref); if (MapState.known(MapState.ownEC, MapState.nOwn, l)) { refusedEnemy++; if (refusedEnemy % 50 == 1) Debug.log("@enemyclaim r=" + round + " tile=" + (l.x - MapState.minX) + "," + (l.y - MapState.minY) + " from=" + absorbFrom + " stamp=" + (ty == Comms.ENEMY_EC ? MapState.stamp(round) : Comms.extra(f)) + " n=" + refusedEnemy); } }
+        else if (ty == Comms.ENEMY_EC || ty == Comms.ENEMY_EC_ECHO) heardEnemy++;
         else if (ty == Comms.FLIP_INTENT) { flipIntents++; presume(Comms.loc(f, ref)); return; }
         super.absorb(f, ref);
         if (Comms.type(f) == Comms.ENEMY_EC && Comms.extra(f) > 0) enemyEcInf = Comms.unbucket(Comms.extra(f));   // sightings only carry the bucket

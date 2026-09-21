@@ -115,6 +115,11 @@ public final class C {
     // with 135,846 banked at r1200, and not one bid in the last 300 rounds; the opponent bought a vote a round at
     // 6-7 influence and won 689-663. The engine takes only the team's highest bid, so all-young means silence.
     public static final int EST_INIT_AT_BIRTH = 1;      // 0 = start at zero (g_iter11)
+    // Iteration 50: the centre's turn was over its 20k bytecode budget on build turns (home lost 121-404 rounds a
+    // game after Iteration 49's reads; g_iter11 0-19). Profiled and cut: claimed() over live capturers only, the
+    // child list compacted only on a death, each flag value absorbed once a turn, and sibling/neighbour reads
+    // moved to the off-turn (the centre builds every other round).
+    public static final int OFFTURN_READS = 1;          // 0 = read every turn (Iteration 49)
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
     // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
     //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence

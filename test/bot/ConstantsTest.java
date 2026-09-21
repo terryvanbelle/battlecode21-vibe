@@ -21,6 +21,8 @@ public class ConstantsTest {
         // bound (not tied to the slanderer count) and must leave room for the economy to fill first.
         check(C.SPEND_GUARD_CAP > 0, "spare-branch guard cap is positive");
         check(C.MAX_CAPTURERS >= 2, "the capturer cap never drops below the long-standing 2");
+        // Iteration 41: a claim must expire well inside a game, or one slow capturer blocks a centre forever.
+        check(C.CLAIM_MAX_AGE > 0 && C.CLAIM_MAX_AGE < 400, "a capture claim lapses well inside a game");
         // Iteration 38: the scout cap must stay a real ceiling and must grow with the round.
         check(C.SCOUT_BASE > 0 && C.SCOUT_PER_ROUND > 0, "scout cap terms are positive");
         check(C.SCOUT_MAX >= C.SCOUT_BASE, "the scout ceiling is not below its own base");

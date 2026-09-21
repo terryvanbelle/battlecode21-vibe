@@ -194,7 +194,9 @@ public strictfp class EC extends Robot {
     /** Is a live capturer already aimed at this centre? Raising the cap without this just sends
      *  every extra capturer to the same cheapest target: with the cap at 4, aborts rose 4 -> 30. */
     private boolean claimed(MapLocation l) {
-        for (int i = nChild; --i >= 0;) if (childType[i] == Roles.CAPTURE && childTgt[i] != null && childTgt[i].equals(l)) return true;
+        for (int i = nChild; --i >= 0;)
+            if (childType[i] == Roles.CAPTURE && childTgt[i] != null && childTgt[i].equals(l)
+                && round - childBirth[i] <= C.CLAIM_MAX_AGE) return true;   // a stale claim lapses
         return false;
     }
 

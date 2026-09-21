@@ -4305,3 +4305,33 @@ One caveat on the sample: 31 wins to 9 losses, and the map sets differ (6
 neutrals in the median win, 4 in the median loss), so the comparison is
 suggestive rather than clean. It is strong enough to kill the hypothesis it was
 built for, since that hypothesis predicted the opposite sign.
+
+## Iteration 41 (in development) -- a capture claim that never expires
+
+The instrumented capture decision, one centre at r1500 against VittalT on
+Superposition, counting the rounds it declined while neutral centres were known:
+
+| reason it declined | rounds |
+|---|---|
+| **every candidate already claimed** | **452** |
+| nothing affordable after the reserve | 195 |
+| capturer cap full | 124 |
+
+**The largest single blocker is a fix I added this morning.** Iteration 37 gave
+each capturer an exclusive claim so four of them would not converge on one
+centre -- necessary then, and it is why that iteration worked. But the claim had
+no expiry, so a capturer walking a long way, or stuck behind terrain, blocked
+every replacement for the whole of its life. The centre then sits on influence
+next to a centre it has found, can afford, and has a free slot for.
+
+This also explains the refutation two entries up: we sense **more** neutral
+centres in losses than in wins and still do not take them. Knowing about more
+centres does not help when knowing about one is enough to claim it forever.
+
+**Dose 1.** A claim lapses after `CLAIM_MAX_AGE` rounds (100). A `ConstantsTest`
+invariant fails if it is ever set beyond a quarter of a game.
+
+**Counter before the gate.** `capClaim` falls from ~450 rounds to under 100,
+without `capFull` rising to absorb it -- if the claims lapse but the cap then
+blocks instead, the centre is capturer-bound rather than claim-bound and the
+dose is wrong.

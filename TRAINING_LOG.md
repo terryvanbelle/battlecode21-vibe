@@ -4245,3 +4245,28 @@ says improve our standing before adding opponents. Those pull against each
 other now: improving standing means beating the locked bots, and learning how
 means studying them. `BENCH_TIER_OVERRIDE=1` exists for exactly this decision
 and is reserved for the owner's explicit say-so, so it is not mine to take.
+
+### The VittalT diagnostic did not reproduce the loss condition (2026-09-21 04:20 UTC)
+
+Random cell (VideoGames, us as B). **We won it at r459 by annihilation**, so it
+is the wrong half of the sample: the question was why, in *losses*, we sit on
+5,658 influence at r200 with one centre while they take three.
+
+The trace shows the opposite profile -- neutrals known rising to 6 by r150,
+capturers in flight, and influence *low* (104-124) because it was being spent.
+Nothing to diagnose.
+
+This is a real limit of the method rather than a bad roll. A logged game needs
+our own binary, so it must be played now, and against an external bot the cell
+must be drawn at random -- which means the loss condition appears only when the
+draw produces a loss. For an opponent we beat two times in six, that is two
+games in three, but it cannot be requested. The alternatives are to keep drawing
+until a loss lands, which is cheap but wasteful, or to extract the missing state
+from the block's existing loss replays, which needs the dumper to reconstruct
+what our centres *knew* -- how many neutral centres a unit of ours had come
+within sensor range of by a given round. That is a real piece of tooling and the
+right one to build next, because it converts every loss replay we already own
+into evidence about knowledge, which no aggregate metric currently carries.
+
+Also visible: `noTile` is 44 at r200 even with Iteration 40 in. The ring is much
+reduced, not gone.

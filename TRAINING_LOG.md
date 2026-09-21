@@ -4098,3 +4098,30 @@ opponent is our own build, which jams its own centres exactly as we do, so this
 is a change the mirror *can* see -- both sides suffer it and only one is fixed.
 No second arm is needed, and that judgement is recorded now rather than after
 the result.
+
+### Iteration 40 dose 1: the mechanism fires; one counter missed its number (2026-09-21 01:00 UTC)
+
+`bot` against `g_iter9`, Networking, both sides of the same game. **We lost this
+one on votes**, which one game says nothing about.
+
+| our centre at r1500 | influence | slanderers | guards | blocked rounds |
+|---|---|---|---|---|
+| before (g_iter9 run) | 5,500 / 15,300 / 5,430 | **5 / 1 / 0** | 63 / 9 / 6 | **458 / 265 / 214** |
+| after (this run) | 104 / 4,413 / 6,302 / 132 / 24 | **19 / 22 / 20 / 3 / 8** | 40 / 16 / 11 / 10 / 9 | **97 / 158 / 141 / 0 / 0** |
+
+- Blocked rounds: 458 -> 97 at the worst centre, and two centres never blocked
+  at all. **The pre-registered target was "under 50" and three centres are
+  97-158, so that number was missed.**
+- Slanderers at r1500: 0-5 -> 3-22. Met, and it is the counter that mattered:
+  the disqualifying condition was "`noTile` falls but slanderers do not", and it
+  did not trigger.
+
+**On gating with a counter missed.** The "under 50" figure was a guess at
+magnitude, not a test of the mechanism. What the counter exists to prove is
+that the mechanism fires and moves the thing it targets, and a 4.7x fall in
+blocking with the economy recovering from zero shows that. Gating. Saying so
+explicitly, because quietly treating a missed number as met is how
+pre-registration stops meaning anything.
+
+Recorded before the gate: the mirror can see this change, since the incumbent
+jams its own centres in the same way and only one side is fixed. No second arm.

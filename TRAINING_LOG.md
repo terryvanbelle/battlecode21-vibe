@@ -4912,3 +4912,27 @@ Note the honest caveat up front: `died` and `empowers` are the only combat
 counters in the replay, so "kills" here is deaths minus own empowers, which
 charges every death by any cause to the opponent. It is good enough to show a
 3.5x volume gap; it is not good enough to price a threshold.
+
+## Iteration 47: to the mirror gate, on three inconclusive diagnostics
+
+| game | speeches, us v them | ratio | kills per speech |
+|---|---|---|---|
+| baseline (six games) | 46-147 v 91-514 | up to **3.5x** | 1.15-1.73 v 0.91-1.27 |
+| diag 1 | 95 v 254 | 2.7x | 1.05 v 1.16 |
+| sp1 | 270 v 475 | **1.8x** | 1.33 v 1.06 |
+| sp3 | 114 v 188 | **1.6x** | 0.99 v 1.65 |
+
+The mechanism fires: the volume gap narrows from as much as 3.5x to 1.6-1.8x.
+Per-speech value is erratic -- better than theirs in one game, clearly worse in
+another -- so the pre-registered disqualifier ("volume rises but per-speech
+kills collapse below theirs") is triggered in one game of three and not the
+other two. Three games cannot settle a trade this noisy.
+
+**Gate: the mirror.** Unlike the siege rule, this one does not need the opponent
+to do anything special -- both sides fight, both sides speak, and only one has
+the flattened bar. This is the case the SPRT was built for, and saying so before
+running it, per METHOD 5b.
+
+The fourth diagnostic never finished: it hung for 83 minutes with no replay and
+no log, which exposed that `run-dev.sh` had no wall-clock cap while
+`gauntlet.sh` did. Fixed in `run_game` so both inherit it.

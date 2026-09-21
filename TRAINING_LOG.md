@@ -4601,3 +4601,54 @@ replays. It treated any filename as an opponent name, and `diag-i44.bc21` is not
 in the roster, so it failed closed on a file that has nothing to do with a
 benchmark bot. It now applies only to `<opponent>__<map>__bot<side>.bc21`.
 Verified both ways: the diagnostic dumps, awesomelemonade still refuses.
+
+## The fork, finally located: our centres never learn what our scouts see (2026-09-21 09:00 UTC)
+
+Instrumenting the r50-r300 window (`@nocap`, logged only when a centre holds
+300+ influence and knows a neutral it is not taking) gave two clean readings
+against rzhan11:
+
+```
+r100 inf=494 reserve=10 known=1 cheapest=365 capturers=1/4 unclaimed=false
+r150 inf=556 reserve=10 known=1 cheapest=365 capturers=1/4 unclaimed=false
+r125 inf=498 reserve=10 known=2 cheapest=165 capturers=3/4 unclaimed=false
+```
+
+Rich, a free capturer slot, an affordable centre known -- and every centre it
+knows is already claimed, because it knows **one or two**.
+
+**Then the decisive comparison**, same game, sensing versus knowing:
+
+| round | neutral centres our units have SENSED | neutral centres our CENTRES know |
+|---|---|---|
+| 100 | 2 of 7 | 1 |
+| 150 | 3 of 6 | 1, and 0 at the second centre |
+| 200 | 3 of 4 | **0 and 0** |
+
+**The scouts find them and the centres never learn.** At r200 our units had
+stood within sensor range of three neutral centres and both our centres knew of
+none. It also goes backwards: the first centre knew one at r150 and zero at
+r200, so knowledge is not merely slow to arrive, it is being lost.
+
+This reconciles the contradiction from the `--knowledge` analysis, which found
+we sense *more* neutrals in losses (75%) than in wins (60%) and looked
+paradoxical. Sensing was never the constraint. **Sensed and known are different
+quantities and nothing in the metric set measured the gap.**
+
+**Two candidate mechanisms, and they are distinguishable:**
+
+1. *Never learned.* A muckraker's flag carries one message at a time and
+   `cycleFacts` rotates through edges, enemy ECs, neutral ECs and sibling ids,
+   so a neutral report is up only a fraction of the time the centre reads it.
+2. *Learned then lost.* `addNeutralEC` refuses any location already in `ownEC`
+   (added by Iteration 37, correctly, to stop a captured centre being re-added
+   as neutral). If a centre ever wrongly records a neutral's tile as its own,
+   that neutral is erased **permanently and irrecoverably**.
+
+The drop from one to zero at r200 points at (2), which would be a genuine bug
+rather than a bandwidth limit. Distinguishing them needs one more counter: log
+every `removeNeutral` with its caller. That is the next step and it is cheap.
+
+**This is the first lead in several hours that is not a re-tuning**, and unlike
+the last three it explains the fork directly: a centre that knows one neutral
+cannot take four, however rich it is.

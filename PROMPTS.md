@@ -327,3 +327,7 @@ Just woke up, I see we're at 3rd of 21, nice!  Can you give me a rundown of the 
 ## 76. 2026-09-21
 
 OK, we've got two more days to run, and plenty of usage limit, so I'm going to switch you from Opus to Fable
+
+## 77. 2026-09-21
+
+OK, you're Fable now

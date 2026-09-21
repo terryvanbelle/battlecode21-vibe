@@ -4443,3 +4443,41 @@ grep counted both teams. Our side had 21 speeches, and the comparable earlier
 figures came from a differently-filtered command, so the "improvement" was an
 artefact of my own inconsistent measurement. The paired run above, both sides
 filtered identically, is the trustworthy comparison and it says the opposite.
+
+## Iteration 43 (pre-registered) -- price the economy pause on the ladder, not the mirror
+
+**The anomaly is already explained.** Centres ending games with zero slanderers
+and up to 160,737 influence banked is `econDanger`: Iteration 39 measured one
+centre spending **1,192 of 1,500 rounds** with its economy blocked because an
+enemy politician sat in sensor range, a condition a bot with fifty politicians
+satisfies permanently. Iteration 40 (the spawn ring) removed the other cause and
+helped; this one is untouched because its fix was rejected at 40%.
+
+**That rejection is not evidence the fix is bad.** The measurement made before
+the verdict: our centres spend 0, 0, 5, 33 and 44 rounds blocked against the
+mirror opponent, against 0, 579 and 1,192 against rzhan11. **The mirror applies
+27 times less of the condition.** `arch_polrush` produces zero. `arch_siege`
+reproduces the condition (1,260 rounds) but loses every game, so it cannot rank
+two builds. Three instruments, none able to price this change.
+
+**The fourth instrument now exists.** As of PROMPTS 74 the scrimmage pool is a
+fixed field of the eight most-played opponents, so consecutive blocks finally
+measure the same thing -- the flaw that made the last two blocks
+incomparable. A ladder block is 48 games against bots that *do* apply the
+condition.
+
+**So Iteration 43 is Iteration 39's change, gated on the ladder.** Method:
+a baseline block of `g_iter10` on the fixed field, then a block of the same
+build plus the economy pause, same pool, and compare. Pre-registered before
+either runs:
+
+- **Accept** if the candidate's record against the fixed eight is better by at
+  least 4 games in 48, with the late-game slanderer count in losses visibly
+  recovered. 4 in 48 is roughly one standard error, so this is deliberately a
+  weak gate and it is the best this instrument can support.
+- **Reject** if the record is level or worse, and record the economy pause as
+  measured-real-but-unprofitable, which is where Iteration 36 ended.
+- The mirror is **not** re-run: it has already answered, and re-running an
+  instrument until it agrees is not a test.
+
+Starting with the baseline block, since `src/bot` is `g_iter10` right now.

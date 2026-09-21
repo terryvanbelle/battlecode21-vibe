@@ -20,6 +20,8 @@ public class ConstantsTest {
         // Iteration 35: the spare branch may not become a guard factory again. The cap must be a real
         // bound (not tied to the slanderer count) and must leave room for the economy to fill first.
         check(C.SPEND_GUARD_CAP > 0, "spare-branch guard cap is positive");
+        // Iteration 47: a speech must still clear some bar, or politicians fire at nothing.
+        check(C.SPEECH_MIN_VALUE > 0, "a speech must deliver some value to be worth a politician");
         check(C.MAX_CAPTURERS >= 2, "the capturer cap never drops below the long-standing 2");
         // Iteration 38: the scout cap must stay a real ceiling and must grow with the round.
         check(C.SCOUT_BASE > 0 && C.SCOUT_PER_ROUND > 0, "scout cap terms are positive");

@@ -41,6 +41,13 @@ public final class C {
     // showed the cap never bound: guards still reached 31 at r200 and 46 at r250, because a rich centre took the
     // escape on every build. The escape is exactly backwards -- a big bank is what buys a centre. Dose 2 removes it.
     public static final int SPEND_GUARD_CAP = 12;       // dose 1 (was: unbounded, tracked slanderers + 2)
+    // Iteration 47: how readily a guard speaks. The threshold was max(12, conviction/3), so a
+    // politician grows fussier as it grows bigger -- a 300-conviction guard demands 100 of value before
+    // it will fire. Measured across six rzhan11 games: our kills per speech match or beat theirs in all
+    // six (1.15-1.73 v 0.91-1.27) while they speak up to 3.5x as often, so we win the exchange rate and
+    // lose the attrition war on volume. Dose 1 makes the bar flat instead of proportional.
+    public static final int SPEECH_MIN_VALUE = 12;      // flat floor
+    public static final int SPEECH_CONV_DIV = 0;        // 0 = flat; the old rule was conviction/3
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;
     public static final int EARLY_SCOUTS = 4;

@@ -55,23 +55,52 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   1 `arch_muck` muckraker rush, 2 `arch_bidder`, 3 `arch_polrush`, 4 `arch_expand`
   neutral-centre expander, plus `arch_big` (rebuilt allocation).
 
-## State right now
+## State right now (2026-09-21 08:30 UTC)
 
-- **Submission: `g_iter9`** = g_iter8 + Iteration 37 (capturer cap 4, a captured
-  centre announcing itself, and a neutral report for a centre we own refused).
-  Gate **79.2% (38-10)**. Regression **38/40** (32/32 on the four original
-  archetypes; both losses to the new `arch_expand`).
-- **Ladder: 33/48 (68.8%), Elo 1692, rank 2 of 13** -- *but* the headline is not
-  comparable to earlier blocks. Against the four rated bots also in the previous
-  block it is **9/24 against 8/24**, one game and inside noise; the four bots met
-  for the first time were swept 24-0. Report a submission's rate **against the
-  rated challengers** from now on, with exploration games separate.
-- **`src/bot` = `g_iter9`.** Do not edit it while a ladder block is measuring it.
-- The challenge pool is **4 rated + 4 never-played** (`POOLSIZE`/`EXPLORE` in
-  `tools/scrim.sh`). It only started working on 2026-09-20: `vm-sync.sh` had
-  never carried `progress/`, so `scrim.sh` silently used the 8-bot roster on
-  every block since 2026-09-17. It now refuses rather than falling back.
-- `tools/ladder-bots.txt` stays at 65 bots (user, PROMPTS 68); 460 are available.
+- **Submission: `g_iter10`** = g_iter9 + Iteration 38 (scout cap) + Iteration 40
+  (expired slanderers attack instead of guarding home). Gate 63.5% (61-35).
+  Regression 38/40.
+- **Ladder: Elo 1651, rank 3 of 21**, behind only awesomelemonade (1835) and
+  rzhan11 (1742). **35/48 on the fixed field**, 6/6 against four of the eight.
+- `src/bot` is byte-identical to `src/g_iter10`. Verify with the per-file diff
+  loop in TRAINING_LOG before assuming otherwise.
+- The challenge pool is **fixed**: the 8 most-played opponents
+  (`tools/elo.py --established 8`). Exploration is off at the owner's
+  instruction until our standing improves (`EXPLORE=n` re-enables it). This is
+  what finally made consecutive blocks comparable.
+
+## What is closed, with the evidence (do not re-tread)
+
+- **Capture throughput** (Iterations 37, 40, 41, 42). The blocking is
+  *conserved*: raise the cap and claims block, lapse the claims and the cap
+  blocks, raise it again and claims block. Nearest-first targets halve captures
+  against cheapest-first (33 flips to 14). Captures per game are maximised by
+  the rule already in the bot.
+- **The economy pause** (Iterations 39, 43). The defect is real and large -- one
+  centre spent 1,192 of 1,500 rounds blocked, every centre ended with zero
+  slanderers on up to 160,737 influence -- and unblocking it loses. Priced by
+  four instruments: mirror 40%, `arch_polrush` cannot create the condition,
+  `arch_siege` creates it but loses every game, ladder **-4 games in 48**.
+  Building slanderers into sustained politician pressure costs more than the
+  idle influence does.
+- **Chip captures** (Iteration 44). Sending several cheap politicians at a
+  centre we cannot buy outright: 61 chips delivered, flips fell 14 to 2, centres
+  at r1500 2 against 6. Chips spend influence at a poor exchange rate and drain
+  the bank below the clean purchase price.
+- **Bidding is downstream, not a lever.** In all four rzhan11 losses we lead the
+  vote race at r700 (366/312, 562/126, 492/198) and lose it by r1500, while they
+  spend 6-50x more influence on bids (up to 602,149 against our 11,206). But at
+  r700 in those games our centres hold 56 influence and 696 unit influence --
+  there is nothing to redirect. The vote loss is the economy collapse arriving.
+
+## The open question
+
+Against rzhan11 the fork is at **r200 and it is centres, 2 against 4**, and
+everything follows: by r700 their unit influence is 240x ours in losses, ours is
+5x theirs in wins. At that fork we are not poor (2,379 banked), not blocked, and
+not ignorant -- `--knowledge` shows we have sensed *more* neutrals in losses
+than in wins. They simply convert earlier, and every mechanism we have tried for
+converting faster has been measured and rejected.
 
 ## The open question the ladder is asking
 

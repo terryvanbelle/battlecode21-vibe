@@ -347,3 +347,5 @@ Following up on earlier conversations, I'd like you to focus your enhanced intel
 ## 2026-09-21 (after g_iter11 ladder result)
 
 > Fantastic results, good job!
+
+> task check.  If the VM is idle and you're not working on anything, come up with a new idea.  Otherwise, continue as you are

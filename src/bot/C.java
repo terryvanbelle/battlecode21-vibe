@@ -118,5 +118,12 @@ public final class C {
     public static final int PRESUME_ROUNDS = 100;
     // (c) A politician that arrives to find the centre ours keeps OWN_EC(target) on its flag, so home learns for good.
     public static final int ABORT_REPORT = 1;
+    // Dose 2 (from the Hexes diagnostic): the intent was on the flag for one round and home reads 24 of ~40
+    // children a turn, so it missed the flip that mattered; capture-role children are now read every turn.
+    // The abort reports WERE heard (heardOwn=328) but eEC never dropped: scouts echo ENEMY_EC for a centre we
+    // took, and addEnemyEC had no own-tile refusal. Hearsay is refused for own tiles (sightings override), and
+    // home broadcasts its own tiles so the scouts' copies are corrected and the echo dies.
+    public static final int ENEMY_HEARSAY_GUARD = 1;
+    public static final int BROADCAST_OWN = 1;
     private C() {}
 }

@@ -36,6 +36,10 @@ public class MapStateTest {
         MapLocation cap = new MapLocation(30, 30);
         check(MapState.addNeutralEC(cap, 200), "a neutral centre is recorded");
         MapState.addOwnEC(cap);
+        // Iteration 49: hearsay cannot make a centre we own an enemy centre; a sighting can (we may have lost it)
+        check(!MapState.addEnemyEC(cap) && !MapState.known(MapState.enemyEC, MapState.nEnemy, cap), "hearsay ENEMY_EC refused for an own tile");
+        check(MapState.sightEnemyEC(cap) && MapState.known(MapState.enemyEC, MapState.nEnemy, cap) && !MapState.known(MapState.ownEC, MapState.nOwn, cap), "a sighted enemy centre overrides ownership");
+        MapState.removeEnemy(cap); MapState.addOwnEC(cap);
         check(MapState.nNeutral == 0, "capturing it drops it from the neutral list");
         check(!MapState.addNeutralEC(cap, 200), "a stale neutral report about it is refused");
         check(MapState.nNeutral == 0, "and does not put it back");

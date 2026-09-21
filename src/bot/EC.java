@@ -22,7 +22,7 @@ public strictfp class EC extends Robot {
     // of neutral reports refused because the tile is already in ownEC.
     private int heardNeutral = 0, heardOwn = 0, heardOwnId = 0, heardEnemy = 0, refusedNeutral = 0, nearbyReads = 0;
     // Iteration 49 counters and the presumed-own list (dose b): tiles a child announced it was about to flip
-    private int flipIntents = 0, presumedSkips = 0, saveBidSkipped = 0, saveAbandonedRound = -1, saveWaitRound = -10;
+    private int flipIntents = 0, presumedSkips = 0, saveBidSkipped = 0, saveAbandonedRound = -1, saveWaitRound = -10, capReads = 0;
     private final MapLocation[] presumed = new MapLocation[MapState.MAX_ECS]; private final int[] presumedRound = new int[MapState.MAX_ECS]; private int nPresumed = 0;
     private void presume(MapLocation l) {
         for (int i = nPresumed; --i >= 0;) if (presumed[i].equals(l)) { presumedRound[i] = round; return; }
@@ -66,7 +66,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound + " capReads=" + capReads + " heardE=" + heardEnemy + " own=" + MapState.nOwn);
     }
 
     // ---------------------------------------------------------------- production
@@ -294,9 +294,16 @@ public strictfp class EC extends Robot {
     private void readChildren() throws GameActionException {
         // budget: read up to 24 child flags per turn, round-robin
         int n = nChild; if (n == 0) return;
+        // Iteration 49 dose 2: a capturer's FLIP_INTENT lives one round, so every capture-role child is read every turn
+        if (C.FLIP_INTENT == 1) for (int i = n; --i >= 0;) {
+            if (childType[i] != Roles.CAPTURE || !rc.canGetFlag(childId[i])) continue;
+            int f = rc.getFlag(childId[i]); capReads++;
+            if (Comms.type(f) != Comms.IDLE) absorb(f, loc);
+        }
         int start = (round * 24) % n;
         for (int k = 0; k < 24 && k < n; k++) {
             int i = (start + k) % n;
+            if (C.FLIP_INTENT == 1 && childType[i] == Roles.CAPTURE) continue;
             if (!rc.canGetFlag(childId[i])) continue;
             int f = rc.getFlag(childId[i]);
             if (Comms.type(f) != Comms.IDLE) absorb(f, loc);
@@ -333,6 +340,7 @@ public strictfp class EC extends Robot {
         // rejected at 45.1%; the cap raise is only meaningful if extra capturers go to distinct REAL targets.
         else if (birth > 1 && (round / 3) % 3 == 2) f = Comms.encode(Comms.OWN_EC, 0, loc);
         else if (MapState.nEnemy > 0 && (round / 3) % 2 == 0) f = Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(round / 6) % MapState.nEnemy]);
+        else if (C.BROADCAST_OWN == 1 && MapState.nOwn > 1 && (round / 3) % 4 == 3) f = Comms.encode(Comms.OWN_EC, 0, MapState.ownEC[1 + (round / 12) % (MapState.nOwn - 1)]);   // Iteration 49 dose 2: correct the scouts' copies
         else if (MapState.nNeutral > 0 && (round / 3) % 2 == 1) f = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[(round / 6) % MapState.nNeutral]), MapState.neutralEC[(round / 6) % MapState.nNeutral]);
         else {
             f = -1;

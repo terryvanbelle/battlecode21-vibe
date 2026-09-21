@@ -82,7 +82,7 @@ public abstract strictfp class Robot {
                 int d = loc.distanceSquaredTo(r.location);
                 if (d < nearestEnemyD2) { nearestEnemyD2 = d; nearestEnemy = r; }
                 if (r.type == RobotType.MUCKRAKER && d < nearestEnemyMuckD2) { nearestEnemyMuckD2 = d; nearestEnemyMuck = r; }
-                if (r.type == RobotType.ENLIGHTENMENT_CENTER) { if (MapState.addEnemyEC(r.location)) MapState.pruneWithEnemyEC(r.location); }
+                if (r.type == RobotType.ENLIGHTENMENT_CENTER) { if (MapState.sightEnemyEC(r.location)) MapState.pruneWithEnemyEC(r.location); }
             } else { if (nNeutral < 8) neutrals[nNeutral++] = r; if (r.type == RobotType.ENLIGHTENMENT_CENTER) MapState.addNeutralEC(r.location, r.influence); }
         }
     }

@@ -40,9 +40,21 @@ public final class MapState {
         for (int i = n; --i >= 0;) if (a[i].equals(l)) return true;
         return false;
     }
+    /** Hearsay: an ENEMY_EC report. Refused for a tile we own -- the scouts' fact rotation echoes a centre we
+     *  took for the rest of the game (Iteration 49 diagnostic: 520 politicians sent at an enemy home already
+     *  ours, home's eEC never dropped). A sighting goes through sightEnemyEC, which overrides. */
     public static boolean addEnemyEC(MapLocation l) {
+        if (C.ENEMY_HEARSAY_GUARD == 1 && known(ownEC, nOwn, l)) return false;
+        return addEnemyRaw(l);
+    }
+    /** Sighting: the tile really holds an enemy centre now (ours may have been lost). */
+    public static boolean sightEnemyEC(MapLocation l) { removeOwn(l); return addEnemyRaw(l); }
+    private static boolean addEnemyRaw(MapLocation l) {
         if (known(enemyEC, nEnemy, l) || nEnemy >= MAX_ECS) return false;
         enemyEC[nEnemy++] = l; removeNeutral(l); return true;
+    }
+    public static void removeOwn(MapLocation l) {
+        for (int i = nOwn; --i >= 0;) if (ownEC[i].equals(l) && (home == null || !home.equals(l))) { nOwn--; ownEC[i] = ownEC[nOwn]; return; }
     }
     public static boolean addNeutralEC(MapLocation l, int inf) {
         // A centre we own was never neutral again: centres are neutral only at the start of the game.

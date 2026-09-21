@@ -5342,3 +5342,15 @@ adjacent one turn before it can speak, which is the window the intent uses.
 
 Disqualifiers: cleared (intent heard and acted on at home; save completes; no centre idles on a
 presumption). Gate starts: SPRT vs `g_iter11`.
+
+### Iteration 49 gate, first attempt voided at batch 2 (2026-09-21 21:35 UTC)
+
+Batch 1: **11-5 (68.8%), LLR +0.76**. I misread the batch mid-way as 0-5 -- losses end early
+by capture and wins run to r1500, so the first results of any batch are its losses -- and
+killed the run; the kill landed on batch 2 (six games killed as "unknown", six genuine early
+losses, four never played), so **batch 2 is void** (`...-b2-VOID`). The four batch-1 losses I
+did read all had the same opening, 0-12 votes at r100 against 23-75: with our bid at zero while
+saving, the opponent's adaptive bidder buys a vote a round for 1 influence. A bid of 1 was tried
+on Blob and denies nothing (the opponent bids 2). Parked as a dose for later: bid normally while
+saving and rely on `SAVE_MAX_WAIT` alone. The gate resumes on the pre-registered code with
+batch 1 folded in (`W0=11 L0=5`, `tools/mirror.sh`).

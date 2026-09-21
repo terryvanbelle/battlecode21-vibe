@@ -3,6 +3,7 @@
 # Our own builds, so the contest rule on external bots does not apply -- but random maps, because a
 # fixed 12-map set answers a different question than the ladder does.
 #   BOT=bot REF=g_iter4 N=200 BATCH=16 tools/mirror.sh
+#   W0=11 L0=5 ... resumes the record from an interrupted run (its later, partial batch must be voided by hand)
 # Plays in batches, runs tools/sprt.py after each, stops at ACCEPT or REJECT. Prints the verdict.
 set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -12,7 +13,7 @@ SEED="${SEED:-$(date +%s)}"; TAG="${TAG:-mirror-$BOT-vs-$REF}"
 # build/classes means whichever starts second rebuilds the bot the first one is playing.
 CLASSES="${CLASSES:-$REPO/build/mirror-classes}"
 MAPS="$(grep -v '^Cow$' "$REPO/tools/bc21-maps.txt" | tr '\n' ' ')"
-W=0; L=0; i=0
+W="${W0:-0}"; L="${L0:-0}"; i=0   # W0/L0: fold in a batch already played, to resume after an interruption without replaying it
 while [ $((W + L)) -lt "$N" ]; do
   i=$((i + 1))
   CELLS="$(mktemp)"

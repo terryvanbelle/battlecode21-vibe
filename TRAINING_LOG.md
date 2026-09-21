@@ -4125,3 +4125,36 @@ pre-registration stops meaning anything.
 
 Recorded before the gate: the mirror can see this change, since the incumbent
 jams its own centres in the same way and only one side is fixed. No second arm.
+
+## Iteration 40: ACCEPTED -- snapshot `g_iter10` (2026-09-21 02:35 UTC)
+
+```
+batch 1: +8  -8   ==> 8-8   (50.0%)  LLR=-0.21
+batch 3: +12 -4   ==> 33-15 (68.8%)  LLR=+2.28
+batch 4: +7  -9   ==> 40-24 (62.5%)  LLR=+1.75
+batch 6: +10 -6   ==> 61-35 (63.5%)  LLR=+2.95  -> ACCEPT
+```
+
+96 games, accepted by one hundredth of a point.
+
+**What was tested is the stack.** The gate ran `src/bot` against `g_iter9`, and
+`src/bot` was g_iter9 + Iteration 38 (the scout cap, held provisionally at
+57.5%) + Iteration 40. So the accept covers both, and under the stacking rule
+this is what resolves Iteration 38: it ships as part of a stack that cleared the
+gate, not on its own inconclusive result. `g_iter10` is the snapshot of both.
+
+**The change.** A slanderer that survives 300 rounds camouflages into a
+full-conviction politician, and `adoptFrom` made it a `GUARD` that held station
+near home for the rest of the game. Nothing ever removed them, so the standing
+population grew without bound and eventually sealed the centre in: 63 of them
+around one centre, which then spent **458 of 1,500 rounds unable to build at
+all** -- a silent failure that did not even count as idle. They now take
+`CAPTURE` at the enemy centre, which drains the ring at the rate the economy
+fills it and converts a standing cost into pressure.
+
+**How it was found.** Not from the correlation ranking, where nothing pointed
+here. It came from a stray line in the Iteration 39 diagnostic -- two centres
+ending a game with zero slanderers, no threat detected and 71,010 influence
+banked -- which I logged as a separate lead rather than folding into the change
+under test. Reading the build code for an explanation produced a specific
+candidate, and instrumenting the silent `return` confirmed it in one game.

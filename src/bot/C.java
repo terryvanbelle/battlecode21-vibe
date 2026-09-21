@@ -55,15 +55,6 @@ public final class C {
     // real centres were known and 2,905-14,145 influence sat banked -- ten capturers' worth. The 2 -> 4
     // test was rejected 120-120 before, but that ran with the guard sink (no money) and the stale neutral
     // list (extra capturers dispatched to centres already ours), so it could only buy waste.
-    // Iteration 44: chip captures. `captureAffordable` demands the FULL price in one politician, so a
-    // 400-influence neutral is unreachable until a centre banks 414 -- while an opponent that chips it
-    // with several cheaper politicians takes it far sooner. The politician already knows how to chip
-    // ("damage to an EC is permanent, the next capturer finishes the job"); nothing ever sent it.
-    // Against rzhan11 the fork is at r200 and it is centres, 2 against 4, with 2,379 influence banked.
-    // 0 = off. CHIP_MIN is the smallest chip worth sending; CHIP_MAX_PRICE bounds what we chip at.
-    public static final int CHIP_CAPTURE = 1;
-    public static final int CHIP_MIN = 80;
-    public static final int CHIP_MAX_PRICE = 700;
     public static final int MAX_CAPTURERS = 4;          // dose 1 (was 2)
     public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // (unused) historical cap

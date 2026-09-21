@@ -4565,3 +4565,39 @@ is the first candidate that is not a re-tuning of something already tried.
 Not started tonight. Pre-registering it here with its counter: centres held at
 r200 in losses rises from 2 toward 3-4, and the number of capture speeches that
 are chips rather than flips rises, since that is the mechanism working.
+
+## Iteration 44: REJECTED by its diagnostic -- chip captures burn the bank
+
+The mechanism fired hard: **61 chips sent, 51 chip speeches delivered**. And it
+is clearly worse. Both sides of the same game, A = chip captures, B = `g_iter10`:
+
+| round | centres A/B | centre influence A/B | unit influence A/B |
+|---|---|---|---|
+| 200 | 2 / **3** | 1,309 / **5,670** | 8,007 / 11,252 |
+| 400 | 4 / 4 | 5,846 / 5,462 | 36,054 / 26,524 |
+| 700 | 2 / **6** | 783 / **39,037** | 106,057 / 181,653 |
+| 1500 | 2 / **6** | 4,185 / **276,786** | 22,745 / 404,827 |
+
+Capture flips fell from 14 to **2**. The pre-registered counter -- centres at
+r200 rising from 2 toward 3-4 -- went the wrong way, 2 against the baseline's 3.
+
+**Why, and it is the same lesson as Iteration 42.** A chip spends influence at a
+poor exchange rate: the speech is divided among every unit in the radius and
+only the share landing on the centre counts, so two chips of 200 do far less
+than one politician of 400. Worse, chipping *continuously* drains the bank, so
+the centre never accumulates the clean purchase price. The old rule was not
+failing to consider partial captures; demanding the full price is what lets the
+bank reach it.
+
+That is twice in one session that an "obviously missing" mechanism turned out to
+be a deliberate-looking absence that is correct: nearest-before-cheapest, and
+now chip-before-buy. Both were rejected by a single diagnostic game costing
+minutes, which is the diagnostic-first rule earning its place.
+
+Reverted to `g_iter10`, verified file by file.
+
+**Fixed along the way:** `tools/tier-check.sh` refused our own diagnostic
+replays. It treated any filename as an opponent name, and `diag-i44.bc21` is not
+in the roster, so it failed closed on a file that has nothing to do with a
+benchmark bot. It now applies only to `<opponent>__<map>__bot<side>.bc21`.
+Verified both ways: the diagnostic dumps, awesomelemonade still refuses.

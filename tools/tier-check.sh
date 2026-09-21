@@ -11,6 +11,10 @@
 set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 f="$(basename "${1:?usage: tier-check.sh <replay.bc21>}")"
+# Only a gauntlet replay carries an opponent in its name: <opponent>__<map>__bot<side>.bc21.
+# A diagnostic replay (diag-i44.bc21) has no "__" and is not about a benchmark bot at all; treating
+# its whole filename as an opponent name made the guard refuse our own diagnostics (2026-09-21).
+case "$f" in *__*__bot?.bc21) ;; *) exit 0 ;; esac
 opp="${f%%__*}"
 case "$opp" in *.*) ;; *) exit 0 ;; esac          # our own snapshots and archetypes are unrestricted
 # Fail CLOSED if the roster is missing. An opponent name with a dot is a benchmark bot, and

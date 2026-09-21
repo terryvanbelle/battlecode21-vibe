@@ -55,46 +55,37 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   1 `arch_muck` muckraker rush, 2 `arch_bidder`, 3 `arch_polrush`, 4 `arch_expand`
   neutral-centre expander, plus `arch_big` (rebuilt allocation).
 
-## State right now (2026-09-21 13:20 UTC, written for a model switch)
+## State right now (2026-09-21 18:00 UTC)
 
-- **Submission: `g_iter10`** = g_iter9 + Iteration 38 (scout cap) + Iteration 40
-  (expired slanderers attack instead of guarding home).
-- **Ladder: Elo 1651, rank 3 of 21.** 35/48 on the fixed field, 6/6 against four
-  of the eight. Only awesomelemonade (1835) and rzhan11 (1742) beat us.
-- **`src/bot` = `g_iter10` + Iteration 47** (the candidate below). It is NOT a
-  clean snapshot. Verify with the per-file diff loop before assuming otherwise:
-  `for f in src/g_iter10/*.java; do b=$(basename $f); diff -q <(sed 's/^package
-  g_iter10;/package bot;/' $f) src/bot/$b >/dev/null || echo $b; done`
+- **Submission: `g_iter11`** = g_iter10 + Iteration 47 (flat speech bar) +
+  Iteration 48 (the broadcast fix and the knowledge hand-off). Gate **65.6%
+  (63-33)**, six batches, every one positive.
+- `src/bot` is byte-identical to `src/g_iter11` (snapshotted from it). It still
+  carries the intake instrumentation (`heardN`, `nearReads`, `orderRounds`,
+  `@capbuild`, `@courier`) -- cheap Debug lines that were part of what the gate
+  tested, so they ship as tested.
+- **In flight:** the archetype regression (`gauntlet/regress-i48.log`, 40 cells,
+  five archetypes). Then a 48-game ladder block on the fixed field
+  (`BOT=bot N=48 tools/scrim.sh`), recorded with `--label g_iter11`, then
+  `elo.py`, `bench-roster.py`, `scrim-study.sh`. Baseline to beat on that field:
+  `g_iter10` at **35/48**.
+- Previous: g_iter10 at Elo 1651, rank 3 of 21, 35/48 on the fixed field.
 
-### In flight: Iteration 47 at the mirror gate
+## The finding behind Iteration 48 (read this before any comms work)
 
-`gauntlet/sprt-i47.log`, `BOT=bot REF=g_iter10`. At batch 3 it read **27-21
-(56.2%), LLR +0.35**, bounds +/-2.94, cap 240 games.
+After every build the centre put a spawn ORDER on its flag for two rounds. Only
+politicians read orders, and their default role already matched, so the order
+carried information only for a CAPTURE. Readers of a centre's flag skip orders.
+**So a centre that builds most rounds broadcast its map to nobody**, including
+its own scouts, which read home every three rounds and got an order every time.
+Captured centres were born deaf; couriers arrived carrying nothing. Orders now
+go on the flag only for captures. Everything else in 48 either exploits that
+(nearby-flag absorption, couriers, home's id in the rotation, ownership as a
+tile) or contains what it woke up (only one scout in four camps the enemy
+centre -- the mechanism rejected as Iteration 33 while the channel was blocked).
 
-The change: a guard's speech bar was `max(12, conviction/3)`, so a politician
-grew fussier as it grew bigger. It is now flat at `C.SPEECH_MIN_VALUE` = 12,
-with `C.SPEECH_CONV_DIV` = 0 selecting the flat rule (set it to 3 to restore the
-old one). Motivated by the first combat measurement of the project: our kills
-per speech match or beat theirs in all six rzhan11 games while **they speak up
-to 3.5x as often**.
-
-**On the verdict:**
-- **ACCEPT** -> `tools/snapshot.sh g_iter11 0`, then the archetype regression
-  (`OPPONENTS="arch_muck arch_bidder arch_polrush arch_big arch_expand"`,
-  `MAPS="maptestsmall Arena Maze Gridlock"`), then `BOT=bot N=48 tools/scrim.sh`,
-  then record with `scrim-record.py --label g_iter11`, `elo.py`,
-  `bench-roster.py`.
-- **REJECT or inconclusive below 53%** -> restore `src/bot` from `src/g_iter10`
-  and verify file by file.
-- **Inconclusive at or above 53%** -> keep provisionally, no snapshot, stack the
-  next change on top (that is how Iteration 38 shipped).
-
-### The next candidate, if 47 fails
-
-Volume was the finding, not the threshold: flattening the bar narrowed the gap
-only from 3.5x to 1.6-1.8x. `bestSpeech` only considers robots within d^2 9, and
-guards hold a ring near home, so **contact** may be the real constraint. That is
-untested and is the obvious dose 2.
+Four earlier hypotheses about the r200 fork each measured something real one
+hop upstream of this. It was found by six counters on the centre's intake.
 
 ## What is closed, with the evidence (do not re-tread)
 

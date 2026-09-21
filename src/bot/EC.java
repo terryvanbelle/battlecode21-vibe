@@ -127,6 +127,12 @@ public strictfp class EC extends Robot {
         else if (inf >= 30 && scouts < Math.min(C.SCOUT_MAX, C.SCOUT_BASE + round / C.SCOUT_PER_ROUND + (inf > 400 ? 3 : 0) + (MapState.nEnemy == 0 && round > 150 ? 2 : 0))) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf - reserve() >= 100 && guards < C.MAX_GUARDS) { t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(50, inf / 3)); role = Roles.GUARD; }
+        // Iteration 45: blocked economy plus a growing hoard means the pressure is winning and we are
+        // saving for nothing. Convert it into defenders, sized to the bank, up to a far higher ceiling.
+        else if (econDanger && inf - reserve() >= C.SIEGE_BANK && guards < C.SIEGE_GUARD_CAP) {
+            t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(100, (inf - reserve()) / 3)); role = Roles.GUARD;
+            Debug.log("@siegebank r=" + round + " inf=" + inf + " guards=" + guards + " send=" + cost);
+        }
         else if (MapState.nEnemy > 0 && inf - reserve() >= 300 && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - reserve(); role = Roles.CAPTURE; }   // rich and idle: throw everything at the enemy EC
         else if (inf - reserve() >= C.SPARE_MIN) {
             // never idle: every capped branch declined but influence is spare. Alternate bodies: a guard when guards

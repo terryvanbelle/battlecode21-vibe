@@ -72,5 +72,10 @@ public final class C {
     // politician
     public static final int GUARD_LEASH_D2 = 80;        // guards wander this far from home
     public static final int GUARD_RING_MIN = 20;        // guards hold outside the slanderer ring
+    // Iteration 40: an expired slanderer became a GUARD and stayed near home, so the standing
+    // population around a centre grows without bound -- 63 "guards" around one centre at r1500,
+    // which walled it in for 458 rounds of the game. They are full-conviction politicians; send
+    // them at the enemy instead. 0 = the old behaviour.
+    public static final int CAMO_ATTACKS = 1;
     private C() {}
 }

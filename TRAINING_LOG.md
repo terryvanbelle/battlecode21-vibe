@@ -4071,12 +4071,27 @@ actively walk outward when inside the ring. So the blockers are either units
 that cannot move (cooldown, or newborns that have not acted), or units whose
 `nav.step()` finds every direction occupied -- a jam rather than a policy.
 
-**Dose 1.** Make the block visible to the unit causing it rather than only to
-the centre: a unit standing adjacent to a friendly centre treats vacating as
-its highest-priority move whenever it has no action to take, and the centre
-prefers spawn tiles that were free last round so it does not fixate on a
-blocked direction. **Counter: `noTile` falls from 200-450 rounds to under 50**,
-with slanderers at r1500 rising above the 0-5 seen here.
+**Dose 1, amended before any test was run.** Reading the code further changed
+the diagnosis, so the dose changed with it -- an amendment made on the same
+evidence and before a single game, not after a result.
+
+The jam is not a missing keep-out rule; it is density. `guards = 63` counts
+every **expired slanderer**: at 300 rounds a slanderer camouflages into a
+politician, `adoptFrom` gives it role `GUARD`, and it then holds a ring near
+home for the rest of the game. Since the economy produces a slanderer every few
+rounds, the standing population around a centre grows without bound and
+eventually seals it in. The keep-out radii (`SLANDERER_RING_MIN` 8,
+`GUARD_RING_MIN` 20) are obeyed; there is simply no room left beyond them.
+
+So dose 1 sends them out instead: a slanderer that survives to camouflage is a
+full-conviction politician, and it now takes `CAPTURE` at the enemy centre
+rather than `GUARD` at home (`C.CAMO_ATTACKS`). That drains the ring at exactly
+the rate the economy fills it, and turns a standing cost into pressure.
+
+**Counter: `noTile` falls from 200-458 rounds to under 50**, the guard count at
+r1500 falls well below 63, and slanderers at r1500 rise above the 0-5 seen
+here. If `noTile` falls but slanderers do not, the jam was not what was
+suppressing the economy and this stops.
 
 **Instrument note before any gate** (today's rule, twice earned): the mirror
 opponent is our own build, which jams its own centres exactly as we do, so this

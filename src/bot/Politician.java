@@ -17,7 +17,13 @@ public strictfp class Politician extends Robot {
     Politician(RobotController rc) { super(rc); }
 
     /** Called when a slanderer becomes a politician mid-life. */
-    void adoptFrom(Robot r) { orderRead = true; role = Roles.GUARD; }
+    void adoptFrom(Robot r) {
+        orderRead = true;
+        // Iteration 40: a slanderer that survives to camouflage is a full-conviction politician.
+        // Keeping it home as a guard is what fills the ring around our own centre.
+        if (C.CAMO_ATTACKS == 1 && MapState.nEnemy > 0) { role = Roles.CAPTURE; target = MapState.enemyEC[0]; }
+        else role = Roles.GUARD;
+    }
     void turnAs(int round) throws GameActionException { this.round = round; this.loc = rc.getLocation(); turn(); }
 
     @Override protected void turn() throws GameActionException {

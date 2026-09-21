@@ -5244,3 +5244,79 @@ and this time, instrument what the bot *hears*, not only what it does.
 
 Consequence for the tier rules: awesomelemonade at 33% is now `target`, so its
 games may be reviewed for the first time under the rule as written.
+
+## Block study of `g_iter11` and the first legitimate look at awesomelemonade (2026-09-21 20:30 UTC)
+
+`tools/scrim-study.sh` over the 48 ladder games, then two new one-pass tools: `tools/econ-scan.sh`
+(the home centre's `@econ` counters at r200 for every game) and `tools/log-scan.sh` (every `@tag`
+line of our side for every game, one tarball). One VM pass per question instead of one dump per
+game per question; the whole block is grep-able on the driver afterwards.
+
+**Ladder-wide onset (unchanged shape):** coverage lead is the earliest and strongest r200
+correlate (within-pair +0.52 at r200, +0.81 at game end), then slanderer lead (+0.60), politician
+count, centre count. `progress/ONSET.md` and `onset-ladder.png` regenerated.
+
+**awesomelemonade, 2 wins 4 losses, what their wins look like.** Their weapon is the expose
+buff: `1 + 0.001 x` influence of our slanderers they exposed in the last 50 rounds, applied to
+every one of their politicians. In HexesAndOhms it reached **6.3x** (buff 5314 at r280), in
+ExesAndOhs 2.7x, in the late BattleCode collapse 10x; in both games we won it never passed 0.4x.
+Our lone centre in HexesAndOhms held 3,500 influence at r220 and was drained to zero by nineteen
+speeches at 6x. Ladder-wide, though, being exposed does not decide games (rzhan11 exposed 81 of
+ours by r400 on BattleCode and lost), so the bounty is a symptom of *where our slanderers are
+when their swarm arrives*, not the first thing to fix.
+
+**Two things the whole block shows, both bugs of ours, both in the losses:**
+
+1. **The save-mode stall.** `save=` rounds at r200 across the block: 187 (BlobWithLegs, loss),
+   164 (Corridor, loss), 80 (CrossStitch, loss), 159 (Networking, win) -- **3 of the 10 losses,
+   1 of the 38 wins.** Mechanism, from BlobWithLegs: the nearest neutral costs 300+14+60 = 374,
+   the bank peaked at 324 at r60, and `doBid` spent 1/30 of the bank every round while two
+   slanderers earned about 8. Bank 324 -> 119 over r60-r200, 794 spent on bids, nothing built
+   for 180 rounds; awesomelemonade took five centres meanwhile. Corridor is the same trace with
+   359 banked against a price it could not reach.
+2. **Home never learns that a centre it targeted became ours.** The only unit that knows is the
+   capturer, and it dies in the speech; scouts learn it only by sighting the new centre. In
+   HexesAndOhms home's `heardOwn=0` for the 100 rounds after the r97 flip, and cheapest-first
+   bought **nine more 165-influence capturers for the centre we already held** (1,485 influence;
+   the centre just taken is by construction the cheapest on the list). Seven of them were
+   converted en route by the enemy's politicians, so none even lived to abort and report. In
+   ExesAndOhs, 13 of 14 sixty-nine-influence capturers spoke beside the two 50-neutrals we had
+   already taken next to the enemy home. In *wins* the same defect sends hundreds of
+   politicians (age < 300, so not camouflage) at an enemy home centre that is already ours --
+   612 aborts "by=ours" in FiveOfHearts -- harmless there, but the rzhan11 Saturn loss has 31.
+
+The engine facts these rest on (read from the source, not guessed): EC action cooldown is 2, so
+a centre builds at most every other round; an EC can read any robot's flag by id, and robots act
+in id order, so a centre reads what a child set last round *before* that child acts this round;
+`EXPOSE_BUFF_FACTOR` 0.001 over `EXPOSE_BUFF_NUM_ROUNDS` 50; slanderer income per round is
+`I x (1/50 + 0.03 e^(-0.001 I))`, so a 41 returns 2.4x over its 50 rounds and a 463 returns 1.9x.
+
+## Iteration 49 -- bank and knowledge hygiene (three doses, one candidate) -- PRE-REGISTERED
+
+Three mechanisms, each a counter of its own; the user's standing authorisation covers a
+multi-mechanism candidate and each dose can be reverted alone.
+
+- **(a) `SAVE_NO_BID=1`, `SAVE_MAX_WAIT=80`**: while the save branch is waiting for a centre,
+  `doBid` holds the bank (counter `saveBidSkip`); after 80 waiting rounds the save is abandoned
+  (`saveAband=<round>`) and the normal chain resumes. Expected in BlobWithLegs: the 374 capture
+  fires by ~r60 instead of never.
+- **(b) `FLIP_INTENT=1`, `PRESUME_ROUNDS=100`**: a capturer that lands adjacent to its target
+  with a flipping share (same plan the speech will use, next round's buff) puts
+  `FLIP_INTENT(target)` on its flag that turn; home reads every child by id before the child acts,
+  logs `@presume`, and buys nothing for that tile for 100 rounds (counters `flipInt`,
+  `presumeSkip`). A wrong intent (share changed before the speech) costs a 100-round delay on
+  that centre; a silent flip costs unbounded capturers, as measured.
+- **(c) `ABORT_REPORT=1`**: a politician that arrives to find the centre ours keeps
+  `OWN_EC(target)` on its flag, so home's `heardOwn` rises and the tile leaves both lists for good.
+
+**Diagnostic (before any test): `bot` vs `g_iter11`, HexesAndOhms as A and BlobWithLegs as B**
+(the two loss configurations, our own snapshot as the opponent), logged. Disqualifiers:
+- Hexes: `@flipintent` fires before at least one FLIP speech, `@presume` follows it at home, and
+  no `@capbuild` at the captured centre's price follows the flip. If intents fire 0 times where a
+  FLIP happens, the flag is not being read: fix before testing.
+- Blob: `save` rounds at r200 <= 80, `saveBidSkip` > 0, and `@save capture` fires by r100.
+- Neither game may show a centre that idles (`idle` counter) because of a presumption.
+
+**Gate:** SPRT vs `g_iter11` (`tools/mirror.sh`, random map and side, bounds +-2.94, cap 240),
+stacking policy as before. Counters to read in the block afterwards: `save` at r200 (expect no
+game >= 80), capturer aborts "by=ours" with age < 300 (expect <= 1 per capture), `flipInt`.

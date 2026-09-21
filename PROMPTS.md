@@ -319,3 +319,7 @@ It seems the methodology is a winner.  The thing I like about it is that it was 
 ## 74. 2026-09-21
 
 Let's hold off on adding any new opponents to the ladder until our standing improves
+
+## 75. 2026-09-21
+
+Just woke up, I see we're at 3rd of 21, nice!  Can you give me a rundown of the night?

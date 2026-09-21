@@ -262,7 +262,7 @@ public strictfp class EC extends Robot {
         if (round > 1 && votes == lastVotes) enemyVotesEst++;
         lastVotes = votes; bidLastRound = false;
         if (votes > 751) return;                                // majority secured
-        boolean saving = !saveDone && round - saveWaitRound <= 2;   // Iteration 49 dose (a): the bank is for a centre; deny free votes, no more
+        if (C.SAVE_NO_BID == 1 && !saveDone && round - saveWaitRound <= 2) { saveBidSkipped++; return; }   // Iteration 49 dose (a): the bank is for a centre
         // Are we safe without bidding? If the opponent cannot catch up even winning every remaining vote, stop.
         if (votes > enemyVotesEst + remaining) return;
         // Influence is worth more early (it compounds through slanderers), so the cap ramps up over the game and
@@ -272,7 +272,6 @@ public strictfp class EC extends Robot {
         int cap = Math.max(1, inf / (C.ARCHETYPE == 2 ? 2 : div));
         if (C.ARCHETYPE == 2 && round > 1 && votes == lastVotes) bid = bid * 2 + 1;
         if (round < 20) cap = Math.min(cap, 3);
-        if (saving && cap > C.SAVE_BID_CAP) { cap = C.SAVE_BID_CAP; saveBidSkipped++; }
         if (bid > cap) bid = cap;
         if (bid > 0 && rc.canBid(bid)) { rc.bid(bid); bidLastRound = true; }
     }

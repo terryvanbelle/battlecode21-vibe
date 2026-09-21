@@ -479,3 +479,51 @@ run,seq,teamA,teamB,map,winner,rounds,reason
 20260921-060417-scrim-bot,46,rzhan11.sprint2,us:g_iter10_fixed,Circles,B,1500,The winning team won by having more vote
 20260921-060417-scrim-bot,47,rzhan11.sprint2,us:g_iter10_fixed,FindYourWay,A,1500,The winning team won by having more vote
 20260921-060417-scrim-bot,48,us:g_iter10_fixed,rzhan11.sprint2,SlowMusic,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,1,us:g_iter11,123kevinlee.atomFinalQualifier,Corridor,B,281,The winning team won by annihilating the
+20260921-184542-scrim-bot,2,123kevinlee.atomFinalQualifier,us:g_iter11,FiveOfHearts,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,3,123kevinlee.atomFinalQualifier,us:g_iter11,Goldfish,B,807,The winning team won by annihilating the
+20260921-184542-scrim-bot,4,123kevinlee.atomFinalQualifier,us:g_iter11,Illusion,B,1490,The winning team won by annihilating the
+20260921-184542-scrim-bot,5,us:g_iter11,123kevinlee.atomFinalQualifier,Saturn,A,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,6,us:g_iter11,123kevinlee.atomFinalQualifier,Surprised,A,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,7,Scott-Poole.spright8,us:g_iter11,Arena,B,722,The winning team won by annihilating the
+20260921-184542-scrim-bot,8,Scott-Poole.spright8,us:g_iter11,CrossStitch,A,1013,The winning team won by annihilating the
+20260921-184542-scrim-bot,9,us:g_iter11,Scott-Poole.spright8,Illusion,A,923,The winning team won by annihilating the
+20260921-184542-scrim-bot,10,us:g_iter11,Scott-Poole.spright8,MainCampus,A,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,11,us:g_iter11,Scott-Poole.spright8,NotAPuzzle,A,1196,The winning team won by annihilating the
+20260921-184542-scrim-bot,12,us:g_iter11,Scott-Poole.spright8,Yoda,A,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,13,arya-k.quals_v1,us:g_iter11,BlobWithLegs,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,14,arya-k.quals_v1,us:g_iter11,NotAPuzzle,B,960,The winning team won by annihilating the
+20260921-184542-scrim-bot,15,us:g_iter11,arya-k.quals_v1,PaperWindmill,A,880,The winning team won by annihilating the
+20260921-184542-scrim-bot,16,arya-k.quals_v1,us:g_iter11,Tiger,B,1367,The winning team won by annihilating the
+20260921-184542-scrim-bot,17,arya-k.quals_v1,us:g_iter11,UnbrandedWordGame,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,18,arya-k.quals_v1,us:g_iter11,Yoda,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,19,awesomelemonade.sprint1bot,us:g_iter11,BattleCode,A,723,The winning team won by annihilating the
+20260921-184542-scrim-bot,20,awesomelemonade.sprint1bot,us:g_iter11,BattleCodeToo,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,21,awesomelemonade.sprint1bot,us:g_iter11,BlobWithLegs,A,1039,The winning team won by annihilating the
+20260921-184542-scrim-bot,22,awesomelemonade.sprint1bot,us:g_iter11,ExesAndOhs,A,226,The winning team won by annihilating the
+20260921-184542-scrim-bot,23,us:g_iter11,awesomelemonade.sprint1bot,HexesAndOhms,B,402,The winning team won by annihilating the
+20260921-184542-scrim-bot,24,us:g_iter11,awesomelemonade.sprint1bot,Surprised,A,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,25,us:g_iter11,iliao2345.attacker,Arena,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,26,iliao2345.attacker,us:g_iter11,CowTwister,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,27,iliao2345.attacker,us:g_iter11,JerryIsEvil,B,1439,The winning team won by annihilating the
+20260921-184542-scrim-bot,28,iliao2345.attacker,us:g_iter11,Networking,B,1168,The winning team won by annihilating the
+20260921-184542-scrim-bot,29,us:g_iter11,iliao2345.attacker,WhatISeeInMyDreams,A,1317,The winning team won by annihilating the
+20260921-184542-scrim-bot,30,iliao2345.attacker,us:g_iter11,Zodiac,A,1298,The winning team won by annihilating the
+20260921-184542-scrim-bot,31,us:g_iter11,jmerle.camel_case_v7_sprint_2,AmidstWe,A,42,The winning team won by annihilating the
+20260921-184542-scrim-bot,32,jmerle.camel_case_v7_sprint_2,us:g_iter11,Gridlock,B,1009,The winning team won by annihilating the
+20260921-184542-scrim-bot,33,jmerle.camel_case_v7_sprint_2,us:g_iter11,HexesAndOhms,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,34,jmerle.camel_case_v7_sprint_2,us:g_iter11,Maze,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,35,us:g_iter11,jmerle.camel_case_v7_sprint_2,Networking,A,1036,The winning team won by annihilating the
+20260921-184542-scrim-bot,36,us:g_iter11,jmerle.camel_case_v7_sprint_2,TheClientMapEditorIsSuperiorToGoogleSheetsEom,A,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,37,us:g_iter11,max-titov.sprintplayer,BlobWithLegs,A,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,38,us:g_iter11,max-titov.sprintplayer,ExesAndOhs,A,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,39,us:g_iter11,max-titov.sprintplayer,HappyBoba,A,526,The winning team won by annihilating the
+20260921-184542-scrim-bot,40,max-titov.sprintplayer,us:g_iter11,Snowflake,B,703,The winning team won by annihilating the
+20260921-184542-scrim-bot,41,us:g_iter11,max-titov.sprintplayer,VideoGames,A,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,42,us:g_iter11,max-titov.sprintplayer,circle,A,469,The winning team won by annihilating the
+20260921-184542-scrim-bot,43,rzhan11.sprint2,us:g_iter11,BattleCode,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,44,rzhan11.sprint2,us:g_iter11,HexesAndOhms,A,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,45,us:g_iter11,rzhan11.sprint2,Misdirection,A,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,46,rzhan11.sprint2,us:g_iter11,Randomized,B,1500,The winning team won by having more vote
+20260921-184542-scrim-bot,47,us:g_iter11,rzhan11.sprint2,Saturn,B,983,The winning team won by annihilating the
+20260921-184542-scrim-bot,48,us:g_iter11,rzhan11.sprint2,WhatISeeInMyDreams,A,1500,The winning team won by having more vote

@@ -5208,3 +5208,39 @@ Eight of eight against each of `arch_muck`, `arch_bidder`, `arch_polrush`,
 expansion and the change is about expansion.
 
 Ladder block running on the fixed field. Baseline to beat: `g_iter10` at 35/48.
+
+## `g_iter11` submitted: 38/48 (79.2%), Elo 1752, **rank 2 of 21** (2026-09-21 19:40 UTC)
+
+Same fixed field as `g_iter10`'s 35/48, so this is like-for-like.
+
+| | record | 95% |
+|---|---|---|
+| `g_iter10` | 35/48 (72.9%) | 59-83 |
+| **`g_iter11`** | **38/48 (79.2%)** | 66-88 |
+
+| opponent | `g_iter10` | `g_iter11` |
+|---|---|---|
+| awesomelemonade.sprint1bot | 0/6 | **2/6** |
+| rzhan11.sprint2 | 2/6 | **4/6** |
+| Scott-Poole.spright8 | 4/6 | 5/6 |
+| arya-k.quals_v1 | 5/6 | 6/6 |
+| 123kevinlee.atomFinalQualifier | 6/6 | 5/6 |
+| iliao2345.attacker | 6/6 | 4/6 |
+| jmerle, max-titov | 6/6, 6/6 | 6/6, 6/6 |
+
+Against the four strong opponents: **12/24 -> 17/24**. Against the four we
+already beat: 23/24 -> 21/24. Read that with the caution earned on Iteration
+45, where the same shape turned out to be six-game noise: +3 overall is one
+standard error and the intervals overlap. What is not noise is the ladder:
+**Elo 1752, rank 2 of 21, above rzhan11 for the first time**, with 528 games
+behind our rating and only awesomelemonade ahead. 2/6 against awesomelemonade
+and 4/6 against rzhan11 are both the best records ever against those bots.
+
+**Two accepts in a row have now moved the ladder** (g_iter10 -> 3rd,
+g_iter11 -> 2nd), after a stretch where three accepts moved it not at all. Both
+were found the same way: measure our behaviour against what the opponents
+actually do, then read one logged game closely enough to find the mechanism --
+and this time, instrument what the bot *hears*, not only what it does.
+
+Consequence for the tier rules: awesomelemonade at 33% is now `target`, so its
+games may be reviewed for the first time under the rule as written.

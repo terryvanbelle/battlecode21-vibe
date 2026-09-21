@@ -64,12 +64,11 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   carries the intake instrumentation (`heardN`, `nearReads`, `orderRounds`,
   `@capbuild`, `@courier`) -- cheap Debug lines that were part of what the gate
   tested, so they ship as tested.
-- **In flight:** the archetype regression (`gauntlet/regress-i48.log`, 40 cells,
-  five archetypes). Then a 48-game ladder block on the fixed field
-  (`BOT=bot N=48 tools/scrim.sh`), recorded with `--label g_iter11`, then
-  `elo.py`, `bench-roster.py`, `scrim-study.sh`. Baseline to beat on that field:
-  `g_iter10` at **35/48**.
-- Previous: g_iter10 at Elo 1651, rank 3 of 21, 35/48 on the fixed field.
+- Regression **40/40**. Ladder **38/48 on the fixed field** (g_iter10: 35/48),
+  **Elo 1752, rank 2 of 21**, above rzhan11 for the first time; only
+  awesomelemonade (1829) ahead. Against the strong four 17/24 (was 12/24);
+  awesomelemonade 2/6 and rzhan11 4/6 are the best records ever against them.
+- awesomelemonade is now tier `target` (33%) and may be reviewed.
 
 ## The finding behind Iteration 48 (read this before any comms work)
 

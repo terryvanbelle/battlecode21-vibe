@@ -20,6 +20,9 @@ public class ConstantsTest {
         // Iteration 35: the spare branch may not become a guard factory again. The cap must be a real
         // bound (not tied to the slanderer count) and must leave room for the economy to fill first.
         check(C.SPEND_GUARD_CAP > 0, "spare-branch guard cap is positive");
+        // Iteration 46: the siege rule must require real duration, not fire on a passing scare.
+        check(C.SIEGE_MIN_ROUNDS >= 25 && C.SIEGE_MIN_ROUNDS < 400, "the siege rule needs sustained pressure");
+        check(C.SIEGE_GUARD_CAP > C.SPEND_GUARD_CAP, "the siege ceiling is above the ordinary one");
         check(C.MAX_CAPTURERS >= 2, "the capturer cap never drops below the long-standing 2");
         // Iteration 38: the scout cap must stay a real ceiling and must grow with the round.
         check(C.SCOUT_BASE > 0 && C.SCOUT_PER_ROUND > 0, "scout cap terms are positive");

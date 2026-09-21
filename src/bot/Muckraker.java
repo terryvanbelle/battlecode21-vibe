@@ -11,6 +11,7 @@ public strictfp class Muckraker extends Robot {
     private Direction heading;
     private int report = 0; private int reportRound = -10; private int lastSiblingReported = -1;
     private MapLocation explore;   // current exploration waypoint
+    private int visitedOwn = 1;    // Iteration 48: bit i set once this scout has been within sensor range of own centre i (bit 0 = home)
 
     Muckraker(RobotController rc) { super(rc); }
 
@@ -66,7 +67,9 @@ public strictfp class Muckraker extends Robot {
                 case 3: if (MapState.maxY >= 0) return Comms.encode(Comms.MAP_EDGE, 3, new MapLocation(loc.x, MapState.maxY)); break;
                 case 4: case 5: if (MapState.nEnemy > 0) return Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(i + round) % MapState.nEnemy]); break;
                 case 6: if (MapState.nNeutral > 0) { int j = (round / 2) % MapState.nNeutral; return Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[j]), MapState.neutralEC[j]); } break;
-                default: if (MapState.nOwnId > 0) return Comms.encodeRaw(Comms.OWN_EC_ID, MapState.ownEcId[(round / 2) % MapState.nOwnId]);
+                default: // Iteration 48: home's id first -- the sibling list excludes it, so nothing ever told a newborn centre who home is
+                         if (C.HANDOFF == 1 && MapState.homeId >= 0 && ((round / 2) & 1) == 0) return Comms.encodeRaw(Comms.OWN_EC_ID, MapState.homeId);
+                         if (MapState.nOwnId > 0) return Comms.encodeRaw(Comms.OWN_EC_ID, MapState.ownEcId[(round / 2) % MapState.nOwnId]);
                          if (MapState.nOwn > 1) return Comms.encode(Comms.OWN_EC, 0, MapState.ownEC[(round / 2) % MapState.nOwn]); break;
             }
         }
@@ -95,6 +98,16 @@ public strictfp class Muckraker extends Robot {
 
     /** Next exploration waypoint. */
     private MapLocation pickExplore() {
+        // Iteration 48: before anything else, call on any own centre this scout has not yet visited. Its
+        // fact rotation carries the neutral list and home's id; the centre reads it on arrival.
+        if (C.HANDOFF == 1) {
+            for (int i = 1; i < MapState.nOwn && i < 31; i++) {
+                if ((visitedOwn & (1 << i)) != 0) continue;
+                if (loc.distanceSquaredTo(MapState.ownEC[i]) <= 40) { visitedOwn |= 1 << i; continue; }
+                Debug.log("@courier to=" + i + " r=" + round);
+                return MapState.ownEC[i];
+            }
+        }
         if (MapState.boundsKnown() && MapState.home != null) {
             // candidate enemy-EC positions under surviving hypotheses, split among scouts by id; else a far random point
             int n = MapState.symCount();

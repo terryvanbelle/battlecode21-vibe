@@ -35,6 +35,7 @@ public strictfp class EC extends Robot {
         probeEdges();
         readChildren();
         readSiblings();
+        if (C.HANDOFF == 1) readNearbyFriendlies();
         int inf = rc.getInfluence();
         boolean danger = nearestEnemyD2 < 1 << 30;   // any enemy in our 40 r2 sensor range (guards react to this)
         // Iteration 27: the economy stops only for a threat that can actually hurt, not for any passing muckraker
@@ -120,7 +121,7 @@ public strictfp class EC extends Robot {
             else if (slanderers < C.SAVE_SLANDERERS && Econ.bestSize(inf - 5) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - 5, 85)); role = Roles.ECON; }
             else { saveRounds++; return; }
         }
-        else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; }
+        else if (captureAffordable(inf) >= 0) { captureTargetIdx = captureAffordable(inf); t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; Debug.log("@capbuild r=" + round + " cost=" + cost + " home=" + (birth <= 1)); }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
@@ -246,6 +247,21 @@ public strictfp class EC extends Robot {
     private boolean bidLastRound = false;
 
     // ---------------------------------------------------------------- comms
+    /** Iteration 48: absorb what any friendly unit within sensor range is broadcasting. This is how a
+     *  freshly captured centre learns anything at all -- it has no children and knows no sibling ids. */
+    private void readNearbyFriendlies() throws GameActionException {
+        int n = nearby.length; if (n == 0) return;
+        int start = (round * C.HANDOFF_READS) % n, reads = 0;
+        for (int k = 0; k < n && reads < C.HANDOFF_READS; k++) {
+            RobotInfo r = nearby[(start + k) % n];
+            if (r.team != us || r.type == RobotType.ENLIGHTENMENT_CENTER) continue;
+            if (!rc.canGetFlag(r.ID)) continue;
+            int f = rc.getFlag(r.ID); reads++;
+            int t = Comms.type(f);
+            if (t != Comms.IDLE && t != Comms.ORDER && t != Comms.STATUS) absorb(f, loc);
+        }
+    }
+
     private void readChildren() throws GameActionException {
         // budget: read up to 24 child flags per turn, round-robin
         int n = nChild; if (n == 0) return;

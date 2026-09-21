@@ -62,6 +62,17 @@ public final class C {
     // real centres were known and 2,905-14,145 influence sat banked -- ten capturers' worth. The 2 -> 4
     // test was rejected 120-120 before, but that ran with the guard sink (no money) and the stale neutral
     // list (extra capturers dispatched to centres already ours), so it could only buy waste.
+    // Iteration 48: knowledge hand-off to captured centres. A captured centre is born knowing nothing,
+    // has no children to read and no sibling ids to read, so it is DEAF until a scout it builds happens
+    // to pass a sibling. Measured over four logged games: home centres know 3 neutrals, captured centres
+    // know 0 in nine of fourteen cases. Capture timing vs rzhan11 shows the cost -- our cadence is one
+    // centre per 110-150 rounds to their 40-80, because only home ever expands and home is broke after
+    // its first wave (SlowMusic: two captures by r140, then none in 1,360 rounds with five on the map).
+    // Three pieces: (1) a centre absorbs flags of ALL nearby friendlies, not only its children;
+    // (2) scouts route through own centres they have not visited, delivering their fact rotation;
+    // (3) scouts broadcast HOME's id, which the sibling list excludes, so a newborn can readSiblings(home).
+    public static final int HANDOFF = 1;                // 0 = the old behaviour
+    public static final int HANDOFF_READS = 24;         // nearby friendly flags a centre reads per turn
     public static final int MAX_CAPTURERS = 4;          // dose 1 (was 2)
     public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // (unused) historical cap

@@ -18,6 +18,7 @@ public strictfp class EC extends Robot {
     // Stored as a location, not an index: removeNeutral compacts the array and every index shifts.
     private final MapLocation[] childTgt = new MapLocation[MAX_CHILDREN];
     private int scouts = 0, slanderers = 0, guards = 0, capturers = 0;
+    private int blockedRounds = 0;   // diagnostic: rounds a build was chosen but no adjacent tile was free
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
     private int broadcast = 0, broadcastAge = 0;
@@ -48,7 +49,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
     }
 
     // ---------------------------------------------------------------- production
@@ -139,7 +140,10 @@ public strictfp class EC extends Robot {
         else { if (inf >= 21) idleRounds++; return; }
         if (cost <= 0 || cost > inf) return;
         Direction d = spawnDir(t, cost, role);
-        if (d == null) return;
+        // Hypothesis (2026-09-21): a centre ringed by its own units cannot build at all, and this
+        // return is silent -- it does not even count as idle. Observed: centres ending a game with
+        // ZERO slanderers, no threat, and 71,010 influence banked.
+        if (d == null) { blockedRounds++; return; }
         rc.buildRobot(t, d, cost);
         RobotInfo nb = rc.senseRobotAtLocation(loc.add(d));
         if (nb != null && nChild < MAX_CHILDREN) { childId[nChild] = nb.ID; childType[nChild] = role; childBirth[nChild] = round; childTgt[nChild] = (role == Roles.CAPTURE && captureTargetIdx >= 0) ? MapState.neutralEC[captureTargetIdx] : null; nChild++; }

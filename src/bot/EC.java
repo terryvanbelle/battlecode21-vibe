@@ -48,12 +48,18 @@ public strictfp class EC extends Robot {
         MapState.home = loc; MapState.homeId = id; MapState.sightOwnEC(loc, round);
     }
 
+    // Iteration 50 profiling: bytecodes at each stage of the turn, logged when the turn runs long
+    private final int[] prof = new int[8]; private int profRound = -100;
+    private void profLog(int used) throws GameActionException {
+        if (used < 12000 || round - profRound < 10) return; profRound = round;
+        Debug.log("@bcprof r=" + round + " sense=" + prof[0] + " edges=" + (prof[1] - prof[0]) + " children=" + (prof[2] - prof[1]) + " siblings=" + (prof[3] - prof[2]) + " nearby=" + (prof[4] - prof[3]) + " build=" + (prof[5] - prof[4]) + " bid=" + (prof[6] - prof[5]) + " bcast=" + (prof[7] - prof[6]) + " nearby.n=" + nearby.length + " nChild=" + nChild + " total=" + used);
+    }
     @Override protected void turn() throws GameActionException {
-        sense();
-        probeEdges();
-        readChildren();
-        readSiblings();
-        if (C.HANDOFF == 1) readNearbyFriendlies();
+        sense(); prof[0] = Clock.getBytecodeNum();
+        probeEdges(); prof[1] = Clock.getBytecodeNum();
+        readChildren(); prof[2] = Clock.getBytecodeNum();
+        readSiblings(); prof[3] = Clock.getBytecodeNum();
+        if (C.HANDOFF == 1) readNearbyFriendlies(); prof[4] = Clock.getBytecodeNum();
         int inf = rc.getInfluence();
         boolean danger = nearestEnemyD2 < 1 << 30;   // any enemy in our 40 r2 sensor range (guards react to this)
         // Iteration 27: the economy stops only for a threat that can actually hurt, not for any passing muckraker
@@ -65,9 +71,10 @@ public strictfp class EC extends Robot {
         }
         if (round > C.SAVE_UNTIL) saveDone = true;
         if (econDanger) econDangerRounds++;
-        if (rc.isReady()) build(inf, danger, econDanger);
-        doBid();
-        updateBroadcast(danger);
+        if (rc.isReady()) build(inf, danger, econDanger); prof[5] = Clock.getBytecodeNum();
+        doBid(); prof[6] = Clock.getBytecodeNum();
+        updateBroadcast(danger); prof[7] = Clock.getBytecodeNum();
+        profLog(prof[7]);
         if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound + " capReads=" + capReads + " heardE=" + heardEnemy + " own=" + MapState.nOwn + " ownT=" + ownTiles() + " refusedE=" + refusedEnemy + " safeStops=" + safeStops);
     }
 

@@ -35,13 +35,16 @@ public class MapStateTest {
         reset();
         MapLocation cap = new MapLocation(30, 30);
         check(MapState.addNeutralEC(cap, 200), "a neutral centre is recorded");
-        MapState.addOwnEC(cap);
-        // Iteration 49: hearsay cannot make a centre we own an enemy centre; a sighting can (we may have lost it)
-        check(!MapState.addEnemyEC(cap) && !MapState.known(MapState.enemyEC, MapState.nEnemy, cap), "hearsay ENEMY_EC refused for an own tile");
-        check(MapState.sightEnemyEC(cap) && MapState.known(MapState.enemyEC, MapState.nEnemy, cap) && !MapState.known(MapState.ownEC, MapState.nOwn, cap), "a sighted enemy centre overrides ownership");
-        check(!MapState.addOwnEC(cap) && !MapState.known(MapState.ownEC, MapState.nOwn, cap), "hearsay OWN_EC cannot resurrect a tile now listed as enemy");
-        check(MapState.sightOwnEC(cap) && MapState.known(MapState.ownEC, MapState.nOwn, cap) && !MapState.known(MapState.enemyEC, MapState.nEnemy, cap), "a sighted own centre overrides the enemy listing");
+        MapState.claimOwn(cap, 1);
+        // Iteration 49: claims are stamped; the newer sighting wins whoever relays it
+        MapState.claimOwn(cap, 5);
+        check(!MapState.claimEnemy(cap, 3) && !MapState.known(MapState.enemyEC, MapState.nEnemy, cap), "an older enemy claim is refused");
+        check(!MapState.claimEnemy(cap, 5) && MapState.known(MapState.ownEC, MapState.nOwn, cap), "an equally old enemy claim is refused");
+        check(MapState.claimEnemy(cap, 7) && MapState.known(MapState.enemyEC, MapState.nEnemy, cap) && !MapState.known(MapState.ownEC, MapState.nOwn, cap), "a newer enemy sighting overrides ownership");
+        check(!MapState.claimOwn(cap, 6) && !MapState.known(MapState.ownEC, MapState.nOwn, cap), "an older own echo cannot resurrect ownership");
+        check(MapState.claimOwn(cap, 8) && MapState.known(MapState.ownEC, MapState.nOwn, cap) && !MapState.known(MapState.enemyEC, MapState.nEnemy, cap), "a newer own sighting overrides the enemy listing");
         check(!MapState.addNeutralEC(cap, 100), "still never neutral again");
+        check(MapState.stamp(1499) <= 63 && MapState.stamp(0) == 0, "stamps fit six bits over a whole game");
         check(MapState.nNeutral == 0, "capturing it drops it from the neutral list");
         check(!MapState.addNeutralEC(cap, 200), "a stale neutral report about it is refused");
         check(MapState.nNeutral == 0, "and does not put it back");

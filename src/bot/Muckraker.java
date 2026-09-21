@@ -71,13 +71,13 @@ public strictfp class Muckraker extends Robot {
                 case 1: if (MapState.maxX >= 0) return Comms.encode(Comms.MAP_EDGE, 1, new MapLocation(MapState.maxX, loc.y)); break;
                 case 2: if (MapState.minY >= 0) return Comms.encode(Comms.MAP_EDGE, 2, new MapLocation(loc.x, MapState.minY)); break;
                 case 3: if (MapState.maxY >= 0) return Comms.encode(Comms.MAP_EDGE, 3, new MapLocation(loc.x, MapState.maxY)); break;
-                case 4: case 5: if (MapState.nEnemy > 0) return Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(i + round) % MapState.nEnemy]); break;
+                case 4: case 5: if (MapState.nEnemy > 0) { int j = (i + round) % MapState.nEnemy; return Comms.encode(Comms.ENEMY_EC_ECHO, MapState.enemyStamp[j], MapState.enemyEC[j]); } break;
                 case 6: if (MapState.nNeutral > 0) { int j = (round / 2) % MapState.nNeutral; return Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[j]), MapState.neutralEC[j]); } break;
-                case 7: if (C.HANDOFF == 1 && MapState.nOwn > 1) return Comms.encode(Comms.OWN_EC, 0, MapState.ownEC[1 + (round / 2) % (MapState.nOwn - 1)]); break;   // dose 2: own tiles get their own slot
+                case 7: if (C.HANDOFF == 1 && MapState.nOwn > 1) { int j = 1 + (round / 2) % (MapState.nOwn - 1); return Comms.encode(Comms.OWN_EC, MapState.ownStamp[j], MapState.ownEC[j]); } break;   // dose 2: own tiles get their own slot
                 default: // Iteration 48: home's id first -- the sibling list excludes it, so nothing ever told a newborn centre who home is
                          if (C.HANDOFF == 1 && MapState.homeId >= 0 && ((round / 2) & 1) == 0) return Comms.encodeRaw(Comms.OWN_EC_ID, MapState.homeId);
                          if (MapState.nOwnId > 0) return Comms.encodeRaw(Comms.OWN_EC_ID, MapState.ownEcId[(round / 2) % MapState.nOwnId]);
-                         if (MapState.nOwn > 1) return Comms.encode(Comms.OWN_EC, 0, MapState.ownEC[(round / 2) % MapState.nOwn]); break;
+                         if (MapState.nOwn > 1) { int j = (round / 2) % MapState.nOwn; return Comms.encode(Comms.OWN_EC, MapState.ownStamp[j], MapState.ownEC[j]); } break;
             }
         }
         return 0;

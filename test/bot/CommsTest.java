@@ -20,6 +20,7 @@ public class CommsTest {
         }
         // Iteration 49: FLIP_INTENT fits the 4-bit type field and round-trips its target like any located flag
         check(Comms.FLIP_INTENT <= 15 && Comms.FLIP_INTENT != Comms.OWN_EC && Comms.FLIP_INTENT != Comms.ORDER, "FLIP_INTENT is a distinct 4-bit type");
+        check(Comms.ENEMY_EC_ECHO <= 15 && Comms.ENEMY_EC_ECHO != Comms.ENEMY_EC && Comms.ENEMY_EC_ECHO != Comms.FLIP_INTENT, "ENEMY_EC_ECHO is a distinct 4-bit type");
         { MapLocation rd = new MapLocation(12345, 23456), tg = new MapLocation(12345 + 40, 23456 - 20); int f = Comms.encode(Comms.FLIP_INTENT, 0, tg);
           check(Comms.type(f) == Comms.FLIP_INTENT && Comms.loc(f, rd).equals(tg), "FLIP_INTENT round trip"); }
         for (int inf = 0; inf < 5000; inf += 7) { int b = Comms.bucket(inf); check(Comms.unbucket(b) >= inf || b == 63, "bucket up " + inf + " -> " + b + " -> " + Comms.unbucket(b)); check(b <= 63, "bucket range"); }

@@ -40,22 +40,6 @@ public final class MapState {
         for (int i = n; --i >= 0;) if (a[i].equals(l)) return true;
         return false;
     }
-    /** Hearsay: an ENEMY_EC report. Refused for a tile we own -- the scouts' fact rotation echoes a centre we
-     *  took for the rest of the game (Iteration 49 diagnostic: 520 politicians sent at an enemy home already
-     *  ours, home's eEC never dropped). A sighting goes through sightEnemyEC, which overrides. */
-    public static boolean addEnemyEC(MapLocation l) {
-        if (C.ENEMY_HEARSAY_GUARD == 1 && known(ownEC, nOwn, l)) return false;
-        return addEnemyRaw(l);
-    }
-    /** Sighting: the tile really holds an enemy centre now (ours may have been lost). */
-    public static boolean sightEnemyEC(MapLocation l) { removeOwn(l); return addEnemyRaw(l); }
-    private static boolean addEnemyRaw(MapLocation l) {
-        if (known(enemyEC, nEnemy, l) || nEnemy >= MAX_ECS) return false;
-        enemyEC[nEnemy++] = l; removeNeutral(l); return true;
-    }
-    public static void removeOwn(MapLocation l) {
-        for (int i = nOwn; --i >= 0;) if (ownEC[i].equals(l) && (home == null || !home.equals(l))) { nOwn--; ownEC[i] = ownEC[nOwn]; return; }
-    }
     public static boolean addNeutralEC(MapLocation l, int inf) {
         // A centre we own was never neutral again: centres are neutral only at the start of the game.
         // Without this the captured-centre broadcast ping-pongs -- the centre drops it from the neutral
@@ -70,21 +54,42 @@ public final class MapState {
         for (int i = nNeutral; --i >= 0;) if (neutralEC[i].equals(l)) { nNeutral--; neutralEC[i] = neutralEC[nNeutral]; neutralInf[i] = neutralInf[nNeutral]; return; }
     }
     public static void removeEnemy(MapLocation l) {
-        for (int i = nEnemy; --i >= 0;) if (enemyEC[i].equals(l)) { nEnemy--; enemyEC[i] = enemyEC[nEnemy]; return; }
+        for (int i = nEnemy; --i >= 0;) if (enemyEC[i].equals(l)) { nEnemy--; enemyEC[i] = enemyEC[nEnemy]; enemyStamp[i] = enemyStamp[nEnemy]; return; }
     }
-    /** Hearsay (a scout's fact rotation): cannot resurrect ownership of a tile now listed as enemy -- the
-     *  same echo problem as addEnemyEC, in reverse (a centre we lost). A sighting goes through sightOwnEC. */
-    public static boolean addOwnEC(MapLocation l) {
-        if (C.ENEMY_HEARSAY_GUARD == 1 && known(enemyEC, nEnemy, l)) return false;
-        return addOwnRaw(l);
+    // Iteration 49: ownership claims carry the round of the sighting behind them (round / STAMP_DIV, six bits,
+    // no wrap in 1500 rounds). A claim is accepted only if it is newer than the contrary claim we hold, so the
+    // latest sighting wins no matter who relays it. Without this a centre that changed hands ping-ponged between
+    // stale echoes (520 politicians sent at a centre already ours), and a plain "refuse echoes" guard threw away
+    // the sightings a sibling's scouts relayed (home knew no enemy centre for 1,200 rounds).
+    public static final int STAMP_DIV = 32;
+    public static final int[] enemyStamp = new int[MAX_ECS];
+    public static final int[] ownStamp = new int[MAX_ECS];
+    public static int stamp(int round) { return round / STAMP_DIV; }
+    private static int stampOf(MapLocation[] a, int[] st, int n, MapLocation l) { for (int i = n; --i >= 0;) if (a[i].equals(l)) return st[i]; return -1; }
+
+    /** An enemy-centre claim with the sighting's stamp. Returns true if the tile was newly listed as enemy. */
+    public static boolean claimEnemy(MapLocation l, int st) {
+        if (C.STAMPED_CLAIMS == 1 && stampOf(ownEC, ownStamp, nOwn, l) >= st) return false;   // we hold a newer (or as new) own claim
+        removeOwn(l); removeNeutral(l);
+        for (int i = nEnemy; --i >= 0;) if (enemyEC[i].equals(l)) { if (st > enemyStamp[i]) enemyStamp[i] = st; return false; }
+        if (nEnemy >= MAX_ECS) return false;
+        enemyEC[nEnemy] = l; enemyStamp[nEnemy] = st; nEnemy++; return true;
     }
-    /** Sighting: the tile really holds one of our centres now (abort report, the centre itself, sensed). */
-    public static boolean sightOwnEC(MapLocation l) { removeEnemy(l); return addOwnRaw(l); }
-    private static boolean addOwnRaw(MapLocation l) {
-        if (known(ownEC, nOwn, l) || nOwn >= MAX_ECS) return false;
-        ownEC[nOwn++] = l; removeNeutral(l); removeEnemy(l);
+    /** An own-centre claim with the sighting's stamp. Returns true if the tile was newly listed as ours. */
+    public static boolean claimOwn(MapLocation l, int st) {
+        if (C.STAMPED_CLAIMS == 1 && stampOf(enemyEC, enemyStamp, nEnemy, l) >= st) return false;
+        removeEnemy(l); removeNeutral(l);
+        for (int i = nOwn; --i >= 0;) if (ownEC[i].equals(l)) { if (st > ownStamp[i]) ownStamp[i] = st; return false; }
+        if (nOwn >= MAX_ECS) return false;
+        ownEC[nOwn] = l; ownStamp[nOwn] = st; nOwn++;
         if (boundsKnown()) for (int i = nEnemy; --i >= 0;) pruneWithEnemyEC(enemyEC[i]);
         return true;
+    }
+    /** Sightings (this robot sees it, or is it): a claim stamped now. */
+    public static boolean sightEnemyEC(MapLocation l, int round) { return claimEnemy(l, stamp(round)); }
+    public static boolean sightOwnEC(MapLocation l, int round) { return claimOwn(l, stamp(round)); }
+    public static void removeOwn(MapLocation l) {
+        for (int i = nOwn; --i >= 0;) if (ownEC[i].equals(l)) { nOwn--; ownEC[i] = ownEC[nOwn]; ownStamp[i] = ownStamp[nOwn]; return; }
     }
 
     /** Image of l under hypothesis bit (0 rot, 1 mirror-x, 2 mirror-y). Needs bounds. */

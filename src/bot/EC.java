@@ -45,7 +45,7 @@ public strictfp class EC extends Robot {
     EC(RobotController rc) { super(rc); }
 
     @Override protected void init() throws GameActionException {
-        MapState.home = loc; MapState.homeId = id; MapState.sightOwnEC(loc);
+        MapState.home = loc; MapState.homeId = id; MapState.sightOwnEC(loc, round);
     }
 
     @Override protected void turn() throws GameActionException {
@@ -317,10 +317,10 @@ public strictfp class EC extends Robot {
         if (ty == Comms.NEUTRAL_EC) { heardNeutral++; MapLocation l = Comms.loc(f, ref); for (int i = MapState.nOwn; --i >= 0;) if (MapState.ownEC[i].equals(l)) { refusedNeutral++; break; } }
         else if (ty == Comms.OWN_EC) { heardOwn++; MapLocation l = Comms.loc(f, ref); if (!MapState.known(MapState.ownEC, MapState.nOwn, l)) Debug.log("@ownheard r=" + round + " tile=" + (l.x - MapState.minX) + "," + (l.y - MapState.minY) + " from=" + absorbFrom + " raw=" + l.x + "," + l.y); }
         else if (ty == Comms.OWN_EC_ID) heardOwnId++;
-        else if (ty == Comms.ENEMY_EC) { heardEnemy++; MapLocation l = Comms.loc(f, ref); if (MapState.known(MapState.ownEC, MapState.nOwn, l)) { refusedEnemy++; if (refusedEnemy % 50 == 1) Debug.log("@enemyrefused r=" + round + " tile=" + (l.x - MapState.minX) + "," + (l.y - MapState.minY) + " from=" + absorbFrom + " n=" + refusedEnemy); } }
+        else if (ty == Comms.ENEMY_EC || ty == Comms.ENEMY_EC_ECHO) { heardEnemy++; MapLocation l = Comms.loc(f, ref); if (MapState.known(MapState.ownEC, MapState.nOwn, l)) { refusedEnemy++; if (refusedEnemy % 50 == 1) Debug.log("@enemyclaim r=" + round + " tile=" + (l.x - MapState.minX) + "," + (l.y - MapState.minY) + " from=" + absorbFrom + " stamp=" + (ty == Comms.ENEMY_EC ? MapState.stamp(round) : Comms.extra(f)) + " n=" + refusedEnemy); } }
         else if (ty == Comms.FLIP_INTENT) { flipIntents++; presume(Comms.loc(f, ref)); return; }
         super.absorb(f, ref);
-        if (Comms.type(f) == Comms.ENEMY_EC && Comms.extra(f) > 0) enemyEcInf = Comms.unbucket(Comms.extra(f));
+        if (Comms.type(f) == Comms.ENEMY_EC && Comms.extra(f) > 0) enemyEcInf = Comms.unbucket(Comms.extra(f));   // sightings only carry the bucket
     }
 
     /** ECs can read any flag: absorb what sibling ECs broadcast (bounds, enemy ECs, neutrals). */
@@ -340,9 +340,9 @@ public strictfp class EC extends Robot {
         // Iteration 36's mechanism, restored as half of Iteration 37: a captured centre puts its own
         // location on its flag, so siblings call addOwnEC and stop treating it as neutral. Alone it was
         // rejected at 45.1%; the cap raise is only meaningful if extra capturers go to distinct REAL targets.
-        else if (birth > 1 && (round / 3) % 3 == 2) f = Comms.encode(Comms.OWN_EC, 1, loc);   // extra 1: a sighting (it is us)
-        else if (MapState.nEnemy > 0 && (round / 3) % 2 == 0) f = Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(round / 6) % MapState.nEnemy]);
-        else if (C.BROADCAST_OWN == 1 && MapState.nOwn > 1 && (round / 3) % 4 == 3) f = Comms.encode(Comms.OWN_EC, 0, MapState.ownEC[1 + (round / 12) % (MapState.nOwn - 1)]);   // Iteration 49 dose 2: correct the scouts' copies
+        else if (birth > 1 && (round / 3) % 3 == 2) f = Comms.encode(Comms.OWN_EC, MapState.stamp(round), loc);   // stamped now: it is us
+        else if (MapState.nEnemy > 0 && (round / 3) % 2 == 0) { int j = (round / 6) % MapState.nEnemy; f = Comms.encode(Comms.ENEMY_EC_ECHO, MapState.enemyStamp[j], MapState.enemyEC[j]); }
+        else if (C.BROADCAST_OWN == 1 && MapState.nOwn > 1 && (round / 3) % 4 == 3) { int j = 1 + (round / 12) % (MapState.nOwn - 1); f = Comms.encode(Comms.OWN_EC, MapState.ownStamp[j], MapState.ownEC[j]); }   // off: see C.BROADCAST_OWN
         else if (MapState.nNeutral > 0 && (round / 3) % 2 == 1) f = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[(round / 6) % MapState.nNeutral]), MapState.neutralEC[(round / 6) % MapState.nNeutral]);
         else {
             f = -1;

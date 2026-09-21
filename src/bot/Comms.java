@@ -20,8 +20,9 @@ public final class Comms {
     public static final int ENEMY_UNIT = 4;   // extra = 0 politician, 1 slanderer, 2 muckraker
     public static final int ORDER = 5;        // extra = role; loc = target
     public static final int STATUS = 6;       // extra = bits: [sym:2][bounds known:1][danger:1] ; loc = home EC
-    public static final int OWN_EC = 7;       // extra = influence bucket
+    public static final int OWN_EC = 7;       // extra = sighting stamp (Iteration 49)
     public static final int OWN_EC_ID = 8;    // payload20 = robot id of a friendly EC (so ECs can read each other's flags)
+    public static final int ENEMY_EC_ECHO = 10; // extra = sighting stamp (round / MapState.STAMP_DIV); relayed knowledge, not a sighting
     public static final int FLIP_INTENT = 9;  // loc = the centre a capturer is about to flip (Iteration 49; read by ECs only)
 
     public static int encodeRaw(int type, int payload20) { return (type << 20) | (payload20 & 0xFFFFF); }

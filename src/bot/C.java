@@ -3,7 +3,7 @@ package bot;
 /** Tunable constants. One place, so a dose ladder is a one-line diff. */
 public final class C {
     public static final boolean DEBUG = true;      // @tag log lines on/off
-    /** Sparring archetype switch: 0 = the real bot; 1 = muckraker rush; 2 = aggressive bidder; 3 = politician rush; 4 = neutral-EC expander; 5 = siege. Set by tools/snapshot.sh <name> <archetype>. */
+    /** Sparring archetype switch: 0 = the real bot; 1 = muckraker rush; 2 = aggressive bidder; 3 = politician rush; 4 = neutral-EC expander. Set by tools/snapshot.sh <name> <archetype>. */
     public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
@@ -24,11 +24,6 @@ public final class C {
     // an enemy politician in sensor range, or a muckraker close enough to expose a newborn slanderer at once.
     public static final int ECON_DANGER_POL_CONV = 20;   // an enemy politician of at least this conviction blocks the economy
     public static final int ECON_DANGER_MUCK_D2 = 9;     // ... as does a muckraker this close (it would expose the newborn)
-    // Iteration 39: the economy may PAUSE for a threat but must never stop. Measured against rzhan11 on
-    // Networking: one centre spent 1,192 of 1,500 rounds in econDanger and all three ended the game with
-    // ZERO slanderers while holding 3,882 / 71,884 / 72,253 influence. After this many consecutive
-    // blocked rounds the centre builds anyway; spawnDir already picks a tile away from the nearest enemy.
-    public static final int ECON_DANGER_MAX = 25;        // dose 1 (was: unbounded)     // ... as does a muckraker this close (it would expose the newborn)
     // Iteration 34 (the opening deployment): the unit-influence LEAD is the only metric that predicts the result from
     // r50 (+0.37, rising to +0.68), and in losses we are already 226 behind at r50 from an identical 150 start.
     // Measured opening, 123kevinlee vs us: they spend their whole start on a 130-influence slanderer at r1; we spend

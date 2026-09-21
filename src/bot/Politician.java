@@ -24,14 +24,6 @@ public strictfp class Politician extends Robot {
         sense();
         if (!orderRead) { int f = readHome(); orderRead = true; if (f >= 0 && Comms.type(f) == Comms.ORDER) { role = Comms.extra(f); target = Comms.loc(f, loc); } }
         else if (round % 4 == 0) readHome();
-        // ARCHETYPE 5 (siege): walk at the enemy centre and then STOP just inside its sensor
-        // radius without ever speaking, so the threat is permanent. arch_polrush throws politicians
-        // at the centre and they die, which is why it produced eDanger=0 for a whole game and was
-        // useless as the second arm for Iteration 39.
-        if (C.ARCHETYPE == 5 && role == Roles.CAPTURE && target != null) {
-            if (loc.distanceSquaredTo(target) > 25) { nav.setTarget(target); nav.step(); }
-            return;
-        }
         if (role == Roles.CAPTURE && target != null) { capture(); return; }
         guard();
     }

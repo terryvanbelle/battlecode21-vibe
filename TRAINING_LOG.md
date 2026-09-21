@@ -4006,3 +4006,42 @@ would have caught `arch_polrush` and `arch_muck`. Only then re-run this exact
 change against the mirror plus that arm. If `arch_siege` cannot reproduce the
 condition either, the mechanism is not testable with the instruments we have
 and the change stays out.
+
+### The siege arm has no power: both builds swept it 21-21 (2026-09-21 00:40 UTC)
+
+`arch_siege` passed the pre-registered check handsomely -- it blocked a `g_iter9`
+centre for **1,260 of 1,500 rounds**, against the 500 required and the 0 that
+`arch_polrush` managed. It then proved useless as a gate:
+
+| arm | vs `arch_siege` |
+|---|---|
+| Iteration 39 | **21/21** |
+| `g_iter9` | **21/21** |
+
+Twenty-one paired cells, twenty-one agreements, zero flips in either
+direction. A ceiling effect: an opponent that loses every game cannot rank two
+builds, however faithfully it reproduces the condition.
+
+**The pre-registration verified the wrong property.** It required the archetype
+to *create the condition*, and that check was right and necessary. It did not
+require the archetype to be *competitive*, and without that the arm cannot
+discriminate. This is the second archetype to fail on exactly this axis today:
+`arch_expand` took 8 centres to the incumbent's 0 and still lost on votes, and
+had to be given a bidding float before it could rank anything.
+
+**So a sparring archetype needs both properties, and both must be verified
+before it gates anything:**
+
+1. it reproduces the condition the change addresses (measure the condition);
+2. it wins a meaningful share of games against the incumbent, say 25-75%,
+   or results cannot vary (measure the win rate).
+
+`arch_siege` has (1) and fails (2). Making it competitive means giving it an
+economy, at which point it stops being a pure siege -- the same tension
+`arch_expand` resolved with a bidding float. That is worth doing, but it is
+instrument work, not bot work, and it is where this thread stops tonight.
+
+**Iteration 39 stays out.** `src/bot` is `g_iter9` + Iteration 38 (provisional).
+The defect it addressed is real and measured -- 1,192 blocked rounds, every
+centre ending with zero slanderers on 72,000 influence -- and remains unfixed,
+with no instrument able to price the fix.

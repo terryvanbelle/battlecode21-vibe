@@ -4201,3 +4201,47 @@ per-block rate keeps distracting from.
 
 The ladder itself has got much harder. Of nine rated bots above 1450, six beat
 us more often than not, and every exploration block adds another.
+
+## The hypothesis pipeline has narrowed to one opponent (2026-09-21 04:10 UTC)
+
+After the `g_iter10` block, five of its eight opponents are `locked` and the
+study skipped them. Tiers now:
+
+| opponent | our last rate | tier |
+|---|---|---|
+| awesomelemonade.sprint1bot | 0% | locked |
+| rzhan11.sprint2 | 0% | **locked** (was `target` -- it fell 2/6 to 0/6) |
+| rqi3.qualification_bot | 17% | locked |
+| BSreenivas0713.musketeerplayerfinal | 17% | locked |
+| iyzg.sbot17 | 17% | locked |
+| VittalT.final_usqualplayer3_subm | 33% | target |
+| Scott-Poole, jmerle, iliao2345, 123kevinlee, max-titov, arya-k | 67-100% | peer |
+
+**Every opponent that beats us is locked except one.** The rule is doing its
+job -- it is meant to stop us studying bots we are far from beating -- but the
+consequence is that the loss census, which has produced three of the last four
+accepts, can now only look at `VittalT` and at bots we already beat.
+
+`rzhan11` locking is the sharp loss: it was the source of the Iteration 39 lead
+and was `target` at 33% one block ago.
+
+**VittalT, the one target left** (2 wins, 4 losses studied). At r400 in losses:
+
+| | ours | theirs |
+|---|---|---|
+| centres | 1 | **5** |
+| muckrakers | 45 | **194** |
+| coverage | 499 | **880** |
+| centre influence | 132 | 1,999 |
+
+The same shape as every strong opponent: they expand to five centres while we
+hold one, and they see nearly twice the map with four times the muckrakers.
+Our economy is not behind -- 31 slanderers to their 32 -- but it is feeding one
+centre against five.
+
+**A decision for the project owner.** PROMPTS 72 says the tier is about time
+allocation and "we're going to have to tackle that bot eventually"; PROMPTS 74
+says improve our standing before adding opponents. Those pull against each
+other now: improving standing means beating the locked bots, and learning how
+means studying them. `BENCH_TIER_OVERRIDE=1` exists for exactly this decision
+and is reserved for the owner's explicit say-so, so it is not mine to take.

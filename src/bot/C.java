@@ -23,12 +23,7 @@ public final class C {
     // r300 to 3 at r600 while theirs rise to 117. Production now stops only for something that can actually hurt:
     // an enemy politician in sensor range, or a muckraker close enough to expose a newborn slanderer at once.
     public static final int ECON_DANGER_POL_CONV = 20;   // an enemy politician of at least this conviction blocks the economy
-    public static final int ECON_DANGER_MUCK_D2 = 9;     // ... as does a muckraker this close
-    // Iteration 43 (= Iteration 39's change, gated on the ladder this time): the economy may PAUSE for a
-    // threat but must never stop. One centre spent 1,192 of 1,500 rounds blocked and every centre ended
-    // that game with ZERO slanderers holding up to 160,737 influence. spawnDir already picks a tile away
-    // from the nearest enemy, so the newborn is not placed under the politician that caused the block.
-    public static final int ECON_DANGER_MAX = 25;     // ... as does a muckraker this close (it would expose the newborn)
+    public static final int ECON_DANGER_MUCK_D2 = 9;     // ... as does a muckraker this close (it would expose the newborn)
     // Iteration 34 (the opening deployment): the unit-influence LEAD is the only metric that predicts the result from
     // r50 (+0.37, rising to +0.68), and in losses we are already 226 behind at r50 from an identical 150 start.
     // Measured opening, 123kevinlee vs us: they spend their whole start on a 130-influence slanderer at r1; we spend

@@ -4481,3 +4481,45 @@ either runs:
   instrument until it agrees is not a test.
 
 Starting with the baseline block, since `src/bot` is `g_iter10` right now.
+
+## Iteration 43: REJECTED on the ladder -- the economy pause is measured, real, and unprofitable
+
+Two 48-game blocks against the **same fixed field**, the only difference being
+the change. This is the first like-for-like ladder comparison the project has
+been able to make, which is what the fixed pool bought us.
+
+| | record | |
+|---|---|---|
+| baseline `g_iter10` | **35/48** (72.9%) | |
+| + the economy pause | **31/48** (64.6%) | **-4 games**, threshold was +4 |
+
+| opponent | baseline | candidate |
+|---|---|---|
+| 123kevinlee | 6/6 | 5/6 |
+| iliao2345 | 6/6 | 5/6 |
+| jmerle | 6/6 | 5/6 |
+| Scott-Poole | 4/6 | 3/6 |
+| rzhan11 | 2/6 | 1/6 |
+| arya-k | 5/6 | **6/6** |
+| max-titov | 6/6 | 6/6 |
+| awesomelemonade | 0/6 | 0/6 |
+
+It lost a game against five of eight opponents and gained one against one. The
+direction is consistent rather than noisy, which matters more than the margin at
+this sample size. Reverted to `g_iter10`, verified file by file.
+
+**The conclusion, after four instruments.** The defect is not in doubt: one
+centre spent 1,192 of 1,500 rounds with its economy blocked and every centre
+ended that game with zero slanderers on up to 160,737 influence. The fix has now
+been priced by the mirror (40%), by two archetypes (one cannot create the
+condition, one cannot lose a game), and finally by the ladder against opponents
+that *do* create it (-4 games). **Building slanderers into sustained politician
+pressure costs more than the idle influence does.** The rule is not a bug; it is
+a trade we were already making correctly, and the banked influence is the price
+of not feeding units into a siege.
+
+That closes the second major line of the session, alongside capture throughput.
+Both ended the same way: a vividly measurable defect whose repair does not pay.
+The honest summary is that `g_iter10` is close to a local optimum for the
+mechanisms currently modelled, and the next real gain will need a mechanism that
+is not in the bot at all rather than a better setting of one that is.

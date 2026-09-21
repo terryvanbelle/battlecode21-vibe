@@ -41,14 +41,6 @@ public final class C {
     // showed the cap never bound: guards still reached 31 at r200 and 46 at r250, because a rich centre took the
     // escape on every build. The escape is exactly backwards -- a big bank is what buys a centre. Dose 2 removes it.
     public static final int SPEND_GUARD_CAP = 12;       // dose 1 (was: unbounded, tracked slanderers + 2)
-    // Iteration 46 (= 45, made conditional). Iteration 45 converted a blocked centre's hoard into
-    // defenders and lost 34-35, but the per-opponent split was the opposite of noise: it GAINED against
-    // the hard half (Scott-Poole 4->6, arya-k 5->6, rzhan11 2->3, and the session's first win over
-    // awesomelemonade) and lost against the easy half (max-titov 6->3, iliao2345 6->4). A rule meant for
-    // a siege was firing on brief scares. It now needs the pressure to have lasted.
-    public static final int SIEGE_BANK = 600;           // hoard above this, while besieged, buys a politician
-    public static final int SIEGE_GUARD_CAP = 40;       // the guard ceiling that applies while besieged
-    public static final int SIEGE_MIN_ROUNDS = 50;      // ... and only after this many CONSECUTIVE blocked rounds
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;
     public static final int EARLY_SCOUTS = 4;

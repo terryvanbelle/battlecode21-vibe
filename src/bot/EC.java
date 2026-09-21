@@ -18,7 +18,6 @@ public strictfp class EC extends Robot {
     // Stored as a location, not an index: removeNeutral compacts the array and every index shifts.
     private final MapLocation[] childTgt = new MapLocation[MAX_CHILDREN];
     private int scouts = 0, slanderers = 0, guards = 0, capturers = 0;
-    private int econDangerRun = 0;   // consecutive rounds the economy has been blocked
     private int blockedRounds = 0;   // diagnostic: rounds a build was chosen but no adjacent tile was free
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
@@ -46,7 +45,7 @@ public strictfp class EC extends Robot {
             if (r.type == RobotType.MUCKRAKER && r.location.distanceSquaredTo(loc) <= C.ECON_DANGER_MUCK_D2) { econDanger = true; break; }
         }
         if (round > C.SAVE_UNTIL) saveDone = true;
-        if (econDanger) { econDangerRounds++; econDangerRun++; } else econDangerRun = 0;
+        if (econDanger) econDangerRounds++;
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);
@@ -128,12 +127,6 @@ public strictfp class EC extends Robot {
         else if (inf >= 30 && scouts < Math.min(C.SCOUT_MAX, C.SCOUT_BASE + round / C.SCOUT_PER_ROUND + (inf > 400 ? 3 : 0) + (MapState.nEnemy == 0 && round > 150 ? 2 : 0))) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf - reserve() >= 100 && guards < C.MAX_GUARDS) { t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(50, inf / 3)); role = Roles.GUARD; }
-        // Iteration 46: a SUSTAINED block plus a growing hoard means a siege, not a passing scare.
-        // Convert the bank into defenders, sized to it, up to a far higher ceiling.
-        else if (econDanger && econDangerRun >= C.SIEGE_MIN_ROUNDS && inf - reserve() >= C.SIEGE_BANK && guards < C.SIEGE_GUARD_CAP) {
-            t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(100, (inf - reserve()) / 3)); role = Roles.GUARD;
-            Debug.log("@siegebank r=" + round + " run=" + econDangerRun + " inf=" + inf + " guards=" + guards + " send=" + cost);
-        }
         else if (MapState.nEnemy > 0 && inf - reserve() >= 300 && capturers < 3) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - reserve(); role = Roles.CAPTURE; }   // rich and idle: throw everything at the enemy EC
         else if (inf - reserve() >= C.SPARE_MIN) {
             // never idle: every capped branch declined but influence is spare. Alternate bodies: a guard when guards

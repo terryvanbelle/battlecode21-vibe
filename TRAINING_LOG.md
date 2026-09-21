@@ -4846,3 +4846,29 @@ change *helped* against the two strongest opponents and hurt against two we
 already beat. A rule that only fires while blocked should do exactly that, and
 the net is still negative, which is a cleaner refutation than a uniform decline
 would have been.
+
+## Iteration 46: dropped before the gate -- its premise is refuted
+
+The refinement assumed Iteration 45 lost against the easy half of the field
+because a siege rule was firing on brief scares. Diagnostic against
+**max-titov**, the opponent it hurt most (6/6 to 3/6), deliberately chosen over
+one it helped:
+
+- the rule still fires **16 times**, and
+- the longest consecutive blocked run is **100 rounds**.
+
+max-titov besieges us for a hundred rounds at a time. The duration filter does
+not separate it from rzhan11, so the premise is wrong and the refinement cannot
+work for the stated reason. Dropped without spending a 48-game block on it, and
+`src/bot` restored to a clean `g_iter10`.
+
+**And I over-read the split that motivated it.** With six games per opponent, a
+move from 6/6 to 3/6 is three games and entirely ordinary variance; so is 4/6 to
+6/6. I described the per-opponent pattern as "the opposite of noise" when a
+±3-game swing on n=6 is exactly what noise looks like. The aggregate, 34 against
+35, was always the honest summary and the per-opponent story was over-fitting to
+it.
+
+The paired conclusion from Iterations 43 and 45 stands and does not depend on
+that reading: spending a besieged centre's bank on economy loses 4 games,
+spending it on defence loses 1, and saving it beats both.

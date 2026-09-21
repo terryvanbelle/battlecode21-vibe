@@ -18,6 +18,9 @@ public strictfp class EC extends Robot {
     // Stored as a location, not an index: removeNeutral compacts the array and every index shifts.
     private final MapLocation[] childTgt = new MapLocation[MAX_CHILDREN];
     private int scouts = 0, slanderers = 0, guards = 0, capturers = 0;
+    // Diagnostic (Iteration 48): what does a centre actually HEAR? Counts of flags absorbed by type, and
+    // of neutral reports refused because the tile is already in ownEC.
+    private int heardNeutral = 0, heardOwn = 0, heardOwnId = 0, heardEnemy = 0, refusedNeutral = 0, nearbyReads = 0;
     private int blockedRounds = 0;   // diagnostic: rounds a build was chosen but no adjacent tile was free
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
@@ -50,7 +53,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads);
     }
 
     // ---------------------------------------------------------------- production
@@ -256,7 +259,7 @@ public strictfp class EC extends Robot {
             RobotInfo r = nearby[(start + k) % n];
             if (r.team != us || r.type == RobotType.ENLIGHTENMENT_CENTER) continue;
             if (!rc.canGetFlag(r.ID)) continue;
-            int f = rc.getFlag(r.ID); reads++;
+            int f = rc.getFlag(r.ID); reads++; nearbyReads++;
             int t = Comms.type(f);
             if (t != Comms.IDLE && t != Comms.ORDER && t != Comms.STATUS) absorb(f, loc);
         }
@@ -275,6 +278,11 @@ public strictfp class EC extends Robot {
     }
 
     @Override protected void absorb(int f, MapLocation ref) {
+        int ty = Comms.type(f);
+        if (ty == Comms.NEUTRAL_EC) { heardNeutral++; MapLocation l = Comms.loc(f, ref); for (int i = MapState.nOwn; --i >= 0;) if (MapState.ownEC[i].equals(l)) { refusedNeutral++; break; } }
+        else if (ty == Comms.OWN_EC) heardOwn++;
+        else if (ty == Comms.OWN_EC_ID) heardOwnId++;
+        else if (ty == Comms.ENEMY_EC) heardEnemy++;
         super.absorb(f, ref);
         if (Comms.type(f) == Comms.ENEMY_EC && Comms.extra(f) > 0) enemyEcInf = Comms.unbucket(Comms.extra(f));
     }

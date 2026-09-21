@@ -55,12 +55,6 @@ public final class C {
     // real centres were known and 2,905-14,145 influence sat banked -- ten capturers' worth. The 2 -> 4
     // test was rejected 120-120 before, but that ran with the guard sink (no money) and the stale neutral
     // list (extra capturers dispatched to centres already ours), so it could only buy waste.
-    // Iteration 42: which affordable neutral to send a capturer to. `captureAffordable` took the
-    // CHEAPEST, with no distance term, so a centre routinely sent capturers across the map while a
-    // nearer one went untaken. Iterations 37, 40 and 41 showed the blocking is conserved across caps,
-    // claims and reserves -- it moves between them without shrinking -- which points at arrival time,
-    // not at any bound on how many are in flight. 0 = cheapest (the old rule), 1 = nearest.
-    public static final int CAPTURE_NEAREST = 1;
     public static final int MAX_CAPTURERS = 4;          // dose 1 (was 2)
     public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // (unused) historical cap

@@ -4410,3 +4410,36 @@ log:** every centre ends these games with zero slanderers and up to **160,737**
 influence banked. Iteration 39 (the economy pause) was rejected, Iteration 40
 (the spawn ring) was accepted and helped, and the late economy still dies. No
 current hypothesis accounts for it.
+
+## Iteration 42: REJECTED by its own counter -- nearest is worse than cheapest (2026-09-21 05:55 UTC)
+
+Same map, same opponent, the only difference being the target comparator:
+
+| | median target d^2 | p90 | capture speeches | **flips** |
+|---|---|---|---|---|
+| cheapest (the old rule) | 1,850 | 2,906 | 44 | **33** |
+| nearest (Iteration 42) | **1,138** | **1,300** | 21 | **14** |
+
+The change did exactly what it was designed to do -- the walk fell by 38% -- and
+**captures more than halved**. The pre-registered counter was "median distance
+falls *and* captures rise; if distance falls without captures rising, the walk
+was not the constraint and this line is exhausted." Distance fell, captures
+fell. Reverted to `g_iter10`, verified file by file.
+
+**Why, in hindsight.** Affordability is the filter, so "nearest" and "cheapest"
+select different centres: the nearer one is usually the more expensive one, and
+buying it consumes the influence that would have bought two cheap ones. The old
+rule was not ignoring distance by oversight; it was buying throughput with the
+only currency that matters.
+
+**So the capture-throughput line is closed.** Iterations 37, 40, 41 and 42
+between them raised the cap, added and then lapsed claims, raised the cap again,
+and re-ordered the targets. The blocking is conserved and captures per game are
+maximised by the rule we already had.
+
+**A correction.** Two entries ago I reported Iteration 42 as "41 capture
+speeches and 14 flips", an improvement on earlier builds. That was wrong: the
+grep counted both teams. Our side had 21 speeches, and the comparable earlier
+figures came from a differently-filtered command, so the "improvement" was an
+artefact of my own inconsistent measurement. The paired run above, both sides
+filtered identically, is the trustworthy comparison and it says the opposite.

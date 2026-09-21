@@ -169,17 +169,13 @@ public strictfp class EC extends Robot {
     private int reserve() { return Math.min(Math.max(bid * 2, 10), Math.max(10, rc.getInfluence() / 2)); }   // keep enough to bid next round, never more than half
 
     private int captureAffordable(int inf) {
-        int best = -1; long bestKey = Long.MAX_VALUE;
+        int best = -1, bestCost = 1 << 30;
         for (int i = MapState.nNeutral; --i >= 0;) {
             int c = MapState.neutralInf[i] + 14;
-            if (c > inf - reserve() || capturers >= C.MAX_CAPTURERS) continue;
+            if (c > inf - reserve() || c >= bestCost || capturers >= C.MAX_CAPTURERS) continue;
             if (claimed(MapState.neutralEC[i])) continue;   // a live capturer is already walking there
-            // Iteration 42: nearest, not cheapest. The old rule had no distance term at all.
-            long key = C.CAPTURE_NEAREST == 1 ? loc.distanceSquaredTo(MapState.neutralEC[i]) : c;
-            if (key >= bestKey) continue;
-            best = i; bestKey = key;
+            best = i; bestCost = c;
         }
-        if (best >= 0) Debug.log("@target d2=" + loc.distanceSquaredTo(MapState.neutralEC[best]) + " inf=" + MapState.neutralInf[best] + " r=" + round);
         return best;
     }
 

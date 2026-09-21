@@ -74,6 +74,10 @@ public class ReplayDump {
     // navigation statistics (--navstats): A-B-A oscillations, coverage of visited tiles, first contact with an enemy EC
     static boolean navStats = false;
     static int threatTeam = 0;   // --threat: whose ECs to watch
+    static int knowTeam = 0;     // --knowledge: whose map knowledge to reconstruct
+    static java.util.Set<Long> everSeen = new java.util.HashSet<>();   // neutral centres this team has sensed
+    /** Sensor radius^2 by type index: EC, POL, SLA, MUC (battlecode 2021 RobotType). */
+    static final int[] SENSOR = {40, 25, 20, 30};
     static long[] unitsLong = new long[3], unitsIdle = new long[3], unitMoves = new long[3]; static int lastRound = 0;
     static long[] aba = new long[3]; static boolean[][] visited; static int[] firstContact = {-1, -1, -1}; static long[] swampMoves = new long[3];
     static Map<Integer, int[]> prev2 = new HashMap<>();   // id -> {x2,y2,x1,y1}
@@ -99,6 +103,7 @@ public class ReplayDump {
                 case "--speeches": speeches = true; quiet = true; break;
                 case "--navstats": navStats = true; break;
                 case "--threat": threatTeam = args[++i].equals("A") ? 1 : 2; quiet = true; break;
+                case "--knowledge": knowTeam = args[++i].equals("A") ? 1 : 2; quiet = true; break;
                 default: System.err.println("unknown flag " + args[i]); System.exit(2);
             }
         }
@@ -144,6 +149,7 @@ public class ReplayDump {
         visited = new boolean[3][width * height]; prev2.clear();
         SpawnedBodyTable sb = m.bodies();
         spawnBodies(sb, 0);
+        if (knowTeam != 0) { everSeen.clear(); System.out.println("round,neutralCentresOnMap,neutralCentresSensed,stillNeutral,ourCentres"); return; }
         if (threatTeam != 0) { System.out.println("round,ourECs,enemyMuckWithin3tiles,enemyMuckInSensor,enemyPolInSensor"); return; }
         if (metrics) { printMetricsHeader(); return; }
         int[] ecs = new int[3]; long[] ecInf = new long[3];
@@ -293,6 +299,7 @@ public class ReplayDump {
                 System.out.printf("  r%d HIT by %s conv=%d r2=%d d2=%d n=%d wall=%d ec#%d inf %d -> %s loss=%d ratio=%.2f%n", h[0], teamName[h[1]], h[2], h[3], h[4], h[5], h[8], h[6], h[7], after, loss, h[2] > 10 ? (double) loss / (h[2] - 10) : 0.0); }
             pendingHits.clear();
         }
+        if (knowTeam != 0) { trackKnowledge(); if (round % 50 == 0) printKnowledgeRow(round); return; }
         if (threatTeam != 0) { if (round % 25 == 0) printThreatRow(round); return; }
         if (metrics) { if (round % every == 0) printMetricsRow(round); return; }
         if (!quiet && every > 0 && round % every == 0) printAggregate(round);
@@ -373,6 +380,33 @@ public class ReplayDump {
         if (visited == null || width * height == 0) return 0;
         int c = 0; for (boolean b : visited[t]) if (b) c++;
         return Math.round(1000.0 * c / (width * height));
+    }
+
+    /** --knowledge: which neutral centres this team has actually SENSED, cumulatively.
+     *  A centre it has never had a unit near cannot be captured however much influence it banks,
+     *  and no aggregate metric we collect carries that. Keyed by tile, so a centre that changes
+     *  hands is still counted as discovered. */
+    static void trackKnowledge() {
+        for (Robot e : bots.values()) {
+            if (!e.alive || e.team != 0 || e.type != 0) continue;          // neutral centres only
+            long key = ((long) e.x << 20) | e.y;
+            if (everSeen.contains(key)) continue;
+            for (Robot r : bots.values()) {
+                if (!r.alive || r.team != knowTeam) continue;
+                int dx = r.x - e.x, dy = r.y - e.y;
+                if (dx * dx + dy * dy <= SENSOR[r.type]) { everSeen.add(key); break; }
+            }
+        }
+    }
+
+    static void printKnowledgeRow(int round) {
+        int neutralNow = 0, ours = 0;
+        for (Robot r : bots.values()) {
+            if (!r.alive || r.type != 0) continue;
+            if (r.team == 0) neutralNow++;
+            else if (r.team == knowTeam) ours++;
+        }
+        System.out.printf("%d,%d,%d,%d,%d%n", round, neutralNow + everSeen.size(), everSeen.size(), neutralNow, ours);
     }
 
     /** --threat: enemy units sitting close enough to the watched team's ECs to matter.

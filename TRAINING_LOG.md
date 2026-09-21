@@ -4270,3 +4270,38 @@ into evidence about knowledge, which no aggregate metric currently carries.
 
 Also visible: `noTile` is 44 at r200 even with Iteration 40 in. The ring is much
 reduced, not gone.
+
+## A knowledge instrument, and it refutes the knowledge hypothesis (2026-09-21 04:40 UTC)
+
+`ReplayDump --knowledge A|B` reconstructs, from a replay alone, which neutral
+centres a team has ever had a unit within sensor range of (`SENSOR` = 40/25/20/30
+by type, keyed by tile so a centre that changes hands still counts as
+discovered). It needs no bot logs, so **every loss replay we already own becomes
+evidence about what our centres knew** -- which no metric we collect carries.
+
+It was built to test the reading that we sit on influence because we cannot see
+the centres to spend it on. Across both recent blocks, restricted to games with
+any neutral centre and to opponents the tier rules permit (40 games):
+
+| | neutral centres sensed by r200 | share of those on the map |
+|---|---|---|
+| wins | 3.0 of 6.0 | 60% |
+| losses | 3.0 of 4.0 | **75%** |
+
+**In losses we have seen a *larger* share of the neutral centres than in wins.**
+The hypothesis is refuted: we are not failing to capture because we cannot find
+them. We find them and do not take them -- with 5,658 influence banked at r200
+in the VittalT losses, against opponents holding three centres to our one.
+
+That relocates the question usefully. It is not scouting, and since Iterations
+35, 37 and 40 it is not the guard sink, the capturer cap, the stale neutral list
+or the spawn ring either. What remains is the decision itself: `captureAffordable`
+requires `neutralInf + 14 <= inf - reserve()` and takes the cheapest, so a centre
+whose influence we have only a bucketed estimate of, or one that is affordable
+but far, may simply never be chosen. That is where the next diagnostic should
+look, and the instrument to do it now exists.
+
+One caveat on the sample: 31 wins to 9 losses, and the map sets differ (6
+neutrals in the median win, 4 in the median loss), so the comparison is
+suggestive rather than clean. It is strong enough to kill the hypothesis it was
+built for, since that hypothesis predicted the opposite sign.

@@ -335,3 +335,7 @@ OK, you're Fable now
 ## 78. 2026-09-21
 
 /loop 30m task check.  If the VM is idle and you're not working on anything, come up with a new idea.  Otherwise, continue as you are
+
+## 79. 2026-09-21
+
+/loop list, then /loop delete 758cce9b

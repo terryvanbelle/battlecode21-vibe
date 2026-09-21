@@ -311,3 +311,7 @@ If you come out neutral against the mirror, but in a way that better aligns you 
 ## 72. 2026-09-20
 
 Don't worry too much about awesomelemonade making it onto the roster.  The point of the locked bots was simply to keep us from spending too much time on bots that we aren't close to being able to beat.  Having some extra-hard bots on the roster isn't the end of the world, and we're going to have to tackle that bot eventually
+
+## 73. 2026-09-21
+
+It seems the methodology is a winner.  The thing I like about it is that it was developed out of necessity because games take so long this year.  So we took a weakness and turned it into an advantage

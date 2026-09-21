@@ -28,6 +28,7 @@ public class ConstantsTest {
         // Iteration 49: a bounded save wait that ends before the save window does, and a positive presumption
         check(C.SAVE_MAX_WAIT >= 0 && C.SAVE_MAX_WAIT < C.SAVE_UNTIL, "the save wait bound must fall inside the save window");
         check(C.PRESUME_ROUNDS > 0 && C.PRESUME_ROUNDS <= 300, "a flip presumption lasts a bounded, positive time");
+        check(C.SAVE_BID_CAP >= 1, "a saving centre still bids at least 1: a zero bid gives the opponent a vote for 1 influence");
         check(C.SCOUT_MAX >= C.SCOUT_BASE, "the scout ceiling is not below its own base");
         check(C.SCOUT_BASE + 1500 / C.SCOUT_PER_ROUND >= C.SCOUT_MAX,
               "the cap actually reaches its ceiling within a game, or the ceiling is dead weight");

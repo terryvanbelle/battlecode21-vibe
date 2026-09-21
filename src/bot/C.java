@@ -106,7 +106,10 @@ public final class C {
     //     rounds with 2 slanderers while doBid spent 1/30 of the bank every round -- 794 on bids by r200, the
     //     bank fell 324 -> 119 against a price of 374, and nothing else was built until r200. Three of the
     //     block's ten losses had 80-187 save rounds by r200 (one of 38 wins). While waiting: no bid, and a bound.
-    public static final int SAVE_NO_BID = 1;            // 0 = bid while saving (g_iter11)
+    //     SPRT batch 1 (0-5): "no bid at all" hands out free votes -- with our bid at zero the opponent's adaptive
+    //     bidder wins a vote a round for 1 influence, 50-75 votes by r100 in every loss, and reaches 750 first.
+    //     A bid of 1 denies those (a tie awards nobody) for 1 influence a round.
+    public static final int SAVE_BID_CAP = 1;           // cap on the bid while the save branch waits (1 << 30 = g_iter11)
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
     // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
     //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence

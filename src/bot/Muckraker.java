@@ -32,10 +32,11 @@ public strictfp class Muckraker extends Robot {
         if (eEC != null) { report = Comms.encode(Comms.ENEMY_EC, Comms.bucket(eEC.influence), eEC.location); reportRound = round; }
         else if (nEC != null) { report = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(nEC.influence), nEC.location); reportRound = round; }
         else if (oEC != null && oEC.ID != lastSiblingReported) { report = Comms.encodeRaw(Comms.OWN_EC_ID, oEC.ID); reportRound = round; lastSiblingReported = oEC.ID; }
-        // Iteration 48 dose 2: the location too, so every centre that hears it drops that tile from its neutral
-        // list. Dose 1 handed newborn centres a scout's neutral list faster than the corrections -- 24 capturers
-        // were built for centres already ours -- because ownership travelled only as an id, never as a tile.
-        else if (C.HANDOFF == 1 && oEC != null && (round & 3) == 1) { report = Comms.encode(Comms.OWN_EC, 0, oEC.location); reportRound = round; }
+        // (dose 2 put an OWN_EC sighting report here, firing every 4th round near a friendly centre. Each
+        // firing refreshed reportRound, so a scout parked beside a newborn centre broadcast only that report and
+        // NEVER cycled its facts -- the courier arrived carrying the neutral list and was prevented from saying
+        // it. Captured centres' knowledge went from 1-2 to all zero. Ownership now travels only in the fact
+        // rotation, slot 7, which starves nothing.)
         else if (nearestEnemy != null && round - reportRound > 6) { report = Comms.encode(Comms.ENEMY_UNIT, nearestEnemy.type.ordinal(), nearestEnemy.location); reportRound = round; }
         else if (edge >= 0) { report = Comms.encode(Comms.MAP_EDGE, edge, edge == 0 ? new MapLocation(MapState.minX, loc.y) : edge == 1 ? new MapLocation(MapState.maxX, loc.y) : edge == 2 ? new MapLocation(loc.x, MapState.minY) : new MapLocation(loc.x, MapState.maxY)); reportRound = round; }
         if (round - reportRound <= 6 && (round & 1) == 0) setFlag(report);

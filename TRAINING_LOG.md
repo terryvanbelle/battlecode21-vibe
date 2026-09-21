@@ -5018,3 +5018,28 @@ scout and never learned "ours at X", and bought a capturer for it.
 Fails the cadence counter with a known cause. Not gated. **Dose 2**: a scout
 that sees a friendly centre reports its location on alternate rounds, and own
 tiles get a slot of their own in the fact rotation. Same counters, same cell.
+
+### Iteration 48 dose 2: worse, for a reason visible in the code (2026-09-21 15:00 UTC)
+
+| | baseline | dose 1 | dose 2 |
+|---|---|---|---|
+| capture builds, home / captured | 0 / 0 | 19 / 18 | **2 / 1** |
+| captured centres' max neutrals known | 0s | 2,1,1,2,2,1,0,0 | **all 0** |
+| flips | 9 | 4 | 6 |
+| coverage at r400 | 537 | 476 | **370** |
+| 8th centre | r370 | r820 | r820 |
+
+The hand-off stopped working. The sighting report added in dose 2 fires every
+fourth round while a scout is within sensor range of a friendly centre, and each
+firing refreshes `reportRound`, so for the six rounds after it the scout
+broadcasts the report instead of cycling facts -- which, at one firing per four
+rounds, is always. A courier parked beside a newborn centre therefore said only
+"ours at this tile" and never delivered the neutral list it came to deliver.
+
+**Dose 3** removes the sighting report and keeps ownership in the fact rotation
+(slot 7), which starves nothing. Same counters, same cell.
+
+A note on the counter I could not read: the `age=0` abort count printed 0 for
+all three runs because the grep pattern required a trailing space the log line
+does not have at its end. The dose 1 figure of 24 came from a different,
+correct command and stands; dose 2 and 3 figures need the correct command.

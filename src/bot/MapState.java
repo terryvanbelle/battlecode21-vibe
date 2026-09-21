@@ -72,7 +72,15 @@ public final class MapState {
     public static void removeEnemy(MapLocation l) {
         for (int i = nEnemy; --i >= 0;) if (enemyEC[i].equals(l)) { nEnemy--; enemyEC[i] = enemyEC[nEnemy]; return; }
     }
+    /** Hearsay (a scout's fact rotation): cannot resurrect ownership of a tile now listed as enemy -- the
+     *  same echo problem as addEnemyEC, in reverse (a centre we lost). A sighting goes through sightOwnEC. */
     public static boolean addOwnEC(MapLocation l) {
+        if (C.ENEMY_HEARSAY_GUARD == 1 && known(enemyEC, nEnemy, l)) return false;
+        return addOwnRaw(l);
+    }
+    /** Sighting: the tile really holds one of our centres now (abort report, the centre itself, sensed). */
+    public static boolean sightOwnEC(MapLocation l) { removeEnemy(l); return addOwnRaw(l); }
+    private static boolean addOwnRaw(MapLocation l) {
         if (known(ownEC, nOwn, l) || nOwn >= MAX_ECS) return false;
         ownEC[nOwn++] = l; removeNeutral(l); removeEnemy(l);
         if (boundsKnown()) for (int i = nEnemy; --i >= 0;) pruneWithEnemyEC(enemyEC[i]);

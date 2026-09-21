@@ -29,7 +29,7 @@ public strictfp class Muckraker extends Robot {
         // report: enemy EC seen this turn > neutral EC > edge found > idle
         RobotInfo eEC = null, nEC = null, oEC = null;
         for (int i = nearby.length; --i >= 0;) { RobotInfo r = nearby[i]; if (r.type == RobotType.ENLIGHTENMENT_CENTER) { if (r.team == them) eEC = r; else if (r.team == Team.NEUTRAL) nEC = r; else if (!r.location.equals(MapState.home)) oEC = r; } }
-        if (eEC != null) { report = Comms.encode(Comms.ENEMY_EC, Comms.bucket(eEC.influence), eEC.location); reportRound = round; }
+        if (eEC != null) { report = Comms.encode(Comms.ENEMY_EC, Math.max(1, Comms.bucket(eEC.influence)), eEC.location); reportRound = round; }   // extra > 0: a sighting
         else if (nEC != null) { report = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(nEC.influence), nEC.location); reportRound = round; }
         else if (oEC != null && oEC.ID != lastSiblingReported) { report = Comms.encodeRaw(Comms.OWN_EC_ID, oEC.ID); reportRound = round; lastSiblingReported = oEC.ID; }
         // (dose 2 put an OWN_EC sighting report here, firing every 4th round near a friendly centre. Each

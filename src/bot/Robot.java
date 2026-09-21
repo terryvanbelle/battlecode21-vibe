@@ -62,7 +62,7 @@ public abstract strictfp class Robot {
     protected void init() throws GameActionException {
         // find the EC we were built by: the adjacent friendly EC
         RobotInfo[] adj = rc.senseNearbyRobots(2, us);
-        for (int i = adj.length; --i >= 0;) if (adj[i].type == RobotType.ENLIGHTENMENT_CENTER) { MapState.home = adj[i].location; MapState.homeId = adj[i].ID; MapState.addOwnEC(adj[i].location); break; }
+        for (int i = adj.length; --i >= 0;) if (adj[i].type == RobotType.ENLIGHTENMENT_CENTER) { MapState.home = adj[i].location; MapState.homeId = adj[i].ID; MapState.sightOwnEC(adj[i].location); break; }
     }
 
     /** One turn of this robot's logic. */
@@ -76,7 +76,7 @@ public abstract strictfp class Robot {
         nEnemy = nFriend = nNeutral = 0; nearestEnemy = null; nearestEnemyD2 = 1 << 30; nearestEnemyMuck = null; nearestEnemyMuckD2 = 1 << 30;
         for (int i = nearby.length; --i >= 0;) {
             RobotInfo r = nearby[i];
-            if (r.team == us) { if (nFriend < 64) friends[nFriend++] = r; if (r.type == RobotType.ENLIGHTENMENT_CENTER) { MapState.addOwnEC(r.location); MapState.addOwnEcId(r.ID); } }
+            if (r.team == us) { if (nFriend < 64) friends[nFriend++] = r; if (r.type == RobotType.ENLIGHTENMENT_CENTER) { MapState.sightOwnEC(r.location); MapState.addOwnEcId(r.ID); } }
             else if (r.team == them) {
                 if (nEnemy < 64) enemies[nEnemy++] = r;
                 int d = loc.distanceSquaredTo(r.location);
@@ -105,10 +105,11 @@ public abstract strictfp class Robot {
     protected void absorb(int f, MapLocation ref) {
         int t = Comms.type(f);
         switch (t) {
-            case Comms.ENEMY_EC: { MapLocation l = Comms.loc(f, ref); if (MapState.addEnemyEC(l)) MapState.pruneWithEnemyEC(l); break; }
+            // extra > 0 marks a sighting (the reporter saw the centre this turn, or is it); extra == 0 is a fact-rotation echo
+            case Comms.ENEMY_EC: { MapLocation l = Comms.loc(f, ref); if (Comms.extra(f) > 0 ? MapState.sightEnemyEC(l) : MapState.addEnemyEC(l)) MapState.pruneWithEnemyEC(l); break; }
             case Comms.NEUTRAL_EC: MapState.addNeutralEC(Comms.loc(f, ref), Comms.unbucket8(Comms.extra(f))); break;
             case Comms.MAP_EDGE: { MapLocation l = Comms.loc(f, ref); int e = Comms.extra(f); MapState.edgeFound(e, e < 2 ? l.x : l.y); break; }
-            case Comms.OWN_EC: MapState.addOwnEC(Comms.loc(f, ref)); break;
+            case Comms.OWN_EC: if (Comms.extra(f) > 0) MapState.sightOwnEC(Comms.loc(f, ref)); else MapState.addOwnEC(Comms.loc(f, ref)); break;
             case Comms.OWN_EC_ID: MapState.addOwnEcId(Comms.payload(f)); break;
             default: break;
         }

@@ -123,6 +123,10 @@ public final class C {
     // The abort reports WERE heard (heardOwn=328) but eEC never dropped: scouts echo ENEMY_EC for a centre we
     // took, and addEnemyEC had no own-tile refusal. Hearsay is refused for own tiles (sightings override), and
     // home broadcasts its own tiles so the scouts' copies are corrected and the echo dies.
+    // Diagnostic 4: a centre we took at r227 was retaken by the opponent and 800+ SIGHTINGS of it as enemy were
+    // refused as hearsay. Ownership changes hands both ways, so the rule is: a sighting (extra > 0 on the flag:
+    // a scout that sees the centre, the centre itself, an arriving politician) overrides; an echo (extra == 0,
+    // the fact rotation) never resurrects the other side's claim.
     public static final int ENEMY_HEARSAY_GUARD = 1;
     // Diagnostic 2 on Hexes: with own tiles broadcast, every newborn scout learned all siblings and the Iteration 48
     // courier rule sent it to tour them before exploring -- home never found the enemy centre in 1500 rounds

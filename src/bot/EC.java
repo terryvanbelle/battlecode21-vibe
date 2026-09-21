@@ -45,7 +45,7 @@ public strictfp class EC extends Robot {
     EC(RobotController rc) { super(rc); }
 
     @Override protected void init() throws GameActionException {
-        MapState.home = loc; MapState.homeId = id; MapState.addOwnEC(loc);
+        MapState.home = loc; MapState.homeId = id; MapState.sightOwnEC(loc);
     }
 
     @Override protected void turn() throws GameActionException {
@@ -340,7 +340,7 @@ public strictfp class EC extends Robot {
         // Iteration 36's mechanism, restored as half of Iteration 37: a captured centre puts its own
         // location on its flag, so siblings call addOwnEC and stop treating it as neutral. Alone it was
         // rejected at 45.1%; the cap raise is only meaningful if extra capturers go to distinct REAL targets.
-        else if (birth > 1 && (round / 3) % 3 == 2) f = Comms.encode(Comms.OWN_EC, 0, loc);
+        else if (birth > 1 && (round / 3) % 3 == 2) f = Comms.encode(Comms.OWN_EC, 1, loc);   // extra 1: a sighting (it is us)
         else if (MapState.nEnemy > 0 && (round / 3) % 2 == 0) f = Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(round / 6) % MapState.nEnemy]);
         else if (C.BROADCAST_OWN == 1 && MapState.nOwn > 1 && (round / 3) % 4 == 3) f = Comms.encode(Comms.OWN_EC, 0, MapState.ownEC[1 + (round / 12) % (MapState.nOwn - 1)]);   // Iteration 49 dose 2: correct the scouts' copies
         else if (MapState.nNeutral > 0 && (round / 3) % 2 == 1) f = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[(round / 6) % MapState.nNeutral]), MapState.neutralEC[(round / 6) % MapState.nNeutral]);

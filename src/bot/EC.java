@@ -68,7 +68,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound + " capReads=" + capReads + " heardE=" + heardEnemy + " own=" + MapState.nOwn + " ownT=" + ownTiles() + " refusedE=" + refusedEnemy);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound + " capReads=" + capReads + " heardE=" + heardEnemy + " own=" + MapState.nOwn + " ownT=" + ownTiles() + " refusedE=" + refusedEnemy + " safeStops=" + safeStops);
     }
 
     // ---------------------------------------------------------------- production
@@ -250,10 +250,12 @@ public strictfp class EC extends Robot {
 
     // ---------------------------------------------------------------- bidding
     private int enemyVotesEst = 0;   // rounds in which we did not gain a vote after round 1 (assumes the opponent bid; conservative)
+    private boolean estInit = false; private int safeStops = 0;   // Iteration 50: initialised at birth; rounds the "safe" rule silenced us
     private void doBid() throws GameActionException {
         int votes = rc.getTeamVotes();
         int inf = rc.getInfluence();
         int remaining = 1500 - round;
+        if (!estInit) { estInit = true; if (C.EST_INIT_AT_BIRTH == 1) enemyVotesEst = Math.max(0, round - 1 - votes); }   // Iteration 50: every round we did not win may have been theirs
         // Adapt only on rounds where we actually bid last round (otherwise a lost vote says nothing about our bid).
         if (round > 1 && bidLastRound) {
             if (votes > lastVotes) { votesWon++; bid = Math.max(1, bid - bid / 10); }
@@ -264,7 +266,7 @@ public strictfp class EC extends Robot {
         if (votes > 751) return;                                // majority secured
         if (C.SAVE_NO_BID == 1 && !saveDone && round - saveWaitRound <= 2) { saveBidSkipped++; return; }   // Iteration 49 dose (a): the bank is for a centre
         // Are we safe without bidding? If the opponent cannot catch up even winning every remaining vote, stop.
-        if (votes > enemyVotesEst + remaining) return;
+        if (votes > enemyVotesEst + remaining) { safeStops++; if (safeStops == 1) Debug.log("@bidsafe r=" + round + " votes=" + votes + " eVotes~" + enemyVotesEst + " inf=" + inf); return; }
         // Influence is worth more early (it compounds through slanderers), so the cap ramps up over the game and
         // rises further when we are behind on votes late.
         int div = round < 600 ? C.BID_EARLY_DIV : round < 1000 ? 5 : 3;   // Iteration 9: influence compounds early; the vote race is decided late

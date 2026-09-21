@@ -106,7 +106,15 @@ public final class C {
     //     rounds with 2 slanderers while doBid spent 1/30 of the bank every round -- 794 on bids by r200, the
     //     bank fell 324 -> 119 against a price of 374, and nothing else was built until r200. Three of the
     //     block's ten losses had 80-187 save rounds by r200 (one of 38 wins). While waiting: no bid, and a bound.
-    public static final int SAVE_NO_BID = 1;            // 0 = bid while saving (g_iter11)
+    //     Iteration 50: the gate's losses showed the cost -- 0-12 votes at r100 against 14-56 -- and by r300 the
+    //     bank difference had not decided anything. Bid normally; the 80-round bound alone ends the stall.
+    public static final int SAVE_NO_BID = 0;            // 1 = Iteration 49's no-bid; 0 = bid while saving (g_iter11)
+    // Iteration 50: `enemyVotesEst` (rounds our team gained no vote, the "safe without bidding" bound) started at
+    // zero whenever a centre's player code started -- a captured neutral, or a centre lost and retaken, because the
+    // engine runs a fresh instance for the new team. BadSnowflake mirror loss: seven young centres, 663-390 ahead
+    // with 135,846 banked at r1200, and not one bid in the last 300 rounds; the opponent bought a vote a round at
+    // 6-7 influence and won 689-663. The engine takes only the team's highest bid, so all-young means silence.
+    public static final int EST_INIT_AT_BIRTH = 1;      // 0 = start at zero (g_iter11)
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
     // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
     //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence

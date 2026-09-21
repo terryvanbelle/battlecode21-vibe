@@ -4652,3 +4652,37 @@ every `removeNeutral` with its caller. That is the next step and it is cheap.
 **This is the first lead in several hours that is not a re-tuning**, and unlike
 the last three it explains the fork directly: a centre that knows one neutral
 cannot take four, however rich it is.
+
+### Correction: the second game does not reproduce it (2026-09-21 09:20 UTC)
+
+The entry above concluded that "our centres never learn what our scouts see"
+from **one** game. Instrumenting every erasure path and running a second game
+against rzhan11 (Legends) does not reproduce it:
+
+| round | our centres | neutrals left on the map | sensed by us | known to our centres |
+|---|---|---|---|---|
+| 150 | 3 | 2 | 2 | 2 at the home centre, 0 at the others |
+| 300 | 3 | **0** | 2 | 0 |
+| 450 | 3 | 0 | 2 | 0 |
+
+At r300 there are **no neutral centres left** -- the opponent took the last two,
+our count stayed at 3 -- so a centre knowing none is correct, not a defect. Only
+three erasures happened all game (two via `ownEC`, one via `enemyEC`), so
+"learned then lost" is not a mass effect either.
+
+**So the finding is one anomalous game, not an established defect.** In that
+game (`diag-fk3`, a loss) our units had sensed 3 of 4 neutrals at r200 and both
+centres knew none, which the Legends game gives no support for. Two readings
+differ and I cannot yet say which is typical.
+
+What does survive both games is narrower and still useful: the `@nocap` lines
+show a centre rich, with a free capturer slot and an affordable target,
+declining because everything it knows is claimed -- and it knows **one or two**.
+Whether that is because few exist, because few are reported, or because they are
+erased is exactly what is not yet established.
+
+**Next, and it is a measurement not a change:** run the sensed-versus-known
+comparison across several logged games and aggregate, rather than reasoning from
+whichever game ran last. One game has now produced a confident wrong conclusion
+twice in this session; the rule that saved the other cases was always more
+samples, never more thought.

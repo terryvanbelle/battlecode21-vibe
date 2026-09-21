@@ -24,6 +24,8 @@ public strictfp class EC extends Robot {
     // Iteration 49 counters and the presumed-own list (dose b): tiles a child announced it was about to flip
     private int flipIntents = 0, presumedSkips = 0, saveBidSkipped = 0, saveAbandonedRound = -1, saveWaitRound = -10, capReads = 0;
     private final MapLocation[] presumed = new MapLocation[MapState.MAX_ECS]; private final int[] presumedRound = new int[MapState.MAX_ECS]; private int nPresumed = 0;
+    private int refusedEnemy = 0, absorbFrom = 0;   // diagnostic: hearsay ENEMY_EC refused because the tile is listed as ours; the flag's source id
+    private String ownTiles() { StringBuilder b = new StringBuilder(); for (int i = 0; i < MapState.nOwn; i++) b.append(i > 0 ? ";" : "").append(MapState.ownEC[i].x - MapState.minX).append(',').append(MapState.ownEC[i].y - MapState.minY); return b.toString(); }
     private void presume(MapLocation l) {
         for (int i = nPresumed; --i >= 0;) if (presumed[i].equals(l)) { presumedRound[i] = round; return; }
         int i = nPresumed < MapState.MAX_ECS ? nPresumed++ : round % MapState.MAX_ECS;
@@ -66,7 +68,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound + " capReads=" + capReads + " heardE=" + heardEnemy + " own=" + MapState.nOwn);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound + " capReads=" + capReads + " heardE=" + heardEnemy + " own=" + MapState.nOwn + " ownT=" + ownTiles() + " refusedE=" + refusedEnemy);
     }
 
     // ---------------------------------------------------------------- production
@@ -285,7 +287,7 @@ public strictfp class EC extends Robot {
             RobotInfo r = nearby[(start + k) % n];
             if (r.team != us || r.type == RobotType.ENLIGHTENMENT_CENTER) continue;
             if (!rc.canGetFlag(r.ID)) continue;
-            int f = rc.getFlag(r.ID); reads++; nearbyReads++;
+            int f = rc.getFlag(r.ID); reads++; nearbyReads++; absorbFrom = r.ID;
             int t = Comms.type(f);
             if (t != Comms.IDLE && t != Comms.ORDER && t != Comms.STATUS) absorb(f, loc);
         }
@@ -297,7 +299,7 @@ public strictfp class EC extends Robot {
         // Iteration 49 dose 2: a capturer's FLIP_INTENT lives one round, so every capture-role child is read every turn
         if (C.FLIP_INTENT == 1) for (int i = n; --i >= 0;) {
             if (childType[i] != Roles.CAPTURE || !rc.canGetFlag(childId[i])) continue;
-            int f = rc.getFlag(childId[i]); capReads++;
+            int f = rc.getFlag(childId[i]); capReads++; absorbFrom = childId[i];
             if (Comms.type(f) != Comms.IDLE) absorb(f, loc);
         }
         int start = (round * 24) % n;
@@ -305,7 +307,7 @@ public strictfp class EC extends Robot {
             int i = (start + k) % n;
             if (C.FLIP_INTENT == 1 && childType[i] == Roles.CAPTURE) continue;
             if (!rc.canGetFlag(childId[i])) continue;
-            int f = rc.getFlag(childId[i]);
+            int f = rc.getFlag(childId[i]); absorbFrom = childId[i];
             if (Comms.type(f) != Comms.IDLE) absorb(f, loc);
         }
     }
@@ -313,9 +315,9 @@ public strictfp class EC extends Robot {
     @Override protected void absorb(int f, MapLocation ref) {
         int ty = Comms.type(f);
         if (ty == Comms.NEUTRAL_EC) { heardNeutral++; MapLocation l = Comms.loc(f, ref); for (int i = MapState.nOwn; --i >= 0;) if (MapState.ownEC[i].equals(l)) { refusedNeutral++; break; } }
-        else if (ty == Comms.OWN_EC) heardOwn++;
+        else if (ty == Comms.OWN_EC) { heardOwn++; MapLocation l = Comms.loc(f, ref); if (!MapState.known(MapState.ownEC, MapState.nOwn, l)) Debug.log("@ownheard r=" + round + " tile=" + (l.x - MapState.minX) + "," + (l.y - MapState.minY) + " from=" + absorbFrom + " raw=" + l.x + "," + l.y); }
         else if (ty == Comms.OWN_EC_ID) heardOwnId++;
-        else if (ty == Comms.ENEMY_EC) heardEnemy++;
+        else if (ty == Comms.ENEMY_EC) { heardEnemy++; MapLocation l = Comms.loc(f, ref); if (MapState.known(MapState.ownEC, MapState.nOwn, l)) { refusedEnemy++; if (refusedEnemy % 50 == 1) Debug.log("@enemyrefused r=" + round + " tile=" + (l.x - MapState.minX) + "," + (l.y - MapState.minY) + " from=" + absorbFrom + " n=" + refusedEnemy); } }
         else if (ty == Comms.FLIP_INTENT) { flipIntents++; presume(Comms.loc(f, ref)); return; }
         super.absorb(f, ref);
         if (Comms.type(f) == Comms.ENEMY_EC && Comms.extra(f) > 0) enemyEcInf = Comms.unbucket(Comms.extra(f));
@@ -326,7 +328,7 @@ public strictfp class EC extends Robot {
         for (int i = MapState.nOwnId; --i >= 0;) {
             int sid = MapState.ownEcId[i];
             if (!rc.canGetFlag(sid)) { MapState.nOwnId--; MapState.ownEcId[i] = MapState.ownEcId[MapState.nOwnId]; continue; }   // sibling lost (converted)
-            int f = rc.getFlag(sid);
+            int f = rc.getFlag(sid); absorbFrom = sid;
             if (Comms.type(f) != Comms.IDLE && Comms.type(f) != Comms.ORDER && Comms.type(f) != Comms.STATUS) absorb(f, loc);
         }
     }

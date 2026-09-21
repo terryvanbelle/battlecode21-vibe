@@ -4872,3 +4872,43 @@ it.
 The paired conclusion from Iterations 43 and 45 stands and does not depend on
 that reading: spending a besieged centre's bank on economy loses 4 games,
 spending it on defence loses 1, and saving it beats both.
+
+## A genuinely unexamined area: we barely speak (2026-09-21 11:00 UTC)
+
+`TRAINING_LOG`'s functional map has listed politician combat micro as "works vs
+example bot; unmeasured vs real opponents" since the start. Measured now, across
+the six rzhan11 games of the fixed-field block. **A politician dies when it
+empowers**, so a team's own speeches are a floor on its own deaths; kills are
+deaths minus own empowers.
+
+| result | speeches, us v them | kills, us v them | kills per speech |
+|---|---|---|---|
+| loss | 147 v 191 | 189 v 223 | 1.29 v 1.17 |
+| loss | 46 v **147** | 54 v **172** | 1.17 v 1.17 |
+| loss | 131 v **368** | 156 v **438** | 1.19 v 1.19 |
+| loss | 86 v 91 | 99 v 83 | 1.15 v 0.91 |
+| win | 147 v **514** | 254 v **655** | 1.73 v 1.27 |
+| win | 135 v **432** | 184 v **502** | 1.36 v 1.16 |
+
+**Our speeches are as efficient or better in all six games, and they speak up to
+3.5 times as often.** The attrition totals follow directly: in the two wins we
+still kill only 254 and 184 against their 655 and 502. We are winning the
+exchange rate and losing the war by volume.
+
+That is a mechanism nobody has looked at. The guard path calls
+`bestSpeech(max(12, conviction/3))`, so a politician will not speak unless the
+speech delivers at least a third of its own conviction in value -- a threshold
+that rises with the unit's own size, so the bigger a politician gets the fussier
+it becomes. The opponents evidently speak far more readily.
+
+**Pre-registered, not yet built.** Lower the guard speech threshold so volume
+rises toward theirs, and measure: speeches per game should approach theirs, and
+kills should rise roughly in proportion since our per-speech value already
+matches. Counter that would disqualify it: if speeches rise but kills per speech
+collapse below theirs, we are simply wasting politicians and the threshold was
+right.
+
+Note the honest caveat up front: `died` and `empowers` are the only combat
+counters in the replay, so "kills" here is deaths minus own empowers, which
+charges every death by any cause to the opponent. It is good enough to show a
+3.5x volume gap; it is not good enough to price a threshold.

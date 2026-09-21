@@ -55,7 +55,7 @@ public strictfp class EC extends Robot {
         Debug.log("@bcprof r=" + round + " sense=" + prof[0] + " edges=" + (prof[1] - prof[0]) + " children=" + (prof[2] - prof[1]) + " siblings=" + (prof[3] - prof[2]) + " nearby=" + (prof[4] - prof[3]) + " build=" + (prof[5] - prof[4]) + " bid=" + (prof[6] - prof[5]) + " bcast=" + (prof[7] - prof[6]) + " nearby.n=" + nearby.length + " nChild=" + nChild + " total=" + used);
     }
     @Override protected void turn() throws GameActionException {
-        sense(); prof[0] = Clock.getBytecodeNum();
+        nSeen = 0; sense(); prof[0] = Clock.getBytecodeNum();
         probeEdges(); prof[1] = Clock.getBytecodeNum();
         readChildren(); prof[2] = Clock.getBytecodeNum();
         readSiblings(); prof[3] = Clock.getBytecodeNum();
@@ -247,13 +247,15 @@ public strictfp class EC extends Robot {
     }
 
     private int countAlive() {
-        // recount children cheaply via canGetFlag (5 bytecodes each) -- also compacts the list
-        int k = 0; int sl = 0, g = 0, sc = 0, cap = 0; nCapIdx = 0;
+        // recount children via canGetFlag (5 bytecodes each); compact the list only once a child has died --
+        // Iteration 50: copying four arrays for 96 live children every build turn was ~4k of a 20k budget
+        int k = 0; int sl = 0, g = 0, sc = 0, cap = 0; nCapIdx = 0; boolean gap = false;
         for (int i = 0; i < nChild; i++) {
-            // a slanderer becomes a politician at roundsAlive == 300 (engine CAMOUFLAGE); it then guards, so count it as one
-            if (childType[i] == Roles.ECON && round - childBirth[i] >= 300) childType[i] = Roles.GUARD;
-            if (rc.canGetFlag(childId[i])) { childId[k] = childId[i]; childType[k] = childType[i]; childBirth[k] = childBirth[i]; childTgt[k] = childTgt[i]; k++; if (childType[i] == Roles.CAPTURE && nCapIdx < MAX_CAPIDX) capIdx[nCapIdx++] = k - 1;
-                switch (childType[i]) { case Roles.SCOUT: case Roles.HUNT: sc++; break; case Roles.GUARD: g++; break; case Roles.ECON: sl++; break; case Roles.CAPTURE: cap++; break; default: break; } }
+            if (childType[i] == Roles.ECON && round - childBirth[i] >= 300) childType[i] = Roles.GUARD;   // camouflage expired: it guards now
+            if (!rc.canGetFlag(childId[i])) { gap = true; continue; }
+            if (gap) { childId[k] = childId[i]; childType[k] = childType[i]; childBirth[k] = childBirth[i]; childTgt[k] = childTgt[i]; }
+            switch (childType[k]) { case Roles.SCOUT: case Roles.HUNT: sc++; break; case Roles.GUARD: g++; break; case Roles.ECON: sl++; break; case Roles.CAPTURE: cap++; if (nCapIdx < MAX_CAPIDX) capIdx[nCapIdx++] = k; break; default: break; }
+            k++;
         }
         nChild = k; slanderers = sl; guards = g; scouts = sc; capturers = cap;
         return k;
@@ -293,6 +295,13 @@ public strictfp class EC extends Robot {
     // ---------------------------------------------------------------- comms
     /** Iteration 48: absorb what any friendly unit within sensor range is broadcasting. This is how a
      *  freshly captured centre learns anything at all -- it has no children and knows no sibling ids. */
+    // Iteration 50: the same fact arrives from many children and neighbours each turn; absorb each flag value once
+    private final int[] seenFlag = new int[12]; private int nSeen = 0;
+    private boolean seenThisTurn(int f) {
+        for (int i = nSeen; --i >= 0;) if (seenFlag[i] == f) return true;
+        if (nSeen < seenFlag.length) seenFlag[nSeen++] = f; else seenFlag[round % seenFlag.length] = f;
+        return false;
+    }
     private void readNearbyFriendlies() throws GameActionException {
         int n = nearby.length; if (n == 0) return;
         int start = (round * C.HANDOFF_READS) % n, reads = 0;
@@ -302,7 +311,7 @@ public strictfp class EC extends Robot {
             if (!rc.canGetFlag(r.ID)) continue;
             int f = rc.getFlag(r.ID); reads++; nearbyReads++; absorbFrom = r.ID;
             int t = Comms.type(f);
-            if (t != Comms.IDLE && t != Comms.ORDER && t != Comms.STATUS) absorb(f, loc);
+            if (t != Comms.IDLE && t != Comms.ORDER && t != Comms.STATUS && !seenThisTurn(f)) absorb(f, loc);
         }
     }
 
@@ -313,7 +322,7 @@ public strictfp class EC extends Robot {
         if (C.FLIP_INTENT == 1) for (int j = nCapIdx; --j >= 0;) {
             int i = capIdx[j]; if (!rc.canGetFlag(childId[i])) continue;
             int f = rc.getFlag(childId[i]); capReads++; absorbFrom = childId[i];
-            if (Comms.type(f) != Comms.IDLE) absorb(f, loc);
+            if (Comms.type(f) != Comms.IDLE && !seenThisTurn(f)) absorb(f, loc);
         }
         int start = (round * 24) % n;
         for (int k = 0; k < 24 && k < n; k++) {
@@ -321,7 +330,7 @@ public strictfp class EC extends Robot {
             if (C.FLIP_INTENT == 1 && childType[i] == Roles.CAPTURE) continue;
             if (!rc.canGetFlag(childId[i])) continue;
             int f = rc.getFlag(childId[i]); absorbFrom = childId[i];
-            if (Comms.type(f) != Comms.IDLE) absorb(f, loc);
+            if (Comms.type(f) != Comms.IDLE && !seenThisTurn(f)) absorb(f, loc);
         }
     }
 
@@ -342,7 +351,7 @@ public strictfp class EC extends Robot {
             int sid = MapState.ownEcId[i];
             if (!rc.canGetFlag(sid)) { MapState.nOwnId--; MapState.ownEcId[i] = MapState.ownEcId[MapState.nOwnId]; continue; }   // sibling lost (converted)
             int f = rc.getFlag(sid); absorbFrom = sid;
-            if (Comms.type(f) != Comms.IDLE && Comms.type(f) != Comms.ORDER && Comms.type(f) != Comms.STATUS) absorb(f, loc);
+            if (Comms.type(f) != Comms.IDLE && Comms.type(f) != Comms.ORDER && Comms.type(f) != Comms.STATUS && !seenThisTurn(f)) absorb(f, loc);
         }
     }
 

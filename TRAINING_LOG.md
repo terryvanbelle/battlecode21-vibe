@@ -5137,3 +5137,21 @@ exactly) and the 48 gate runs on `g_iter10` + 48 alone.
 Six diagnostic games, five doses, and the change that mattered was one
 condition on one line: a spawn order only for captures. Everything else in the
 stack exists either to exploit that or to contain what it woke up.
+
+## Iteration 47: INCONCLUSIVE at 55.8% (134-106) -- kept provisionally (2026-09-21 16:30 UTC)
+
+```
+batch  1: +9  -7   ==> 9-7     (56.2%)  LLR=+0.12
+batch  7: +10 -6   ==> 66-46   (58.9%)  LLR=+1.78   <- high-water mark
+batch 11: +7  -9   ==> 95-81   (54.0%)  LLR=-0.02
+batch 15: +8  -8   ==> 134-106 (55.8%)  LLR=+1.41
+SPRT_INCONCLUSIVE 134-106 after 240 games
+```
+
+Fifteen batches, thirteen of them at or above even, never a bound. Above 53%
+over 240 games, so the flat speech bar stays provisionally, no snapshot -- the
+same path Iteration 38 took before Iteration 40's gate resolved it.
+
+The Iteration 48 gate now runs on the stack, `g_iter10` + 47 + 48, against
+`g_iter10`. An accept ships both; a reject reverts both and then 48 alone is
+re-run with `SPEECH_CONV_DIV = 3`, so the attribution is recoverable either way.

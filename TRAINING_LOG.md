@@ -4045,3 +4045,41 @@ instrument work, not bot work, and it is where this thread stops tonight.
 The defect it addressed is real and measured -- 1,192 blocked rounds, every
 centre ending with zero slanderers on 72,000 influence -- and remains unfixed,
 with no instrument able to price the fix.
+
+## Iteration 40 (pre-registered) -- the centre is walled in by its own army
+
+The second defect logged during Iteration 39, now measured. A centre that picks
+a build and finds no free adjacent tile returns **silently** -- it does not even
+count as idle -- so the condition never appeared in any log. Instrumented and
+run (`bot` vs `g_iter9`, Networking):
+
+| our centre at r1500 | influence | slanderers | guards | rounds with no free tile |
+|---|---|---|---|---|
+| #1 | 5,500 | 5 | **63** | **458** |
+| #2 | 15,300 | 1 | 9 | 265 |
+| #3 | 5,430 | 0 | 6 | 214 |
+
+**Between 214 and 458 rounds of a 1,500-round game in which the centre wanted
+to build, could afford it, and physically could not.** The worst case has 63
+guards around it and five slanderers. This is very likely the rest of the
+"ends the game with zero slanderers on 71,010 influence" observation that
+`econDanger` only partly explained.
+
+**What is not the cause.** Both unit types already have keep-out rules:
+`SLANDERER_RING_MIN` 8 and `GUARD_RING_MIN` 20 (d^2 from home), and guards
+actively walk outward when inside the ring. So the blockers are either units
+that cannot move (cooldown, or newborns that have not acted), or units whose
+`nav.step()` finds every direction occupied -- a jam rather than a policy.
+
+**Dose 1.** Make the block visible to the unit causing it rather than only to
+the centre: a unit standing adjacent to a friendly centre treats vacating as
+its highest-priority move whenever it has no action to take, and the centre
+prefers spawn tiles that were free last round so it does not fixate on a
+blocked direction. **Counter: `noTile` falls from 200-450 rounds to under 50**,
+with slanderers at r1500 rising above the 0-5 seen here.
+
+**Instrument note before any gate** (today's rule, twice earned): the mirror
+opponent is our own build, which jams its own centres exactly as we do, so this
+is a change the mirror *can* see -- both sides suffer it and only one is fixed.
+No second arm is needed, and that judgement is recorded now rather than after
+the result.

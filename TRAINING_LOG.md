@@ -4789,3 +4789,30 @@ already in METHOD 6b-ii is "run it before you trust it"; the sharper version is
 **run it on a case whose answer you already know.** kn1 reading "4 of 4, a
 perfect score" was the tell here, and a one-line check against the replay
 header would have caught it immediately.
+
+## Iteration 45: diagnostic fires, and the gate is the ladder (2026-09-21 10:30 UTC)
+
+87 siege-bank builds in one game, including a centre at r591 holding 14,835
+influence and converting 4,890 of it into a single politician. The mechanism
+works.
+
+**The diagnostic does not test it, though.** We won that game outright -- 5
+centres to 3, unit influence 189,482 to 11,601 -- and in a rout the bank grows
+whatever the rule does (ours reached 115,255). The pre-registered counter,
+"banked influence falls", cannot be read from a game we dominate, and a random
+cell against an external bot cannot be asked for a loss.
+
+**Gate: the ladder, not the mirror**, pre-registered before running and for a
+reason already measured rather than assumed. The mirror opponent is our own
+build, which applies 44 blocked rounds in a game against rzhan11's 1,192, so it
+cannot exercise a rule that only acts while blocked. The same argument was made
+for Iteration 43 and the ladder duly gave it a clean, decisive rejection.
+
+The baseline is already in hand: `g_iter10` scored **35/48** on the fixed field
+of eight this morning, same pool, same build. So one candidate block completes
+the comparison.
+
+- **Accept** at 39/48 or better (+4, roughly one standard error).
+- **Reject** at 35 or below, and record that a besieged centre is right to hoard
+  after all -- which, with Iteration 43 already rejected, would mean neither
+  spending the bank on economy nor on defence beats saving it.

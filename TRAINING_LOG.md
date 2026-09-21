@@ -4722,3 +4722,39 @@ about the fork have now been raised and closed on evidence in this stretch
 measurement rather than a mechanism: **at r200 the number of neutral centres we
 have found varies from none to all of them, and nothing in the bot explains
 which.**
+
+### The variance is map size, and it is not a defect (2026-09-21 09:55 UTC)
+
+Normalising coverage by map area explains the spread completely:
+
+| game | map | area | our coverage at r200 | neutrals sensed |
+|---|---|---|---|---|
+| kn1 | 45x32 | 1,440 | **22.4%** | **4 of 4** |
+| kn4 | 50x50 | 2,500 | 7.4% | 3 of 5 |
+| kn2 | 50x50 | 2,500 | 3.7% | **0 of 4** |
+| kn3 | 64x64 | 4,096 | **2.2%** | 2 of 7 |
+
+The sensing variance that looked alarming -- from all of them to none -- is
+almost entirely **map area**. By r200 we have walked over 22% of a small map and
+2% of a large one, and we find the neutral centres in proportion. The opponent
+is in the same position, covering 26%, 3.7%, 3.4% and 4.3% on the same maps: on
+three of the four we are within a point or two of them, and on kn4 we are ahead.
+
+**So there is no scouting defect here either.** Nobody has seen much of a 64x64
+map by round 200; that is what the map costs. Our earlier reading -- "scouting
+is wildly inconsistent and nothing in the bot explains which" -- was an artefact
+of comparing absolute tile counts across maps of very different sizes. Coverage
+has been in the metric set all along as a raw count, and `progress/METRICS.md`
+describes it as a share of passable tiles, which it is not: `coverageOf` returns
+tiles visited.
+
+That is worth fixing regardless of this thread, because every correlation ever
+run on `cov` has been on a map-size-confounded quantity. The onset ranking puts
+the coverage *gap* (us minus them) near the top, and a difference does cancel
+map size, so those readings survive. The raw `cov` column does not.
+
+**The fork remains unexplained.** Four hypotheses have now been closed on
+evidence in this stretch: the capture decision, a reporting gap, permanent
+erasure, and inconsistent scouting. Each was a real measurement and none was a
+defect. The honest state is that `g_iter10` plays the fork about as well as its
+opponent does, and loses later for reasons this sequence has not located.

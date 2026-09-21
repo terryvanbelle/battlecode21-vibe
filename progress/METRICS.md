@@ -33,7 +33,7 @@ column accordingly, so A/B never leaks into the numbers.
 | `unitInf` | influence embodied in living units | sum of the influence of every living unit. The best single measure of "army plus economy on the board", because one 400-influence slanderer and ten 40-influence ones count the same |
 | `exp` | exposures achieved | cumulative count of this team's successful muckraker exposures (each destroys an enemy slanderer) |
 | `buff` | empower buff | the engine's team-wide multiplier on speech conviction, earned by exposing slanderers. Compounds: a large buff makes every later politician hit harder |
-| `cov` | map coverage | share of passable tiles that *any* unit of the team has stood on at some point in the game. A proxy for how much of the map has been seen, hence which neutral centres are known |
+| `cov` | map coverage | **count** of distinct tiles any unit of the team has ever stood on -- not a share, despite the name. It is therefore confounded by map area: 322 tiles is 22% of a 45x32 map and 8% of a 64x64 one. Use the `cov (us-them)` difference, which cancels the map, or normalise by area yourself. Corrected 2026-09-21 after the raw column produced a false "scouting is inconsistent" finding |
 | `moves` | total moves | every successful move by every unit, summed over the game |
 | `meanMoves` | moves per unit | `moves` divided by units that lived long enough to act — how mobile a typical unit is, independent of army size |
 | `aba` `[inverted]` | oscillation rate | share of moves that returned to the tile occupied two moves earlier (an A-B-A step). Wasted turns; lower is better |

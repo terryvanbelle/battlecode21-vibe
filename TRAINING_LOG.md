@@ -4335,3 +4335,38 @@ invariant fails if it is ever set beyond a quarter of a game.
 without `capFull` rising to absorb it -- if the claims lapse but the cap then
 blocks instead, the centre is capturer-bound rather than claim-bound and the
 dose is wrong.
+
+### Iteration 41 dose 1: the counter disqualifies it (2026-09-21 05:10 UTC)
+
+`bot` vs `g_iter10`, NotAPuzzle (six neutrals). Rounds each centre declined a
+capture, per centre at r1500:
+
+| | before (dose 0) | after (dose 1) |
+|---|---|---|
+| every candidate claimed | **452** | 11, 44, 69, 79, 92 |
+| capturer cap full | 124 | **293, 259, 151** |
+| nothing affordable | 195 | 31-234 |
+
+The claims do lapse: blocking by claim falls from 452 to under 100 everywhere,
+which was the target. **But the pre-registered disqualifier fired** -- "if the
+claims lapse but the cap then blocks instead, the centre is capturer-bound
+rather than claim-bound and the dose is wrong". `capFull` went from 124 to
+151-293. The blocking moved; it did not go away.
+
+So the constraint is capturer *throughput*, and the last three iterations have
+been chasing it around: the cap of 2 blocked, so Iteration 37 raised it to 4 and
+added exclusive claims; the claims then blocked, so this lapses them; now the
+cap of 4 blocks again. Each step was right about its own measurement and none
+reached the thing underneath, which is that capturers take too long to arrive
+for four in flight to be enough.
+
+**Dose 2**, following the ladder rather than re-registering: keep the lapse and
+raise `MAX_CAPTURERS` 4 -> 8. Counter: `capFull` falls below 100 **without**
+`allClaimed` returning above 100 -- i.e. the blocking leaves rather than moves
+again. If it moves a third time, the answer is not a cap at all and the ladder
+stops.
+
+**Noted, not chased:** every centre ends this game with **zero slanderers** and
+between 3,956 and **160,737** influence banked. Iteration 40 reduced the spawn
+ring but the late-game economy still dies, and 160,737 unspent influence is a
+larger prize than any capture rule.

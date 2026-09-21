@@ -55,7 +55,7 @@ public final class C {
     // real centres were known and 2,905-14,145 influence sat banked -- ten capturers' worth. The 2 -> 4
     // test was rejected 120-120 before, but that ran with the guard sink (no money) and the stale neutral
     // list (extra capturers dispatched to centres already ours), so it could only buy waste.
-    public static final int MAX_CAPTURERS = 4;          // dose 1 (was 2)
+    public static final int MAX_CAPTURERS = 8;          // Iteration 41 dose 2 (was 4, and 2 before that)
     // Iteration 41: a capturer's claim on a centre lapses after this many rounds. Iteration 37 gave each
     // capturer an exclusive claim so four of them would not converge on one centre, which was right and
     // necessary; but a claim never expired, so a capturer walking a long way -- or stuck -- blocked every

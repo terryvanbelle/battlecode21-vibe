@@ -42,7 +42,7 @@ public final class MapState {
     }
     public static boolean addEnemyEC(MapLocation l) {
         if (known(enemyEC, nEnemy, l) || nEnemy >= MAX_ECS) return false;
-        enemyEC[nEnemy++] = l; removeNeutral(l); return true;
+        enemyEC[nEnemy++] = l; if (dropNeutral(l)) Debug.log("@lostneutral via=enemyEC"); return true;
     }
     public static boolean addNeutralEC(MapLocation l, int inf) {
         // A centre we own was never neutral again: centres are neutral only at the start of the game.
@@ -54,6 +54,13 @@ public final class MapState {
         if (nNeutral >= MAX_ECS) return false;
         neutralEC[nNeutral] = l; neutralInf[nNeutral] = inf; nNeutral++; return true;
     }
+    /** removeNeutral, reporting whether it actually erased one. A neutral centre erased here can
+     *  never come back: addNeutralEC refuses any tile already in ownEC. Instrumented 2026-09-21
+     *  because centres were observed knowing 1 neutral at r150 and 0 at r200 while units had
+     *  sensed 3. */
+    public static boolean dropNeutral(MapLocation l) {
+        int before = nNeutral; removeNeutral(l); return nNeutral < before;
+    }
     public static void removeNeutral(MapLocation l) {
         for (int i = nNeutral; --i >= 0;) if (neutralEC[i].equals(l)) { nNeutral--; neutralEC[i] = neutralEC[nNeutral]; neutralInf[i] = neutralInf[nNeutral]; return; }
     }
@@ -62,7 +69,7 @@ public final class MapState {
     }
     public static boolean addOwnEC(MapLocation l) {
         if (known(ownEC, nOwn, l) || nOwn >= MAX_ECS) return false;
-        ownEC[nOwn++] = l; removeNeutral(l); removeEnemy(l);
+        ownEC[nOwn++] = l; if (dropNeutral(l)) Debug.log("@lostneutral via=ownEC"); removeEnemy(l);
         if (boundsKnown()) for (int i = nEnemy; --i >= 0;) pruneWithEnemyEC(enemyEC[i]);
         return true;
     }

@@ -339,3 +339,7 @@ OK, you're Fable now
 ## 79. 2026-09-21
 
 /loop list, then /loop delete 758cce9b
+
+## 80. 2026-09-21
+
+Following up on earlier conversations, I'd like you to focus your enhanced intelligence on diagnosis, hypothesis generation, and devising solutions.  Because games are so expensive time-wise, any improvement on selecting candidates pays dividends

@@ -170,12 +170,21 @@ public strictfp class EC extends Robot {
 
     private int captureAffordable(int inf) {
         int best = -1, bestCost = 1 << 30;
+        int cheapest = 1 << 30; boolean anyUnclaimed = false;
         for (int i = MapState.nNeutral; --i >= 0;) {
             int c = MapState.neutralInf[i] + 14;
+            if (c < cheapest) cheapest = c;
+            if (!claimed(MapState.neutralEC[i])) anyUnclaimed = true;
             if (c > inf - reserve() || c >= bestCost || capturers >= C.MAX_CAPTURERS) continue;
             if (claimed(MapState.neutralEC[i])) continue;   // a live capturer is already walking there
             best = i; bestCost = c;
         }
+        // Diagnostic: RICH and not capturing, in the r50-r300 window where the game forks
+        // (vs rzhan11 we hold 2 centres to their 4 at r200 with 2,379 banked).
+        if (best < 0 && MapState.nNeutral > 0 && round <= 300 && round % 25 == 0 && inf >= 300)
+            Debug.log("@nocap r=" + round + " inf=" + inf + " reserve=" + reserve() + " known=" + MapState.nNeutral
+                      + " cheapest=" + cheapest + " capturers=" + capturers + "/" + C.MAX_CAPTURERS
+                      + " unclaimed=" + anyUnclaimed);
         return best;
     }
 

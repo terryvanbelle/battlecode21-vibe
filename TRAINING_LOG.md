@@ -4523,3 +4523,45 @@ Both ended the same way: a vividly measurable defect whose repair does not pay.
 The honest summary is that `g_iter10` is close to a local optimum for the
 mechanisms currently modelled, and the next real gain will need a mechanism that
 is not in the bot at all rather than a better setting of one that is.
+
+## Where `g_iter10` stands, and what the data says is left (2026-09-21 08:05 UTC)
+
+Ladder after the fixed-field block: **Elo 1651, rank 3 of 21**, behind only
+awesomelemonade (1835) and rzhan11 (1742), the two bots that beat us. 35/48
+against the eight most-played opponents; 6/6 against four of them.
+
+**Against rzhan11, wins and losses are two different games.** Medians, ours then
+theirs:
+
+| | r200 win | r400 win | r700 win | r200 loss | r400 loss | r700 loss |
+|---|---|---|---|---|---|---|
+| centres | 2/2 | 4/4 | 4/4 | 2/**4** | 2/4 | **1/6** |
+| slanderers | 46/29 | 75/22 | 107/2 | 40/34 | **8**/55 | **0**/216 |
+| unit influence | 10k/13k | 25k/18k | 53k/10k | 8k/11k | 6k/**38k** | 0.7k/**167k** |
+| centre influence | 3,516 | 7,787 | 46,639 | 2,379 | 5,149 | 56 |
+
+The fork is at **r200 and it is centres**: 2 against 4. Everything after follows
+from it -- by r400 their economy is seven times ours, by r700 their unit
+influence is 240 times ours. In the wins we reach four centres and the same
+compounding runs in our favour.
+
+**And we cannot force it.** Four iterations of capture throughput (37, 40, 41,
+42) established that the blocking is conserved across caps, claims, reserves and
+target order, and that the rule we already had maximises captures. Iteration 43
+established that unblocking the economy under pressure loses four games in 48.
+Both lines are closed on evidence, not on fatigue.
+
+**So the remaining gap is not a setting.** At r200 in losses we hold 2,379
+influence, two centres, and a healthy economy -- we are not poor, not blocked,
+and not ignorant of the map (`--knowledge` says we have sensed *more* neutrals
+in losses than in wins). They simply convert earlier. What the bot does not have
+is any way to contest a centre it cannot afford outright: `captureAffordable`
+requires the full price in one politician, so a 400-influence neutral is
+unreachable until one centre has banked 414, while an opponent that chips it
+with several cheaper politicians takes it far sooner. That mechanism -- **several
+politicians combining on one centre** -- is absent from the bot entirely, and it
+is the first candidate that is not a re-tuning of something already tried.
+
+Not started tonight. Pre-registering it here with its counter: centres held at
+r200 in losses rises from 2 toward 3-4, and the number of capture speeches that
+are chips rather than flips rises, since that is the mechanism working.

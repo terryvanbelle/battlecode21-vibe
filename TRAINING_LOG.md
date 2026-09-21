@@ -5354,3 +5354,25 @@ saving, the opponent's adaptive bidder buys a vote a round for 1 influence. A bi
 on Blob and denies nothing (the opponent bids 2). Parked as a dose for later: bid normally while
 saving and rely on `SAVE_MAX_WAIT` alone. The gate resumes on the pre-registered code with
 batch 1 folded in (`W0=11 L0=5`, `tools/mirror.sh`).
+
+### Read while the gate runs: seven Iteration 49 mirror losses (2026-09-21 23:20 UTC)
+
+Gate at 53-43 (55.2%) after batch 5. Seven losses read from the replays (mirror runs keep only
+losses). Two bidding findings, both in `g_iter11` as well, both for the **next** candidate:
+
+1. **The vote deficit at r100 is real but evens out**: 0/56, 0/45, 1/51, 12/29, 1/14 at r100
+   in five losses, level by r300 in all of them (99/98, 80/81, 89/118, 119/112, 84/149). Dose (a)
+   costs early votes, the game is decided later. Parked: bid normally while saving, keep the
+   80-round bound.
+2. **We stop bidding while ahead and rich.** BadSnowflake: at r1200 we led **663-390 with
+   135,846 influence and seven centres to their one, and placed no bid for the remaining 300
+   rounds**; g_iter11 bought a vote a round at 6-7 influence and won 689-663. Cause:
+   `enemyVotesEst` (the "safe without bidding" estimate: rounds in which our team gained no vote)
+   is a per-centre counter that starts at zero when the centre's player code starts -- at
+   capture of a neutral, *and* when a lost centre is retaken, because the engine starts a fresh
+   player instance for the new team. A centre born at r600 has counted ~200 non-gain rounds by
+   r1200, so `663 > 200 + 300` and it goes quiet; when every centre is young, the team is silent.
+   The engine takes only the team's single highest bid (`GameWorld` bidding: max per team,
+   losers pay half), so one quiet centre is harmless and all quiet is the whole vote race. Fix:
+   initialise the estimate at birth to `round - teamVotes` (every round we did not win may have
+   been theirs), then count as now.

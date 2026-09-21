@@ -4158,3 +4158,46 @@ ending a game with zero slanderers, no threat detected and 71,010 influence
 banked -- which I logged as a separate lead rather than folding into the change
 under test. Reading the build code for an explanation produced a specific
 candidate, and instrumenting the silent `return` confirmed it in one game.
+
+## `g_iter10` on the ladder: no change against the shared opponents (2026-09-21 03:55 UTC)
+
+Regression **38/40**, identical to `g_iter9`: 32/32 on the four original
+archetypes, both losses to `arch_expand`.
+
+Block: **15/48 (31.2%)** against the previous block's 54.2%. Almost none of that
+is the bot. Against the **four opponents present in both blocks**:
+
+| | shared four |
+|---|---|
+| `g_iter9` | 5/24 (20.8%) |
+| `g_iter10` | **5/24 (20.8%)** |
+
+| opponent | before | after |
+|---|---|---|
+| Scott-Poole.spright8 | 3/6 | 4/6 |
+| rqi3.qualification_bot | 0/6 | 1/6 |
+| awesomelemonade.sprint1bot | 0/6 | 0/6 |
+| rzhan11.sprint2 | 2/6 | **0/6** |
+
+Identical totals, with movement in both directions inside them. The headline
+drop is the field: this block's newcomers went 10/24 against last block's, which
+included two swept 6-0.
+
+**So Iteration 40 is a 63.5% mirror accept with no measurable ladder effect.**
+That is now the pattern for three of the last four accepts, and it is the most
+important open problem with the method: the gate and the contest signal are
+diverging. The gate measures a change against our own past, which is exactly
+what it is for, and the ladder keeps saying that beating our own past is not the
+same as beating them.
+
+**A measurement problem this block exposes.** With a rotating pool, block-to-
+block comparison is only possible on the intersection, and the intersection
+changes every time: `g_iter8` -> `g_iter9` shared four opponents and read
+9/24 -> 11/24; `g_iter9` -> `g_iter10` shared a *different* four and read
+5/24 -> 5/24. Those two numbers cannot be chained. Either the rated half of the
+pool must be held fixed across blocks, or the ladder needs a proper rating-based
+comparison rather than a win count -- which is what Elo is for, and what the
+per-block rate keeps distracting from.
+
+The ladder itself has got much harder. Of nine rated bots above 1450, six beat
+us more often than not, and every exploration block adds another.

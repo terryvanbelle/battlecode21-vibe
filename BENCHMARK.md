@@ -117,7 +117,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `BSreenivas0713.auxMusketeerPlayer` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.ecs` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.musketeerPlayer` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
-| `BSreenivas0713.musketeerplayerfinal` | BSreenivas0713_Battlecode2021 (d24af14) | 0 | 5 | locked | 0 0 0 |
+| `BSreenivas0713.musketeerplayerfinal` | BSreenivas0713_Battlecode2021 (d24af14) | 17 | 6 | locked | 0 0 0 17 |
 | `BSreenivas0713.musketeerplayerjan8` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.musketeerplayerpostqual` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
 | `BSreenivas0713.musketeerplayerqual` | BSreenivas0713_Battlecode2021 (d24af14) | - | - | untested |  |
@@ -147,7 +147,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `ChiragKalra.gen2` | ChiragKalra_battlecode (ad1373f) | - | - | untested |  |
 | `ChiragKalra.gen3` | ChiragKalra_battlecode (ad1373f) | - | - | untested |  |
 | `ChiragKalra.gen4` | ChiragKalra_battlecode (ad1373f) | - | - | untested |  |
-| `ChiragKalra.gen5` | ChiragKalra_battlecode (ad1373f) | 71 | 14 | peer | 71 |
+| `ChiragKalra.gen5` | ChiragKalra_battlecode (ad1373f) | 100 | 6 | peer(>90 once) | 71 100 |
 | `IvanGeffner.thirtyone` | IvanGeffner_battlecode2021 (1471e6a) | 0 | 6 | locked | 0 0 0 |
 | `JCRaymond.bot.tournament.sprint` | JCRaymond_battlecode-2021 (14e4015) | 100 | 6 | peer(>90 once) | 100 |
 | `JCRaymond.donothingbot` | JCRaymond_battlecode-2021 (14e4015) | - | - | untested |  |
@@ -171,7 +171,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `OliverMKing.oliverrushbot2` | OliverMKing_battlecode-2021 (14e4015) | - | - | untested |  |
 | `OliverMKing.templatebot` | OliverMKing_battlecode-2021 (14e4015) | - | - | untested |  |
 | `SLaGrave.AlphaCentauri` | SLaGrave_battlecode21 (9ae0ff4) | 100 | 6 | peer(>90 once) | 100 |
-| `Scott-Poole.spright8` | Scott-Poole_battlecode21 (57f898a) | 50 | 6 | peer | 7 12 39 17 25 50 33 33 50 |
+| `Scott-Poole.spright8` | Scott-Poole_battlecode21 (57f898a) | 67 | 6 | peer | 7 12 39 17 25 50 33 33 50 67 |
 | `Sihal3.cavShieldv05` | Sihal3_cavshield (7a90425) | - | - | untested |  |
 | `Sihal3.cavShieldv1` | Sihal3_cavshield (7a90425) | - | - | untested |  |
 | `Sihal3.cavShieldv2` | Sihal3_cavshield (7a90425) | - | - | untested |  |
@@ -216,7 +216,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `TylerQube.sandmenplayer` | TylerQube_sandmen-battlecode21 (522a5fe) | 100 | 6 | peer(>90 once) | 100 |
 | `Victoriano012.SprintBot2` | Victoriano012_BattleCode-2021 (2517f10) | 17 | 6 | locked | 14 38 17 |
 | `VittalT.donothingplayer` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
-| `VittalT.final_usqualplayer3_subm` | VittalT_Battlecode2021-EZMoney (49bc713) | 17 | 6 | locked | 7 12 17 |
+| `VittalT.final_usqualplayer3_subm` | VittalT_Battlecode2021-EZMoney (49bc713) | 33 | 6 | target | 7 12 17 33 |
 | `VittalT.pathtestingplayer` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
 | `VittalT.simpleplayer1` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
 | `VittalT.simpleplayer2` | VittalT_Battlecode2021-EZMoney (49bc713) | - | - | untested |  |
@@ -291,7 +291,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `awesomelemonade.pdefense2` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.ppbot` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.spreadout` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
-| `awesomelemonade.sprint1bot` | awesomelemonade_battlecode-2021 (e9c4afc) | 0 | 6 | locked | 0 25 0 0 0 17 33 0 |
+| `awesomelemonade.sprint1bot` | awesomelemonade_battlecode-2021 (e9c4afc) | 0 | 6 | locked | 0 25 0 0 0 17 33 0 0 |
 | `awesomelemonade.trollbigps` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.v1_10` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.waves` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
@@ -350,7 +350,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `iyzg.sbot14` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
 | `iyzg.sbot15` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
 | `iyzg.sbot16` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
-| `iyzg.sbot17` | iyzg_battlecode21 (13595c5) | 17 | 6 | locked | 7 12 17 |
+| `iyzg.sbot17` | iyzg_battlecode21 (13595c5) | 17 | 6 | locked | 7 12 17 17 |
 | `iyzg.sbot2` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
 | `iyzg.sbot3` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
 | `iyzg.sbot4` | iyzg_battlecode21 (13595c5) | - | - | untested |  |
@@ -510,7 +510,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `rqi3.pathfindingtest` | rqi3_battlecode-2021 (f59941b) | - | - | untested |  |
 | `rqi3.pold` | rqi3_battlecode-2021 (f59941b) | - | - | untested |  |
 | `rqi3.politician_tester` | rqi3_battlecode-2021 (f59941b) | - | - | untested |  |
-| `rqi3.qualification_bot` | rqi3_battlecode-2021 (f59941b) | 0 | 6 | locked | 0 0 0 |
+| `rqi3.qualification_bot` | rqi3_battlecode-2021 (f59941b) | 17 | 6 | locked | 0 0 0 17 |
 | `ryanbai1412.antimuckrush` | ryanbai1412_Battlecode2021 (2ffbfa8) | - | - | untested |  |
 | `ryanbai1412.eco` | ryanbai1412_Battlecode2021 (2ffbfa8) | - | - | untested |  |
 | `ryanbai1412.sprint_0` | ryanbai1412_Battlecode2021 (2ffbfa8) | 17 | 6 | locked | 0 17 |
@@ -518,7 +518,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `rzhan11.muckspam` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
 | `rzhan11.newday` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
 | `rzhan11.sprint` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
-| `rzhan11.sprint2` | rzhan11_Battlecode2021 (f21c274) | 33 | 6 | target | 0 11 0 8 33 17 33 33 |
+| `rzhan11.sprint2` | rzhan11_Battlecode2021 (f21c274) | 0 | 6 | locked | 0 11 0 8 33 17 33 33 0 |
 | `rzhan11.template` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
 | `rzhan11.wander_defense` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
 | `saivivekvenna.Ba_ba_booie` | saivivekvenna_BattleCode-2021 (636ec61) | 100 | 6 | peer(>90 once) | 100 |

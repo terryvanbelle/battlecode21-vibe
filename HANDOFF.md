@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-20 07:15 UTC)
+# Handoff -- the state of the loop (updated 2026-09-21 22:45 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -55,20 +55,34 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   1 `arch_muck` muckraker rush, 2 `arch_bidder`, 3 `arch_polrush`, 4 `arch_expand`
   neutral-centre expander, plus `arch_big` (rebuilt allocation).
 
-## State right now (2026-09-21 18:00 UTC)
+## State right now (2026-09-21 22:45 UTC)
 
-- **Submission: `g_iter11`** = g_iter10 + Iteration 47 (flat speech bar) +
-  Iteration 48 (the broadcast fix and the knowledge hand-off). Gate **65.6%
-  (63-33)**, six batches, every one positive.
-- `src/bot` is byte-identical to `src/g_iter11` (snapshotted from it). It still
-  carries the intake instrumentation (`heardN`, `nearReads`, `orderRounds`,
-  `@capbuild`, `@courier`) -- cheap Debug lines that were part of what the gate
-  tested, so they ship as tested.
-- Regression **40/40**. Ladder **38/48 on the fixed field** (g_iter10: 35/48),
-  **Elo 1752, rank 2 of 21**, above rzhan11 for the first time; only
-  awesomelemonade (1829) ahead. Against the strong four 17/24 (was 12/24);
-  awesomelemonade 2/6 and rzhan11 4/6 are the best records ever against them.
-- awesomelemonade is now tier `target` (33%) and may be reviewed.
+- **Submission: `g_iter11`** (g_iter10 + Iteration 47 flat speech bar + Iteration 48
+  broadcast fix and hand-off). Gate 65.6% (63-33). Regression 40/40. Ladder **38/48 on
+  the fixed field, Elo 1752, rank 2 of 21**; only awesomelemonade (1829) ahead.
+- **In flight: Iteration 49 "bank and knowledge hygiene", SPRT vs `g_iter11`**
+  (`gauntlet/sprt-i49.log`, run dir under `gauntlet/`, `summary.txt` when done).
+  `src/bot` = g_iter11 + Iteration 49. Three doses, each switchable in `C.java`:
+  (a) `SAVE_NO_BID`, `SAVE_MAX_WAIT` -- no bidding while the save branch waits, 80-round
+  bound; (b) `FLIP_INTENT`, `PRESUME_ROUNDS` -- a capturer announces its flip the turn it
+  lands adjacent, home reads capture-role children every turn and presumes the tile for
+  100 rounds; (c) `ABORT_REPORT` -- a politician arriving at a centre already ours flags
+  it; plus **stamped ownership claims** (`STAMPED_CLAIMS`, `MapState.claimEnemy/claimOwn`,
+  `Comms.ENEMY_EC_ECHO`): every OWN_EC / ENEMY_EC_ECHO carries the round/32 of the
+  sighting behind it and the newer claim wins. `BROADCAST_OWN` exists and is OFF (it
+  turned every scout into a courier). Diagnostic chain: TRAINING_LOG "Iteration 49
+  diagnostics".
+- On the verdict: ACCEPT -> `tools/snapshot.sh g_iter12`, regression, ladder block
+  (`scrim.sh`, then `scrim-record.py`, `elo.py`, `bench-roster.py`), block study;
+  inconclusive >= 53% over >= 200 -> keep provisionally; else revert `src/bot` from
+  `src/g_iter11` (the whole stack -- or drop doses one at a time if a counter says which).
+- **Next candidate, already diagnosed** (fixed-seed Hexes run 6): the rich-and-idle
+  branch (`inf - reserve() >= 300 -> CAPTURE at enemyEC[0]`) pours the bank into
+  politicians at a *contested* centre that flips every few rounds (363 aborts "by=ours" in
+  one game). Choose the enemy target by stamp and size, and cap politicians in flight per
+  tile as `claimed()` does for neutrals.
+- The dev runner's engine seed is fixed: `tools/run-dev.sh bot g_iter11 <Map>` replays the
+  same game until the code changes it, which makes diagnostic reruns like-for-like.
 
 ## The finding behind Iteration 48 (read this before any comms work)
 
@@ -110,23 +124,18 @@ hop upstream of this. It was found by six counters on the centre's intake.
   r700 in those games our centres hold 56 influence and 696 unit influence --
   there is nothing to redirect. The vote loss is the economy collapse arriving.
 
-## The open question
+## The open questions
 
-Against rzhan11 the fork is at **r200 and it is centres, 2 against 4**, and
-everything follows: by r700 their unit influence is 240x ours in losses, ours is
-5x theirs in wins. At that fork we are not poor (2,379 banked), not blocked, and
-not ignorant -- `--knowledge` shows we have sensed *more* neutrals in losses
-than in wins. They simply convert earlier, and every mechanism we have tried for
-converting faster has been measured and rejected.
-
-## The open question the ladder is asking
-
-Our centre count is flat at two in wins and in losses alike; what separates them is
-the opponent's, which reaches six by r700 in losses. Ten capture politicians in one
-diagnostic game produced one flip, three chips, and **six aborts because the target
-was already taken**. We lose the expansion race on rate. Four expansion candidates
-have been rejected, all gated by a mirror against a twin that expands exactly as
-badly as we do; `arch_expand` now exists so the next one gets a real opponent.
+- **awesomelemonade** (tier `target`, first legitimate look 2026-09-21, four losses read):
+  their weapon is the expose buff -- 6.3x on their politicians in HexesAndOhms, 10x late in
+  BattleCode, never above 0.4x in the games we won -- and it drained a 3,500-influence centre
+  of ours in nineteen speeches. Ladder-wide, exposure count alone does not separate wins
+  from losses (we won BattleCode vs rzhan11 with 81 exposed), so the question is where our
+  slanderers are when the swarm arrives, and what our guards trade for it: a 20-1000
+  influence guard dies to kill one 1-influence muckraker.
+- **rzhan11**: the fork is at r200 and it is centres, 2 against 4; we are not poor, not
+  blocked, not ignorant at that fork. Iteration 49 removes one measured reason (capturers
+  re-bought for a centre already ours, 1,485 influence in one game); the rate question stays.
 
 ## Gotchas learned the hard way
 

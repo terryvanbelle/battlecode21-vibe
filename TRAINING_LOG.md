@@ -5105,3 +5105,35 @@ This is Iteration 33's mechanism, rejected at 51.7% when the channel was blocked
 and scouts rarely learned the enemy centre at all -- it could barely act.
 Counter: coverage at r400 back near 537 with the neutral-report and cadence
 gains of dose 4 intact.
+
+### Dose 5: half the coverage back, the hand-off beyond doubt -- to the gate (2026-09-21 17:00 UTC)
+
+| | baseline | dose 4 | dose 5 |
+|---|---|---|---|
+| neutral reports reaching captured centres | 0 | hundreds | **1,268, 913, 199, 32, 15** |
+| capturers dispatched, home / captured | 0 / 0 | 4 / 1 | **17 / 5** |
+| capturers built for centres already ours | 16 | 0 | 7 |
+| scout waypoints by r400 | 188 | 42 | 100 |
+| coverage at r400 | 537 | 274 | 356 |
+| 5th centre | r300 | r230 | r300 |
+| final centres | 8 v 0 | 2 v 6 | 5 v 3 |
+
+The mechanism is proven: captured centres hear the neutral list by the hundreds
+and dispatch capturers of their own. One scout in four camping recovers half the
+coverage dose 4 lost; the other half is the price of scouts that do camp, and
+`CAMP_ONE_IN` is the dose ladder if the gate says it matters.
+
+The outcome column is one mirror game per row and is not evidence either way --
+this session has retracted single-game conclusions three times. The mechanism
+fires, which is the diagnostic-first criterion, so the stack goes to the
+**mirror gate as pre-registered** (both sides' captured centres are deaf; one
+side is fixed). It runs as soon as the Iteration 47 gate frees the machine.
+
+**What is under test, explicitly.** `src/bot` = `g_iter10` + Iteration 47
+(speech bar, at its own gate now) + Iteration 48 doses 1-5. If 47 is rejected
+first, it is reverted with `SPEECH_CONV_DIV = 3` (restores `max(12, conv/3)`
+exactly) and the 48 gate runs on `g_iter10` + 48 alone.
+
+Six diagnostic games, five doses, and the change that mattered was one
+condition on one line: a spawn order only for captures. Everything else in the
+stack exists either to exploit that or to contain what it woke up.

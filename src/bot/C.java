@@ -41,13 +41,6 @@ public final class C {
     // showed the cap never bound: guards still reached 31 at r200 and 46 at r250, because a rich centre took the
     // escape on every build. The escape is exactly backwards -- a big bank is what buys a centre. Dose 2 removes it.
     public static final int SPEND_GUARD_CAP = 12;       // dose 1 (was: unbounded, tracked slanderers + 2)
-    // Iteration 45: under sustained pressure the economy is blocked by econDanger, guards cap out around
-    // 12, and everything else is a 1-influence body -- so the centre HOARDS. Against rzhan11 at r400 in
-    // losses we bank 5,149 influence with 8 slanderers while they bank 296 and field 37,520 unit
-    // influence to our 5,726. Iteration 43 tried spending the hoard on slanderers into the pressure and
-    // lost 4 games in 48. This spends it on DEFENDERS instead, which is what the pressure is asking for.
-    public static final int SIEGE_BANK = 600;           // hoard above this, while blocked, buys a politician
-    public static final int SIEGE_GUARD_CAP = 40;       // the guard ceiling that applies while blocked
     public static final int MAX_GUARDS = 10;              // absolute cap; the live cap is GUARD_BASE + slanderers/2 (fewer bodies = less congestion)
     public static final int GUARD_BASE = 4;
     public static final int EARLY_SCOUTS = 4;

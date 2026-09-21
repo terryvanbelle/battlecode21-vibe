@@ -4816,3 +4816,33 @@ the comparison.
 - **Reject** at 35 or below, and record that a besieged centre is right to hoard
   after all -- which, with Iteration 43 already rejected, would mean neither
   spending the bank on economy nor on defence beats saving it.
+
+## Iteration 45: REJECTED on the ladder -- 34/48 against a 35/48 baseline
+
+Same fixed field, same build, only the rule differing:
+
+| | record |
+|---|---|
+| baseline `g_iter10` | **35/48** |
+| + spend the siege bank on defenders | **34/48** |
+
+One game the wrong way against a +4 threshold. Per opponent it is noisier than
+Iteration 43's consistent slide -- Scott-Poole 4/6 to 6/6, arya-k 5 to 6,
+rzhan11 2 to 3 and the **first win of the session against awesomelemonade**
+(0/6 to 1/6), against max-titov 6/6 to 3/6 and iliao2345 6/6 to 4/6. Gains
+against the hard half, losses against the easy half, netting to nothing.
+
+Reverted to `g_iter10`, verified file by file.
+
+**The pair of results is the finding.** Iteration 43 spent a blocked centre's
+bank on economy and lost 4 games. Iteration 45 spent it on defence and lost 1.
+Neither beats saving it. **A besieged centre is right to hoard**, and the
+115,255 influence that looked all session like the most obvious waste in the log
+is the correct response to sustained pressure -- the alternative uses are both
+worse. That closes the third major line of the session on evidence.
+
+Worth noting the shape of the loss, since it is different from the others: this
+change *helped* against the two strongest opponents and hurt against two we
+already beat. A rule that only fires while blocked should do exactly that, and
+the net is still negative, which is a cleaner refutation than a uniform decline
+would have been.

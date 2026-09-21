@@ -5077,3 +5077,31 @@ likely why so many earlier findings about "knowledge" came out paradoxical.
 **Dose 4**: the order goes on the flag only for CAPTURE builds. Counter: captured
 centres' neutral reports rise from 0 to dozens; the r200-born centre knows >= 2;
 `orderRounds` at home falls from ~most rounds to a few dozen per game.
+
+### Dose 4: the channel opens, and a dormant behaviour wakes up (2026-09-21 16:30 UTC)
+
+| | baseline | dose 4 |
+|---|---|---|
+| neutral reports reaching captured centres | 0 | **307, 56, 33, 132** |
+| rounds home's flag carried an order | ~all | **76 of 1,450** |
+| capturers built for centres already ours | 16 | **0** |
+| 5th centre | r300 | **r230** |
+| coverage at r400 | 537 | **274** |
+| scout waypoints picked by r400 | 188 | **42** |
+| scouts alive at r200 | 30 | 15 |
+| our muckrakers inside their sensor at r400 | 17 | 0 |
+
+The defect is fixed: neutral knowledge now reaches every centre, early cadence
+improves, and the age-zero waste is gone. And coverage halves, for a reason the
+last four rows pin down. The scout's turn checks for a known enemy centre
+*before* it ever considers exploring, and a scout that knows one walks there and
+never wanders again. Home now broadcasts the enemy centre from r150, so every
+scout abandons exploration at once, marches across the map, and dies to the
+first politician it meets -- fewer alive, a fifth of the waypoints, and none
+inside their sensor because none arrive.
+
+**Dose 5**: only one scout in `CAMP_ONE_IN` (4) camps; the rest keep sweeping.
+This is Iteration 33's mechanism, rejected at 51.7% when the channel was blocked
+and scouts rarely learned the enemy centre at all -- it could barely act.
+Counter: coverage at r400 back near 537 with the neutral-report and cadence
+gains of dose 4 intact.

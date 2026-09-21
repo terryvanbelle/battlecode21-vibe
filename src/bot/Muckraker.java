@@ -51,7 +51,8 @@ public strictfp class Muckraker extends Robot {
         for (int i = nEnemy; --i >= 0;) { RobotInfo r = enemies[i]; if (r.type == RobotType.SLANDERER && (best == null || loc.distanceSquaredTo(r.location) < loc.distanceSquaredTo(best.location))) best = r; }
         if (best != null) { nav.setTarget(best.location); nav.step(); return; }
         // known enemy EC: go sit next to it (newborn slanderers spawn adjacent, so this is where they are caught)
-        if (MapState.nEnemy > 0) {
+        // -- but only one scout in CAMP_ONE_IN; the rest keep exploring (Iteration 48 dose 5)
+        if (MapState.nEnemy > 0 && (C.HANDOFF == 0 || id % C.CAMP_ONE_IN == 0)) {
             MapLocation e = nearestEnemyEC();
             if (loc.isAdjacentTo(e)) return;
             nav.setTarget(e); if (nav.step()) return;

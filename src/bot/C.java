@@ -73,6 +73,12 @@ public final class C {
     // (3) scouts broadcast HOME's id, which the sibling list excludes, so a newborn can readSiblings(home).
     public static final int HANDOFF = 1;                // 0 = the old behaviour
     public static final int HANDOFF_READS = 24;         // nearby friendly flags a centre reads per turn
+    // Dose 5: with the channel open, every scout learns the enemy centre by ~r150 and the scout code sends any
+    // scout that knows it to go and sit beside it -- so all of them abandon exploration at once, march across
+    // the map and die on the way. Waypoint picks to r400 fell 188 -> 42, coverage 537 -> 274. Only one scout in
+    // this many camps; the rest keep sweeping. (Iteration 33 tried this at 51.7%, when the channel was blocked
+    // and scouts rarely learned the enemy centre at all, so it could barely act.)
+    public static final int CAMP_ONE_IN = 4;
     public static final int MAX_CAPTURERS = 4;          // dose 1 (was 2)
     public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // (unused) historical cap

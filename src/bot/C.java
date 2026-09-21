@@ -124,6 +124,9 @@ public final class C {
     // took, and addEnemyEC had no own-tile refusal. Hearsay is refused for own tiles (sightings override), and
     // home broadcasts its own tiles so the scouts' copies are corrected and the echo dies.
     public static final int ENEMY_HEARSAY_GUARD = 1;
-    public static final int BROADCAST_OWN = 1;
+    // Diagnostic 2 on Hexes: with own tiles broadcast, every newborn scout learned all siblings and the Iteration 48
+    // courier rule sent it to tour them before exploring -- home never found the enemy centre in 1500 rounds
+    // (eEC=0, heardOwn 328 -> 1327). The hearsay guard alone stops the echo at the centres, so this stays off.
+    public static final int BROADCAST_OWN = 0;
     private C() {}
 }

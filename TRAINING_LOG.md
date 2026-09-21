@@ -5199,3 +5199,12 @@ correlation ranking pointed at "expansion"; the diagnostic found the mechanism;
 that division of labour is the method's claim, and this is its clearest case.
 
 Next: the archetype regression, then a ladder block on the fixed field.
+
+### `g_iter11` regression: 40/40 (2026-09-21 18:45 UTC)
+
+Eight of eight against each of `arch_muck`, `arch_bidder`, `arch_polrush`,
+`arch_big` and `arch_expand`. The previous two builds each dropped two games to
+`arch_expand`; this one drops none, which is the archetype most sensitive to
+expansion and the change is about expansion.
+
+Ladder block running on the fixed field. Baseline to beat: `g_iter10` at 35/48.

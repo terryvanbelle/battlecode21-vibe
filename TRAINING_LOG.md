@@ -4686,3 +4686,39 @@ comparison across several logged games and aggregate, rather than reasoning from
 whichever game ran last. One game has now produced a confident wrong conclusion
 twice in this session; the rule that saved the other cases was always more
 samples, never more thought.
+
+### Four games refute it: the gap is in sensing, not in reporting (2026-09-21 09:40 UTC)
+
+Sensed versus known at r200, four fresh games against rzhan11 on random cells:
+
+| game | neutrals sensed / on map | still neutral | our centres | centres' own `nEC` |
+|---|---|---|---|---|
+| kn1 | **4 of 4** | 0 | 5 | 1, 0, 0, 0, 0 |
+| kn2 | **0 of 4** | 4 | 3 | 0, 0, 0 |
+| kn3 | 2 of 7 | 5 | 2 | 0, 1 |
+| kn4 | 3 of 5 | 2 | 5 | **3, 2**, 0, 0, 0 |
+
+**There is no reporting gap.** Where we sense neutrals the centres know about
+them -- kn4 sensed 3 and its home centre knows 3; kn3 sensed 2 and knows 1; kn1
+sensed everything and there was nothing left to know. The one game that showed
+sensed 3 / known 0 was an outlier, and the hypothesis built on it is refuted.
+
+**What the four games do show is enormous variance in sensing itself:** 4 of 4,
+0 of 4, 2 of 7, 3 of 5. In kn2 we held three centres at r200 and had not sensed
+a single one of the four neutrals still on the map. That is the same spread the
+`@nocap` lines implied from the other side -- a centre knowing one or two
+targets while rich.
+
+So the chain is: scouting is wildly inconsistent -> a centre knows one or two
+targets -> its capturers claim them -> it declines while rich. The last two
+links are already instrumented and understood; the first is where the variance
+enters, and it is not explained by the scout cap, which Iteration 38 already
+raised and which is in the shipped build.
+
+**Not pursued further tonight.** `src/bot` restored to a clean `g_iter10`, all
+diagnostic instrumentation removed, verified file by file. Three hypotheses
+about the fork have now been raised and closed on evidence in this stretch
+(capture decision, reporting gap, erasure), and the surviving statement is a
+measurement rather than a mechanism: **at r200 the number of neutral centres we
+have found varies from none to all of them, and nothing in the bot explains
+which.**

@@ -5043,3 +5043,37 @@ A note on the counter I could not read: the `age=0` abort count printed 0 for
 all three runs because the grep pattern required a trailing space the log line
 does not have at its end. The dose 1 figure of 24 came from a different,
 correct command and stands; dose 2 and 3 figures need the correct command.
+
+### Iteration 48 dose 3 and the intake instrumentation: the real defect (2026-09-21 15:50 UTC)
+
+Dose 3 (ownership in the rotation, no sighting report): captured centres still
+know nothing, dispatch nothing, 8th centre r830, coverage 363. So the intake was
+instrumented -- what does a centre actually *hear*? Per centre, whole-life totals:
+
+| born | nearby flags read | ownership reports | id reports | sibling ids held | **neutral reports** |
+|---|---|---|---|---|---|
+| r50 (home) | 34,853 | 1,206 | 2,523 | 5 | **407** (121 refused as already ours) |
+| r100 | 32,187 | 885 | 1,938 | 5 | 6 |
+| r200 | 11,092 | 589 | 2,124 | 3 | **0** |
+| r450 | 4,918 | 90 | 506 | 2 | **0** |
+| r850-r1300 (x6) | 4,555-15,248 | 111-1,444 | 514-3,224 | 4-6 | **0** |
+
+The hand-off *delivers*: captured centres read thousands of flags, learn
+sibling ids, and read their siblings every turn. **And not one neutral report
+ever reaches a captured centre**, including the one born at r200 with neutrals
+still on the map. Home's 407 all came through its own children sighting them.
+
+**The cause is upstream of everything tried tonight.** After *every* build the
+centre puts a spawn ORDER on its flag and holds it two rounds. Only politicians
+read orders, and their default role is already GUARD, so the order carries
+information in exactly one case -- a CAPTURE, whose target the newborn cannot
+infer. Scouts and slanderers never read it. Readers of a centre's flag skip
+ORDERs. So a centre that builds most rounds -- home, always -- **broadcasts its
+map to nobody**: not to siblings, and not to its own scouts, which read home
+every three rounds and got an order every time. That is why couriers arrived
+carrying nothing, why captured centres stayed deaf under three doses, and very
+likely why so many earlier findings about "knowledge" came out paradoxical.
+
+**Dose 4**: the order goes on the flag only for CAPTURE builds. Counter: captured
+centres' neutral reports rise from 0 to dozens; the r200-born centre knows >= 2;
+`orderRounds` at home falls from ~most rounds to a few dozen per game.

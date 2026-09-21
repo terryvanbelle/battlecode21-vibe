@@ -53,7 +53,7 @@ public strictfp class EC extends Robot {
         if (rc.isReady()) build(inf, danger, econDanger);
         doBid();
         updateBroadcast(danger);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds);
     }
 
     // ---------------------------------------------------------------- production
@@ -157,10 +157,17 @@ public strictfp class EC extends Robot {
         MapLocation tgt = role == Roles.CAPTURE ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : MapState.enemyEC[0]) : loc;
         // a robot spawned this round takes its FIRST turn next round (the engine iterates a snapshot of the
         // spawn order), so the order must still be on the flag next round; the EC cannot build again before that
-        pendingOrder = Comms.encode(Comms.ORDER, role, tgt); pendingOrderRound = round + 1;
+        // Iteration 48 dose 4: only a CAPTURE needs an order -- it is the one build whose target the newborn
+        // cannot infer, and only politicians read orders at all (default role GUARD; scouts and slanderers never
+        // look). Every other build used to put a two-round ORDER on the flag anyway, and readers skip orders, so a
+        // centre that builds most rounds broadcast its map knowledge to nobody. Measured: captured centres read
+        // thousands of nearby flags and heard ZERO neutral reports in their whole lives; home's own scouts never
+        // learned the list from home either.
+        if (role == Roles.CAPTURE || C.HANDOFF == 0) { pendingOrder = Comms.encode(Comms.ORDER, role, tgt); pendingOrderRound = round + 1; }
         Debug.log("@spawn t=" + t.ordinal() + " inf=" + cost + " role=" + role + " dir=" + d + " ecInf=" + rc.getInfluence());
     }
     private int pendingOrder = 0, pendingOrderRound = -10;
+    private int orderRounds = 0;   // diagnostic: rounds the flag carried an ORDER instead of a broadcast
     private int idleRounds = 0, spendBuilds = 0, saveRounds = 0, econDangerRounds = 0; private boolean saveDone = false;   // decision-point counters: ready with >= 21 influence and built nothing / built through the spare branch
     private int enemyEcInf = 0;   // last reported influence of the enemy EC we target (bucketed)
 
@@ -300,7 +307,7 @@ public strictfp class EC extends Robot {
     private void updateBroadcast(boolean danger) throws GameActionException {
         // priority: a fresh spawn order (1 round) > enemy EC > neutral EC > status
         int f;
-        if (round == pendingOrderRound || round + 1 == pendingOrderRound) f = pendingOrder;
+        if (round == pendingOrderRound || round + 1 == pendingOrderRound) { f = pendingOrder; orderRounds++; }
         // Iteration 36's mechanism, restored as half of Iteration 37: a captured centre puts its own
         // location on its flag, so siblings call addOwnEC and stop treating it as neutral. Alone it was
         // rejected at 45.1%; the cap raise is only meaningful if extra capturers go to distinct REAL targets.

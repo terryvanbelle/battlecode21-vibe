@@ -5320,3 +5320,25 @@ multi-mechanism candidate and each dose can be reverted alone.
 **Gate:** SPRT vs `g_iter11` (`tools/mirror.sh`, random map and side, bounds +-2.94, cap 240),
 stacking policy as before. Counters to read in the block afterwards: `save` at r200 (expect no
 game >= 80), capturer aborts "by=ours" with age < 300 (expect <= 1 per capture), `flipInt`.
+
+### Iteration 49 diagnostics: six logged games, one fixed seed (2026-09-21 22:30 UTC)
+
+The dev runner's engine seed is fixed, so `bot` vs `g_iter11` on HexesAndOhms replays the same
+game until the code changes it -- every rerun below is like-for-like with the one before.
+
+| run | change | what the log said |
+|---|---|---|
+| 1 Hexes | doses a-c as pre-registered | 15 intents fired, **home heard none**: the flag lives one round and home read 24 of ~40 children a turn. 520 politicians aborted "by=ours" at an enemy centre we already held: the abort reports were heard (`heardOwn=328`) but `eEC` never dropped -- the scouts' fact rotation re-adds it (`addEnemyEC` had no own-tile refusal, unlike `addNeutralEC`). |
+| 1 Blob | same | **dose (a) works**: `@save capture` at r47 after 33 held rounds, zero bids during the wait; in the ladder loss it never fired. |
+| 2 Hexes | read capture-role children every turn; refuse hearsay ENEMY_EC for own tiles; home broadcasts own tiles | Home heard the intent (`@presume` r95), capbuilds 11 -> 4, aborts 520 -> 8. But **home never found the enemy centre in 1,500 rounds** (`eEC=0`, `sym=7`): every newborn scout learned all siblings from the broadcast and the Iteration 48 courier rule sent it touring them. `BROADCAST_OWN` off. |
+| 3 Hexes | broadcast off | Scouts explore again (`heardE=489`) yet `eEC=0`: one refused tile, (17,34), 800+ times. |
+| 4 Hexes | log the own list and each claim's source | (17,34) was ours at r227 (abort report), retaken by g_iter11, and every later *sighting* of it as enemy came from a sibling's scouts -- which reach home only as relayed knowledge, indistinguishable from the stale echo. A blanket "refuse echoes" rule discards exactly the information that matters. |
+| 5 Hexes | sightings (extra>0) override, echoes (extra=0) defer | Same failure: the relay is an echo whoever saw it. |
+| 6 Hexes | **stamped claims**: every OWN_EC / ENEMY_EC_ECHO carries the round (÷32) of the sighting behind it; `claimEnemy`/`claimOwn` accept only a newer claim | Knowledge tracks the contest: the own list drops and regains (17,34) as it changes hands (`eEC` 0/1/0/1), refusals are stale echoes only, 4 capbuilds. The game diverges (34 flips by us, 25 by g_iter11 -- the centre is a tug-of-war), and the abort stream (363) is now the rich-and-idle branch pouring the bank into politicians at a tile that flips every few rounds: **a different defect, queued as the next candidate** (choose the enemy target by stamp and size; cap politicians in flight to one tile). |
+
+Engine facts used: an EC may read any robot's flag by id; robots act in id order, so a centre
+reads what a child set last round before that child acts this round; a capturer's move lands it
+adjacent one turn before it can speak, which is the window the intent uses.
+
+Disqualifiers: cleared (intent heard and acted on at home; save completes; no centre idles on a
+presumption). Gate starts: SPRT vs `g_iter11`.

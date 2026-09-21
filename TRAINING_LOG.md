@@ -4993,3 +4993,28 @@ argument that held for Iteration 40. No second arm needed.
 Note: `src/bot` also carries Iteration 47 (speech bar), which is at its own
 gate. It touches speech value, not knowledge, so the counters above are
 unaffected; but if 47 is rejected it must be reverted **without** losing 48.
+
+### Iteration 48 dose 1: the hand-off works and the cadence gets worse (2026-09-21 14:30 UTC)
+
+Same cell as the baseline (`diag-i41b`, NotAPuzzle vs `g_iter10`):
+
+| | baseline | dose 1 |
+|---|---|---|
+| captures dispatched by captured centres | 0 | **18** (home 19) |
+| captured centres' max neutrals known | 0, 0, 0, 0, 0, 1, 2 | 2, 1, 1, 2, 2, 1, 0, 0 |
+| courier trips | - | 570 |
+| coverage at r400 | 537 | 476 |
+| capture flips | **9** | **4** |
+| round of 8th centre | **370** | 820 |
+
+The mechanism fires -- captured centres now dispatch as many capturers as home
+-- and the outcome is worse. **24 aborts at age 0**: capturers built for a
+centre already ours. The hand-off delivers a scout's neutral list to a newborn
+faster than the corrections, because ownership travelled only as an id
+(`OWN_EC_ID`) and never as a tile, and the fact rotation broadcast own tiles
+only as its last fallback. So a newborn learned "neutral at X" from a passing
+scout and never learned "ours at X", and bought a capturer for it.
+
+Fails the cadence counter with a known cause. Not gated. **Dose 2**: a scout
+that sees a friendly centre reports its location on alternate rounds, and own
+tiles get a slot of their own in the fact rotation. Same counters, same cell.

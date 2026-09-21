@@ -32,6 +32,10 @@ public strictfp class Muckraker extends Robot {
         if (eEC != null) { report = Comms.encode(Comms.ENEMY_EC, Comms.bucket(eEC.influence), eEC.location); reportRound = round; }
         else if (nEC != null) { report = Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(nEC.influence), nEC.location); reportRound = round; }
         else if (oEC != null && oEC.ID != lastSiblingReported) { report = Comms.encodeRaw(Comms.OWN_EC_ID, oEC.ID); reportRound = round; lastSiblingReported = oEC.ID; }
+        // Iteration 48 dose 2: the location too, so every centre that hears it drops that tile from its neutral
+        // list. Dose 1 handed newborn centres a scout's neutral list faster than the corrections -- 24 capturers
+        // were built for centres already ours -- because ownership travelled only as an id, never as a tile.
+        else if (C.HANDOFF == 1 && oEC != null && (round & 3) == 1) { report = Comms.encode(Comms.OWN_EC, 0, oEC.location); reportRound = round; }
         else if (nearestEnemy != null && round - reportRound > 6) { report = Comms.encode(Comms.ENEMY_UNIT, nearestEnemy.type.ordinal(), nearestEnemy.location); reportRound = round; }
         else if (edge >= 0) { report = Comms.encode(Comms.MAP_EDGE, edge, edge == 0 ? new MapLocation(MapState.minX, loc.y) : edge == 1 ? new MapLocation(MapState.maxX, loc.y) : edge == 2 ? new MapLocation(loc.x, MapState.minY) : new MapLocation(loc.x, MapState.maxY)); reportRound = round; }
         if (round - reportRound <= 6 && (round & 1) == 0) setFlag(report);
@@ -58,8 +62,8 @@ public strictfp class Muckraker extends Robot {
     /** Slowly cycle every durable fact we hold (edges, ECs) so the EC eventually hears all of them. */
     private int factI = 0;
     private int cycleFacts() {
-        for (int k = 0; k < 8; k++) {
-            int i = factI++ % 8;
+        for (int k = 0; k < 9; k++) {
+            int i = factI++ % 9;
             switch (i) {
                 case 0: if (MapState.minX >= 0) return Comms.encode(Comms.MAP_EDGE, 0, new MapLocation(MapState.minX, loc.y)); break;
                 case 1: if (MapState.maxX >= 0) return Comms.encode(Comms.MAP_EDGE, 1, new MapLocation(MapState.maxX, loc.y)); break;
@@ -67,6 +71,7 @@ public strictfp class Muckraker extends Robot {
                 case 3: if (MapState.maxY >= 0) return Comms.encode(Comms.MAP_EDGE, 3, new MapLocation(loc.x, MapState.maxY)); break;
                 case 4: case 5: if (MapState.nEnemy > 0) return Comms.encode(Comms.ENEMY_EC, 0, MapState.enemyEC[(i + round) % MapState.nEnemy]); break;
                 case 6: if (MapState.nNeutral > 0) { int j = (round / 2) % MapState.nNeutral; return Comms.encode(Comms.NEUTRAL_EC, Comms.bucket8(MapState.neutralInf[j]), MapState.neutralEC[j]); } break;
+                case 7: if (C.HANDOFF == 1 && MapState.nOwn > 1) return Comms.encode(Comms.OWN_EC, 0, MapState.ownEC[1 + (round / 2) % (MapState.nOwn - 1)]); break;   // dose 2: own tiles get their own slot
                 default: // Iteration 48: home's id first -- the sibling list excludes it, so nothing ever told a newborn centre who home is
                          if (C.HANDOFF == 1 && MapState.homeId >= 0 && ((round / 2) & 1) == 0) return Comms.encodeRaw(Comms.OWN_EC_ID, MapState.homeId);
                          if (MapState.nOwnId > 0) return Comms.encodeRaw(Comms.OWN_EC_ID, MapState.ownEcId[(round / 2) % MapState.nOwnId]);

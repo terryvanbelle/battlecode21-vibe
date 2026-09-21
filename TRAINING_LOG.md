@@ -4936,3 +4936,60 @@ running it, per METHOD 5b.
 The fourth diagnostic never finished: it hung for 83 minutes with no replay and
 no log, which exposed that `run-dev.sh` had no wall-clock cap while
 `gauntlet.sh` did. Fixed in `run_game` so both inherit it.
+
+## Iteration 48 (in development) -- captured centres are born deaf (2026-09-21 14:05 UTC)
+
+**The diagnosis, and why it explains the whole fork sequence.** Capture timing
+against rzhan11, the round each side gained each centre:
+
+| result | map | ours | theirs |
+|---|---|---|---|
+| loss | SlowMusic | 120, 140, then **nothing in 1,360 rounds** | 80, 120, 160, 200, 230 |
+| loss | FindYourWay | 100, 250, 330 | 90, 170, 290, 420 |
+| loss | BattleCodeToo | 70, 120, 140, 240, 280 | 70, 100, 160, 190, 230 |
+| win | Andromeda | 130, 230, 260, 320, 320 | 260, 360, 390 |
+| win | Circles | 160, 200, 210 | 160, 190, 380 |
+
+Whoever captures faster in r100-r250 wins. Their cadence is one centre per
+40-80 rounds; ours is 110-150, and it dies after the first wave.
+
+Per-centre knowledge across four logged games (max neutrals ever known):
+
+| game | home centre(s) | captured centres |
+|---|---|---|
+| kn1 | 3 | **0, 0, 0, 0** |
+| kn3 | 3 | 2, 2, 2, 1 |
+| kn4 | 3, 3 | 1, 2, **0**, 2, **0**, **0** |
+
+**A captured centre is born deaf.** `init` records only its own tile. It reads
+flags from its children (none at birth) and from siblings whose ids it learned
+from `OWN_EC_ID` reports -- which come from muckrakers it has not built. And
+even a scout it does build never broadcasts *home's* id, because the sibling
+list excludes home. So the team senses the neutrals, home knows them and is
+broke after its first wave of capturers, and every later centre is rich and
+ignorant. That is the "rich, free slot, knows one target, all claimed" reading
+from the fork window, and it is why four earlier hypotheses about the fork each
+measured something real and none was the cause.
+
+**The change (`C.HANDOFF`).** (1) A centre absorbs flags from every friendly unit
+in sensor range, not only its children -- 24 reads a turn, round-robin.
+(2) A scout calls on any own centre it has not yet visited before exploring, so
+its fact rotation (neutrals, sibling ids) reaches the newborn. (3) The rotation
+now broadcasts home's id, so the newborn can `readSiblings(home)` thereafter.
+
+**Counters before the gate**, on the baseline cell (NotAPuzzle vs `g_iter10`,
+where `diag-i41b` measured captured centres at 0):
+- captured centres' max neutrals known rises from mostly 0 to >= 2;
+- `@capbuild ... home=false` -- captures dispatched by *captured* centres --
+  rises from 0 to several;
+- the gap between successive captures shrinks toward their 40-80.
+Disqualifier: if captured centres learn the list and still dispatch nothing,
+knowledge was not what stopped them and this stops.
+
+**Gate: the mirror**, decided now. Both sides' captured centres are deaf today
+and only one side is fixed, so a mirror exercises this fully -- the same
+argument that held for Iteration 40. No second arm needed.
+
+Note: `src/bot` also carries Iteration 47 (speech bar), which is at its own
+gate. It touches speech value, not knowledge, so the counters above are
+unaffected; but if 47 is rejected it must be reverted **without** losing 48.

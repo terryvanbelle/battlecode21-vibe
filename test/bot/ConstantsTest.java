@@ -29,7 +29,9 @@ public class ConstantsTest {
         check(C.SAVE_MAX_WAIT >= 0 && C.SAVE_MAX_WAIT < C.SAVE_UNTIL, "the save wait bound must fall inside the save window");
         check(C.PRESUME_ROUNDS > 0 && C.PRESUME_ROUNDS <= 300, "a flip presumption lasts a bounded, positive time");
         check(C.SAVE_NO_BID == 0 || C.SAVE_MAX_WAIT > 0, "a silent save must at least be bounded");
-        check(C.CAPTURE_BANK >= 0 && C.HOLD_BANK >= 0 && C.HOLD_BANK <= 200, "the held floor is a modest, non-negative sum");
+        check(C.CAPTURE_BANK >= 0 && C.HOLD_MIN >= 0 && C.HOLD_CAP >= C.HOLD_MIN && C.HOLD_FRAC > 0, "the held floor is a modest, non-negative sum");
+        check(C.SENTINELS >= 0 && C.SENTINELS <= 4, "at most one sentinel per diagonal");
+        check(C.CAPTURE_BANK == 0 || C.CAPTURE_BANK >= C.HOLD_MIN + 41, "a newborn centre can afford its floor and a first slanderer");
         check(C.SCOUT_MAX >= C.SCOUT_BASE, "the scout ceiling is not below its own base");
         check(C.SCOUT_BASE + 1500 / C.SCOUT_PER_ROUND >= C.SCOUT_MAX,
               "the cap actually reaches its ceiling within a game, or the ceiling is dead weight");

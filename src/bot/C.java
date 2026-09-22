@@ -133,9 +133,16 @@ public final class C {
     // neutral+14 is born with ~4 and spends even that on its first slanderer, so any 20-conviction politician flips
     // it for free while each recapture costs us 264-514. Two doses: the capturer carries a bank the new centre is
     // born with, and every centre keeps a floor of influence unspent after the opening.
-    public static final int CAPTURE_BANK = 60;          // added to a capturer's price; the new centre starts with it (0 = g_iter12)
-    public static final int HOLD_BANK = 60;             // influence every centre keeps unspent from HOLD_FROM_ROUND on (0 = g_iter12)
+    // Arm 1 on the fixed-seed Superposition mirror (60 bank, 60 floor): null -- 18 of 20 captures still fell within
+    // 100 rounds (baseline 19 of 21), because the mirror's capturers arrive with 250-500 conviction and the overshoots
+    // simply grew. The engine splits a speech equally over every unit in its radius, so the cheap defence is
+    // dilution: four 1-influence muckrakers parked on the centre's DIAGONAL tiles cut an adjacent attacker's share
+    // by 3x or more and leave the four orthogonal spawn tiles free. The floor is proportional so a rich centre keeps
+    // real hit points and a poor one can still grow; the capture bank lets a newborn afford its first slanderer.
+    public static final int CAPTURE_BANK = 110;         // added to a capturer's price; the new centre starts with it (0 = g_iter12)
+    public static final int HOLD_MIN = 60, HOLD_CAP = 300, HOLD_FRAC = 4;   // floor = clamp(inf / 4, 60..300), applied once inf >= HOLD_MIN + 46 (0 = g_iter12: HOLD_MIN = 0)
     public static final int HOLD_FROM_ROUND = 50;
+    public static final int SENTINELS = 4;              // per centre, on its diagonal tiles (0 = g_iter12)
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
     // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
     //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence

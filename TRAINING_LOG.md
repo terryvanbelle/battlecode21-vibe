@@ -5524,3 +5524,33 @@ losses we gained 85 centres, lost 63, **35 within 100 rounds of taking them** (g
 centres; the mirror gain (5 centres to 3 on the fixed seed) did not carry. Null, not
 reinterpreted: `src/bot` reverted to `src/g_iter12`. The 48 games are recorded as
 `iter52-rejected` (they are our games and count for the ladder): 624 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 2 of 21 rated bots, Elo 1766, 624 games; 45 bots not yet met.
+
+## Iterations 53 and 54 null on the fixed seed; Iteration 52 goes to the SPRT after all (2026-09-22 11:40 UTC)
+
+Two more arms on the fixed-seed Superposition mirror (candidate as A vs `g_iter12` as B), each on its
+own branch:
+- **Iteration 53, target-aware attack** (`iter53`): enemy centres carry their last sighted influence
+  and are bought cheapest-first, claimed per target, priced at 1.5x influence + 14. Fires (85
+  attack builds at 30-92) and turns the game into a shell tug-of-war: 49 centres gained, 44 lost,
+  238 politicians aborting at contested tiles; 4 to 4 at the end, lost 662-684 on votes. A cheap
+  flip of an empty centre is pointless for both sides; buying only what can be held is the open
+  problem. Null.
+- **Iteration 54, rich guards** (`iter54`): guards up to 300 when the bank exceeds 1,500, big guards
+  speak only for value >= conviction/6. 35 big guards built, and the game collapsed to 0 centres
+  by r1500 (baseline 1). Null or worse.
+
+**The baseline on this seed loses too** (bot code on both sides: A ends 1 to 7, 601-750 on votes),
+so the arms read relative to it:
+
+| arm | r700 centres | r1500 centres | votes | politicians |
+|---|---|---|---|---|
+| baseline (g_iter12 both sides) | 3/5 | 1/7 | 601-750 | 15/528 |
+| 52 arm 1 (bank 60, floor 60) | 2/6 | 0/8 | 370-750 | 1/881 |
+| **52 arm 2 (sentinels, floor, bank 110)** | **6/2** | **5/3** | **669-750** | **324/175** |
+| 53 (target-aware attack) | 3/5 | 4/4 | 662-684 | 127/261 |
+| 54 (rich guards) | 2/6 | 0/8 | 495-750 | 0/935 |
+
+Iteration 52 arm 2 was rejected on a 38/48 ladder block against 40/48 -- one standard error -- and
+never gated. It is the only arm with a clear signal on the board, so it gets the SPRT it was owed:
+**`src/bot` = Iteration 52 arm 2 again, SPRT vs `g_iter12`** (`gauntlet/sprt-i52.log`). ACCEPT ->
+`g_iter13`; otherwise revert to `g_iter12`, which stays the submission meanwhile.

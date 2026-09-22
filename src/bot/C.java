@@ -12,7 +12,14 @@ public final class C {
     // that mattered (cheap neutrals lie far, near ones are 500). The census says the gap opens before r200: ECs 1.6 v 2.8.
     // Once any neutral is known and round <= SAVE_UNTIL, the EC keeps SAVE_SLANDERERS slanderers for income and saves
     // everything else until it can send one full-price capturer (+SAVE_BANK, so the new EC is not converted while empty).
-    public static final boolean SAVE_MODE = true;      // false = g_iter4
+    // Iteration 51: OFF. Save mode was accepted (Iteration 22) when a centre rarely knew a neutral before r100. With
+    // Iteration 49/50's channel a centre knows one by r50 and freezes at two slanderers for 20-80 rounds to buy it.
+    // JerryIsEvil, both homes identical to r40: g_iter11's home (no neutral known yet) built 1,072 influence of
+    // slanderers and still captured the same 503-neutral at r91 from income; the candidate's home saved from r54,
+    // captured at r82 with a fifth of the economy, and its second centre froze 80 rounds and abandoned. Five of six
+    // gate losses had fewer slanderers AND fewer politicians than g_iter11 at r300. The normal chain captures when
+    // the bank is there (captureAffordable) and compounds meanwhile.
+    public static final boolean SAVE_MODE = false;     // true = Iterations 22-50; false = g_iter4's chain
     public static final int SAVE_UNTIL = 200;          // dose 1 (dose 2 extended this to 300 and repeated: rejected, 46.5%)
     public static final int SAVE_MAX_TARGET = 600;     // covers the 500-influence neutrals that sit near home
     public static final int SAVE_SLANDERERS = 2;       // income kept while saving

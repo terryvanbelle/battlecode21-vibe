@@ -29,6 +29,7 @@ public class ConstantsTest {
         check(C.SAVE_MAX_WAIT >= 0 && C.SAVE_MAX_WAIT < C.SAVE_UNTIL, "the save wait bound must fall inside the save window");
         check(C.PRESUME_ROUNDS > 0 && C.PRESUME_ROUNDS <= 300, "a flip presumption lasts a bounded, positive time");
         check(C.SAVE_NO_BID == 0 || C.SAVE_MAX_WAIT > 0, "a silent save must at least be bounded");
+        check(C.GUARD_COST_RICH >= 60 && C.SPEND_GUARD_CAP_RICH >= C.SPEND_GUARD_CAP && C.BIG_GUARD_DIV > 0 && C.BIG_GUARD > C.SPEECH_MIN_VALUE, "rich-guard bounds are ordered");
         check(C.SCOUT_MAX >= C.SCOUT_BASE, "the scout ceiling is not below its own base");
         check(C.SCOUT_BASE + 1500 / C.SCOUT_PER_ROUND >= C.SCOUT_MAX,
               "the cap actually reaches its ceiling within a game, or the ceiling is dead weight");

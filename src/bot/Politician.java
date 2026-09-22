@@ -77,7 +77,9 @@ public strictfp class Politician extends Robot {
     private void guard() throws GameActionException {
         int conv = rc.getConviction();
         if (rc.isReady()) {
-            int r2 = bestSpeech(C.SPEECH_CONV_DIV > 0 ? Math.max(C.SPEECH_MIN_VALUE, conv / C.SPEECH_CONV_DIV) : C.SPEECH_MIN_VALUE);
+            int minValue = C.SPEECH_CONV_DIV > 0 ? Math.max(C.SPEECH_MIN_VALUE, conv / C.SPEECH_CONV_DIV) : C.SPEECH_MIN_VALUE;
+            if (conv >= C.BIG_GUARD) minValue = Math.max(minValue, conv / C.BIG_GUARD_DIV);   // Iteration 54: a big guard is not spent on one muckraker
+            int r2 = bestSpeech(minValue);
             if (r2 > 0 && rc.canEmpower(r2)) { Debug.log("@speech role=guard r2=" + r2 + " conv=" + conv + " n=" + nearby.length); rc.empower(r2); return; }
         }
         // move: toward the nearest enemy muckraker (they kill our slanderers) if within leash, else hold a ring around home

@@ -127,6 +127,16 @@ public final class C {
     // child list compacted only on a death, each flag value absorbed once a turn, and sibling/neighbour reads
     // moved to the off-turn (the centre builds every other round).
     public static final int OFFTURN_READS = 1;          // 0 = read every turn (Iteration 49)
+    // Iteration 54 (rich guards): every loss to awesomelemonade in three blocks (12 of 12) is an annihilation by an
+    // army of 145-300 politicians -- median 20 conviction, attackers of 130-500 sized to our centres -- while we
+    // sit on 20-40k of bank (Superposition: 42k at r600) with guards that cost at most 60. A politician's speech
+    // converts every enemy politician whose conviction it exceeds, so a 300-conviction guard turns their cheap
+    // mass into ours and meets a 130-250 attacker head-on. When the bank is rich, guards are bought big; a big
+    // guard demands value of a sixth of itself before it speaks, so it does not die for one 1-influence muckraker.
+    public static final int RICH_BANK = 1500;           // bank above which guards are bought big (1 << 30 = g_iter12)
+    public static final int GUARD_COST_RICH = 300;      // guard cost cap when rich (60 otherwise)
+    public static final int SPEND_GUARD_CAP_RICH = 24;  // spare-branch standing guards when rich (SPEND_GUARD_CAP otherwise)
+    public static final int BIG_GUARD = 100, BIG_GUARD_DIV = 6;   // a guard of >= BIG_GUARD conviction speaks only for value >= conviction / BIG_GUARD_DIV
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
     // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
     //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence

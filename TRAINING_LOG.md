@@ -5657,3 +5657,16 @@ r500-800. The trace names the mechanism: its muckrakers died 83 by r250 and 210 
 **each death one of our politicians spent in a speech** -- 108 politicians built in the first 250
 rounds to kill 83 influence of muckrakers, then 329 more. That trade, before any exposure, is
 what empties the economy. Panel record to establish: `bot` vs `arch_hunt` on six maps, both sides.
+
+## Iteration 56 arm 1 negative in five minutes; arm 2 is the price of the trade (2026-09-22 15:30 UTC)
+
+Arm 1 (a muckraker kill worth 5 instead of 25 unless it threatens a slanderer or a centre): against
+`arch_hunt` on Arena, **annihilated at r479 with 55 exposures by r250 (baseline 0)** and 57 slanderers
+dead in the first 250 rounds. The guard-for-muckraker trade is the defence; not making it loses the
+economy faster. Reverted.
+
+Arm 2 changes the trade's price: while no enemy politician is in a centre's sensor range, guards
+cost 15 (5 conviction after tax kills a 1-influence muckraker at radius 1-2) instead of 20-60
+(`GUARD_MUCK_COST`); an enemy politician in range restores the old sizing. Expected against
+`arch_hunt`: the same kills for a third of the influence, a bank at r250 well above the baseline's
+108, and survival past r816.

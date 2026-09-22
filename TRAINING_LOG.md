@@ -5409,8 +5409,8 @@ bytecode cuts above. Counters: `over` (expect 0-20 for every centre), `safeStops
 
 ## Iteration 50 gate stopped (inconclusive-provisional); Iteration 51 = 50 + SAVE_MODE off -- PRE-REGISTERED (2026-09-22 02:00 UTC)
 
-Iteration 50 gate: 7-9, 9-7, 10-6, 10-6, 8-8, 7-9, 9-7, then batch 8 (see `sprt-i50-stopped.log`):
-**~53-54% over 128 games**, heading for the cap. Kept provisionally as the base of Iteration 51,
+Iteration 50 gate: 7-9, 9-7, 10-6, 10-6, 8-8, 7-9, 9-7, 11-5 = **71-57 (55.5%), LLR +0.60 over
+128 games** (`sprt-i50-stopped.log`), on course for the cap. Kept provisionally as the base of Iteration 51,
 which contains it. Stopped so the VM tests the diagnosed cause instead of confirming a null.
 
 **Diagnosis.** Six Iteration 50 losses: five have fewer slanderers *and* fewer politicians than

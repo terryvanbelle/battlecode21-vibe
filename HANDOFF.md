@@ -62,7 +62,7 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   the fixed field, Elo 1752, rank 2 of 21**; only awesomelemonade (1829) ahead.
 - **In flight: Iteration 51, SPRT vs `g_iter11`** (`gauntlet/sprt-i51.log`) = Iteration 50 +
   `SAVE_MODE=false` (save mode froze the economy once the channel delivered neutrals early;
-  TRAINING_LOG 2026-09-22 02:00). Iteration 50's gate was stopped at ~53% over 128 as the base.
+  TRAINING_LOG 2026-09-22 02:00). Iteration 50's gate was stopped at 71-57 (55.5%) over 128 as the base.
   Iteration 49's
   gate was stopped at 77-67 for a measured defect: its extra reads pushed the home centre over
   its 20k bytecode budget (213-404 lost rounds a game; g_iter11: 0-19). `src/bot` = g_iter11 +

@@ -5406,3 +5406,30 @@ bytecode cuts above. Counters: `over` (expect 0-20 for every centre), `safeStops
 `flipInt`, `presumeSkip`, `save`.
 
 **Gate:** SPRT vs `g_iter11`, fresh run, cap 240, same bounds and stacking policy.
+
+## Iteration 50 gate stopped (inconclusive-provisional); Iteration 51 = 50 + SAVE_MODE off -- PRE-REGISTERED (2026-09-22 02:00 UTC)
+
+Iteration 50 gate: 7-9, 9-7, 10-6, 10-6, 8-8, 7-9, 9-7, then batch 8 (see `sprt-i50-stopped.log`):
+**~53-54% over 128 games**, heading for the cap. Kept provisionally as the base of Iteration 51,
+which contains it. Stopped so the VM tests the diagnosed cause instead of confirming a null.
+
+**Diagnosis.** Six Iteration 50 losses: five have fewer slanderers *and* fewer politicians than
+g_iter11 at r300 (30/67, 35/93, 51/59, 116/128, 80/61). The logged JerryIsEvil rerun shows why.
+Both homes are identical to r40. g_iter11's home did not yet know a neutral at r50, so its chain
+built slanderers -- 228, 178, 203, 463, 1,072 influence of economy by r81 -- and *still* bought the
+same 503-neutral at r91 from income (`@save capture ... saved=4`). The candidate's home, knowing
+the neutral by r54 through the repaired channel, entered save mode, froze at two slanderers for 21
+rounds, bought the centre at r82 with a fifth of the economy; its second centre froze 80 rounds
+for a 577 price and abandoned. **Save mode (Iteration 22) paid when knowledge came late; with the
+channel working it is an economy freeze in every game.** It is also the whole BlobWithLegs stall.
+
+**Iteration 51 = Iteration 50 + `SAVE_MODE=false`** (the g_iter4 chain: `captureAffordable` buys a
+centre when the bank is there, and compounds meanwhile). Diagnostics, both with the fixed dev seed:
+- JerryIsEvil (B): home builds slanderers from r41 (`save=0`), 33 slanderers to g_iter11's 17 at
+  r100, five centres to three at r300, votes 564-363 at r1000; every centre `over=0`.
+- BlobWithLegs (B): 20 slanderers at r100 and 40 at r200 with the second centre taken, against
+  g_iter11's 2 slanderers and `save=187`; votes 169-104 at r300; every centre `over=0`.
+- Early votes still lag (12-66 at r100 on Blob, 5-44 on Jerry) and recover by r300: the mirror's
+  opening vote race is a bank race, and this candidate spends its bank on slanderers. Watch it.
+
+**Gate:** SPRT vs `g_iter11`, fresh, cap 240. Counters as for Iteration 50 plus `save` (expect 0).

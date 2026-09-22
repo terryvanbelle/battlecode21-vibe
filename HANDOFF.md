@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-22 00:40 UTC)
+# Handoff -- the state of the loop (updated 2026-09-22 02:00 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -60,7 +60,10 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
 - **Submission: `g_iter11`** (g_iter10 + Iteration 47 flat speech bar + Iteration 48
   broadcast fix and hand-off). Gate 65.6% (63-33). Regression 40/40. Ladder **38/48 on
   the fixed field, Elo 1752, rank 2 of 21**; only awesomelemonade (1829) ahead.
-- **In flight: Iteration 50, SPRT vs `g_iter11`** (`gauntlet/sprt-i50.log`). Iteration 49's
+- **In flight: Iteration 51, SPRT vs `g_iter11`** (`gauntlet/sprt-i51.log`) = Iteration 50 +
+  `SAVE_MODE=false` (save mode froze the economy once the channel delivered neutrals early;
+  TRAINING_LOG 2026-09-22 02:00). Iteration 50's gate was stopped at ~53% over 128 as the base.
+  Iteration 49's
   gate was stopped at 77-67 for a measured defect: its extra reads pushed the home centre over
   its 20k bytecode budget (213-404 lost rounds a game; g_iter11: 0-19). `src/bot` = g_iter11 +
   Iteration 49 (flip intent `FLIP_INTENT`/`PRESUME_ROUNDS`, abort report `ABORT_REPORT`, stamped

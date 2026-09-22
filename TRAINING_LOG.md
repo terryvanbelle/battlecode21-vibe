@@ -5593,3 +5593,29 @@ null or inert), all aimed at the r200-400 centre loss. The submission stays `g_i
 question and the untried lever are in HANDOFF. The remaining VM time is not spent on a fifth
 quick arm: every measured fact about the loss mechanism is in the log for the next competitor,
 and a candidate that cannot be diagnosed first should not be run.
+
+## A last diagnosis for the next competitor: the rzhan11 losses collapse by r250-500 (2026-09-22 13:40 UTC)
+
+The five losses of the second `g_iter12` block to rzhan11 and max-titov, read as vote/bank/centre
+traces (`tools/replay-dump.sh --metrics`):
+
+| game | r250 votes | r250 centres | r250 bank | r500 centres | end |
+|---|---|---|---|---|---|
+| rzhan11 Arena | **250-0** | 4-4 | 427-860 | **0-8** | annihilated r848 |
+| rzhan11 BattleCodeToo | 250-0 | 2-5 | 254-373 | 0-8 | annihilated r866 |
+| rzhan11 Branches | 250-0 | 2-2 | 5,891-835 | 2-5 | votes 674-750 |
+| rzhan11 HexesAndOhms | 250-0 | 1-4 | 252-154 | 1-5 | votes 666-750 |
+| max-titov Sediment | 224-22 | 2-3 | 7,346-1,475 | 1-4 | annihilated |
+
+Two facts worth the next competitor's time:
+1. **rzhan11 does not bid before ~r250** and we take the first 250 votes for 270-660 influence.
+   Two of these games were still lost 674-750 and 666-750 at r1500 -- with 17 and 1,611
+   influence left and one centre. Early votes are nearly free against them; the race is lost
+   late because the economy is gone, not because of the bidding.
+2. **The collapse is r250-500, and it is not the shell problem**: at r250 the centre counts are
+   even (4-4, 2-2) with comparable slanderers (20 v 21, 40 v 30); by r500 they hold 5-8 centres
+   and 65-110 slanderers and we hold 0-2 and 0-19. They convert an equal position into an
+   army and take everything in 250 rounds. What their r250-500 build is (politician sizes,
+   how many, where they walk) has not been measured -- `tools/log-scan.sh` gives only our
+   side; the replay's EMPOWER/SPAWN events (`replay-dump.sh --from 250 --to 500`) give theirs.
+   That measurement is the first thing to do.

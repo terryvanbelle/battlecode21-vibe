@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-22 06:05 UTC)
+# Handoff -- the state of the loop (updated 2026-09-22 07:10 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -57,28 +57,20 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
 
 ## State right now (2026-09-21 22:45 UTC)
 
-- **Submission: `g_iter11`** (g_iter10 + Iteration 47 flat speech bar + Iteration 48
-  broadcast fix and hand-off). Gate 65.6% (63-33). Regression 40/40. Ladder **38/48 on
-  the fixed field, Elo 1752, rank 2 of 21**; only awesomelemonade (1829) ahead.
-- **Iteration 51 INCONCLUSIVE 133-107 (55.4%) over 240: kept provisionally, no snapshot.**
-  `src/bot` = g_iter11 + Iterations 49, 50, 51 (see TRAINING_LOG 2026-09-22 06:00). **In flight:
-  a 48-game ladder block on this provisional stack** (`gauntlet/ladder-i51.log`; record it with
-  `scrim-record.py <run> --label iter51-prov`, then `elo.py`, `bench-roster.py`, `scrim-study.sh`).
-  If the ladder moves (g_iter11: 38/48, Elo 1752, rank 2), snapshot as `g_iter12` on that evidence.
-  Iteration 49's
-  gate was stopped at 77-67 for a measured defect: its extra reads pushed the home centre over
-  its 20k bytecode budget (213-404 lost rounds a game; g_iter11: 0-19). `src/bot` = g_iter11 +
-  Iteration 49 (flip intent `FLIP_INTENT`/`PRESUME_ROUNDS`, abort report `ABORT_REPORT`, stamped
-  ownership claims `STAMPED_CLAIMS` / `MapState.claimEnemy/claimOwn` / `Comms.ENEMY_EC_ECHO`,
-  `SAVE_MAX_WAIT`) + Iteration 50 (`SAVE_NO_BID=0`, `EST_INIT_AT_BIRTH`, and the bytecode cuts:
-  `claimed()` over live capturers, compaction only on a death, `seenThisTurn` dedupe,
-  `OFFTURN_READS`). `BROADCAST_OWN` exists and is OFF. **Read `@bc ... over=` for every centre in
-  any logged game before trusting a candidate**: a centre over budget silently loses rounds.
-  Diagnostic chain: TRAINING_LOG "Iteration 49 diagnostics" and "Iteration 50".
-- On the verdict: ACCEPT -> `tools/snapshot.sh g_iter12`, regression, ladder block
+- **Submission: `g_iter12`** = g_iter11 + Iteration 49 (flip intent, presume, abort report,
+  stamped ownership claims) + Iteration 50 (bid while saving, vote-estimate init at birth,
+  bytecode cuts) + Iteration 51 (save mode off). Snapshotted 2026-09-22 on combined evidence:
+  mirror inconclusive 133-107 (55.4%, LLR +1.08) and **ladder 40/48, Elo 1798, rank 2**
+  (awesomelemonade 1841). `src/bot` is byte-identical to `src/g_iter12`. **The next mirror gate
+  plays `REF=g_iter12`.** In flight: archetype regression (`gauntlet/regress-i51.log`) and the
+  block study (`gauntlet/study-i51.log`, run `20260922-060056-scrim-bot`).
+- **Read `@bc ... over=` for every centre in any logged game before trusting a candidate**: a
+  centre over its 20k bytecode budget silently loses rounds (Iteration 49 lost 213-404 a game).
+  `@bcprof` logs the stage bytecodes when a turn passes 15k. `BROADCAST_OWN` exists and is OFF.
+- On a verdict: ACCEPT -> `tools/snapshot.sh g_iter13`, regression, ladder block
   (`scrim.sh`, then `scrim-record.py`, `elo.py`, `bench-roster.py`), block study;
   inconclusive >= 53% over >= 200 -> keep provisionally; else revert `src/bot` from
-  `src/g_iter11` (the whole stack -- or drop doses one at a time if a counter says which).
+  `src/g_iter12` (the whole stack -- or drop doses one at a time if a counter says which).
 - **Next candidate, already diagnosed** (fixed-seed Hexes run 6): the rich-and-idle
   branch (`inf - reserve() >= 300 -> CAPTURE at enemyEC[0]`) pours the bank into
   politicians at a *contested* centre that flips every few rounds (363 aborts "by=ours" in

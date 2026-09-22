@@ -5451,3 +5451,30 @@ says a block never needs an accept to run: **48-game ladder block launched on th
 stack** (`gauntlet/ladder-i51.log`), same fixed field as g_iter10/g_iter11 (35/48, 38/48).
 If it moves the ladder the stack is snapshotted as `g_iter12` on that evidence (ladder result
 recorded under the label `iter51-prov`); if not, the next candidate builds on the stack anyway.
+
+## `g_iter12` snapshotted on combined evidence: ladder 40/48 (83.3%), Elo 1798, rank 2 of 21 (2026-09-22 07:10 UTC)
+
+Same fixed field as g_iter10 (35/48) and g_iter11 (38/48). **Best block ever.**
+
+| opponent | g_iter10 | g_iter11 | **g_iter12** |
+|---|---|---|---|
+| awesomelemonade.sprint1bot | 0/6 | 2/6 | 2/6 |
+| rzhan11.sprint2 | 2/6 | 4/6 | 3/6 |
+| Scott-Poole.spright8 | 4/6 | 5/6 | 5/6 |
+| arya-k.quals_v1 | 5/6 | 6/6 | 6/6 |
+| 123kevinlee.atomFinalQualifier | 6/6 | 5/6 | 6/6 |
+| iliao2345.attacker | 6/6 | 4/6 | 6/6 |
+| jmerle, max-titov | 6/6, 6/6 | 6/6, 6/6 | 6/6, 6/6 |
+
+Against the six we beat: **35/36** (g_iter11: 32/36). Against the two ahead of us: 5/12 (was 6/12).
+Elo **1752 -> 1798**, still rank 2; awesomelemonade 1841, the gap 77 -> 43.
+
+**Why a snapshot without an SPRT accept.** The mirror gate was inconclusive at 55.4% over 240
+(LLR +1.08, interval 49-62%), and the policy says inconclusive keeps provisionally. But the
+incumbent for every future gate should be the strongest bot we can demonstrate, and two
+independent instruments now point the same way: the mirror's +1.08 and the best ladder block on
+record. `g_iter12` = g_iter11 + Iterations 49, 50, 51 is the new incumbent and submission. This
+is a **provisional accept on combined evidence**, recorded as such; the ladder never gates and
+this does not change that -- it decides only which build the next mirror plays against.
+
+Regression (five archetypes, four maps) and the block study are running; results below when in.

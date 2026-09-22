@@ -31,6 +31,7 @@ public class ConstantsTest {
         check(C.SAVE_NO_BID == 0 || C.SAVE_MAX_WAIT > 0, "a silent save must at least be bounded");
         check(C.MUCK_IDLE_VALUE >= 0 && C.THREAT_SLA_D2 >= 12, "muckraker valuation bounds are sane");
         check(C.GUARD_MUCK_COST == 0 || C.GUARD_MUCK_COST >= 11, "a cheap guard still has conviction left after the empower tax");
+        check(C.SWARM_MUCKS >= 0 && C.SWARM_MEMORY > 0, "swarm detection bounds are sane");
         check(C.SCOUT_MAX >= C.SCOUT_BASE, "the scout ceiling is not below its own base");
         check(C.SCOUT_BASE + 1500 / C.SCOUT_PER_ROUND >= C.SCOUT_MAX,
               "the cap actually reaches its ceiling within a game, or the ceiling is dead weight");

@@ -138,6 +138,12 @@ public final class C {
     //     GUARD_MUCK_COST (5 conviction after tax kills a 1-influence muckraker at radius 1-2) instead of 20-60.
     public static final int MUCK_IDLE_VALUE = 25;       // 25 = g_iter12 (every muckraker worth a speech); arm 1 was 5
     public static final int GUARD_MUCK_COST = 15;       // guard cost while the only enemies in sensor range are muckrakers (0 = g_iter12)
+    // Iteration 58: 56 unconditionally (cheap guards whenever no enemy politician was in range) took awesomelemonade
+    // to 3/6 -- the best ever -- and lost the mirror 18-30, whose 300-1,000 attackers convert 15-guards wholesale.
+    // The cheap guard is a swarm answer, so it is bought only while a swarm is present: SWARM_MUCKS enemy
+    // muckrakers in the centre's sensor range at once, within the last SWARM_MEMORY rounds.
+    public static final int SWARM_MUCKS = 3;            // 0 = 56's unconditional cheap guards
+    public static final int SWARM_MEMORY = 50;
     public static final int THREAT_SLA_D2 = 20;         // a muckraker this close to one of our slanderers is about to expose it (expose range 12)
     public static final int THREAT_EC_D2 = 9;           // ... or this close to a centre (it blocks a spawn tile)
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)

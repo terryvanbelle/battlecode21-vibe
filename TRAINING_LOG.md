@@ -5433,3 +5433,21 @@ centre when the bank is there, and compounds meanwhile). Diagnostics, both with 
   opening vote race is a bank race, and this candidate spends its bank on slanderers. Watch it.
 
 **Gate:** SPRT vs `g_iter11`, fresh, cap 240. Counters as for Iteration 50 plus `save` (expect 0).
+
+## Iteration 51 INCONCLUSIVE at 55.4% (133-107, LLR +1.08, 240 games): kept provisionally (2026-09-22 06:00 UTC)
+
+Batches: 9-7, 8-8, 12-4, 9-7, 10-6, 7-9, 10-6, 8-8, 12-4, 8-8, 6-10, 10-6, 10-6, 5-11, 9-7. It
+touched +2.33 after batch 9 and never crossed. 95% interval 49-62%. Under the stacking policy
+(>= 53% over >= 200) `src/bot` keeps the whole stack -- Iteration 49's knowledge repairs, Iteration
+50's bidding repairs and bytecode cuts, Iteration 51's save mode off -- **without a snapshot**;
+`g_iter11` stays the incumbent and the submission of record.
+
+What the three gates say together: 49 at 53.5% (bytecode-starved), 50 at 55.5%, 51 at 55.4%. The
+mirror is a hard instrument for this kind of change: the incumbent shares every other line, and
+the repaired mechanisms (a centre that learns it took a neutral, a centre that keeps bidding
+when ahead, a centre that never stalls saving) matter most against opponents who punish those
+lapses, which a twin does not do especially well. The ladder is where that shows, and the policy
+says a block never needs an accept to run: **48-game ladder block launched on the provisional
+stack** (`gauntlet/ladder-i51.log`), same fixed field as g_iter10/g_iter11 (35/48, 38/48).
+If it moves the ladder the stack is snapshotted as `g_iter12` on that evidence (ladder result
+recorded under the label `iter51-prov`); if not, the next candidate builds on the stack anyway.

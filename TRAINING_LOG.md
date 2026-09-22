@@ -5774,3 +5774,10 @@ Fourth block: awesomelemonade **0/6**, rzhan11 3/6, iliao2345 4/6, the rest 6/6.
 against one bot swing from 0 to 5; the four-block totals are the number to read: **awesomelemonade
 9/24 (37.5%), rzhan11 15/24 (62.5%)**, the six we beat 127/144 (88%). Against g_iter12's 96:
 awesomelemonade 33%, rzhan11 42%, the six 94%. Ladder after recording: 912 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 2 of 21 rated bots, Elo 1738, 912 games; 
+
+## `g_iter13` fifth ladder block: 36/48; five blocks 187/240 (77.9%) (2026-09-22 23:05 UTC)
+
+Fifth block: rzhan11 1/6, awesomelemonade 2/6, Scott-Poole 4/6, iliao2345 5/6, the rest 6/6.
+Five blocks, 240 games: **awesomelemonade 11/30 (37%), rzhan11 16/30 (53%)**, the six we beat
+160/180 (89%). Against g_iter12's 96 (33% / 42% / 94%) the swarm-bot gain holds at 240 games and
+the cost against the six is about five points. Ladder after recording: 960 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1722, 960 games; 

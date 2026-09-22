@@ -5737,3 +5737,10 @@ which fields no swarm, and a clear move against the swarm bot that beat us (rzha
 -- and it is accepted on that evidence: **`g_iter13` = g_iter12 + cheap guards under a swarm**
 (`GUARD_MUCK_COST=15`, `SWARM_MUCKS=3`, `SWARM_MEMORY=50`). Ladder after recording: 816 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 2 of 21 rated bots, Elo 1805, 816 games; 
 Regression (six archetypes including arch_hunt) running.
+
+**Regression for `g_iter13`: 45/48** -- 40/40 against the five older archetypes (the third clean
+sweep in a row) and **5/8 against `arch_hunt`**, the first partner that has ever taken games from
+the current build (it beat g_iter12 outright on the fixed Arena seed). That is the competitiveness
+METHOD 6b-ii asks of a sparring partner: 25-75%, so a change against it can be read. A third
+ladder block for `g_iter13` is running (`gauntlet/ladder-g13c.log`) to firm up the final rating;
+the SPRT stands at 80-80 after ten batches and runs to the cap.

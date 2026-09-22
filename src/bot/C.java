@@ -3,7 +3,7 @@ package bot;
 /** Tunable constants. One place, so a dose ladder is a one-line diff. */
 public final class C {
     public static final boolean DEBUG = true;      // @tag log lines on/off
-    /** Sparring archetype switch: 0 = the real bot; 1 = muckraker rush; 2 = aggressive bidder; 3 = politician rush; 4 = neutral-EC expander; 6 = slanderer hunt (rzhan11's r250-500: muckrakers patrol the ring around the enemy centre where slanderers live). Set by tools/snapshot.sh <name> <archetype>. */
+    /** Sparring archetype switch: 0 = the real bot; 1 = muckraker rush; 2 = aggressive bidder; 3 = politician rush; 4 = neutral-EC expander; 6 = slanderer hunt (rzhan11's r250-500: muckrakers patrol the ring around the enemy centre where slanderers live); 7 = the hunt plus target-aware attacks on enemy centres (awesomelemonade-like). Set by tools/snapshot.sh <name> <archetype>. */
     public static final int ARCHETYPE = 0;
     public static final int BC_REPORT_EVERY = 50;  // rounds between @bc lines
 
@@ -153,6 +153,16 @@ public final class C {
     public static final int SWARM_MEMORY = 50;
     public static final int THREAT_SLA_D2 = 20;         // a muckraker this close to one of our slanderers is about to expose it (expose range 12)
     public static final int THREAT_EC_D2 = 9;           // ... or this close to a centre (it blocks a spawn tile)
+    // Iteration 53 (target-aware attack): awesomelemonade retakes our fresh centres with politicians sized to the
+    // job -- 130-500 conviction, overshoots of 9-23 on the first flips (NotAPuzzle) -- and holds a 6-8 centre lead
+    // by r400 while our only moves against enemy centres were two branches aimed at enemyEC[0]: one priced from a
+    // single remembered bucket, one that threw the whole bank (38 politicians aborting at a contested tile in one
+    // game). Enemy centres now carry their last SIGHTED influence; the cheapest known one is bought like a neutral,
+    // priced at influence x margin + tax, claimed per target, subject to the capturer cap and the flip presumption.
+    public static final int ATTACK = 0;                 // 0 = g_iter13 (the branch also runs for ARCHETYPE 7, the awesomelemonade-like sparring partner)
+    public static final int ATTACK_MARGIN_NUM = 3, ATTACK_MARGIN_DEN = 2;   // conviction bought per point of the centre's influence (their bodies dilute the speech)
+    public static final int ATTACK_INF_AGE = 200;       // a sighting older than this is not a price
+    public static final int ATTACK_CAP = 1000;          // the old "rich and idle" branch no longer empties the bank into one politician
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
     // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
     //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence

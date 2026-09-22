@@ -5376,3 +5376,33 @@ losses). Two bidding findings, both in `g_iter11` as well, both for the **next**
    losers pay half), so one quiet centre is harmless and all quiet is the whole vote race. Fix:
    initialise the estimate at birth to `round - teamVotes` (every round we did not win may have
    been theirs), then count as now.
+
+## Iteration 49 gate stopped at 77-67 (53.5%) for a diagnosed defect; Iteration 50 -- PRE-REGISTERED (2026-09-22 00:40 UTC)
+
+**Why the gate was stopped.** In every logged Iteration 49 game the *candidate's* home centre
+overran its 20k bytecode budget and lost whole rounds -- 213 on Hexes, 404 on BadSnowflake --
+while g_iter11's centres in the same games show `over=0` (the ladder block's g_iter11 centres:
+0-19). A centre that misses a quarter of its turns misses builds and bids; that is why fixes
+worth ~+10% by the block study were gating at 53%. This stop is for a defect measured in the
+candidate, not for a partial tally (the earlier mistake).
+
+**Profile** (`@bcprof`, stage bytecodes of the home turn at 17-19k): build 7-8.6k, children
+reads 3-6.5k, neighbour reads 2-4.6k, sense 2-2.8k, siblings ~1k. Four cuts, re-profiled after
+each on the same fixed-seed BadSnowflake game:
+1. `claimed()` scanned all 96 children for every neutral, twice a turn -> scans the live capturers
+   collected once in `countAlive` (over 378 -> unchanged: not the main cost).
+2. `countAlive` copied four arrays for 96 live children every build turn -> compacts only after a
+   death; and each flag value is absorbed once per turn (`seenThisTurn`) (over 378 -> 115).
+3. Sibling and neighbour reads moved to the off-turn (`OFFTURN_READS`; the centre builds every other
+   round, and flags persist), diagnostic scans out of `absorb` (**over 0 for all eleven centres**,
+   worst turn 18.6k; `eEC=2`, `flipInt=10`, `heardN=250` at r600 -- the channel still works).
+
+**Iteration 50** = Iteration 49 (flip intent, presume, abort report, stamped claims, `SAVE_MAX_WAIT`)
++ `SAVE_NO_BID=0` (bid normally while saving: the no-bid dose cost 14-56 early votes and decided
+nothing by r300) + `EST_INIT_AT_BIRTH=1` (`enemyVotesEst = round - 1 - teamVotes` when a centre's
+code starts, so a young centre never believes the opponent has no votes; BadSnowflake diagnostic:
+young centres' estimate ~500 at r1000, the team kept bidding and reached 750 at r1359) + the
+bytecode cuts above. Counters: `over` (expect 0-20 for every centre), `safeStops`, `eVotes~`,
+`flipInt`, `presumeSkip`, `save`.
+
+**Gate:** SPRT vs `g_iter11`, fresh run, cap 240, same bounds and stacking policy.

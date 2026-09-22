@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-21 22:45 UTC)
+# Handoff -- the state of the loop (updated 2026-09-22 00:40 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -60,18 +60,16 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
 - **Submission: `g_iter11`** (g_iter10 + Iteration 47 flat speech bar + Iteration 48
   broadcast fix and hand-off). Gate 65.6% (63-33). Regression 40/40. Ladder **38/48 on
   the fixed field, Elo 1752, rank 2 of 21**; only awesomelemonade (1829) ahead.
-- **In flight: Iteration 49 "bank and knowledge hygiene", SPRT vs `g_iter11`**
-  (`gauntlet/sprt-i49.log`, run dir under `gauntlet/`, `summary.txt` when done).
-  `src/bot` = g_iter11 + Iteration 49. Three doses, each switchable in `C.java`:
-  (a) `SAVE_NO_BID`, `SAVE_MAX_WAIT` -- no bidding while the save branch waits, 80-round
-  bound; (b) `FLIP_INTENT`, `PRESUME_ROUNDS` -- a capturer announces its flip the turn it
-  lands adjacent, home reads capture-role children every turn and presumes the tile for
-  100 rounds; (c) `ABORT_REPORT` -- a politician arriving at a centre already ours flags
-  it; plus **stamped ownership claims** (`STAMPED_CLAIMS`, `MapState.claimEnemy/claimOwn`,
-  `Comms.ENEMY_EC_ECHO`): every OWN_EC / ENEMY_EC_ECHO carries the round/32 of the
-  sighting behind it and the newer claim wins. `BROADCAST_OWN` exists and is OFF (it
-  turned every scout into a courier). Diagnostic chain: TRAINING_LOG "Iteration 49
-  diagnostics".
+- **In flight: Iteration 50, SPRT vs `g_iter11`** (`gauntlet/sprt-i50.log`). Iteration 49's
+  gate was stopped at 77-67 for a measured defect: its extra reads pushed the home centre over
+  its 20k bytecode budget (213-404 lost rounds a game; g_iter11: 0-19). `src/bot` = g_iter11 +
+  Iteration 49 (flip intent `FLIP_INTENT`/`PRESUME_ROUNDS`, abort report `ABORT_REPORT`, stamped
+  ownership claims `STAMPED_CLAIMS` / `MapState.claimEnemy/claimOwn` / `Comms.ENEMY_EC_ECHO`,
+  `SAVE_MAX_WAIT`) + Iteration 50 (`SAVE_NO_BID=0`, `EST_INIT_AT_BIRTH`, and the bytecode cuts:
+  `claimed()` over live capturers, compaction only on a death, `seenThisTurn` dedupe,
+  `OFFTURN_READS`). `BROADCAST_OWN` exists and is OFF. **Read `@bc ... over=` for every centre in
+  any logged game before trusting a candidate**: a centre over budget silently loses rounds.
+  Diagnostic chain: TRAINING_LOG "Iteration 49 diagnostics" and "Iteration 50".
 - On the verdict: ACCEPT -> `tools/snapshot.sh g_iter12`, regression, ladder block
   (`scrim.sh`, then `scrim-record.py`, `elo.py`, `bench-roster.py`), block study;
   inconclusive >= 53% over >= 200 -> keep provisionally; else revert `src/bot` from
@@ -81,6 +79,7 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   politicians at a *contested* centre that flips every few rounds (363 aborts "by=ours" in
   one game). Choose the enemy target by stamp and size, and cap politicians in flight per
   tile as `claimed()` does for neutrals.
+- `@bcprof` (EC.java) logs the stage bytecodes of a centre's turn when it passes 15k.
 - The dev runner's engine seed is fixed: `tools/run-dev.sh bot g_iter11 <Map>` replays the
   same game until the code changes it, which makes diagnostic reruns like-for-like.
 

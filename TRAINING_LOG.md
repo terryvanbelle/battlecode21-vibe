@@ -5761,3 +5761,9 @@ same build on the same field:
 The change buys games from the two swarm bots and gives some back to the six we used to sweep
 (Scott-Poole and iliao2345 in this block). SPRT 112-112 (50.0%, LLR -2.90) with one batch to the
 cap: the mirror sees nothing, as the hedge intended. Ladder after recording: 864 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 2 of 21 rated bots, Elo 1726, 864 games; 
+
+**Iteration 58 SPRT final: 119-121 (49.6%) over 240**, the last batch tipping the ratio just past
+-2.94 (the script prints both lines when the bound and the cap coincide). Read as designed: the
+mirror, which fields no swarm, cannot see this change, and 49.6% is the neutrality METHOD 5b asks
+for before the ladder is allowed to decide. The ladder did: swarm bots 9/24 -> 21/36. `g_iter13`
+stands.

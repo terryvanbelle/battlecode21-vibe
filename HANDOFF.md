@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-22 18:05 UTC)
+# Handoff -- the state of the loop (updated 2026-09-22 21:35 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -73,8 +73,7 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   competitive), then test slanderer placement and cheap muckraker-killing guards against it.
 - **Submission: `g_iter13`** = g_iter12 + cheap guards under a swarm (`GUARD_MUCK_COST=15`,
   `SWARM_MUCKS=3`, `SWARM_MEMORY=50`; Iteration 58). Accepted under METHOD 5b: two ladder blocks
-  78/96 with **rzhan11 9/12** (g_iter12: 77/96, rzhan11 5/12) and a neutral mirror (57-55 after
-  seven batches, `gauntlet/sprt-i58.log`, running to the cap for the record). `src/bot` is
+  78/96 with **rzhan11 9/12** (g_iter12: 77/96, rzhan11 5/12) and a neutral mirror (final **119-121 over 240**, `gauntlet/sprt-i58-final.log`). `src/bot` is
   byte-identical to `src/g_iter13`. **The next mirror gate plays `REF=g_iter13`.** Regression
   (six archetypes including `arch_hunt`) in flight: `gauntlet/regress-i58.log`.
 - Iteration 56 (unconditional cheap guards): 37/48, gate stopped 30-34. 57 (interceptors):

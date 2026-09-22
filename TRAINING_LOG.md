@@ -5710,3 +5710,10 @@ cheap guards only under a real swarm, g_iter12 everywhere else. `src/bot` = 58 d
 block and SPRT vs g_iter12 run together (`gauntlet/ladder-i58.log`, `gauntlet/sprt-i58.log`).
 Counters: `swarm=`/`swarmGuards=`, guard cost distribution, strong-bot record (56: 5/12 with
 awesomelemonade 3/6).
+
+## Iteration 58 ladder block: 39/48 (81.2%); SPRT 25-23 after three batches (2026-09-22 16:35 UTC)
+
+rzhan11 **4/6**, awesomelemonade 2/6, Scott-Poole 6/6, iliao2345 6/6, jmerle 6/6, 123kevinlee 5/6,
+arya-k 5/6, max-titov 5/6. Strong bots 6/12 (g_iter12's two blocks: 5/12 and 4/12); the weak six
+33/36. Gate 8-8, 11-5, 6-10 = 25-23 (52.1%) -- neutral, as the hedge was designed to be. One
+block ties g_iter12's 40/48 within noise; a second block runs now so 96 games face 96.

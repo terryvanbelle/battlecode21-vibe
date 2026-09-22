@@ -434,3 +434,5 @@ Following up on earlier conversations, I'd like you to focus your enhanced intel
 > task check.  If the VM is idle and you're not working on anything, come up with a new idea.  Otherwise, continue as you are
 
 > /schedule at 6am Time to shut down.  Please ensure that everything is checked in, and that all documentation and code is up to date.  Shut down all VM jobs and free up the disk.  Write a post-mortem in standard Battlecode style outlining everything we've done and learned.  Make sure it's clear, and accessible.  It can assume the background of a typical Battlecode contestant.
+
+> task check.  If the VM is idle and you're not working on anything, come up with a new idea.  Otherwise, continue as you are

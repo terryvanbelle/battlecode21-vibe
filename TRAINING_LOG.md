@@ -5792,3 +5792,16 @@ bot on Arena: even at r250 (3 centres to 4, 34 v 52 slanderers), then **0 centre
 750-vote finish. That is the shape of every one of the twelve losses to awesomelemonade in the
 ladder. Both partners now exist: `arch_hunt` for rzhan11's collapse (g_iter13 5/8), `arch_lemon`
 for awesomelemonade's (g_iter13 0/1 so far). Both belong in the regression set.
+
+## Iteration 59 null (2026-09-23 00:20 UTC)
+
+58 + rich-bank big guards held back for big targets (`iter59`), on the three fixed seeds: against
+`arch_lemon` identical to g_iter13 (0 centres to 8 at r500 -- the bank is 157 at r250, so a
+"rich" guard never exists); against `arch_hunt` no better (1 to 7 at r800); on the Superposition
+mirror annihilated at r1007 (58 held 6 to 2 there). The collapse against `arch_lemon` happens
+while poor: by r250 it has 104 muckrakers, 96 politicians and 52 slanderers to our 100 politicians
+and 34 slanderers, and the 100 guards the swarm forces us to buy -- even at 15 -- are the whole
+economy. The open problem is how *not* to answer a swarm unit-for-unit without conceding the
+slanderers (arm 1 of 56 conceded them: 55 exposures). Left for the next competitor with both
+partners in place. `src/bot` = g_iter13 (+ archetype scaffolding); g_iter13's eight-game panel
+against `arch_lemon` runs for the ledger.

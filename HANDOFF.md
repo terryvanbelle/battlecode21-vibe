@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-22 23:20 UTC)
+# Handoff -- the state of the loop (updated 2026-09-23 00:20 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -78,7 +78,8 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   the real bot's behaviour is unchanged; `arch_lemon` = hunt + sized attacks is built from it). **The next mirror gate plays `REF=g_iter13`.** Regression
   (six archetypes including `arch_hunt`) in flight: `gauntlet/regress-i58.log`.
 - Iteration 56 (unconditional cheap guards): 37/48, gate stopped 30-34. 57 (interceptors):
-  negative. Branches `iter56`..`iter58` keep the code. `arch_hunt` (ARCHETYPE 6) reproduces the
+  negative. Branches `iter56`..`iter59` keep the code (59 = 58 + rich interceptors, null on all three
+  fixed seeds). `arch_hunt` (ARCHETYPE 6) reproduces the
   rzhan11 collapse and `arch_lemon` (ARCHETYPE 7, hunt + target-sized attacks) reproduces
   awesomelemonade's annihilations (0 to 8 centres by r500 on Arena); both are in the regression set.
 - Previous submission, for reference:

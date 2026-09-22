@@ -5805,3 +5805,9 @@ economy. The open problem is how *not* to answer a swarm unit-for-unit without c
 slanderers (arm 1 of 56 conceded them: 55 exposures). Left for the next competitor with both
 partners in place. `src/bot` = g_iter13 (+ archetype scaffolding); g_iter13's eight-game panel
 against `arch_lemon` runs for the ledger.
+
+**`g_iter13` against `arch_lemon`, eight games (four maps, both sides): 6/8** -- the losses are
+maptestsmall and Arena, one side each; Maze and Gridlock both sides. At the top of METHOD's
+competitive band, so a change against it is readable; the Arena seed (annihilated by r500) is the
+loss to study. Final regression picture for `g_iter13`: five older archetypes 40/40, `arch_hunt`
+5/8, `arch_lemon` 6/8.

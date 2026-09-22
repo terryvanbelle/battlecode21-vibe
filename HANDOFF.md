@@ -141,6 +141,9 @@ hop upstream of this. It was found by six counters on the centre's intake.
 
 ## Gotchas learned the hard way
 
+- **The VM disk fills**: every kept replay is 4-8 MB and a gate keeps every loss; at 97% full
+  (2026-09-22) the next batch would have failed. After a block's study.tsv/logs are fetched to
+  the driver, `rm -rf` its run directory on the VM; check `df -h ~` before launching a gate.
 - `pkill -f`/`pgrep -f` with the pattern in your own command line kills your own
   shell: write patterns as `roster-hol[d]`.
 - `pgrep -c battlecode.server.Main` **counts two processes per game** (the `timeout`

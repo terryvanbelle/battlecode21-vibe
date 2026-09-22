@@ -5554,3 +5554,18 @@ Iteration 52 arm 2 was rejected on a 38/48 ladder block against 40/48 -- one sta
 never gated. It is the only arm with a clear signal on the board, so it gets the SPRT it was owed:
 **`src/bot` = Iteration 52 arm 2 again, SPRT vs `g_iter12`** (`gauntlet/sprt-i52.log`). ACCEPT ->
 `g_iter13`; otherwise revert to `g_iter12`, which stays the submission meanwhile.
+
+## Iteration 52 REJECTED by SPRT: 15-33 (31.2%), LLR -3.53 (2026-09-22 11:30 UTC)
+
+Batches 6-10, 3-13, 6-10. The fixed-seed Superposition result (5 centres to 3 against a baseline
+that ends 1 to 7) was a property of that seed, not of the change: four sentinels per centre cost
+~250 build slots a game and dilute our own capture speeches as much as theirs, and the floor
+holds influence that a twin spends. Sentinels, floor and capture bank are all off; `src/bot` =
+`src/g_iter12` again, the branch `iter52` keeps the code.
+
+Three arms in a row -- hold what we take (52), target-aware attack (53), rich guards (54) -- were
+null or negative. They shared a premise: that the r200-400 loss of freshly taken centres could be
+fixed at the centre. The measured attackers are sized to the target (130-500) and the opponent
+holds 6-8 centres with an army our economy could match but does not build. The open question for
+the next competitor is stated in HANDOFF; with under a day left the loop now firms up the
+submission's rating instead of testing a fourth arm.

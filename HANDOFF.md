@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-22 11:40 UTC)
+# Handoff -- the state of the loop (updated 2026-09-22 11:35 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -57,12 +57,18 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
 
 ## State right now (2026-09-21 22:45 UTC)
 
-- **In flight: Iteration 52 SPRT vs `g_iter12`** (`gauntlet/sprt-i52.log`): sentinels on the
-  diagonals, proportional floor, capture bank 110. Its ladder block was 38/48 (one SE under 40/48)
-  but it is the only arm that clearly beat the fixed-seed baseline (TRAINING_LOG 2026-09-22 11:40).
-  `src/bot` = Iteration 52. ACCEPT -> `g_iter13`, regression, ladder; else revert to `g_iter12`.
-  Iterations 53 (`iter53`, target-aware attack) and 54 (`iter54`, rich guards) are nulls, kept on
-  their branches.
+- Iteration 52 (sentinels, floor, capture bank) **REJECTED by SPRT 15-33 (31.2%)**; Iterations
+  53 (target-aware attack) and 54 (rich guards) null on the fixed seed. Branches `iter52`,
+  `iter53`, `iter54` keep the code. `src/bot` = `g_iter12`. In flight: a second 48-game ladder
+  block for `g_iter12` (`gauntlet/ladder-g12b.log`) to firm up the rating; record it with
+  `scrim-record.py <run> --label g_iter12`, then `elo.py`, `bench-roster.py`.
+- **The open question** (TRAINING_LOG 2026-09-22 10:15-11:30): between r200 and r400 we lose the
+  centres we just took -- 34 of 60 within 100 rounds in eight losses -- to attackers sized to the
+  target (130-500 conviction), and every loss to awesomelemonade is an annihilation by an army of
+  145-300 politicians while we bank 20-40k. A floor, dilution and cheap re-attack all failed;
+  what has not been tried is spending the bank on an *army that moves* -- politicians sized to
+  their centres' sighted influence, sent in waves, with the capturer cap raised for enemy
+  targets only -- measured first on the fixed-seed baseline (1 to 7) and then on the ladder.
 - **Submission: `g_iter12`** = g_iter11 + Iteration 49 (flip intent, presume, abort report,
   stamped ownership claims) + Iteration 50 (bid while saving, vote-estimate init at birth,
   bytecode cuts) + Iteration 51 (save mode off). Snapshotted 2026-09-22 on combined evidence:

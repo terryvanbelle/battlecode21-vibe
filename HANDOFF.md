@@ -71,8 +71,9 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
 - **Submission: `g_iter12`** = g_iter11 + Iteration 49 (flip intent, presume, abort report,
   stamped ownership claims) + Iteration 50 (bid while saving, vote-estimate init at birth,
   bytecode cuts) + Iteration 51 (save mode off). Snapshotted 2026-09-22 on combined evidence:
-  mirror inconclusive 133-107 (55.4%, LLR +1.08) and **ladder 40/48, Elo 1798, rank 2**
-  (awesomelemonade 1841). `src/bot` is byte-identical to `src/g_iter12`. **The next mirror gate
+  mirror inconclusive 133-107 (55.4%, LLR +1.08) and ladder 40/48; a second block came in at
+  37/48 (77/96 over both). **Elo 1737, rank 3 of 21** after all 672 games (awesomelemonade 1880,
+  rzhan11 1755; K=32 weights the last 96 games, where the strong-bot record is 9/24). `src/bot` is byte-identical to `src/g_iter12`. **The next mirror gate
   plays `REF=g_iter12`.** Regression **40/40**; block study done (`gauntlet/20260922-060056-scrim-bot/study.tsv`,
   logs via `tools/log-scan.sh`). The seven losses (awesomelemonade 4, rzhan11 2) show their
   muckraker swarm (median 84 vs our 23 at r200) beating a richer, more-slandered us.

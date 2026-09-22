@@ -5679,3 +5679,19 @@ r250 (arm 1: 57). The trade is made at a third of the price and the economy comp
 **Iteration 56 (arm 2) = g_iter12 + `GUARD_MUCK_COST=15`** -- PRE-REGISTERED. Ladder block first
 (`gauntlet/ladder-i56.log`), read against g_iter12's 77/96 (strong bots 9/24); then SPRT vs
 `g_iter12`. Counters: guard build cost distribution, slanderer deaths by r250, bank at r250/500.
+
+## Iteration 56 at the gate; 57 negative; 58 pre-registered (2026-09-22 16:40 UTC)
+
+- **Iteration 56 (cheap guards, unconditional)**: ladder **37/48** -- awesomelemonade **3/6, the best
+  ever**, rzhan11 2/6, max-titov 4/6, arya-k 5/6 -- and SPRT 18-30 (37.5%, LLR -2.56) after three
+  batches, on its way to REJECT. On the fixed-seed Superposition mirror it ends exactly like the
+  baseline (1 to 7); two mirror losses read show its 15-guards converted by the twin's 300-1,000
+  attackers (95-154 of ours converted away by r600). A swarm answer, punished where there is no swarm.
+- **Iteration 57 (54's rich guards held back for targets worth half of themselves, `iter57`)**:
+  annihilated at r1168 on the fixed seed (baseline: 1 to 7 on votes at r1500). Negative.
+- **Iteration 58 (`iter58`) = 56, conditional**: guards cost 15 only while a swarm is present --
+  three or more enemy muckrakers in the centre's sensor range at once within the last 50 rounds
+  -- and no enemy politician is in range (`swarm=`, `swarmGuards=` in @econ). Pre-registered as
+  METHOD 5b's second arm: expected neutral on the mirror (the twin fields no swarm) and 56's gain
+  against the swarm bots. Diagnostics on both fixed seeds first: arch_hunt must show the trigger
+  and 56's result; Superposition must match the baseline.

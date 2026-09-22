@@ -133,7 +133,11 @@ public final class C {
     // muckraker kill at 25, so a lone wanderer six tiles from anything is worth a 20-60 guard. A muckraker is
     // worth killing when it threatens something: a slanderer of ours within THREAT_SLA_D2 or a centre within
     // THREAT_EC_D2 of it. Otherwise its kill is worth MUCK_IDLE_VALUE, below the bar on its own.
-    public static final int MUCK_IDLE_VALUE = 5;        // 25 = g_iter12 (every muckraker worth a speech)
+    //     Arm 1 (idle value 5): annihilated at r479 with 55 exposures by r250 against 0 -- the trade IS the defence.
+    //     Arm 2 changes its price instead: while no enemy politician is in a centre's sensor range, guards cost
+    //     GUARD_MUCK_COST (5 conviction after tax kills a 1-influence muckraker at radius 1-2) instead of 20-60.
+    public static final int MUCK_IDLE_VALUE = 25;       // 25 = g_iter12 (every muckraker worth a speech); arm 1 was 5
+    public static final int GUARD_MUCK_COST = 15;       // guard cost while the only enemies in sensor range are muckrakers (0 = g_iter12)
     public static final int THREAT_SLA_D2 = 20;         // a muckraker this close to one of our slanderers is about to expose it (expose range 12)
     public static final int THREAT_EC_D2 = 9;           // ... or this close to a centre (it blocks a spawn tile)
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)

@@ -37,6 +37,7 @@ public strictfp class EC extends Robot {
         return false;
     }
     private int blockedRounds = 0;   // diagnostic: rounds a build was chosen but no adjacent tile was free
+    private boolean enemyPolNear = false;   // Iteration 56b: an enemy politician in sensor range this turn
     private int bid = 2, lastVotes = 0, votesWon = 0, votesLost = 0;
     private int lastBuildRound = -100;
     private int broadcast = 0, broadcastAge = 0;
@@ -66,9 +67,10 @@ public strictfp class EC extends Robot {
         int inf = rc.getInfluence();
         boolean danger = nearestEnemyD2 < 1 << 30;   // any enemy in our 40 r2 sensor range (guards react to this)
         // Iteration 27: the economy stops only for a threat that can actually hurt, not for any passing muckraker
-        boolean econDanger = false;
+        boolean econDanger = false; enemyPolNear = false;
         for (int i = nEnemy; --i >= 0;) {
             RobotInfo r = enemies[i];
+            if (r.type == RobotType.POLITICIAN && r.conviction >= 11) enemyPolNear = true;   // Iteration 56b: something a 15-guard cannot answer
             if (r.type == RobotType.POLITICIAN && r.conviction >= C.ECON_DANGER_POL_CONV) { econDanger = true; break; }
             if (r.type == RobotType.MUCKRAKER && r.location.distanceSquaredTo(loc) <= C.ECON_DANGER_MUCK_D2) { econDanger = true; break; }
         }
@@ -139,7 +141,7 @@ public strictfp class EC extends Robot {
             Debug.log("@open1 slanderer r=" + round + " size=" + cost);
         }
         else if (scouts < C.EARLY_SCOUTS && round < 60) { t = RobotType.MUCKRAKER; cost = 1; role = Roles.SCOUT; }
-        else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = Math.min(inf - 5, 30); role = Roles.GUARD; }
+        else if (danger && guards < 2 && inf >= 20) { t = RobotType.POLITICIAN; cost = (C.GUARD_MUCK_COST > 0 && !enemyPolNear) ? C.GUARD_MUCK_COST : Math.min(inf - 5, 30); role = Roles.GUARD; }
         else if (C.SAVE_MODE && !saveDone && round <= C.SAVE_UNTIL && (cheapIdx = cheapNeutral()) >= 0) {
             int best = cheapIdx, price = MapState.neutralInf[best] + 14 + C.SAVE_BANK;
             if (inf - 5 >= price) {
@@ -156,7 +158,7 @@ public strictfp class EC extends Robot {
         else if ((cheapIdx = captureAffordable(inf)) >= 0) { captureTargetIdx = cheapIdx; t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; Debug.log("@capbuild r=" + round + " cost=" + cost + " home=" + (birth <= 1)); }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3 && !presumed(MapState.enemyEC[0])) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
-        else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
+        else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = (C.GUARD_MUCK_COST > 0 && !enemyPolNear) ? C.GUARD_MUCK_COST : Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }   // Iteration 56b: cheap guards against muckrakers alone
         else if (inf >= 30 && scouts < (C.ARCHETYPE == 6 ? 12 + round / 6 : Math.min(C.SCOUT_MAX, C.SCOUT_BASE + round / C.SCOUT_PER_ROUND + (inf > 400 ? 3 : 0) + (MapState.nEnemy == 0 && round > 150 ? 2 : 0)))) { t = RobotType.MUCKRAKER; cost = 1; role = C.ARCHETYPE == 6 ? Roles.HUNT : Roles.SCOUT; }   // arch_hunt: a stream of hunters
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf - reserve() >= 100 && guards < C.MAX_GUARDS) { t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(50, inf / 3)); role = Roles.GUARD; }

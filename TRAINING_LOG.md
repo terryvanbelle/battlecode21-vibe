@@ -5486,3 +5486,31 @@ awesomelemonade 4, rzhan11 2, Scott-Poole 1. At r200 in losses the opponent has 
 muckrakers to our 23 (wins: 26 to 31); our slanderers and bank are usually *larger* in the losses
 (Superposition: 9,958 banked against 155 at r200, 20,514 against 8,427 at r400, lost). The bank
 is not becoming strength on the board, and a flipped centre hands its hoard to the captor.
+
+## Iteration 52 -- hold what we take (sentinels, floor, capture bank) -- PRE-REGISTERED, ladder block first (2026-09-22 10:30 UTC)
+
+**Diagnosis** (g_iter12 block, eight losses): 72 centres gained, 60 lost, **34 lost within 100
+rounds of taking them**, to speeches whose overshoot was 1-30: a capture priced at neutral+14 is
+born with ~4 influence and spends that on its first slanderer, so a 20-conviction politician
+flips it for free and each recapture costs us 264-514. Reproduced on a fixed-seed Superposition
+mirror (bot vs g_iter12): 23 gained, 21 lost, 19 within 100 rounds.
+
+**Arm 1** (capture bank 60, flat floor 60): null on the same seed -- 18 of 20 still fell within
+100 rounds; the mirror's own capturers arrive with 250-500 conviction and the overshoots grew.
+
+**Arm 2** = the candidate: (a) `SENTINELS=4` -- each centre keeps a 1-influence muckraker on each
+of its four diagonal tiles (ordered through the flag like a capturer, `@sentinel`); the engine
+splits a speech equally over every unit in its radius, so an adjacent attacker's share drops
+3x or more and the four orthogonal spawn tiles stay free; (b) floor = clamp(inf/4, 60..300) kept
+unspent from r50 once inf >= 106 (`floor=` in @econ); (c) `CAPTURE_BANK=110` so a newborn centre
+can keep its floor and still buy a first slanderer. Same seed: **6 centres to 2 at r700, 5 to 3
+at the end, 324 politicians to 175** (arm 1 ended 0 to 8), captures lost within 100 rounds 16 of
+22; lost on votes 669-750 to a g_iter12 that hoarded 92k. 248 sentinel builds over the game (they
+die in the speeches they dilute; ~7% of build slots), `noTile` rises to 100-200 by r700.
+
+**Why the ladder block runs first.** The mirror is decided by the vote race at r1500 and a
+hoarder wins it; this candidate converts income into board strength, which is what the block's
+losses lacked and what the opponents that beat us punish. 48 games on the fixed field
+(`gauntlet/ladder-i52.log`), read against g_iter12's 40/48: strong-bot record (5/12) and captures
+lost within 100 rounds (34 of 60 in losses) are the pre-registered counters; the SPRT vs g_iter12
+follows if the block earns it, and a worse block reverts `src/bot` to `src/g_iter12`.

@@ -5579,3 +5579,17 @@ iliao2345 4/6, awesomelemonade 2/6, rzhan11 2/6. Over the two `g_iter12` blocks:
 
 The submission of record is `g_iter12`; `src/bot` is byte-identical to it. The loop's remaining
 time goes to the handoff.
+
+## Iteration 55 inert on the fixed seed (2026-09-22 13:10 UTC)
+
+Waves only at centres with sighted influence >= 100, attackers counted apart from capturers, up
+to four at once (`iter55`, on top of 53's machinery). One attack build in 1,500 rounds (r863, a
+323-influence centre, cost 498): an enemy centre is rarely *sighted* holding 100 -- the
+opponent spends as it earns, and the scouts' bucketed reports are the only source. The game is
+identical to the baseline until r863. Inert, not tested further.
+
+**Closing the loop's candidate work.** Four arms since `g_iter12` (52 rejected 15-33; 53, 54, 55
+null or inert), all aimed at the r200-400 centre loss. The submission stays `g_iter12`; the open
+question and the untried lever are in HANDOFF. The remaining VM time is not spent on a fifth
+quick arm: every measured fact about the loss mechanism is in the log for the next competitor,
+and a candidate that cannot be diagnosed first should not be run.

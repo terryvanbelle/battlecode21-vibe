@@ -470,3 +470,5 @@ Following up on earlier conversations, I'd like you to focus your enhanced intel
 > What's our best performance against awesomelemonade?
 
 > task check.  If the VM is idle and you're not working on anything, come up with a new idea.  Otherwise, continue as you are
+
+> task check.  If the VM is idle and you're not working on anything, come up with a new idea.  Otherwise, continue as you are

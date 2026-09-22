@@ -102,7 +102,7 @@ public final class C {
 
     // politician
     public static final int GUARD_LEASH_D2 = 80;        // guards wander this far from home
-    public static final int GUARD_RING_MIN = 20;        // guards hold outside the slanderer ring
+    public static final int GUARD_RING_MIN = 8;         // Iteration 60: guards hold among the slanderers (was 20: outside their ring)
     // Iteration 40: an expired slanderer became a GUARD and stayed near home, so the standing
     // population around a centre grows without bound -- 63 "guards" around one centre at r1500,
     // which walled it in for 458 rounds of the game. They are full-conviction politicians; send
@@ -136,7 +136,11 @@ public final class C {
     //     Arm 1 (idle value 5): annihilated at r479 with 55 exposures by r250 against 0 -- the trade IS the defence.
     //     Arm 2 changes its price instead: while no enemy politician is in a centre's sensor range, guards cost
     //     GUARD_MUCK_COST (5 conviction after tax kills a 1-influence muckraker at radius 1-2) instead of 20-60.
-    public static final int MUCK_IDLE_VALUE = 25;       // 25 = g_iter12 (every muckraker worth a speech); arm 1 was 5
+    // Iteration 60: 56's arm 1 (a kill worth 25 only when the muckraker threatens a slanderer) conceded 55 exposures
+    // because the guards stood OUTSIDE the slanderer ring (GUARD_RING_MIN 20) and were never where the threat was.
+    // Guards now hold among the slanderers (ring min 8, the same as theirs) and fire only at what threatens: the
+    // wandering muckraker six tiles out is ignored, the one closing on a slanderer is killed.
+    public static final int MUCK_IDLE_VALUE = 5;        // 25 = g_iter13 (every muckraker worth a speech)
     public static final int GUARD_MUCK_COST = 15;       // guard cost while the only enemies in sensor range are muckrakers (0 = g_iter12)
     // Iteration 58: 56 unconditionally (cheap guards whenever no enemy politician was in range) took awesomelemonade
     // to 3/6 -- the best ever -- and lost the mirror 18-30, whose 300-1,000 attackers convert 15-guards wholesale.

@@ -127,6 +127,16 @@ public final class C {
     // child list compacted only on a death, each flag value absorbed once a turn, and sibling/neighbour reads
     // moved to the off-turn (the centre builds every other round).
     public static final int OFFTURN_READS = 1;          // 0 = read every turn (Iteration 49)
+    // Iteration 53 (target-aware attack): awesomelemonade retakes our fresh centres with politicians sized to the
+    // job -- 130-500 conviction, overshoots of 9-23 on the first flips (NotAPuzzle) -- and holds a 6-8 centre lead
+    // by r400 while our only moves against enemy centres were two branches aimed at enemyEC[0]: one priced from a
+    // single remembered bucket, one that threw the whole bank (38 politicians aborting at a contested tile in one
+    // game). Enemy centres now carry their last SIGHTED influence; the cheapest known one is bought like a neutral,
+    // priced at influence x margin + tax, claimed per target, subject to the capturer cap and the flip presumption.
+    public static final int ATTACK = 1;                 // 0 = g_iter12's two branches only
+    public static final int ATTACK_MARGIN_NUM = 3, ATTACK_MARGIN_DEN = 2;   // conviction bought per point of the centre's influence (their bodies dilute the speech)
+    public static final int ATTACK_INF_AGE = 200;       // a sighting older than this is not a price
+    public static final int ATTACK_CAP = 1000;          // the old "rich and idle" branch no longer empties the bank into one politician
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
     // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
     //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence

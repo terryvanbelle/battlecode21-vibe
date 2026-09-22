@@ -45,7 +45,6 @@ public class MapStateTest {
         check(MapState.claimOwn(cap, 8) && MapState.known(MapState.ownEC, MapState.nOwn, cap) && !MapState.known(MapState.enemyEC, MapState.nEnemy, cap), "a newer own sighting overrides the enemy listing");
         check(!MapState.addNeutralEC(cap, 100), "still never neutral again");
         check(MapState.stamp(1499) <= 63 && MapState.stamp(0) == 0, "stamps fit six bits over a whole game");
-        check(MapState.nNeutral == 0, "capturing it drops it from the neutral list");
         check(!MapState.addNeutralEC(cap, 200), "a stale neutral report about it is refused");
         check(MapState.nNeutral == 0, "and does not put it back");
         reset();
@@ -105,6 +104,20 @@ public class MapStateTest {
         check(MapState.boundsKnown(), "four edges is enough");
         check(MapState.width() == 32 && MapState.height() == 64, "width/height from the edges");
 
+        // Iteration 53: a sighted influence is kept with the enemy centre; an echo never overwrites it; removal keeps the arrays aligned
+        reset();
+        MapLocation e1 = new MapLocation(10, 10), e2 = new MapLocation(20, 20);
+        MapState.sightEnemyEC(e1, 100, 250); MapState.sightEnemyEC(e2, 120, 90);
+        check(MapState.nEnemy == 2, "two enemy centres");
+        int i1 = MapState.enemyEC[0].equals(e1) ? 0 : 1;
+        check(MapState.enemyInf[i1] == 250 && MapState.enemyInfRound[i1] == 100, "influence and round stored");
+        MapState.claimEnemy(e1, MapState.stamp(150));
+        check(MapState.enemyInf[i1] == 250, "an echo keeps the sighted influence");
+        MapState.sightEnemyEC(e1, 90, 999);
+        check(MapState.enemyInf[i1] == 250, "an older sighting does not overwrite a newer one");
+        MapState.removeEnemy(e1);
+        check(MapState.nEnemy == 1 && MapState.enemyEC[0].equals(e2) && MapState.enemyInf[0] == 90, "removal keeps influence aligned with its tile");
+        check(MapState.nNeutral == 0, "capturing it drops it from the neutral list");
         System.out.println(fails == 0 ? "OK MapStateTest" : fails + " FAILURES in MapStateTest");
         if (fails > 0) System.exit(1);
     }

@@ -86,7 +86,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `123kevinlee.atomAlphaV14` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
 | `123kevinlee.atomFinal` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
 | `123kevinlee.atomFinalHS` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
-| `123kevinlee.atomFinalQualifier` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | 100 | 6 | peer(>90 once) | 0 29 29 47 17 42 33 83 100 83 100 |
+| `123kevinlee.atomFinalQualifier` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | 100 | 6 | solved | 0 29 29 47 17 42 33 83 100 83 100 100 |
 | `123kevinlee.atomFinalV22` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
 | `123kevinlee.atomStorm` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
 | `123kevinlee.atomV11` | 123kevinlee_Battlecode2021-TeamAtom (d121441) | - | - | untested |  |
@@ -171,7 +171,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `OliverMKing.oliverrushbot2` | OliverMKing_battlecode-2021 (14e4015) | - | - | untested |  |
 | `OliverMKing.templatebot` | OliverMKing_battlecode-2021 (14e4015) | - | - | untested |  |
 | `SLaGrave.AlphaCentauri` | SLaGrave_battlecode21 (9ae0ff4) | 100 | 6 | peer(>90 once) | 100 |
-| `Scott-Poole.spright8` | Scott-Poole_battlecode21 (57f898a) | 83 | 6 | peer | 7 12 39 17 25 50 33 33 50 67 67 83 83 |
+| `Scott-Poole.spright8` | Scott-Poole_battlecode21 (57f898a) | 83 | 6 | peer | 7 12 39 17 25 50 33 33 50 67 67 83 92 83 |
 | `Sihal3.cavShieldv05` | Sihal3_cavshield (7a90425) | - | - | untested |  |
 | `Sihal3.cavShieldv1` | Sihal3_cavshield (7a90425) | - | - | untested |  |
 | `Sihal3.cavShieldv2` | Sihal3_cavshield (7a90425) | - | - | untested |  |
@@ -246,7 +246,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `angelaloh09.camelmanplayer_old` | angelaloh09_BattleCode2021-CamelMan (1a1ad19) | - | - | untested |  |
 | `anshgs.ho4` | anshgs_Fandead (00ef0fd) | 17 | 6 | locked | 7 14 17 |
 | `arya-k.quals` | arya-k_bc21 (7791795) | - | - | untested |  |
-| `arya-k.quals_v1` | arya-k_bc21 (7791795) | 100 | 6 | solved | 50 42 39 67 42 67 83 83 100 100 |
+| `arya-k.quals_v1` | arya-k_bc21 (7791795) | 100 | 6 | solved | 50 42 39 67 42 67 83 83 100 100 100 |
 | `arya-k.refactor` | arya-k_bc21 (7791795) | - | - | untested |  |
 | `arya-k.seeding` | arya-k_bc21 (7791795) | - | - | untested |  |
 | `arya-k.seeding_bad_econ` | arya-k_bc21 (7791795) | - | - | untested |  |
@@ -291,7 +291,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `awesomelemonade.pdefense2` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.ppbot` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.spreadout` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
-| `awesomelemonade.sprint1bot` | awesomelemonade_battlecode-2021 (e9c4afc) | 33 | 6 | target | 0 25 0 0 0 17 33 0 0 0 33 33 |
+| `awesomelemonade.sprint1bot` | awesomelemonade_battlecode-2021 (e9c4afc) | 33 | 6 | target | 0 25 0 0 0 17 33 0 0 0 33 33 33 |
 | `awesomelemonade.trollbigps` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.v1_10` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
 | `awesomelemonade.waves` | awesomelemonade_battlecode-2021 (e9c4afc) | - | - | untested |  |
@@ -320,7 +320,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `evan-schott.bugplayer` | evan-schott_battlecode2021 (1d7b865) | 100 | 6 | peer(>90 once) | 100 |
 | `evan-schott.nullplayer` | evan-schott_battlecode2021 (1d7b865) | - | - | untested |  |
 | `evan-schott.simpleplayer` | evan-schott_battlecode2021 (1d7b865) | - | - | untested |  |
-| `iliao2345.attacker` | iliao2345_Battlecode2021 (d620569) | 100 | 6 | peer(>90 once) | 21 31 37 17 42 50 83 100 67 100 |
+| `iliao2345.attacker` | iliao2345_Battlecode2021 (d620569) | 100 | 6 | peer(>90 once) | 21 31 37 17 42 50 83 100 67 83 100 |
 | `iliao2345.buryguard` | iliao2345_Battlecode2021 (d620569) | - | - | untested |  |
 | `iliao2345.donothing` | iliao2345_Battlecode2021 (d620569) | - | - | untested |  |
 | `iliao2345.explore_test` | iliao2345_Battlecode2021 (d620569) | - | - | untested |  |
@@ -388,7 +388,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `jmerle.camel_case_v4` | jmerle_battlecode-2021 (5f4a269) | - | - | untested |  |
 | `jmerle.camel_case_v5` | jmerle_battlecode-2021 (5f4a269) | - | - | untested |  |
 | `jmerle.camel_case_v6_sprint_1` | jmerle_battlecode-2021 (5f4a269) | - | - | untested |  |
-| `jmerle.camel_case_v7_sprint_2` | jmerle_battlecode-2021 (5f4a269) | 100 | 6 | solved | 14 38 45 17 42 17 67 50 100 100 100 100 |
+| `jmerle.camel_case_v7_sprint_2` | jmerle_battlecode-2021 (5f4a269) | 100 | 6 | solved | 14 38 45 17 42 17 67 50 100 100 100 100 100 |
 | `mama4294.Maloneplayer` | mama4294_Battlecode21 (583166a) | 100 | 6 | peer(>90 once) | 100 |
 | `max-titov.ECtest` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
 | `max-titov.commsplayer` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
@@ -396,7 +396,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `max-titov.navtest` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
 | `max-titov.navtest2` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
 | `max-titov.playertemplate` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
-| `max-titov.sprintplayer` | max-titov_2021.battlecode-KFA (168559c) | 100 | 6 | solved | 25 33 45 67 25 67 67 100 100 100 |
+| `max-titov.sprintplayer` | max-titov_2021.battlecode-KFA (168559c) | 67 | 6 | peer | 25 33 45 67 25 67 67 100 100 92 67 |
 | `max-titov.voting_test` | max-titov_2021.battlecode-KFA (168559c) | - | - | untested |  |
 | `mhahn2003.bug` | mhahn2003_bc21 (175fd93) | - | - | untested |  |
 | `mhahn2003.coms` | mhahn2003_bc21 (175fd93) | - | - | untested |  |
@@ -518,7 +518,7 @@ above the 20% line, so every bot we have played may be reviewed.
 | `rzhan11.muckspam` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
 | `rzhan11.newday` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
 | `rzhan11.sprint` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
-| `rzhan11.sprint2` | rzhan11_Battlecode2021 (f21c274) | 50 | 6 | peer | 0 11 0 8 33 17 33 33 0 33 67 50 |
+| `rzhan11.sprint2` | rzhan11_Battlecode2021 (f21c274) | 50 | 6 | peer | 0 11 0 8 33 17 33 33 0 33 67 42 50 |
 | `rzhan11.template` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
 | `rzhan11.wander_defense` | rzhan11_Battlecode2021 (f21c274) | - | - | untested |  |
 | `saivivekvenna.Ba_ba_booie` | saivivekvenna_BattleCode-2021 (636ec61) | 100 | 6 | peer(>90 once) | 100 |

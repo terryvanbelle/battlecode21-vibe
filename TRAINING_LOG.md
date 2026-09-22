@@ -5569,3 +5569,13 @@ fixed at the centre. The measured attackers are sized to the target (130-500) an
 holds 6-8 centres with an army our economy could match but does not build. The open question for
 the next competitor is stated in HANDOFF; with under a day left the loop now firms up the
 submission's rating instead of testing a fourth arm.
+
+## `g_iter12` second ladder block: 37/48 (77.1%); 77/96 over both (2026-09-22 12:35 UTC)
+
+Same fixed field: 123kevinlee 6/6, Scott-Poole 6/6, arya-k 6/6, jmerle 6/6, max-titov 5/6,
+iliao2345 4/6, awesomelemonade 2/6, rzhan11 2/6. Over the two `g_iter12` blocks: **77/96
+(80.2%)**, awesomelemonade 4/12, rzhan11 5/12, the other six 68/72. Ladder after recording:
+672 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1737, 672 games; 45 bots not yet met.
+
+The submission of record is `g_iter12`; `src/bot` is byte-identical to it. The loop's remaining
+time goes to the handoff.

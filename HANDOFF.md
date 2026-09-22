@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-22 11:35 UTC)
+# Handoff -- the state of the loop (updated 2026-09-22 12:35 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -59,9 +59,8 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
 
 - Iteration 52 (sentinels, floor, capture bank) **REJECTED by SPRT 15-33 (31.2%)**; Iterations
   53 (target-aware attack) and 54 (rich guards) null on the fixed seed. Branches `iter52`,
-  `iter53`, `iter54` keep the code. `src/bot` = `g_iter12`. In flight: a second 48-game ladder
-  block for `g_iter12` (`gauntlet/ladder-g12b.log`) to firm up the rating; record it with
-  `scrim-record.py <run> --label g_iter12`, then `elo.py`, `bench-roster.py`.
+  `iter53`, `iter54` keep the code. `src/bot` = `g_iter12`. The second 48-game ladder block for `g_iter12` came in at 37/48 (77/96 over both blocks,
+  80.2%); recorded. **The VM is idle.**
 - **The open question** (TRAINING_LOG 2026-09-22 10:15-11:30): between r200 and r400 we lose the
   centres we just took -- 34 of 60 within 100 rounds in eight losses -- to attackers sized to the
   target (130-500 conviction), and every loss to awesomelemonade is an annihilation by an army of

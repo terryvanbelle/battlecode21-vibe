@@ -5636,3 +5636,12 @@ influence; the army (77k of politicians in one game) is what that income buys. T
 slanderer survival against a 180-muckraker hunt, which the mirror cannot show and `arch_muck`
 (the muckraker-rush archetype) may: baseline `bot` vs `arch_muck` on Arena launched
 (`gauntlet/diag-muck-base.log`) to see whether it reproduces the deaths.
+
+**`arch_muck` does not reproduce the hunt.** Baseline `bot` vs `arch_muck` on Arena: it spawned 119
+muckrakers in the first 250 rounds and exposed **two** slanderers (rzhan11: 12-47); we lost none
+after r250 and annihilated it at r394. Its muckrakers swarm the centre; rzhan11's hunt slanderers.
+No sparring partner reproduces the condition, the contest rule forbids choosing rzhan11's games,
+and a 48-game ladder block cannot resolve a modest gain -- so this line is left, measured, for
+the next competitor with the instrument it needs named: **an `arch_hunt` archetype whose
+muckrakers chase slanderers (METHOD 6b-ii: run it, confirm it exposes 10+ by r250 and is
+competitive, then test slanderer placement and cheap muckraker-killing guards against it).**

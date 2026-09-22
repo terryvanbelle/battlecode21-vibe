@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-22 13:10 UTC)
+# Handoff -- the state of the loop (updated 2026-09-22 14:10 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -61,13 +61,16 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   53 (target-aware attack) and 54 (rich guards) null on the fixed seed. Branches `iter52`,
   `iter53`, `iter54` keep the code. `src/bot` = `g_iter12`. The second 48-game ladder block for `g_iter12` came in at 37/48 (77/96 over both blocks,
   80.2%); recorded. **The VM is idle.**
-- **The open question** (TRAINING_LOG 2026-09-22 10:15-11:30): between r200 and r400 we lose the
-  centres we just took -- 34 of 60 within 100 rounds in eight losses -- to attackers sized to the
-  target (130-500 conviction), and every loss to awesomelemonade is an annihilation by an army of
-  145-300 politicians while we bank 20-40k. A floor, dilution and cheap re-attack all failed;
-  what has not been tried is spending the bank on an *army that moves* -- politicians sized to
-  their centres' sighted influence, sent in waves, with the capturer cap raised for enemy
-  targets only -- measured first on the fixed-seed baseline (1 to 7) and then on the ladder.
+- **The open question, measured** (TRAINING_LOG 2026-09-22 13:40-14:10): against rzhan11 the
+  position is even at r250 and gone by r500 because **our slanderers are hunted and theirs are
+  not** -- 12 of 16 and 47 died in 250 rounds against 2 and 6 of theirs, while they built 5-8x
+  the slanderer influence and a 77k army from it. Against awesomelemonade every loss is an
+  annihilation by the same kind of army, and the fresh-centre loss (34 of 60 within 100 rounds)
+  is the same economy failing to defend what it bought. Three arms at the centre (floor,
+  sentinels, rich guards) and two at attack (target-aware, waves) were null; slanderer
+  survival was never tested because no sparring partner reproduces the hunt (`arch_muck`
+  exposed 2 in 250 rounds). **First build `arch_hunt`** (muckrakers that chase slanderers,
+  competitive), then test slanderer placement and cheap muckraker-killing guards against it.
 - **Submission: `g_iter12`** = g_iter11 + Iteration 49 (flip intent, presume, abort report,
   stamped ownership claims) + Iteration 50 (bid while saving, vote-estimate init at birth,
   bytecode cuts) + Iteration 51 (save mode off). Snapshotted 2026-09-22 on combined evidence:

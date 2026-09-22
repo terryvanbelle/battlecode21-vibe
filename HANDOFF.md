@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-22 17:50 UTC)
+# Handoff -- the state of the loop (updated 2026-09-22 18:05 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -71,14 +71,17 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   survival was never tested because no sparring partner reproduces the hunt (`arch_muck`
   exposed 2 in 250 rounds). **First build `arch_hunt`** (muckrakers that chase slanderers,
   competitive), then test slanderer placement and cheap muckraker-killing guards against it.
-- **In flight: Iteration 58 ladder block and SPRT vs g_iter12, together** (`gauntlet/ladder-i58.log`,
-  `gauntlet/sprt-i58.log`): `src/bot` = g_iter12 + `GUARD_MUCK_COST=15` bought only while a swarm
-  is present (`SWARM_MUCKS=3` in sensor at once within `SWARM_MEMORY=50` rounds) and no enemy
-  politician is in range. Iteration 56 (unconditional) did 37/48 with awesomelemonade 3/6 (best
-  ever) and 30-34 at the gate before it was stopped; 57 (interceptors) negative. Branches
-  `iter56`, `iter57`, `iter58` keep the code. `arch_hunt` (ARCHETYPE 6) is the sparring partner
-  that reproduces the rzhan11 collapse; it is in the regression set.
-- **Submission: `g_iter12`** = g_iter11 + Iteration 49 (flip intent, presume, abort report,
+- **Submission: `g_iter13`** = g_iter12 + cheap guards under a swarm (`GUARD_MUCK_COST=15`,
+  `SWARM_MUCKS=3`, `SWARM_MEMORY=50`; Iteration 58). Accepted under METHOD 5b: two ladder blocks
+  78/96 with **rzhan11 9/12** (g_iter12: 77/96, rzhan11 5/12) and a neutral mirror (57-55 after
+  seven batches, `gauntlet/sprt-i58.log`, running to the cap for the record). `src/bot` is
+  byte-identical to `src/g_iter13`. **The next mirror gate plays `REF=g_iter13`.** Regression
+  (six archetypes including `arch_hunt`) in flight: `gauntlet/regress-i58.log`.
+- Iteration 56 (unconditional cheap guards): 37/48, gate stopped 30-34. 57 (interceptors):
+  negative. Branches `iter56`..`iter58` keep the code. `arch_hunt` (ARCHETYPE 6) is the
+  sparring partner that reproduces the rzhan11 collapse; it is in the regression set.
+- Previous submission, for reference:
+  `g_iter12` = g_iter11 + Iteration 49 (flip intent, presume, abort report,
   stamped ownership claims) + Iteration 50 (bid while saving, vote-estimate init at birth,
   bytecode cuts) + Iteration 51 (save mode off). Snapshotted 2026-09-22 on combined evidence:
   mirror inconclusive 133-107 (55.4%, LLR +1.08) and ladder 40/48; a second block came in at

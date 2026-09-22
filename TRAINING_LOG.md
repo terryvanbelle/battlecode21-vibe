@@ -5717,3 +5717,23 @@ rzhan11 **4/6**, awesomelemonade 2/6, Scott-Poole 6/6, iliao2345 6/6, jmerle 6/6
 arya-k 5/6, max-titov 5/6. Strong bots 6/12 (g_iter12's two blocks: 5/12 and 4/12); the weak six
 33/36. Gate 8-8, 11-5, 6-10 = 25-23 (52.1%) -- neutral, as the hedge was designed to be. One
 block ties g_iter12's 40/48 within noise; a second block runs now so 96 games face 96.
+
+## `g_iter13` = Iteration 58: two ladder blocks 39/48 + 39/48 = 78/96, rzhan11 9/12; mirror neutral 57-55 (2026-09-22 18:05 UTC)
+
+Second block: rzhan11 **5/6**, max-titov 6/6, arya-k 6/6, 123kevinlee 6/6, jmerle 6/6, Scott-Poole
+5/6, iliao2345 3/6, awesomelemonade 2/6. Over the two blocks, against g_iter12's own 96 on the same
+field:
+
+| | g_iter12 (96) | **g_iter13 (96)** |
+|---|---|---|
+| overall | 77/96 (80.2%) | **78/96 (81.3%)** |
+| rzhan11 | 5/12 | **9/12** |
+| awesomelemonade | 4/12 | 4/12 |
+| the six we beat | 68/72 | 65/72 |
+
+The gate: 8-8, 11-5, 6-10, 4-12, 11-5, 10-6, 7-9 = **57-55 (50.9%), LLR -1.13** after seven batches,
+running to the cap for the record. This is METHOD 5b's case exactly -- neutral against the mirror,
+which fields no swarm, and a clear move against the swarm bot that beat us (rzhan11 5/12 -> 9/12)
+-- and it is accepted on that evidence: **`g_iter13` = g_iter12 + cheap guards under a swarm**
+(`GUARD_MUCK_COST=15`, `SWARM_MUCKS=3`, `SWARM_MEMORY=50`). Ladder after recording: 816 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 2 of 21 rated bots, Elo 1805, 816 games; 
+Regression (six archetypes including arch_hunt) running.

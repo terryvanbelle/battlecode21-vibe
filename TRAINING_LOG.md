@@ -5619,3 +5619,20 @@ Two facts worth the next competitor's time:
    how many, where they walk) has not been measured -- `tools/log-scan.sh` gives only our
    side; the replay's EMPOWER/SPAWN events (`replay-dump.sh --from 250 --to 500`) give theirs.
    That measurement is the first thing to do.
+
+**The measurement, done** (`replay-dump.sh --from 250 --to 500`, both sides' SPAWN / EMPOWER / DIED):
+
+| r250-500 | Arena: us | rzhan11 | BattleCodeToo: us | rzhan11 |
+|---|---|---|---|---|
+| slanderers spawned (influence) | 16 (1,771) | **78 (13,772)** | 31 (2,526) | **114 (18,556)** |
+| slanderers died | **12** | 2 | **47** | 6 |
+| politicians spawned (influence) | 213 (5,487) | 305 (9,679) | 86 (3,660) | 338 (77,508; p90 737) |
+| muckrakers spawned | 76 | 186 | 36 | 178 |
+| their politicians converted to ours | 54 | 92 | 34 | 13 |
+
+**Our slanderers are hunted and theirs are not.** Twelve of sixteen and forty-seven died inside
+250 rounds against two and six of theirs, while they built five to eight times the slanderer
+influence; the army (77k of politicians in one game) is what that income buys. The lever is
+slanderer survival against a 180-muckraker hunt, which the mirror cannot show and `arch_muck`
+(the muckraker-rush archetype) may: baseline `bot` vs `arch_muck` on Arena launched
+(`gauntlet/diag-muck-base.log`) to see whether it reproduces the deaths.

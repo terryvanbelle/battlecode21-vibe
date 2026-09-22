@@ -5670,3 +5670,12 @@ cost 15 (5 conviction after tax kills a 1-influence muckraker at radius 1-2) ins
 (`GUARD_MUCK_COST`); an enemy politician in range restores the old sizing. Expected against
 `arch_hunt`: the same kills for a third of the influence, a bank at r250 well above the baseline's
 108, and survival past r816.
+
+**Arm 2 against `arch_hunt`, same seed: annihilates it at r726** (g_iter12 was annihilated at r816).
+r250: bank 1,402 v 579 (baseline 108 v 881), slanderers 86 v 40, centres 5 v 3; r500: 28,746 v
+452, 139 slanderers v 32. Guard builds: 259 at 15, 81 at 20, 11 at 60. Slanderer deaths 6 by
+r250 (arm 1: 57). The trade is made at a third of the price and the economy compounds from it.
+
+**Iteration 56 (arm 2) = g_iter12 + `GUARD_MUCK_COST=15`** -- PRE-REGISTERED. Ladder block first
+(`gauntlet/ladder-i56.log`), read against g_iter12's 77/96 (strong bots 9/24); then SPRT vs
+`g_iter12`. Counters: guard build cost distribution, slanderer deaths by r250, bank at r250/500.

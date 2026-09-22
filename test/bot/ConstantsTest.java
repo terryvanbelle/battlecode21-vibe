@@ -32,6 +32,7 @@ public class ConstantsTest {
         check(C.MUCK_IDLE_VALUE >= 0 && C.THREAT_SLA_D2 >= 12, "muckraker valuation bounds are sane");
         check(C.GUARD_MUCK_COST == 0 || C.GUARD_MUCK_COST >= 11, "a cheap guard still has conviction left after the empower tax");
         check(C.SWARM_MUCKS >= 0 && C.SWARM_MEMORY > 0, "swarm detection bounds are sane");
+        check(C.GUARD_COST_RICH >= 60 && C.SPEND_GUARD_CAP_RICH >= C.SPEND_GUARD_CAP && C.BIG_GUARD_DIV > 0 && C.BIG_GUARD > C.SPEECH_MIN_VALUE, "rich-guard bounds are ordered");
         check(C.ATTACK_MARGIN_NUM >= C.ATTACK_MARGIN_DEN && C.ATTACK_MARGIN_DEN > 0, "an attack buys at least the centre's influence");
         check(C.ATTACK_CAP >= 300 && C.ATTACK_INF_AGE > 0, "attack sizing bounds are sane");
         check(C.SCOUT_MAX >= C.SCOUT_BASE, "the scout ceiling is not below its own base");

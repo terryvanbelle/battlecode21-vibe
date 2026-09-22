@@ -153,6 +153,14 @@ public final class C {
     public static final int SWARM_MEMORY = 50;
     public static final int THREAT_SLA_D2 = 20;         // a muckraker this close to one of our slanderers is about to expose it (expose range 12)
     public static final int THREAT_EC_D2 = 9;           // ... or this close to a centre (it blocks a spawn tile)
+    // Iteration 59 (against arch_lemon): 58's cheap guards answer the swarm; the centres still fall to attackers
+    // of 130-500 conviction sized to them (10 centres lost in r250-500 on Arena). When the bank is rich, some
+    // guards are bought big (54's sizing) and a big guard is held back for a target worth half of itself (57's
+    // bar) -- an interceptor for the sized attacker, not a sweeper spent on muckraker clumps.
+    public static final int RICH_BANK = 1500;           // bank above which guards may be bought big (1 << 30 = g_iter13)
+    public static final int GUARD_COST_RICH = 300;      // guard cost cap when rich and no swarm rule applies (60 otherwise)
+    public static final int SPEND_GUARD_CAP_RICH = 24;  // spare-branch standing guards when rich
+    public static final int BIG_GUARD = 100, BIG_GUARD_DIV = 2;   // a guard of >= BIG_GUARD conviction speaks only for value >= conviction / BIG_GUARD_DIV
     // Iteration 53 (target-aware attack): awesomelemonade retakes our fresh centres with politicians sized to the
     // job -- 130-500 conviction, overshoots of 9-23 on the first flips (NotAPuzzle) -- and holds a 6-8 centre lead
     // by r400 while our only moves against enemy centres were two branches aimed at enemyEC[0]: one priced from a

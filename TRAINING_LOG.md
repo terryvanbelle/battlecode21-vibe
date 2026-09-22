@@ -5744,3 +5744,20 @@ the current build (it beat g_iter12 outright on the fixed Arena seed). That is t
 METHOD 6b-ii asks of a sparring partner: 25-75%, so a change against it can be read. A third
 ladder block for `g_iter13` is running (`gauntlet/ladder-g13c.log`) to firm up the final rating;
 the SPRT stands at 80-80 after ten batches and runs to the cap.
+
+## `g_iter13` third ladder block: 36/48; three blocks 114/144, the strong bots 20/36 (2026-09-22 21:05 UTC)
+
+Third block: **awesomelemonade 5/6** (the best record ever against the bot at the top of the
+ladder), rzhan11 3/6, max-titov 5/6, but Scott-Poole 3/6 and iliao2345 2/6. Three blocks of the
+same build on the same field:
+
+| | g_iter12 (96) | **g_iter13 (144)** |
+|---|---|---|
+| overall | 77/96 (80.2%) | 114/144 (79.2%) |
+| awesomelemonade | 4/12 (33%) | **9/18 (50%)** |
+| rzhan11 | 5/12 (42%) | **12/18 (67%)** |
+| the six we beat | 68/72 (94%) | 93/108 (86%) |
+
+The change buys games from the two swarm bots and gives some back to the six we used to sweep
+(Scott-Poole and iliao2345 in this block). SPRT 112-112 (50.0%, LLR -2.90) with one batch to the
+cap: the mirror sees nothing, as the hedge intended. Ladder after recording: 864 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 2 of 21 rated bots, Elo 1726, 864 games; 

@@ -462,3 +462,7 @@ Following up on earlier conversations, I'd like you to focus your enhanced intel
 > /schedule list
 
 > /schedule delete 359f5217
+
+> task check.  If the VM is idle and you're not working on anything, come up with a new idea.  Otherwise, continue as you are
+
+> /schedule at 1pm UTC Shutdown time.  Make sure all docs and code are up to date.  Stop all jobs on the VM and free the disk space used by this project.  Write a clear, accessible post-mortem in the style of Battlecode post-mortems, geared to an audience of Battlecode contestants.  Commit and push

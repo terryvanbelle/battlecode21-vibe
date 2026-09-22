@@ -136,7 +136,10 @@ public final class C {
     public static final int RICH_BANK = 1500;           // bank above which guards are bought big (1 << 30 = g_iter12)
     public static final int GUARD_COST_RICH = 300;      // guard cost cap when rich (60 otherwise)
     public static final int SPEND_GUARD_CAP_RICH = 24;  // spare-branch standing guards when rich (SPEND_GUARD_CAP otherwise)
-    public static final int BIG_GUARD = 100, BIG_GUARD_DIV = 6;   // a guard of >= BIG_GUARD conviction speaks only for value >= conviction / BIG_GUARD_DIV
+    // Iteration 57: 54's big guards (div 6, value 50 for a 300) were spent on muckraker clumps and the r400-700 centre
+    // loss to 300-1,000 attackers went on as before (fixed seed: 0 centres at r1500). Held back for a target
+    // worth half of themselves -- an enemy politician of 270+ or a centre -- they are interceptors, not sweepers.
+    public static final int BIG_GUARD = 100, BIG_GUARD_DIV = 2;   // a guard of >= BIG_GUARD conviction speaks only for value >= conviction / BIG_GUARD_DIV
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
     // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
     //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence

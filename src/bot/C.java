@@ -142,8 +142,11 @@ public final class C {
     // to 3/6 -- the best ever -- and lost the mirror 18-30, whose 300-1,000 attackers convert 15-guards wholesale.
     // The cheap guard is a swarm answer, so it is bought only while a swarm is present: SWARM_MUCKS enemy
     // muckrakers in the centre's sensor range at once, within the last SWARM_MEMORY rounds.
-    public static final int SWARM_MUCKS = 3;            // 0 = 56's unconditional cheap guards
-    public static final int SWARM_MEMORY = 50;
+    //     Dose 1 (3 at once, 50 rounds) under-fired against arch_hunt: 156 guards at 20 to 86 at 15, and the r726
+    //     win became a loss on votes. The patrol spreads its muckrakers around the ring, so few are in one
+    //     centre's sensor at once. Dose 2: two at once, remembered for 100 rounds.
+    public static final int SWARM_MUCKS = 2;            // 0 = 56's unconditional cheap guards
+    public static final int SWARM_MEMORY = 100;
     public static final int THREAT_SLA_D2 = 20;         // a muckraker this close to one of our slanderers is about to expose it (expose range 12)
     public static final int THREAT_EC_D2 = 9;           // ... or this close to a centre (it blocks a spawn tile)
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)

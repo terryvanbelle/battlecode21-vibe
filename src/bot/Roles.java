@@ -8,4 +8,5 @@ public final class Roles {
     public static final int ECON = 3;
     public static final int CAPTURE = 4;
     public static final int HUNT = 5;
+    public static final int ATTACK = 7;     // Iteration 55: a capturer aimed at an enemy centre (counted apart from neutral capturers)
 }

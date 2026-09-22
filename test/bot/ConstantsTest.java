@@ -31,6 +31,7 @@ public class ConstantsTest {
         check(C.SAVE_NO_BID == 0 || C.SAVE_MAX_WAIT > 0, "a silent save must at least be bounded");
         check(C.ATTACK_MARGIN_NUM >= C.ATTACK_MARGIN_DEN && C.ATTACK_MARGIN_DEN > 0, "an attack buys at least the centre's influence");
         check(C.ATTACK_CAP >= 300 && C.ATTACK_INF_AGE > 0, "attack sizing bounds are sane");
+        check(C.ATTACK_MIN_INF > 0 && C.MAX_ATTACKERS >= 1, "an attack goes at a centre worth having, and at least one may walk");
         check(C.SCOUT_MAX >= C.SCOUT_BASE, "the scout ceiling is not below its own base");
         check(C.SCOUT_BASE + 1500 / C.SCOUT_PER_ROUND >= C.SCOUT_MAX,
               "the cap actually reaches its ceiling within a game, or the ceiling is dead weight");

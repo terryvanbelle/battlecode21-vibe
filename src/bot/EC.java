@@ -41,12 +41,12 @@ public strictfp class EC extends Robot {
     private int lastBuildRound = -100;
     private int broadcast = 0, broadcastAge = 0;
     private int captureTargetIdx = -1, cheapIdx = -1;   // cheapIdx: the scan result, evaluated once per branch (Iteration 50)
-    private MapLocation attackTile = null; private int attackBuilds = 0;   // Iteration 53: the enemy centre this build is aimed at
+    private MapLocation attackTile = null; private int attackBuilds = 0, attackers = 0;   // Iteration 53/55: the enemy centre this build is aimed at; attackers in flight
     private int attackTarget(int inf) {
         int best = -1, bestCost = 1 << 30;
-        if (capturers >= C.MAX_CAPTURERS) return -1;
+        if (attackers >= C.MAX_ATTACKERS) return -1;
         for (int i = MapState.nEnemy; --i >= 0;) {
-            if (MapState.enemyInf[i] < 0 || round - MapState.enemyInfRound[i] > C.ATTACK_INF_AGE) continue;
+            if (MapState.enemyInf[i] < C.ATTACK_MIN_INF || round - MapState.enemyInfRound[i] > C.ATTACK_INF_AGE) continue;   // Iteration 55: only a centre worth having
             int c = MapState.enemyInf[i] * C.ATTACK_MARGIN_NUM / C.ATTACK_MARGIN_DEN + 14;
             if (c > inf - reserve() || c >= bestCost) continue;
             if (claimed(MapState.enemyEC[i]) || presumed(MapState.enemyEC[i])) continue;
@@ -91,7 +91,7 @@ public strictfp class EC extends Robot {
         doBid(); prof[6] = Clock.getBytecodeNum();
         updateBroadcast(danger); prof[7] = Clock.getBytecodeNum();
         profLog(prof[7]);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound + " capReads=" + capReads + " heardE=" + heardEnemy + " own=" + MapState.nOwn + " ownT=" + ownTiles() + " refusedE=" + refusedEnemy + " safeStops=" + safeStops + " atk=" + attackBuilds);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound + " capReads=" + capReads + " heardE=" + heardEnemy + " own=" + MapState.nOwn + " ownT=" + ownTiles() + " refusedE=" + refusedEnemy + " safeStops=" + safeStops + " atk=" + attackBuilds + " atkAlive=" + attackers);
     }
 
     // ---------------------------------------------------------------- production
@@ -167,7 +167,7 @@ public strictfp class EC extends Robot {
             }
         }
         else if ((cheapIdx = captureAffordable(inf)) >= 0) { captureTargetIdx = cheapIdx; t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; Debug.log("@capbuild r=" + round + " cost=" + cost + " home=" + (birth <= 1)); }
-        else if (C.ATTACK == 1 && (cheapIdx = attackTarget(inf)) >= 0) { captureTargetIdx = -1; attackTile = MapState.enemyEC[cheapIdx]; t = RobotType.POLITICIAN; cost = MapState.enemyInf[cheapIdx] * C.ATTACK_MARGIN_NUM / C.ATTACK_MARGIN_DEN + 14; role = Roles.CAPTURE; attackBuilds++; Debug.log("@attack r=" + round + " tgt=" + (attackTile.x - MapState.minX) + "," + (attackTile.y - MapState.minY) + " inf=" + MapState.enemyInf[cheapIdx] + " age=" + (round - MapState.enemyInfRound[cheapIdx]) + " cost=" + cost); }
+        else if (C.ATTACK == 1 && (cheapIdx = attackTarget(inf)) >= 0) { captureTargetIdx = -1; attackTile = MapState.enemyEC[cheapIdx]; t = RobotType.POLITICIAN; cost = MapState.enemyInf[cheapIdx] * C.ATTACK_MARGIN_NUM / C.ATTACK_MARGIN_DEN + 14; role = Roles.ATTACK; attackBuilds++; Debug.log("@attack r=" + round + " tgt=" + (attackTile.x - MapState.minX) + "," + (attackTile.y - MapState.minY) + " inf=" + MapState.enemyInf[cheapIdx] + " age=" + (round - MapState.enemyInfRound[cheapIdx]) + " cost=" + cost); }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3 && !presumed(MapState.enemyEC[0])) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
@@ -193,11 +193,11 @@ public strictfp class EC extends Robot {
         if (d == null) { blockedRounds++; return; }
         rc.buildRobot(t, d, cost);
         RobotInfo nb = rc.senseRobotAtLocation(loc.add(d));
-        if (nb != null && nChild < MAX_CHILDREN) { childId[nChild] = nb.ID; childType[nChild] = role; childBirth[nChild] = round; childTgt[nChild] = (role == Roles.CAPTURE) ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : attackTile != null ? attackTile : (MapState.nEnemy > 0 ? MapState.enemyEC[0] : null)) : null; nChild++; }
-        switch (role) { case Roles.SCOUT: case Roles.HUNT: scouts++; break; case Roles.GUARD: guards++; break; case Roles.ECON: slanderers++; break; case Roles.CAPTURE: capturers++; break; default: break; }
+        if (nb != null && nChild < MAX_CHILDREN) { childId[nChild] = nb.ID; childType[nChild] = role; childBirth[nChild] = round; childTgt[nChild] = (role == Roles.CAPTURE || role == Roles.ATTACK) ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : attackTile != null ? attackTile : (MapState.nEnemy > 0 ? MapState.enemyEC[0] : null)) : null; nChild++; }
+        switch (role) { case Roles.SCOUT: case Roles.HUNT: scouts++; break; case Roles.GUARD: guards++; break; case Roles.ECON: slanderers++; break; case Roles.CAPTURE: capturers++; break; case Roles.ATTACK: attackers++; break; default: break; }
         lastBuildRound = round;
         // tell the newborn its role via our flag for one round: ORDER with target
-        MapLocation tgt = role == Roles.CAPTURE ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : attackTile != null ? attackTile : MapState.enemyEC[0]) : loc;
+        MapLocation tgt = (role == Roles.CAPTURE || role == Roles.ATTACK) ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : attackTile != null ? attackTile : MapState.enemyEC[0]) : loc;
         attackTile = null;
         // a robot spawned this round takes its FIRST turn next round (the engine iterates a snapshot of the
         // spawn order), so the order must still be on the flag next round; the EC cannot build again before that
@@ -207,7 +207,7 @@ public strictfp class EC extends Robot {
         // centre that builds most rounds broadcast its map knowledge to nobody. Measured: captured centres read
         // thousands of nearby flags and heard ZERO neutral reports in their whole lives; home's own scouts never
         // learned the list from home either.
-        if (role == Roles.CAPTURE || C.HANDOFF == 0) { pendingOrder = Comms.encode(Comms.ORDER, role, tgt); pendingOrderRound = round + 1; }
+        if (role == Roles.CAPTURE || role == Roles.ATTACK || C.HANDOFF == 0) { pendingOrder = Comms.encode(Comms.ORDER, role, tgt); pendingOrderRound = round + 1; }
         Debug.log("@spawn t=" + t.ordinal() + " inf=" + cost + " role=" + role + " dir=" + d + " ecInf=" + rc.getInfluence());
     }
     private int pendingOrder = 0, pendingOrderRound = -10;
@@ -258,7 +258,7 @@ public strictfp class EC extends Robot {
             if (role == Roles.ECON && MapState.nEnemy > 0) s += Math.sqrt(n.distanceSquaredTo(MapState.enemyEC[0])) * 0.3;
             if (role == Roles.SCOUT) s += nextInt(3);   // spread scouts
             if (role == Roles.GUARD && nearestEnemy != null) s -= Math.sqrt(n.distanceSquaredTo(nearestEnemy.location)) * 0.5;
-            if (role == Roles.CAPTURE) { MapLocation tg = captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : attackTile != null ? attackTile : (MapState.nEnemy > 0 ? MapState.enemyEC[0] : null); if (tg != null) s -= Math.sqrt(n.distanceSquaredTo(tg)) * 0.7; }
+            if (role == Roles.CAPTURE || role == Roles.ATTACK) { MapLocation tg = captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : attackTile != null ? attackTile : (MapState.nEnemy > 0 ? MapState.enemyEC[0] : null); if (tg != null) s -= Math.sqrt(n.distanceSquaredTo(tg)) * 0.7; }
             if (s > bs) { bs = s; best = d; }
         }
         return best;
@@ -267,15 +267,15 @@ public strictfp class EC extends Robot {
     private int countAlive() {
         // recount children via canGetFlag (5 bytecodes each); compact the list only once a child has died --
         // Iteration 50: copying four arrays for 96 live children every build turn was ~4k of a 20k budget
-        int k = 0; int sl = 0, g = 0, sc = 0, cap = 0; nCapIdx = 0; boolean gap = false;
+        int k = 0; int sl = 0, g = 0, sc = 0, cap = 0, atk = 0; nCapIdx = 0; boolean gap = false;
         for (int i = 0; i < nChild; i++) {
             if (childType[i] == Roles.ECON && round - childBirth[i] >= 300) childType[i] = Roles.GUARD;   // camouflage expired: it guards now
             if (!rc.canGetFlag(childId[i])) { gap = true; continue; }
             if (gap) { childId[k] = childId[i]; childType[k] = childType[i]; childBirth[k] = childBirth[i]; childTgt[k] = childTgt[i]; }
-            switch (childType[k]) { case Roles.SCOUT: case Roles.HUNT: sc++; break; case Roles.GUARD: g++; break; case Roles.ECON: sl++; break; case Roles.CAPTURE: cap++; if (nCapIdx < MAX_CAPIDX) capIdx[nCapIdx++] = k; break; default: break; }
+            switch (childType[k]) { case Roles.SCOUT: case Roles.HUNT: sc++; break; case Roles.GUARD: g++; break; case Roles.ECON: sl++; break; case Roles.CAPTURE: cap++; if (nCapIdx < MAX_CAPIDX) capIdx[nCapIdx++] = k; break; case Roles.ATTACK: atk++; if (nCapIdx < MAX_CAPIDX) capIdx[nCapIdx++] = k; break; default: break; }
             k++;
         }
-        nChild = k; slanderers = sl; guards = g; scouts = sc; capturers = cap;
+        nChild = k; slanderers = sl; guards = g; scouts = sc; capturers = cap; attackers = atk;
         return k;
     }
 

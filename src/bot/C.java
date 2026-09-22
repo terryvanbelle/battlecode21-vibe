@@ -137,6 +137,13 @@ public final class C {
     public static final int ATTACK_MARGIN_NUM = 3, ATTACK_MARGIN_DEN = 2;   // conviction bought per point of the centre's influence (their bodies dilute the speech)
     public static final int ATTACK_INF_AGE = 200;       // a sighting older than this is not a price
     public static final int ATTACK_CAP = 1000;          // the old "rich and idle" branch no longer empties the bank into one politician
+    // Iteration 55 (waves at what matters): Iteration 53 bought every cheap shell (30-92 for centres holding 14-52)
+    // and made a tug-of-war of it -- 49 centres gained, 44 lost, 238 politicians aborting at contested tiles. An
+    // attack now goes only at a centre worth having (sighted influence >= ATTACK_MIN_INF: it has income and they
+    // lose it), attackers are counted apart from neutral capturers so neither starves the other, and up to
+    // MAX_ATTACKERS walk at once so a rich bank becomes a wave rather than one politician.
+    public static final int ATTACK_MIN_INF = 100;
+    public static final int MAX_ATTACKERS = 4;
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
     // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
     //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence

@@ -28,7 +28,7 @@ public strictfp class Politician extends Robot {
 
     @Override protected void turn() throws GameActionException {
         sense();
-        if (!orderRead) { int f = readHome(); orderRead = true; if (f >= 0 && Comms.type(f) == Comms.ORDER) { role = Comms.extra(f); target = Comms.loc(f, loc); } }
+        if (!orderRead) { int f = readHome(); orderRead = true; if (f >= 0 && Comms.type(f) == Comms.ORDER) { role = Comms.extra(f); if (role == Roles.ATTACK) role = Roles.CAPTURE; target = Comms.loc(f, loc); } }   // Iteration 55: an attacker is a capturer with an enemy target
         else if (round % 4 == 0) readHome();
         if (role == Roles.CAPTURE && target != null) { capture(); return; }
         guard();

@@ -5645,3 +5645,15 @@ and a 48-game ladder block cannot resolve a modest gain -- so this line is left,
 the next competitor with the instrument it needs named: **an `arch_hunt` archetype whose
 muckrakers chase slanderers (METHOD 6b-ii: run it, confirm it exposes 10+ by r250 and is
 competitive, then test slanderer placement and cheap muckraker-killing guards against it).**
+
+## `arch_hunt` built, and it reproduces the collapse (2026-09-22 15:00 UTC)
+
+`arch_hunt` (ARCHETYPE 6): the real build chain, a scout cap of `12 + round/6` built as hunters,
+and muckrakers that patrol the ring 3-8 tiles around the nearest enemy centre. v1 (arch_muck's
+chain plus the patrol) had no guards and lost its own slanderers; v2 on the real chain **beats
+`g_iter12` on Arena by annihilation at r816**, with rzhan11's shape: even at r250 (4-4 centres,
+35 v 57 slanderers), 5 centres and 4,678 banked against our 176 by r500, 30 exposures in
+r500-800. The trace names the mechanism: its muckrakers died 83 by r250 and 210 more by r500,
+**each death one of our politicians spent in a speech** -- 108 politicians built in the first 250
+rounds to kill 83 influence of muckrakers, then 329 more. That trade, before any exposure, is
+what empties the economy. Panel record to establish: `bot` vs `arch_hunt` on six maps, both sides.

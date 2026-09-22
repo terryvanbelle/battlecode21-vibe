@@ -5478,3 +5478,11 @@ is a **provisional accept on combined evidence**, recorded as such; the ladder n
 this does not change that -- it decides only which build the next mirror plays against.
 
 Regression (five archetypes, four maps) and the block study are running; results below when in.
+
+**Regression for `g_iter12`: 40/40** (arch_muck, arch_bidder, arch_polrush, arch_big, arch_expand
+x maptestsmall, Arena, Maze, Gridlock, both sides), the second clean sweep in a row. Block study
+of the 40/48 run: `progress/ONSET.md`, `onset-ladder.png` regenerated. The seven losses are
+awesomelemonade 4, rzhan11 2, Scott-Poole 1. At r200 in losses the opponent has a median 84
+muckrakers to our 23 (wins: 26 to 31); our slanderers and bank are usually *larger* in the losses
+(Superposition: 9,958 banked against 155 at r200, 20,514 against 8,427 at r400, lost). The bank
+is not becoming strength on the board, and a flipped centre hands its hoard to the captor.

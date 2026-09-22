@@ -5811,3 +5811,23 @@ maptestsmall and Arena, one side each; Maze and Gridlock both sides. At the top 
 competitive band, so a change against it is readable; the Arena seed (annihilated by r500) is the
 loss to study. Final regression picture for `g_iter13`: five older archetypes 40/40, `arch_hunt`
 5/8, `arch_lemon` 6/8.
+
+## Iteration 60 -- guards among the slanderers, firing only at threats -- PRE-REGISTERED (2026-09-23 01:10 UTC)
+
+56's arm 1 (a muckraker kill worth a speech only when it threatens a slanderer or a centre) conceded
+55 exposures because the guards held *outside* the slanderer ring (`GUARD_RING_MIN=20`) and were
+never where the threat arrived. Iteration 60 = g_iter13 + `GUARD_RING_MIN=8` (guards hold among the
+slanderers) + `MUCK_IDLE_VALUE=5` (the wandering muckraker is ignored; the one closing on a slanderer
+is killed). Three fixed seeds, one game each:
+
+| seed | g_iter13 | **Iteration 60** |
+|---|---|---|
+| Arena vs `arch_lemon` | annihilated, 0 centres to 8 by r500 | **annihilates it at r412** (71 guard speeches by r500) |
+| Arena vs `arch_hunt` | lost on votes at r1500 | **won on votes at r1500** |
+| Superposition mirror vs g_iter13 | (58 held 6 to 2, lost on votes) | annihilated at r1084 |
+
+Both sparring partners beaten on the seeds that beat g_iter13, at the price of the mirror seed.
+Ladder block and SPRT vs `g_iter13` run together (`gauntlet/ladder-i60.log`, `gauntlet/sprt-i60.log`).
+Decision rule as for 58 (METHOD 5b): mirror not clearly below 50%, and the strong-bot record above
+g_iter13's 27/60 (45%) over the blocks played, else revert `src/bot` to `src/g_iter13`. The 13:00 UTC
+shutdown applies the rule to whatever has finished.

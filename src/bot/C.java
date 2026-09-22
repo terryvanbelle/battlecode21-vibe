@@ -127,6 +127,15 @@ public final class C {
     // child list compacted only on a death, each flag value absorbed once a turn, and sibling/neighbour reads
     // moved to the off-turn (the centre builds every other round).
     public static final int OFFTURN_READS = 1;          // 0 = read every turn (Iteration 49)
+    // Iteration 52 (hold what we take): in the eight losses of the g_iter12 block we gained 72 centres and lost 60,
+    // and 34 of the 60 fell within 100 rounds of taking them (TheSnack 12 of 17) -- to speeches whose overshoot
+    // was 1-30, i.e. the centre held almost nothing. A centre's influence is its hit points: a capture priced at
+    // neutral+14 is born with ~4 and spends even that on its first slanderer, so any 20-conviction politician flips
+    // it for free while each recapture costs us 264-514. Two doses: the capturer carries a bank the new centre is
+    // born with, and every centre keeps a floor of influence unspent after the opening.
+    public static final int CAPTURE_BANK = 60;          // added to a capturer's price; the new centre starts with it (0 = g_iter12)
+    public static final int HOLD_BANK = 60;             // influence every centre keeps unspent from HOLD_FROM_ROUND on (0 = g_iter12)
+    public static final int HOLD_FROM_ROUND = 50;
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
     // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
     //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence

@@ -74,7 +74,8 @@ public strictfp class EC extends Robot {
         }
         if (round > C.SAVE_UNTIL) saveDone = true;
         if (econDanger) econDangerRounds++;
-        if (rc.isReady()) build(inf, danger, econDanger); prof[5] = Clock.getBytecodeNum();
+        int floor = (C.HOLD_BANK > 0 && round >= C.HOLD_FROM_ROUND) ? C.HOLD_BANK : 0;   // Iteration 52: hit points, not budget
+        if (rc.isReady()) build(Math.max(0, inf - floor), danger, econDanger); prof[5] = Clock.getBytecodeNum();
         doBid(); prof[6] = Clock.getBytecodeNum();
         updateBroadcast(danger); prof[7] = Clock.getBytecodeNum();
         profLog(prof[7]);
@@ -153,7 +154,7 @@ public strictfp class EC extends Robot {
                 return;
             }
         }
-        else if ((cheapIdx = captureAffordable(inf)) >= 0) { captureTargetIdx = cheapIdx; t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; Debug.log("@capbuild r=" + round + " cost=" + cost + " home=" + (birth <= 1)); }
+        else if ((cheapIdx = captureAffordable(inf)) >= 0) { captureTargetIdx = cheapIdx; t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14 + C.CAPTURE_BANK; role = Roles.CAPTURE; Debug.log("@capbuild r=" + round + " cost=" + cost + " home=" + (birth <= 1)); }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3 && !presumed(MapState.enemyEC[0])) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; }
@@ -211,7 +212,7 @@ public strictfp class EC extends Robot {
     private int captureAffordable(int inf) {
         int best = -1, bestCost = 1 << 30;
         for (int i = MapState.nNeutral; --i >= 0;) {
-            int c = MapState.neutralInf[i] + 14;
+            int c = MapState.neutralInf[i] + 14 + C.CAPTURE_BANK;   // Iteration 52: the new centre is born with the bank
             if (c > inf - reserve() || c >= bestCost || capturers >= C.MAX_CAPTURERS) continue;
             if (claimed(MapState.neutralEC[i])) continue;   // a live capturer is already walking there
             if (presumed(MapState.neutralEC[i])) { presumedSkips++; continue; }   // Iteration 49: a child announced its flip

@@ -5695,3 +5695,18 @@ r250 (arm 1: 57). The trade is made at a third of the price and the economy comp
   METHOD 5b's second arm: expected neutral on the mirror (the twin fields no swarm) and 56's gain
   against the swarm bots. Diagnostics on both fixed seeds first: arch_hunt must show the trigger
   and 56's result; Superposition must match the baseline.
+
+## Iteration 56 SPRT stopped at 30-34 (46.9%); Iteration 58 dose 1 to the ladder and the SPRT (2026-09-22 17:40 UTC)
+
+56's gate: 8-8, 3-13, 7-9, 12-4 = 30-34, LLR -1.48, on its way nowhere its 37/48 ladder could
+redeem; stopped so the last day's VM time goes to the conditional form. 58's two doses on the
+fixed seeds, one game each: dose 1 (3 muckrakers at once, 50 rounds) lost to arch_hunt on votes
+at r1500 (baseline: annihilated r816; 56: won r726) and **held 6 centres to 2 on the Superposition
+mirror seed where the baseline held 1 to 7**, losing 677-698 on votes; dose 2 (2 at once, 100
+rounds) was annihilated by arch_hunt at r746 and lost the mirror on votes. Both doses bought far
+fewer 15-guards than 56 (86-104 to 259) -- the patrol spreads its muckrakers, so few are in one
+centre's sensor at once -- and single games on these seeds are noisy. **Dose 1 is the hedge**:
+cheap guards only under a real swarm, g_iter12 everywhere else. `src/bot` = 58 dose 1; ladder
+block and SPRT vs g_iter12 run together (`gauntlet/ladder-i58.log`, `gauntlet/sprt-i58.log`).
+Counters: `swarm=`/`swarmGuards=`, guard cost distribution, strong-bot record (56: 5/12 with
+awesomelemonade 3/6).

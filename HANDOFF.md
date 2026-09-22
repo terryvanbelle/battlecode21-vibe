@@ -78,8 +78,9 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   the real bot's behaviour is unchanged; `arch_lemon` = hunt + sized attacks is built from it). **The next mirror gate plays `REF=g_iter13`.** Regression
   (six archetypes including `arch_hunt`) in flight: `gauntlet/regress-i58.log`.
 - Iteration 56 (unconditional cheap guards): 37/48, gate stopped 30-34. 57 (interceptors):
-  negative. Branches `iter56`..`iter58` keep the code. `arch_hunt` (ARCHETYPE 6) is the
-  sparring partner that reproduces the rzhan11 collapse; it is in the regression set.
+  negative. Branches `iter56`..`iter58` keep the code. `arch_hunt` (ARCHETYPE 6) reproduces the
+  rzhan11 collapse and `arch_lemon` (ARCHETYPE 7, hunt + target-sized attacks) reproduces
+  awesomelemonade's annihilations (0 to 8 centres by r500 on Arena); both are in the regression set.
 - Previous submission, for reference:
   `g_iter12` = g_iter11 + Iteration 49 (flip intent, presume, abort report,
   stamped ownership claims) + Iteration 50 (bid while saving, vote-estimate init at birth,

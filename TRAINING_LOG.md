@@ -5781,3 +5781,14 @@ Fifth block: rzhan11 1/6, awesomelemonade 2/6, Scott-Poole 4/6, iliao2345 5/6, t
 Five blocks, 240 games: **awesomelemonade 11/30 (37%), rzhan11 16/30 (53%)**, the six we beat
 160/180 (89%). Against g_iter12's 96 (33% / 42% / 94%) the swarm-bot gain holds at 240 games and
 the cost against the six is about five points. Ladder after recording: 960 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1722, 960 games; 
+
+## `arch_lemon` built: the hunt plus target-sized attacks, and it reproduces awesomelemonade (2026-09-22 23:30 UTC)
+
+`arch_lemon` (ARCHETYPE 7) = `arch_hunt`'s hunter stream and patrol + Iteration 53's target-aware
+attack (enemy centres priced by their last sighted influence, cheapest first, claimed per target),
+merged into `src/bot` as archetype-only code (`ATTACK=0` for the real bot). Against the current
+bot on Arena: even at r250 (3 centres to 4, 34 v 52 slanderers), then **0 centres to 8 by r500**
+-- 39 of our slanderers exposed and 10 centres taken by 32 sized attacks in r250-500 -- and a
+750-vote finish. That is the shape of every one of the twelve losses to awesomelemonade in the
+ladder. Both partners now exist: `arch_hunt` for rzhan11's collapse (g_iter13 5/8), `arch_lemon`
+for awesomelemonade's (g_iter13 0/1 so far). Both belong in the regression set.

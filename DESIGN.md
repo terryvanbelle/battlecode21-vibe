@@ -73,10 +73,18 @@ Message types (initial set; extend in `Comms`):
 | 4 ENEMY_UNIT | loc, type (2 bits) | any unit -> EC -> defenders |
 | 5 ORDER | target loc, role (3 bits) | EC -> its units |
 | 6 STATUS | EC's own influence bucket, symmetry known (2 bits) | EC -> its units |
+| 7 OWN_EC | loc, **sighting stamp** (round/32, 6 bits) | anyone -> centres |
+| 8 OWN_EC_ID | robot id of a friendly centre (20 bits) | scout -> centres (so they read each other's flags) |
+| 9 FLIP_INTENT | loc of the centre a capturer is about to flip | capturer -> its centre (read by ECs only) |
+| 10 ENEMY_EC_ECHO | loc, sighting stamp | relayed knowledge; type 1 is reserved for a sighting and carries the bucket |
 
 An EC reads the flags of the units it built (it knows their IDs) each round,
 within a bytecode budget, and re-broadcasts the most useful fact on its own
-flag, which every unit can read for 5 bytecodes.
+flag, which every unit can read for 5 bytecodes. Since Iteration 50 the budget
+is explicit: capture-role children are read every turn (a FLIP_INTENT lives one
+round), the rest round-robin, siblings and sensed neighbours on the centre's
+off-turn (it builds every other round), each flag value absorbed once per turn.
+`@bcprof` logs the stage bytecodes of a turn that passes 15k.
 
 **Timing rule.** A robot built in round N takes its first turn in round N+1
 (the engine iterates a snapshot of the spawn order), so an ORDER for a
@@ -88,7 +96,9 @@ sighting on even rounds, so a fact found once is still delivered.
 ## Map knowledge (`MapState`)
 
 Each robot keeps: known bounds (min/max x/y, `-1` when unknown), its home EC
-location, the list of known enemy and neutral ECs, and a 3-bit symmetry
+location, the list of known enemy and neutral ECs **with the stamp of the
+sighting behind each ownership claim** (`claimEnemy`/`claimOwn`: the newer claim
+wins whoever relays it; a tile we own is never neutral again), and a 3-bit symmetry
 hypothesis set {rotation, mirror-x, mirror-y}. A hypothesis is eliminated when
 a sensed tile's passability contradicts the remembered passability of its
 image, or when a known EC's image is observed to be empty. Once one hypothesis

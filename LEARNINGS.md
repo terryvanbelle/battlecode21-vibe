@@ -39,6 +39,30 @@ session. A lesson without a measurement is a belief -- mark it as such.
   engine changes `type` in place and no new `RobotPlayer.run` is started, so
   the slanderer code must notice `rc.getType() == POLITICIAN` and hand over.
   (Observed: `@camo` lines from our own slanderer controller.)
+- **A centre acts every other round** (`ENLIGHTENMENT_CENTER` action cooldown 2): at most ~750
+  builds a game per centre, so a 1-influence muckraker costs a build slot, not influence, and a
+  swarm of 130 by r200 is a third of two centres' slots. Politicians cooldown 1, muckrakers 1.5,
+  slanderers 2.
+- **A centre can read ANY friendly robot's flag by id** (`assertCanGetFlag` exempts ECs), and
+  robots act in id order, so a centre reads what a child set last round *before* that child acts
+  this round. That is the whole basis of the hand-off: a capturer announces its flip the turn it
+  lands adjacent and home hears it before the speech that kills the messenger.
+- **A robot over its bytecode budget loses whole rounds, silently.** The turn spills into the
+  next round(s); `doBid` and `build` simply do not run. Iteration 49's extra reads put the home
+  centre at 20k and it lost 213-404 rounds a game while the incumbent lost 0-19 -- fixes worth
+  +10% gated at 53% until profiled (`@bcprof`) and cut. Read `@bc ... over=` for every centre in
+  every logged game.
+- **Slanderer income per round is `I x (1/50 + 0.03 e^(-0.001 I))`** for 50 rounds: a 41 returns
+  2.4x, a 463 returns 1.9x, a 1000 returns 1.55x. **The expose buff is `1 + 0.001 x` the influence
+  of enemy slanderers exposed in the last 50 rounds**, on every politician of the exposing team; it
+  reached 6.3x in one loss and drained a 3,500-influence centre in nineteen speeches.
+- **A speech is split equally over every unit in its radius, EC included** -- friendly units
+  too -- so bodies around a centre dilute an attacker, and 1-influence muckrakers around a target
+  dilute a capturer. **A converted centre's influence is the overshoot** of the flipping share,
+  and **conversion restarts the player code** (a fresh instance for the new team), so every
+  counter in a captured or retaken centre starts at zero.
+- **The team's bid is its single highest centre bid** (`GameWorld`: max per team; the losing team
+  pays half). One silent centre is harmless; all silent is the vote race lost.
 - **Bytecode headroom is real but not free**: v1's politician speech
   evaluation (6 radii x all sensed robots) hit 14.2k of 15k on a crowded map;
   caching distances once brought it down. Measure with `--bytecode` on every run.
@@ -96,6 +120,29 @@ against the previous accepted build unless stated otherwise.
 - **Slanderers pay back ~2.3x in 50 rounds and become politicians at 300**, so a
   steady stream is both the economy and a free army. The army half is now
   measured: it is why removing wasteful capturers *hurt*.
+- **Knowledge must carry a timestamp.** A centre that changed hands ping-ponged between stale
+  echoes for the rest of the game (520 politicians sent at a centre already ours); refusing
+  echoes instead threw away the sightings a sibling's scouts relayed (home knew no enemy centre
+  for 1,200 rounds). Every ownership claim now carries the round of the sighting behind it and
+  the newer claim wins whoever relays it (Iteration 49, `MapState.claimEnemy/claimOwn`).
+- **A mechanism that paid when knowledge was poor can stall once knowledge is good.** Save mode
+  (Iteration 22) bought an early centre when a centre rarely knew a neutral before r100; with
+  the repaired channel a centre knew one by r50 and froze at two slanderers for 20-187 rounds to
+  buy it, while the chain without it built 1,072 influence of slanderers and captured the same
+  centre nine rounds later from income. Off since Iteration 51.
+- **A fresh capture is an empty shell.** In eight losses we gained 72 centres and lost 60, 34 of
+  them within 100 rounds: a centre priced at neutral+14 is born with ~4 and spends it on its first
+  slanderer. Neither a 60-point floor nor four diagonal sentinels (3x dilution) held them against
+  awesomelemonade, whose attackers are **sized to the target** (130-500 conviction, overshoots
+  of 9-23). All twelve losses to that bot in three blocks are annihilations.
+- **A young centre that stops bidding loses the vote race for the team.** `enemyVotesEst` (the
+  "safe without bidding" bound) started at zero in every centre's fresh instance; seven young
+  centres sat on 136k of influence at 663-390 ahead and placed no bid for 300 rounds. Initialised
+  at birth to `round - teamVotes` since Iteration 50.
+- **The mirror and the ladder disagree by design.** Repairs to knowledge, bidding and stalls gated
+  at 53-55% against a twin that shares every other line, then took the ladder from 38/48 to 40/48
+  and the Elo from 1752 to 1798; a board-strength candidate (sentinels) beat the fixed-seed
+  baseline 5 centres to 1 and still lost that mirror on votes to a hoarder.
 - **Coverage is the earliest honest predictor of the result** (onset r150,
   rising to +0.58), ahead of centres (r400) and centre influence (r350). But
   scouts sweeping more **did not** win games (51.7% over 240): coverage marks a

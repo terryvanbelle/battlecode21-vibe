@@ -269,6 +269,20 @@ checking they fail.
   the next batch. Kill the script.
 - **`git checkout` will not revert a change you already committed.** Restore
   from the snapshot directory instead, and diff against it to confirm.
+- **Never read a running batch as a result.** Games that end by capture finish first
+  and games that go the distance finish last, so a batch's early tally is its losses
+  (or, against opponents who annihilate, its wins). A 0-5 read mid-batch that ended
+  11-5 cost a voided batch and a resumed gate (`mirror.sh` now takes `W0`/`L0`).
+- **The dev runner's engine seed is fixed**, so `run-dev.sh` replays the same game
+  until the code changes it: every diagnostic rerun is like-for-like, and a baseline
+  run of the incumbent on the same seed is what an arm is read against -- on one
+  seed the incumbent itself ends 1 centre to 7, and the arms only make sense relative
+  to that.
+- **Check `@bc ... over=` for every centre before trusting a candidate.** A centre
+  over its bytecode budget loses rounds silently and gates at 53% no matter what
+  the change was worth.
+- **The VM disk fills**: a gate keeps every loss at 4-8 MB; prune run directories
+  once their study is fetched, and check `df` before launching.
 - **Measure before optimising.** We wrote a cost-aware pathfinder because
   passability makes movement expensive, then measured: our units averaged
   86 moves each against the opponent's 84, and we already stepped onto bad

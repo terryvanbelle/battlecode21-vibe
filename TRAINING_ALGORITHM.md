@@ -563,7 +563,8 @@ our own units running over the limit.
 
 1. `tools/snapshot.sh g_iterN` -- the snapshot becomes the SPRT's new incumbent.
 2. Archetype regression: `BOT=bot OPPONENTS="arch_muck arch_bidder arch_polrush
-   arch_big arch_expand" MAPS="maptestsmall Arena Maze Gridlock" tools/gauntlet.sh`.
+   arch_big arch_expand arch_hunt" MAPS="maptestsmall Arena Maze Gridlock" tools/gauntlet.sh`
+   (`arch_hunt` is the only partner that beat `g_iter12`; a drop against it is a real signal).
 3. Ladder block: `BOT=bot N=48 tools/scrim.sh`, then `tools/vm-collect.sh <run>`,
    `tools/scrim-record.py <run-dir> --label g_iterN`, `tools/elo.py`.
 4. `tools/bench-roster.py` -- re-tiers every opponent in `BENCHMARK.md` from the

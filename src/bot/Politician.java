@@ -64,7 +64,7 @@ public strictfp class Politician extends Robot {
                 RobotInfo r = cand[i];
                 if (r.team == us) { if (r.type != RobotType.ENLIGHTENMENT_CENTER) v -= share * 0.5; continue; }   // friendly units: mostly wasted (capped)
                 if (r.type == RobotType.ENLIGHTENMENT_CENTER) { if (share > r.conviction) v += r.influence + 60; else v += share * 0.2; continue; }
-                if (share > r.conviction) v += (r.type == RobotType.MUCKRAKER ? 25 : r.type == RobotType.SLANDERER ? 40 : 15) + r.influence * 0.5;
+                if (share > r.conviction) v += (r.type == RobotType.MUCKRAKER ? (threatens(r) ? 25 : C.MUCK_IDLE_VALUE) : r.type == RobotType.SLANDERER ? 40 : 15) + r.influence * 0.5;   // Iteration 56
                 else v += share * 0.1;
             }
             if (v > bestV) { bestV = v; bestR = r2; }
@@ -72,6 +72,12 @@ public strictfp class Politician extends Robot {
         return bestR;
     }
     private final RobotInfo[] cand = new RobotInfo[64];
+    /** Iteration 56: is this enemy muckraker about to expose one of our slanderers or block a centre's spawn tile? */
+    private boolean threatens(RobotInfo m) {
+        if (MapState.home != null && m.location.distanceSquaredTo(MapState.home) <= C.THREAT_EC_D2) return true;
+        for (int i = nFriend; --i >= 0;) { RobotInfo f = friends[i]; if ((f.type == RobotType.SLANDERER || f.type == RobotType.ENLIGHTENMENT_CENTER) && m.location.distanceSquaredTo(f.location) <= (f.type == RobotType.SLANDERER ? C.THREAT_SLA_D2 : C.THREAT_EC_D2)) return true; }
+        return false;
+    }
 
     // ---------------------------------------------------------------- roles
     private void guard() throws GameActionException {

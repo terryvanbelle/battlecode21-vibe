@@ -127,6 +127,15 @@ public final class C {
     // child list compacted only on a death, each flag value absorbed once a turn, and sibling/neighbour reads
     // moved to the off-turn (the centre builds every other round).
     public static final int OFFTURN_READS = 1;          // 0 = read every turn (Iteration 49)
+    // Iteration 56 (do not trade a guard for a wandering muckraker): against arch_hunt on Arena (and rzhan11 in the
+    // ladder) we built 108 politicians in the first 250 rounds and their 1-influence muckrakers died by the
+    // hundred -- each death one of our guards spent in a speech. The flat speech bar (Iteration 47) values any
+    // muckraker kill at 25, so a lone wanderer six tiles from anything is worth a 20-60 guard. A muckraker is
+    // worth killing when it threatens something: a slanderer of ours within THREAT_SLA_D2 or a centre within
+    // THREAT_EC_D2 of it. Otherwise its kill is worth MUCK_IDLE_VALUE, below the bar on its own.
+    public static final int MUCK_IDLE_VALUE = 5;        // 25 = g_iter12 (every muckraker worth a speech)
+    public static final int THREAT_SLA_D2 = 20;         // a muckraker this close to one of our slanderers is about to expose it (expose range 12)
+    public static final int THREAT_EC_D2 = 9;           // ... or this close to a centre (it blocks a spawn tile)
     public static final int SAVE_MAX_WAIT = 80;         // give up after this many waiting rounds (0 = never)
     // (b) Home never learns that a centre it targeted became ours: the capturer dies in the flip and nobody
     //     else was there. HexesAndOhms: heardOwn=0 for 100 rounds after the r97 flip, nine 165-influence

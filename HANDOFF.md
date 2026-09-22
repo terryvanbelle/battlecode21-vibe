@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-22 14:10 UTC)
+# Handoff -- the state of the loop (updated 2026-09-22 15:50 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -71,6 +71,11 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
   survival was never tested because no sparring partner reproduces the hunt (`arch_muck`
   exposed 2 in 250 rounds). **First build `arch_hunt`** (muckrakers that chase slanderers,
   competitive), then test slanderer placement and cheap muckraker-killing guards against it.
+- **In flight: Iteration 56 ladder block** (`gauntlet/ladder-i56.log`): `src/bot` = g_iter12 +
+  `GUARD_MUCK_COST=15` (cheap guards while only muckrakers are in sensor range). Against the new
+  `arch_hunt` sparring partner it turns an r816 annihilation into an r726 win (TRAINING_LOG
+  2026-09-22 15:30). Read the block against 77/96; SPRT vs g_iter12 next. `arch_hunt`
+  (ARCHETYPE 6) belongs in the regression set from now on.
 - **Submission: `g_iter12`** = g_iter11 + Iteration 49 (flip intent, presume, abort report,
   stamped ownership claims) + Iteration 50 (bid while saving, vote-estimate init at birth,
   bytecode cuts) + Iteration 51 (save mode off). Snapshotted 2026-09-22 on combined evidence:

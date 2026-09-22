@@ -5767,3 +5767,10 @@ cap: the mirror sees nothing, as the hedge intended. Ladder after recording: 864
 mirror, which fields no swarm, cannot see this change, and 49.6% is the neutrality METHOD 5b asks
 for before the ladder is allowed to decide. The ladder did: swarm bots 9/24 -> 21/36. `g_iter13`
 stands.
+
+## `g_iter13` fourth ladder block: 37/48; four blocks 151/192 (78.6%) (2026-09-22 22:05 UTC)
+
+Fourth block: awesomelemonade **0/6**, rzhan11 3/6, iliao2345 4/6, the rest 6/6. Six-game samples
+against one bot swing from 0 to 5; the four-block totals are the number to read: **awesomelemonade
+9/24 (37.5%), rzhan11 15/24 (62.5%)**, the six we beat 127/144 (88%). Against g_iter12's 96:
+awesomelemonade 33%, rzhan11 42%, the six 94%. Ladder after recording: 912 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 2 of 21 rated bots, Elo 1738, 912 games; 

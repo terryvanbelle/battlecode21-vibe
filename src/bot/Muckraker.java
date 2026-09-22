@@ -15,11 +15,8 @@ public strictfp class Muckraker extends Robot {
 
     Muckraker(RobotController rc) { super(rc); }
 
-    private MapLocation post = null;   // Iteration 52: a sentinel's diagonal tile
     @Override protected void init() throws GameActionException {
         super.init();
-        int f = readHome();
-        if (f >= 0 && Comms.type(f) == Comms.ORDER && Comms.extra(f) == Roles.SENTINEL) { post = Comms.loc(f, loc); Debug.log("@sentinel post=" + (post.x - loc.x) + "," + (post.y - loc.y)); }
         // heading: away from home through our spawn tile
         heading = MapState.home != null ? MapState.home.directionTo(loc) : DIRS[nextInt(8)];
         if (heading == Direction.CENTER) heading = DIRS[nextInt(8)];
@@ -46,13 +43,6 @@ public strictfp class Muckraker extends Robot {
         else setFlag(cycleFacts());
 
         if (!rc.isReady()) return;
-        if (post != null) {   // Iteration 52: hold the post; expose what comes in range, never leave
-            RobotInfo v = null;
-            for (int i = nEnemy; --i >= 0;) { RobotInfo r = enemies[i]; if (r.type == RobotType.SLANDERER && loc.distanceSquaredTo(r.location) <= 12 && (v == null || r.influence > v.influence)) v = r; }
-            if (v != null && rc.canExpose(v.ID)) { rc.expose(v.ID); return; }
-            if (!loc.equals(post)) { nav.setTarget(post); nav.step(); }
-            return;
-        }
         // expose the most valuable slanderer in range
         RobotInfo best = null;
         for (int i = nEnemy; --i >= 0;) { RobotInfo r = enemies[i]; if (r.type == RobotType.SLANDERER && loc.distanceSquaredTo(r.location) <= 12 && (best == null || r.influence > best.influence)) best = r; }

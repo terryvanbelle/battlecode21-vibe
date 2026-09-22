@@ -5514,3 +5514,13 @@ losses lacked and what the opponents that beat us punish. 48 games on the fixed 
 (`gauntlet/ladder-i52.log`), read against g_iter12's 40/48: strong-bot record (5/12) and captures
 lost within 100 rounds (34 of 60 in losses) are the pre-registered counters; the SPRT vs g_iter12
 follows if the block earns it, and a worse block reverts `src/bot` to `src/g_iter12`.
+
+## Iteration 52 REJECTED at the ladder block: 38/48 (79.2%), counter unchanged (2026-09-22 10:15 UTC)
+
+Against g_iter12's 40/48 on the same field: awesomelemonade 2/6 (same), rzhan11 3/6 (same),
+max-titov 6/6 -> 4/6, the rest as before. The pre-registered counter did not move: in the ten
+losses we gained 85 centres, lost 63, **35 within 100 rounds of taking them** (g_iter12's block:
+72 / 60 / 34). Sentinels and the floor changed nothing about how the external bots retake our
+centres; the mirror gain (5 centres to 3 on the fixed seed) did not carry. Null, not
+reinterpreted: `src/bot` reverted to `src/g_iter12`. The 48 games are recorded as
+`iter52-rejected` (they are our games and count for the ladder): 624 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 2 of 21 rated bots, Elo 1766, 624 games; 45 bots not yet met.

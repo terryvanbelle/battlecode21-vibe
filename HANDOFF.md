@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-22 10:30 UTC)
+# Handoff -- the state of the loop (updated 2026-09-22 10:15 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -57,9 +57,9 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
 
 ## State right now (2026-09-21 22:45 UTC)
 
-- **In flight: Iteration 52 ladder block** (`gauntlet/ladder-i52.log`; `src/bot` = g_iter12 +
-  sentinels/floor/capture bank, TRAINING_LOG 2026-09-22 10:30). Read it against 40/48; SPRT
-  vs g_iter12 if it earns it, else revert `src/bot` from `src/g_iter12`.
+- Iteration 52 (sentinels on the diagonals, proportional floor, capture bank 110) **rejected at
+  the ladder block, 38/48**, counter unchanged (35 of 63 captures lost within 100 rounds). The
+  branch `iter52` keeps the code. `src/bot` = `g_iter12` again.
 - **Submission: `g_iter12`** = g_iter11 + Iteration 49 (flip intent, presume, abort report,
   stamped ownership claims) + Iteration 50 (bid while saving, vote-estimate init at birth,
   bytecode cuts) + Iteration 51 (save mode off). Snapshotted 2026-09-22 on combined evidence:

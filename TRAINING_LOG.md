@@ -5831,3 +5831,16 @@ Ladder block and SPRT vs `g_iter13` run together (`gauntlet/ladder-i60.log`, `ga
 Decision rule as for 58 (METHOD 5b): mirror not clearly below 50%, and the strong-bot record above
 g_iter13's 27/60 (45%) over the blocks played, else revert `src/bot` to `src/g_iter13`. The 13:00 UTC
 shutdown applies the rule to whatever has finished.
+
+## Iteration 60 REJECTED early: SPRT 2-14 in batch 1, ladder 19-13 at 32 of 48 (2026-09-23 00:35 UTC)
+
+Both instruments said the same thing at once -- 12.5% in the first mirror batch, and thirteen
+ladder losses before the long games had even finished (no g_iter13 block lost more than twelve in
+total) -- so both runs were stopped and voided rather than played out. The fixed-seed wins against
+`arch_lemon` and `arch_hunt` were real and did not carry: guards among the slanderers with a
+threat-only bar lose to everything that is not a swarm. `src/bot` reverted to g_iter13 (+ the
+archetype scaffolding); `iter60` keeps the code.
+
+**Candidate work ends here.** Six arms since g_iter13 (52-57 before it, 59-60 after): the
+sparring partners now reproduce both strong opponents, and the next competitor should start
+from them, not from another constant.

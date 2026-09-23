@@ -959,3 +959,51 @@ run,seq,teamA,teamB,map,winner,rounds,reason
 20260922-220131-scrim-bot,46,rzhan11.sprint2,us:g_iter13,Gridlock,A,803,The winning team won by annihilating the
 20260922-220131-scrim-bot,47,rzhan11.sprint2,us:g_iter13,MainCampus,B,1055,The winning team won by annihilating the
 20260922-220131-scrim-bot,48,rzhan11.sprint2,us:g_iter13,Maze,A,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,1,us:iter62,123kevinlee.atomFinalQualifier,CowTwister,A,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,2,us:iter62,123kevinlee.atomFinalQualifier,Misdirection,A,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,3,us:iter62,123kevinlee.atomFinalQualifier,OneCallAway,A,1234,The winning team won by annihilating the
+20260923-020156-scrim-bot,4,us:iter62,123kevinlee.atomFinalQualifier,Snowflake,A,601,The winning team won by annihilating the
+20260923-020156-scrim-bot,5,us:iter62,123kevinlee.atomFinalQualifier,Tiger,A,1492,The winning team won by annihilating the
+20260923-020156-scrim-bot,6,123kevinlee.atomFinalQualifier,us:iter62,Tiger,B,1490,The winning team won by annihilating the
+20260923-020156-scrim-bot,7,Scott-Poole.spright8,us:iter62,CToE,B,532,The winning team won by annihilating the
+20260923-020156-scrim-bot,8,Scott-Poole.spright8,us:iter62,Corridor,B,644,The winning team won by annihilating the
+20260923-020156-scrim-bot,9,us:iter62,Scott-Poole.spright8,Punctuation,A,1296,The winning team won by annihilating the
+20260923-020156-scrim-bot,10,Scott-Poole.spright8,us:iter62,Sediment,B,847,The winning team won by annihilating the
+20260923-020156-scrim-bot,11,us:iter62,Scott-Poole.spright8,Smile,B,714,The winning team won by annihilating the
+20260923-020156-scrim-bot,12,us:iter62,Scott-Poole.spright8,Z,A,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,13,us:iter62,arya-k.quals_v1,CToE,A,525,The winning team won by annihilating the
+20260923-020156-scrim-bot,14,arya-k.quals_v1,us:iter62,FiveOfHearts,B,584,The winning team won by annihilating the
+20260923-020156-scrim-bot,15,arya-k.quals_v1,us:iter62,Gridlock,B,919,The winning team won by annihilating the
+20260923-020156-scrim-bot,16,us:iter62,arya-k.quals_v1,Misdirection,A,967,The winning team won by annihilating the
+20260923-020156-scrim-bot,17,us:iter62,arya-k.quals_v1,OneCallAway,A,299,The winning team won by annihilating the
+20260923-020156-scrim-bot,18,arya-k.quals_v1,us:iter62,TheSnackThatSmilesBack,B,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,19,awesomelemonade.sprint1bot,us:iter62,BattleCode,A,905,The winning team won by annihilating the
+20260923-020156-scrim-bot,20,awesomelemonade.sprint1bot,us:iter62,CringyAsF,A,621,The winning team won by annihilating the
+20260923-020156-scrim-bot,21,awesomelemonade.sprint1bot,us:iter62,CringyAsF,A,621,The winning team won by annihilating the
+20260923-020156-scrim-bot,22,awesomelemonade.sprint1bot,us:iter62,Stonks,A,1494,The winning team won by annihilating the
+20260923-020156-scrim-bot,23,awesomelemonade.sprint1bot,us:iter62,Surprised,B,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,24,awesomelemonade.sprint1bot,us:iter62,circle,A,742,The winning team won by annihilating the
+20260923-020156-scrim-bot,25,us:iter62,iliao2345.attacker,Goldfish,B,1320,The winning team won by annihilating the
+20260923-020156-scrim-bot,26,iliao2345.attacker,us:iter62,HappyBoba,B,925,The winning team won by annihilating the
+20260923-020156-scrim-bot,27,us:iter62,iliao2345.attacker,Licc,A,1188,The winning team won by annihilating the
+20260923-020156-scrim-bot,28,iliao2345.attacker,us:iter62,Rainbow,B,946,The winning team won by annihilating the
+20260923-020156-scrim-bot,29,iliao2345.attacker,us:iter62,Surprised,A,1334,The winning team won by annihilating the
+20260923-020156-scrim-bot,30,iliao2345.attacker,us:iter62,Tiger,B,1024,The winning team won by annihilating the
+20260923-020156-scrim-bot,31,us:iter62,jmerle.camel_case_v7_sprint_2,Bog,A,324,The winning team won by annihilating the
+20260923-020156-scrim-bot,32,us:iter62,jmerle.camel_case_v7_sprint_2,Illusion,A,944,The winning team won by annihilating the
+20260923-020156-scrim-bot,33,jmerle.camel_case_v7_sprint_2,us:iter62,Legends,B,752,The winning team won by annihilating the
+20260923-020156-scrim-bot,34,jmerle.camel_case_v7_sprint_2,us:iter62,MainCampus,B,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,35,us:iter62,jmerle.camel_case_v7_sprint_2,TheClientMapEditorIsSuperiorToGoogleSheetsEom,A,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,36,jmerle.camel_case_v7_sprint_2,us:iter62,maptestsmall,B,223,The winning team won by annihilating the
+20260923-020156-scrim-bot,37,max-titov.sprintplayer,us:iter62,Hourglass,B,1001,The winning team won by annihilating the
+20260923-020156-scrim-bot,38,us:iter62,max-titov.sprintplayer,NextHouse,A,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,39,max-titov.sprintplayer,us:iter62,Punctuation,B,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,40,us:iter62,max-titov.sprintplayer,Stonks,A,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,41,us:iter62,max-titov.sprintplayer,VideoGames,A,937,The winning team won by annihilating the
+20260923-020156-scrim-bot,42,max-titov.sprintplayer,us:iter62,Zodiac,B,360,The winning team won by annihilating the
+20260923-020156-scrim-bot,43,rzhan11.sprint2,us:iter62,Arena,A,852,The winning team won by annihilating the
+20260923-020156-scrim-bot,44,us:iter62,rzhan11.sprint2,HexesAndOhms,B,586,The winning team won by annihilating the
+20260923-020156-scrim-bot,45,rzhan11.sprint2,us:iter62,Hourglass,B,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,46,us:iter62,rzhan11.sprint2,JerryIsEvil,A,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,47,us:iter62,rzhan11.sprint2,Mario,A,1500,The winning team won by having more vote
+20260923-020156-scrim-bot,48,rzhan11.sprint2,us:iter62,UnbrandedWordGame,A,1364,The winning team won by annihilating the

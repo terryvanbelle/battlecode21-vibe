@@ -5871,3 +5871,13 @@ PRE-REGISTERED: ladder block and SPRT vs `g_iter13` together (`gauntlet/ladder-i
 g_iter13's blocks: 0-14 by r400), the strong-bot record (g_iter13: 27/60), and the mirror
 record. Rule as before: a mirror not clearly below 50% and a better strong-bot record accepts;
 an SPRT ACCEPT accepts outright; otherwise revert to `src/g_iter13`.
+
+## Iteration 62 ladder block: 37/48, strong bots 4/12; SPRT 7-9 after one batch (2026-09-23 03:15 UTC)
+
+awesomelemonade 1/6, rzhan11 3/6, iliao2345 4/6, Scott-Poole 5/6, the rest 6/6. Strong-bot
+record 4/12 (33%) against g_iter13's 27/60 (45%): the patrol that beat `arch_hunt` on its seed
+does not carry to the swarm bots on the ladder -- 35 of the 48 games ended by annihilation, 13 by
+votes (g_iter13's blocks: 22-28 annihilations). The gate runs two or three more batches; unless
+it is clearly above 55% by then, 62 reverts. (The first launch of these runs was `g_iter13`
+against itself -- the branch had not merged -- and was voided after minutes; see HANDOFF.)
+Ladder after recording: 1008 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1757, 1008 games

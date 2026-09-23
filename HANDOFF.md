@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-23 00:40 UTC)
+# Handoff -- the state of the loop (updated 2026-09-23 03:05 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -74,6 +74,10 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
 - Iteration 60 (guards among the slanderers, threat-only bar) **rejected early**: SPRT 2-14 in
   its first batch and a 19-13 partial ladder; both voided. `iter60` keeps the code. **The VM is
   idle; candidate work is closed.**
+- **In flight: Iteration 62** (`src/bot` = g_iter13 + `HUNT_PATROL=1`: the one-in-four camping
+  scouts patrol the ring around the enemy centre; wins the arch_hunt seed and the mirror seed,
+  TRAINING_LOG 2026-09-23 02:20): ladder `gauntlet/ladder-i62.log`, SPRT `gauntlet/sprt-i62.log`.
+  Decide by the 5b rule; revert to `src/g_iter13` otherwise. 61 (attack on) null.
 - **Submission: `g_iter13`** = g_iter12 + cheap guards under a swarm (`GUARD_MUCK_COST=15`,
   `SWARM_MUCKS=3`, `SWARM_MEMORY=50`; Iteration 58). Accepted under METHOD 5b: two ladder blocks
   78/96 with **rzhan11 9/12** (g_iter12: 77/96, rzhan11 5/12) and a neutral mirror (final **119-121 over 240**, `gauntlet/sprt-i58-final.log`). `src/bot` = `g_iter13` plus archetype-only

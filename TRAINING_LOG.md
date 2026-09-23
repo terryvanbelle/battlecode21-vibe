@@ -5857,3 +5857,17 @@ read on the three fixed seeds first.
 - **Iteration 62, the camping scouts patrol the ring around the enemy centre instead**
   (`iter62`, `HUNT_PATROL=1`; arch_hunt's behaviour for the one-in-four scouts that used to sit
   beside the enemy centre): diagnostics running.
+
+**Iteration 62 on the three seeds** -- the first arm to win the mirror seed:
+
+| seed | g_iter13 | **Iteration 62** |
+|---|---|---|
+| Arena vs `arch_hunt` | lost on votes | **annihilates it at r937** (19 exposures of theirs by r800, 5 centres to 3) |
+| Arena vs `arch_lemon` | annihilated by r500 | lost on votes at r1500 (1 centre at r500) |
+| Superposition mirror vs g_iter13 | B wins on votes (1 to 7) | **wins on votes at r1500** |
+
+PRE-REGISTERED: ladder block and SPRT vs `g_iter13` together (`gauntlet/ladder-i62.log`,
+`gauntlet/sprt-i62.log`). Counters: our exposures of their slanderers (`us_exp` in the study;
+g_iter13's blocks: 0-14 by r400), the strong-bot record (g_iter13: 27/60), and the mirror
+record. Rule as before: a mirror not clearly below 50% and a better strong-bot record accepts;
+an SPRT ACCEPT accepts outright; otherwise revert to `src/g_iter13`.

@@ -62,9 +62,13 @@ public final class C {
     // game, while the strong opponents field 22 muckrakers at r100 and 48 at r200. In losses we see
     // less than half the map they do at r200 (145 tiles to 338) and hold one centre to their four.
     // Muckrakers cost 1 influence, so the price of this is the build action, not the economy.
-    public static final int SCOUT_BASE = 8;             // dose 1 (was 3)
-    public static final int SCOUT_PER_ROUND = 40;       // plus round/this (was round/300)
-    public static final int SCOUT_MAX = 40;             // absolute ceiling
+    // Iteration 63 (a re-test, METHOD 6): on 144 games of g_iter13 the earliest r200 correlates of a win are the
+    // coverage lead (+0.49 within pairs; losses trail by 107 tiles) and the muckraker-count lead (+0.47; -20).
+    // Iteration 38 doubled the scouts in the g_iter6 era and got 51.7%; the bot has changed under it since
+    // (swarm-priced guards, working knowledge). Dose: base 8 -> 16, one more scout every 20 rounds, cap 60.
+    public static final int SCOUT_BASE = 16;            // Iteration 63 (dose 1 was 8; the original 3)
+    public static final int SCOUT_PER_ROUND = 20;       // plus round/this (was 40; the original 300)
+    public static final int SCOUT_MAX = 60;             // absolute ceiling (was 40)
     // Iteration 37: the cap on capture politicians in flight. Pinned at 2 from r150 to r300 while five
     // real centres were known and 2,905-14,145 influence sat banked -- ten capturers' worth. The 2 -> 4
     // test was rejected 120-120 before, but that ran with the guard sink (no money) and the stale neutral

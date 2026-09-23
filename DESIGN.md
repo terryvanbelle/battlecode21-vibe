@@ -125,9 +125,13 @@ upgrade once the greedy step's failure modes are measured.
   `build()` is a single ordered if/else chain and **the order is the strategy**.
   Reading it top to bottom is the fastest way to understand what the bot does:
   the opening slanderer before the scouts; early scouts; a guard when something
-  threatening is in sensor range; saving mode, which banks for the first neutral
-  capture; an affordable neutral capture; an attack on the enemy centre; the
-  economy up to `MAX_SLANDERERS`; standing guards; more scouts; and finally the
+  threatening is in sensor range; (saving mode, which banked for the first neutral
+  capture, is off since Iteration 51: with a working channel it froze the economy);
+  an affordable neutral capture, priced cheapest-first and claimed per target;
+  an attack on the enemy centre; the economy up to `MAX_SLANDERERS`; standing
+  guards, bought at 15 while a muckraker swarm is present and no enemy
+  politician is in range (`GUARD_MUCK_COST`, `SWARM_MUCKS`), else 20-60; more
+  scouts; and finally the
   spare branch, which spends any surplus -- economy first to
   `SPEND_SLANDERER_CAP`, then guards to `SPEND_GUARD_CAP`, then 1-influence
   bodies. Two gates cut across it: `econDanger`, which stops the economy only
@@ -139,7 +143,10 @@ upgrade once the greedy step's failure modes are measured.
   enemies, flees any detected unit that is not a friendly, returns when safe.
 - **Politician**: guards slanderers (kills muckrakers within action range),
   picks the empower radius that maximises converted value per conviction
-  spent, and, when large enough, captures neutral or enemy ECs.
+  spent, and, when large enough, captures neutral or enemy ECs. A capturer that
+  lands adjacent with a flipping share puts `FLIP_INTENT` on its flag the turn
+  before it speaks; one that arrives to find the centre ours flags `OWN_EC`
+  (stamped) and becomes a guard.
 - **Muckraker**: spreads out (repulsion from other muckrakers), reports ECs and
   edges, exposes slanderers, and blocks enemy EC spawn tiles when nothing better
   is available.

@@ -5894,3 +5894,21 @@ week: a fixed-seed single game is a filter, never a verdict.
 awesomelemonade 0/6, rzhan11 3/6, iliao2345 5/6, the rest 6/6. Six blocks, 288 games:
 **awesomelemonade 11/36 (31%), rzhan11 19/36 (53%)**, the six we beat 195/216 (90%). Ladder after
 recording: 1056 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 2 of 21 rated bots, Elo 1783, 1056 games
+
+## `g_iter13` seventh ladder block: 36/48; the submission's full record (2026-09-23 05:40 UTC)
+
+Seventh block: awesomelemonade 2/6, rzhan11 3/6, Scott-Poole 3/6, iliao2345 4/6, the rest 6/6.
+The g_iter13 code over its seven blocks (the iter58 block is the same code):
+
+    g_iter13 code over 7 blocks: 261/336 (77.7%)
+      awesomelemonade.sprint1bot         13/42 (31%)
+      rzhan11.sprint2                    22/42 (52%)
+      iliao2345.attacker                 29/42 (69%)
+      Scott-Poole.spright8               33/42 (79%)
+      max-titov.sprintplayer             40/42 (95%)
+      123kevinlee.atomFinalQualifier     41/42 (98%)
+      arya-k.quals_v1                    41/42 (98%)
+      jmerle.camel_case_v7_sprint_2      42/42 (100%)
+
+Ladder after recording: 1104 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1760, 1104 games
+Ladder blocks end here; the VM is idle for the 13:00 UTC shutdown.

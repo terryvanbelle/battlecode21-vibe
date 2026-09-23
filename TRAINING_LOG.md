@@ -5970,3 +5970,21 @@ scouts alone (Iteration 38 said the same at 51.7%). Recorded as `iter63-rejected
       jmerle.camel_case_v7_sprint_2      48/48 (100%)
 
 Ladder after recording: 1200 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1771, 1200 games
+
+## `g_iter13` ninth and last ladder block: 36/48; the final record (2026-09-23 11:05 UTC)
+
+awesomelemonade 1/6, rzhan11 1/6, iliao2345 5/6, max-titov 5/6, the rest 6/6. The submission's
+code over nine blocks, 432 games on the fixed field:
+
+    g_iter13 code over 9 blocks: 334/432 (77.3%)
+      awesomelemonade.sprint1bot         18/54 (33%)
+      rzhan11.sprint2                    25/54 (46%)
+      iliao2345.attacker                 37/54 (69%)
+      Scott-Poole.spright8               43/54 (80%)
+      max-titov.sprintplayer             51/54 (94%)
+      123kevinlee.atomFinalQualifier     53/54 (98%)
+      arya-k.quals_v1                    53/54 (98%)
+      jmerle.camel_case_v7_sprint_2      54/54 (100%)
+
+Ladder after recording: 1248 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1742, 1248 games
+No further blocks: the VM is idle for the 13:00 UTC shutdown.

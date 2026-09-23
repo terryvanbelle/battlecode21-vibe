@@ -1,4 +1,4 @@
-# Handoff -- the state of the loop (updated 2026-09-23 05:45 UTC)
+# Handoff -- the state of the loop (updated 2026-09-23 08:05 UTC)
 
 Read `CLAUDE.md`, then `METHOD.md` (how this project measures things, portable
 across years), then this file, then the tail of `TRAINING_LOG.md`.
@@ -77,6 +77,9 @@ across years), then this file, then the tail of `TRAINING_LOG.md`.
 - Iteration 62 (camping scouts patrol the enemy ring) **rejected**: SPRT 20-28, ladder strong
   bots 4/12. Iteration 61 (attack on) null. Branches `iter61`, `iter62` keep the code. `src/bot`
   = g_iter13 + archetype scaffolding. **The VM is idle.**
+- **In flight: Iteration 63** (`src/bot` = g_iter13 + scout caps doubled, TRAINING_LOG 2026-09-23
+  08:05): ladder `gauntlet/ladder-i63.log`, SPRT `gauntlet/sprt-i63.log` vs g_iter13. Accept only
+  on SPRT ACCEPT plus a block not worse than 37/48 with strong bots >= 5/12; else revert.
 - **Submission: `g_iter13`** = g_iter12 + cheap guards under a swarm (`GUARD_MUCK_COST=15`,
   `SWARM_MUCKS=3`, `SWARM_MEMORY=50`; Iteration 58). Accepted under METHOD 5b: two ladder blocks
   78/96 with **rzhan11 9/12** (g_iter12: 77/96, rzhan11 5/12) and a neutral mirror (final **119-121 over 240**, `gauntlet/sprt-i58-final.log`). `src/bot` = `g_iter13` plus archetype-only

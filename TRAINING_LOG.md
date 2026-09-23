@@ -5926,3 +5926,21 @@ final bot is beaten when the opponent has the map and the muckrakers by r200, be
 economy or the centres separate. That is the next competitor's first hypothesis, with the
 caveat from Iteration 38: more scouts alone did not win games (51.7%); it is what the
 muckrakers *do* on the map that the swarm bots have and we do not.
+
+## Iteration 63 -- scout caps doubled (a re-test of Iteration 38) -- PRE-REGISTERED (2026-09-23 08:05 UTC)
+
+Basis: the 144-game onset table (coverage lead +0.49 and muckraker-count lead +0.47 at r200, the
+earliest risers). Dose: `SCOUT_BASE` 8 -> 16, one more scout every 20 rounds instead of 40, cap 60.
+Three fixed seeds, one game each:
+
+| seed | g_iter13 | **Iteration 63** |
+|---|---|---|
+| Arena vs `arch_hunt` | lost on votes at r1500 | annihilated at r452 |
+| Arena vs `arch_lemon` | annihilated by r500 | annihilated at r419 |
+| Superposition mirror vs g_iter13 | B wins (1 to 7) | **wins on votes at r1500** |
+
+The mirror likes it and both swarm partners punish it -- the reverse of 5b's case. Ladder block
+and SPRT vs `g_iter13` together (`gauntlet/ladder-i63.log`, `gauntlet/sprt-i63.log`). Rule: it is
+accepted only if the SPRT ACCEPTs **and** the block is not worse than 37/48 with the strong bots
+at 5/12 or better; otherwise revert to `src/g_iter13`. The 13:00 UTC shutdown applies the rule
+to whatever has finished.

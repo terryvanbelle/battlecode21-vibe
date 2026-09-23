@@ -5844,3 +5844,16 @@ archetype scaffolding); `iter60` keeps the code.
 **Candidate work ends here.** Six arms since g_iter13 (52-57 before it, 59-60 after): the
 sparring partners now reproduce both strong opponents, and the next competitor should start
 from them, not from another constant.
+
+## Iterations 61-62 on the fixed seeds (2026-09-23 02:20 UTC)
+
+The user asked for the remaining twelve hours to be used; two arms with a measured basis each,
+read on the three fixed seeds first.
+
+- **Iteration 61, the target-aware attack switched on** (`iter61`, the machinery merged with
+  `arch_lemon`): against `arch_lemon` 3 centres to 5 at r250 and 0 to 8 by r800 (23 attacks, 3
+  flips); against `arch_hunt` 0 to 8 by r800; the mirror lost on votes like the baseline. Null:
+  sized attacks at r250 buy nothing while our own economy is already the one collapsing.
+- **Iteration 62, the camping scouts patrol the ring around the enemy centre instead**
+  (`iter62`, `HUNT_PATROL=1`; arch_hunt's behaviour for the one-in-four scouts that used to sit
+  beside the enemy centre): diagnostics running.

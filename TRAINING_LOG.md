@@ -5881,3 +5881,10 @@ votes (g_iter13's blocks: 22-28 annihilations). The gate runs two or three more 
 it is clearly above 55% by then, 62 reverts. (The first launch of these runs was `g_iter13`
 against itself -- the branch had not merged -- and was voided after minutes; see HANDOFF.)
 Ladder after recording: 1008 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1757, 1008 games
+
+## Iteration 62 REJECTED: SPRT 20-28 (41.7%) after three batches, ladder strong bots 4/12 (2026-09-23 03:35 UTC)
+
+Neither instrument earned it: the gate 7-9, 4-12, 9-7 and the block 33% against the swarm bots
+(g_iter13: 45%). Stopped and voided; `src/bot` back to g_iter13 (+ archetype scaffolding);
+`iter62` keeps the code. Two seeds won out of three, and nothing carried -- the pattern of the
+week: a fixed-seed single game is a filter, never a verdict.

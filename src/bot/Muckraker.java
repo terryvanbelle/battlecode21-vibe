@@ -52,7 +52,7 @@ public strictfp class Muckraker extends Robot {
         for (int i = nEnemy; --i >= 0;) { RobotInfo r = enemies[i]; if (r.type == RobotType.SLANDERER && (best == null || loc.distanceSquaredTo(r.location) < loc.distanceSquaredTo(best.location))) best = r; }
         if (best != null) { nav.setTarget(best.location); nav.step(); return; }
         // arch_hunt (ARCHETYPE 6): patrol the ring 3-8 tiles around the nearest enemy centre, where its slanderers live
-        if ((C.ARCHETYPE >= 6 || (C.HUNT_PATROL == 1 && id % C.CAMP_ONE_IN == 0)) && MapState.nEnemy > 0) {   // Iteration 62: the campers patrol instead
+        if (C.ARCHETYPE >= 6 && MapState.nEnemy > 0) {
             MapLocation e = nearestEnemyEC();
             if (patrol == null || round - patrolRound > 15 || loc.distanceSquaredTo(patrol) <= 2) {
                 int dx = nextInt(17) - 8, dy = nextInt(17) - 8;

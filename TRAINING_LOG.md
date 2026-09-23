@@ -5944,3 +5944,15 @@ and SPRT vs `g_iter13` together (`gauntlet/ladder-i63.log`, `gauntlet/sprt-i63.l
 accepted only if the SPRT ACCEPTs **and** the block is not worse than 37/48 with the strong bots
 at 5/12 or better; otherwise revert to `src/g_iter13`. The 13:00 UTC shutdown applies the rule
 to whatever has finished.
+
+## Iteration 63 REJECTED at the block: 35/48, strong bots 2/12; SPRT 15-17 (2026-09-23 09:05 UTC)
+
+awesomelemonade 1/6, rzhan11 1/6, iliao2345 3/6, the five others 6/6. The mirror seed's 7-to-1
+win was real and the swarm bots took it apart exactly as the two partners did on their seeds: under
+a swarm the extra scout slots are never built -- the guards take them -- and what is built dies.
+Stopped and voided; `src/bot` back to g_iter13 (+ scaffolding); `iter63` keeps the code. The
+onset table's coverage/muckraker lead is a *marker* of games we win, not a lever we can pull with
+scouts alone (Iteration 38 said the same at 51.7%). Recorded as `iter63-rejected`: 1152 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1713, 1152 games
+
+**Candidate work ends.** Eleven arms since g_iter12; one accept (g_iter13). The partners
+`arch_hunt` and `arch_lemon` are the instruments for the next competitor.

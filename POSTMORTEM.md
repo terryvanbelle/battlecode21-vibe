@@ -248,7 +248,8 @@ reproduce it. `progress/ONSET.md` has the full table.
 
 ## 10. Where everything is
 
-- `src/bot` -- the bot; `src/g_iter13` the submission snapshot; `src/arch_*` the sparring partners.
+- `src/bot` -- the bot, byte-identical to `src/g_iter13`, the submission snapshot; `src/arch_*` the
+  sparring partners (`arch_lemon` carries the target-aware attack machinery of Iteration 53).
 - `tools/` -- `mirror.sh` + `sprt.py` (the gate), `scrim.sh` (ladder blocks), `gauntlet.sh`,
   `run-dev.sh` (fixed-seed diagnostics), `replay-dump.sh` + `replaydump/`, `scrim-study.sh`,
   `onset.py`, `correlate.py`, `log-scan.sh`, `econ-scan.sh`, `elo.py`, `bench-roster.py`,

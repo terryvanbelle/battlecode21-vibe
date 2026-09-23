@@ -54,7 +54,7 @@ public final class MapState {
         for (int i = nNeutral; --i >= 0;) if (neutralEC[i].equals(l)) { nNeutral--; neutralEC[i] = neutralEC[nNeutral]; neutralInf[i] = neutralInf[nNeutral]; return; }
     }
     public static void removeEnemy(MapLocation l) {
-        for (int i = nEnemy; --i >= 0;) if (enemyEC[i].equals(l)) { nEnemy--; enemyEC[i] = enemyEC[nEnemy]; enemyStamp[i] = enemyStamp[nEnemy]; enemyInf[i] = enemyInf[nEnemy]; enemyInfRound[i] = enemyInfRound[nEnemy]; return; }
+        for (int i = nEnemy; --i >= 0;) if (enemyEC[i].equals(l)) { nEnemy--; enemyEC[i] = enemyEC[nEnemy]; enemyStamp[i] = enemyStamp[nEnemy]; return; }
     }
     // Iteration 49: ownership claims carry the round of the sighting behind them (round / STAMP_DIV, six bits,
     // no wrap in 1500 rounds). A claim is accepted only if it is newer than the contrary claim we hold, so the
@@ -63,7 +63,6 @@ public final class MapState {
     // the sightings a sibling's scouts relayed (home knew no enemy centre for 1,200 rounds).
     public static final int STAMP_DIV = 32;
     public static final int[] enemyStamp = new int[MAX_ECS];
-    public static final int[] enemyInf = new int[MAX_ECS], enemyInfRound = new int[MAX_ECS];   // Iteration 53: last SIGHTED influence of an enemy centre (-1 unknown) and when
     public static final int[] ownStamp = new int[MAX_ECS];
     public static int stamp(int round) { return round / STAMP_DIV; }
     private static int stampOf(MapLocation[] a, int[] st, int n, MapLocation l) { for (int i = n; --i >= 0;) if (a[i].equals(l)) return st[i]; return -1; }
@@ -74,7 +73,7 @@ public final class MapState {
         removeOwn(l); removeNeutral(l);
         for (int i = nEnemy; --i >= 0;) if (enemyEC[i].equals(l)) { if (st > enemyStamp[i]) enemyStamp[i] = st; return false; }
         if (nEnemy >= MAX_ECS) return false;
-        enemyEC[nEnemy] = l; enemyStamp[nEnemy] = st; enemyInf[nEnemy] = -1; enemyInfRound[nEnemy] = -1; nEnemy++; return true;
+        enemyEC[nEnemy] = l; enemyStamp[nEnemy] = st; nEnemy++; return true;
     }
     /** An own-centre claim with the sighting's stamp. Returns true if the tile was newly listed as ours. */
     public static boolean claimOwn(MapLocation l, int st) {
@@ -88,12 +87,6 @@ public final class MapState {
     }
     /** Sightings (this robot sees it, or is it): a claim stamped now. */
     public static boolean sightEnemyEC(MapLocation l, int round) { return claimEnemy(l, stamp(round)); }
-    /** A sighting that also carries the centre's influence (sensed, or a scout's bucketed report). */
-    public static boolean sightEnemyEC(MapLocation l, int round, int inf) {
-        boolean added = claimEnemy(l, stamp(round));
-        for (int i = nEnemy; --i >= 0;) if (enemyEC[i].equals(l)) { if (round >= enemyInfRound[i]) { enemyInf[i] = inf; enemyInfRound[i] = round; } break; }
-        return added;
-    }
     public static boolean sightOwnEC(MapLocation l, int round) { return claimOwn(l, stamp(round)); }
     public static void removeOwn(MapLocation l) {
         for (int i = nOwn; --i >= 0;) if (ownEC[i].equals(l)) { nOwn--; ownEC[i] = ownEC[nOwn]; ownStamp[i] = ownStamp[nOwn]; return; }

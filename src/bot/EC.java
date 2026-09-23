@@ -43,19 +43,6 @@ public strictfp class EC extends Robot {
     private int lastBuildRound = -100;
     private int broadcast = 0, broadcastAge = 0;
     private int captureTargetIdx = -1, cheapIdx = -1;   // cheapIdx: the scan result, evaluated once per branch (Iteration 50)
-    private MapLocation attackTile = null; private int attackBuilds = 0;   // Iteration 53: the enemy centre this build is aimed at
-    private int attackTarget(int inf) {
-        int best = -1, bestCost = 1 << 30;
-        if (capturers >= C.MAX_CAPTURERS) return -1;
-        for (int i = MapState.nEnemy; --i >= 0;) {
-            if (MapState.enemyInf[i] < 0 || round - MapState.enemyInfRound[i] > C.ATTACK_INF_AGE) continue;
-            int c = MapState.enemyInf[i] * C.ATTACK_MARGIN_NUM / C.ATTACK_MARGIN_DEN + 14;
-            if (c > inf - reserve() || c >= bestCost) continue;
-            if (claimed(MapState.enemyEC[i]) || presumed(MapState.enemyEC[i])) continue;
-            best = i; bestCost = c;
-        }
-        return best;
-    }
 
     EC(RobotController rc) { super(rc); }
 
@@ -97,7 +84,7 @@ public strictfp class EC extends Robot {
         doBid(); prof[6] = Clock.getBytecodeNum();
         updateBroadcast(danger); prof[7] = Clock.getBytecodeNum();
         profLog(prof[7]);
-        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound + " capReads=" + capReads + " heardE=" + heardEnemy + " own=" + MapState.nOwn + " ownT=" + ownTiles() + " refusedE=" + refusedEnemy + " safeStops=" + safeStops + " swarmGuards=" + swarmGuards + " swarm=" + (swarm ? 1 : 0) + " atk=" + attackBuilds);
+        if (round % 50 == 0) Debug.log("@econ inf=" + rc.getInfluence() + " votes=" + rc.getTeamVotes() + " sl=" + slanderers + " g=" + guards + " sc=" + scouts + " cap=" + capturers + " idle=" + idleRounds + " noTile=" + blockedRounds + " spend=" + spendBuilds + " eDanger=" + (econDangerRounds) + " save=" + saveRounds + " bid=" + bid + " eVotes~" + enemyVotesEst + " sym=" + MapState.sym + " bounds=" + MapState.minX + "," + MapState.maxX + "," + MapState.minY + "," + MapState.maxY + " eEC=" + MapState.nEnemy + " nEC=" + MapState.nNeutral + " heardN=" + heardNeutral + " refusedN=" + refusedNeutral + " heardOwn=" + heardOwn + " heardOwnId=" + heardOwnId + " sibIds=" + MapState.nOwnId + " nearReads=" + nearbyReads + " orderRounds=" + orderRounds + " flipInt=" + flipIntents + " presumeSkip=" + presumedSkips + " saveBidSkip=" + saveBidSkipped + " saveAband=" + saveAbandonedRound + " capReads=" + capReads + " heardE=" + heardEnemy + " own=" + MapState.nOwn + " ownT=" + ownTiles() + " refusedE=" + refusedEnemy + " safeStops=" + safeStops + " swarmGuards=" + swarmGuards + " swarm=" + (swarm ? 1 : 0));
     }
 
     // ---------------------------------------------------------------- production
@@ -173,14 +160,13 @@ public strictfp class EC extends Robot {
             }
         }
         else if ((cheapIdx = captureAffordable(inf)) >= 0) { captureTargetIdx = cheapIdx; t = RobotType.POLITICIAN; cost = MapState.neutralInf[captureTargetIdx] + 14; role = Roles.CAPTURE; Debug.log("@capbuild r=" + round + " cost=" + cost + " home=" + (birth <= 1)); }
-        else if ((C.ATTACK == 1 || C.ARCHETYPE == 7) && (cheapIdx = attackTarget(inf)) >= 0) { captureTargetIdx = -1; attackTile = MapState.enemyEC[cheapIdx]; t = RobotType.POLITICIAN; cost = MapState.enemyInf[cheapIdx] * C.ATTACK_MARGIN_NUM / C.ATTACK_MARGIN_DEN + 14; role = Roles.CAPTURE; attackBuilds++; Debug.log("@attack r=" + round + " tgt=" + (attackTile.x - MapState.minX) + "," + (attackTile.y - MapState.minY) + " inf=" + MapState.enemyInf[cheapIdx] + " age=" + (round - MapState.enemyInfRound[cheapIdx]) + " cost=" + cost); }
         else if (MapState.nEnemy > 0 && enemyEcInf > 0 && inf - reserve() >= Math.max(200, enemyEcInf / 2) && capturers < 3 && !presumed(MapState.enemyEC[0])) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), enemyEcInf + 40); role = Roles.CAPTURE; }
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE && (guards >= slanderers / 3)) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf >= 20 && (guards < C.GUARD_BASE + slanderers / 2 || (danger && guards < C.MAX_GUARDS))) { t = RobotType.POLITICIAN; cost = (C.GUARD_MUCK_COST > 0 && !enemyPolNear && swarm) ? C.GUARD_MUCK_COST : Math.min(Math.max(20, inf / 4), 60); role = Roles.GUARD; if (cost == C.GUARD_MUCK_COST) swarmGuards++; }   // Iteration 56b/58: cheap guards against a muckraker swarm
-        else if (inf >= 30 && scouts < (C.ARCHETYPE >= 6 ? 12 + round / 6 : Math.min(C.SCOUT_MAX, C.SCOUT_BASE + round / C.SCOUT_PER_ROUND + (inf > 400 ? 3 : 0) + (MapState.nEnemy == 0 && round > 150 ? 2 : 0)))) { t = RobotType.MUCKRAKER; cost = 1; role = C.ARCHETYPE >= 6 ? Roles.HUNT : Roles.SCOUT; }   // arch_hunt / arch_lemon: a stream of hunters
+        else if (inf >= 30 && scouts < (C.ARCHETYPE == 6 ? 12 + round / 6 : Math.min(C.SCOUT_MAX, C.SCOUT_BASE + round / C.SCOUT_PER_ROUND + (inf > 400 ? 3 : 0) + (MapState.nEnemy == 0 && round > 150 ? 2 : 0)))) { t = RobotType.MUCKRAKER; cost = 1; role = C.ARCHETYPE == 6 ? Roles.HUNT : Roles.SCOUT; }   // arch_hunt: a stream of hunters
         else if (!econDanger && slanderers < C.MAX_SLANDERERS && Econ.bestSize(inf - reserve()) >= C.MIN_SLANDERER_SIZE) { t = RobotType.SLANDERER; cost = Econ.bestSize(Math.min(inf - reserve(), C.MAX_SLANDERER_SIZE)); role = Roles.ECON; }
         else if (inf - reserve() >= 100 && guards < C.MAX_GUARDS) { t = RobotType.POLITICIAN; cost = Math.min(inf - reserve(), Math.max(50, inf / 3)); role = Roles.GUARD; }
-        else if (MapState.nEnemy > 0 && inf - reserve() >= 300 && capturers < 3 && !presumed(MapState.enemyEC[0])) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = (C.ATTACK == 1 || C.ARCHETYPE == 7) ? Math.min(inf - reserve(), C.ATTACK_CAP) : inf - reserve(); role = Roles.CAPTURE; }   // rich and idle: throw everything at the enemy EC (capped only with the attack branch)
+        else if (MapState.nEnemy > 0 && inf - reserve() >= 300 && capturers < 3 && !presumed(MapState.enemyEC[0])) { captureTargetIdx = -1; t = RobotType.POLITICIAN; cost = inf - reserve(); role = Roles.CAPTURE; }   // rich and idle: throw everything at the enemy EC
         else if (inf - reserve() >= C.SPARE_MIN) {
             // never idle: every capped branch declined but influence is spare. Alternate bodies: a guard when guards
             // trail slanderers, else another slanderer up to the spare cap, else a 1-influence hunter.
@@ -199,12 +185,11 @@ public strictfp class EC extends Robot {
         if (d == null) { blockedRounds++; return; }
         rc.buildRobot(t, d, cost);
         RobotInfo nb = rc.senseRobotAtLocation(loc.add(d));
-        if (nb != null && nChild < MAX_CHILDREN) { childId[nChild] = nb.ID; childType[nChild] = role; childBirth[nChild] = round; childTgt[nChild] = (role == Roles.CAPTURE) ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : attackTile != null ? attackTile : (MapState.nEnemy > 0 ? MapState.enemyEC[0] : null)) : null; nChild++; }
+        if (nb != null && nChild < MAX_CHILDREN) { childId[nChild] = nb.ID; childType[nChild] = role; childBirth[nChild] = round; childTgt[nChild] = (role == Roles.CAPTURE && captureTargetIdx >= 0) ? MapState.neutralEC[captureTargetIdx] : null; nChild++; }
         switch (role) { case Roles.SCOUT: case Roles.HUNT: scouts++; break; case Roles.GUARD: guards++; break; case Roles.ECON: slanderers++; break; case Roles.CAPTURE: capturers++; break; default: break; }
         lastBuildRound = round;
         // tell the newborn its role via our flag for one round: ORDER with target
-        MapLocation tgt = role == Roles.CAPTURE ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : attackTile != null ? attackTile : MapState.enemyEC[0]) : loc;
-        attackTile = null;
+        MapLocation tgt = role == Roles.CAPTURE ? (captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : MapState.enemyEC[0]) : loc;
         // a robot spawned this round takes its FIRST turn next round (the engine iterates a snapshot of the
         // spawn order), so the order must still be on the flag next round; the EC cannot build again before that
         // Iteration 48 dose 4: only a CAPTURE needs an order -- it is the one build whose target the newborn
@@ -264,7 +249,7 @@ public strictfp class EC extends Robot {
             if (role == Roles.ECON && MapState.nEnemy > 0) s += Math.sqrt(n.distanceSquaredTo(MapState.enemyEC[0])) * 0.3;
             if (role == Roles.SCOUT) s += nextInt(3);   // spread scouts
             if (role == Roles.GUARD && nearestEnemy != null) s -= Math.sqrt(n.distanceSquaredTo(nearestEnemy.location)) * 0.5;
-            if (role == Roles.CAPTURE) { MapLocation tg = captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : attackTile != null ? attackTile : (MapState.nEnemy > 0 ? MapState.enemyEC[0] : null); if (tg != null) s -= Math.sqrt(n.distanceSquaredTo(tg)) * 0.7; }
+            if (role == Roles.CAPTURE) { MapLocation tg = captureTargetIdx >= 0 ? MapState.neutralEC[captureTargetIdx] : (MapState.nEnemy > 0 ? MapState.enemyEC[0] : null); if (tg != null) s -= Math.sqrt(n.distanceSquaredTo(tg)) * 0.7; }
             if (s > bs) { bs = s; best = d; }
         }
         return best;

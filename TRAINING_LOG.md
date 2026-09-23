@@ -5988,3 +5988,19 @@ code over nine blocks, 432 games on the fixed field:
 
 Ladder after recording: 1248 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1742, 1248 games
 No further blocks: the VM is idle for the 13:00 UTC shutdown.
+
+## Shutdown (2026-09-23 13:10 UTC)
+
+The 30-minute loop is deleted. No job was running on the VM; no block was unrecorded. `src/bot`
+restored byte-identical to `src/g_iter13` (the archetype scaffolding from the `arch_lemon` build
+lives on in `src/arch_lemon` and on `iter53`); `test/bot` restored to match; unit tests pass. The
+VM's `gauntlet/` and `build/` emptied and the instance stopped. Documents brought to their final
+state; `POSTMORTEM.md` is the season write-up.
+
+**Final ledger.** Submission `g_iter13`: 334/432 (77.3%) on the fixed field over nine blocks;
+awesomelemonade 33%, rzhan11 46%; Elo 1742, rank 3 of 21. From v1's 29% and 7% against the top
+bot. Accepts that moved the ladder: the opening deployment (34), the real-threat rule (27), the
+cap removals (30, 35, 37), the broadcast fix and hand-off (48), the knowledge/bidding/stall
+repairs (49-51, as g_iter12), cheap guards under a swarm (58, as g_iter13). Eleven arms after
+g_iter12 tried and rejected or null; two sparring partners built that reproduce the two bots
+still ahead of us.

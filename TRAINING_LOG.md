@@ -5888,3 +5888,9 @@ Neither instrument earned it: the gate 7-9, 4-12, 9-7 and the block 33% against 
 (g_iter13: 45%). Stopped and voided; `src/bot` back to g_iter13 (+ archetype scaffolding);
 `iter62` keeps the code. Two seeds won out of three, and nothing carried -- the pattern of the
 week: a fixed-seed single game is a filter, never a verdict.
+
+## `g_iter13` sixth ladder block: 38/48; six blocks 225/288 (78.1%) (2026-09-23 04:35 UTC)
+
+awesomelemonade 0/6, rzhan11 3/6, iliao2345 5/6, the rest 6/6. Six blocks, 288 games:
+**awesomelemonade 11/36 (31%), rzhan11 19/36 (53%)**, the six we beat 195/216 (90%). Ladder after
+recording: 1056 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 2 of 21 rated bots, Elo 1783, 1056 games

@@ -6,11 +6,11 @@ This is the write-up a contestant would read after the finals: what we built, ho
 it, what the engine turned out to do, what worked, what did not, and what we would do next.*
 
 **Final standing.** Submission `g_iter13`. On a fixed field of eight released 2021 bots played
-as scrimmages (random map, random side, six games per opponent per block): **187/240 (77.9%)**
-over its five blocks; **37% against awesomelemonade** (the top bot), **53% against rzhan11**,
-89% against the other six. Elo ladder built from our own 960 scrimmages: rank 3 of 21 rated
-bots (1722), behind awesomelemonade (1864) and rzhan11 (1779), from a start of 29% overall and
-7% against the top bot.
+as scrimmages (random map, random side, six games per opponent per block): **261/336 (77.7%)**
+over its seven blocks; **31% against awesomelemonade** (the top bot), **52% against rzhan11**,
+69-100% against the other six. Elo ladder built from our own 1,104 scrimmages: rank 3 of 21
+rated bots (1760), behind awesomelemonade and rzhan11, from a start of 29% overall and 7%
+against the top bot.
 
 The interesting part is not the bot. It is the method that got a 45-minute-per-game season to
 move at all, and the engine facts and strategic measurements it produced along the way. Those
@@ -114,8 +114,8 @@ sees" can run perhaps 200 games a day. Everything about the method follows from 
 | Iter 49-51 | flip intent, stamped ownership claims, abort reports, bid-while-saving, vote-estimate init, bytecode cuts, save mode off | 53-55% (inconclusive) | -- |
 | **g_iter12** | the stack above, accepted on combined evidence | 55.4% | **40/48**, Elo 1798, rank 2 |
 | Iter 52-57 | hold what we take (floor, sentinels, bank), target-aware attack, rich guards, interceptors | rejected / null | 38/48 |
-| **g_iter13** | cheap guards under a swarm | 119-121 (neutral) | **78/96 then 187/240**, awesomelemonade 37%, rzhan11 53% |
-| Iter 59-60 | rich interceptors; guards among the slanderers | null / rejected early | -- |
+| **g_iter13** | cheap guards under a swarm | 119-121 (neutral) | **78/96 then 261/336**, awesomelemonade 31%, rzhan11 52% |
+| Iter 59-62 | rich interceptors; guards among the slanderers; attack on; scouts patrol the enemy ring | null / rejected | -- |
 
 The two accepts that moved the ladder most were both found the same way: measure our
 behaviour against what the opponent actually does, read one logged game closely enough to

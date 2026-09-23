@@ -5912,3 +5912,17 @@ The g_iter13 code over its seven blocks (the iter58 block is the same code):
 
 Ladder after recording: 1104 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1760, 1104 games
 Ladder blocks end here; the VM is idle for the 13:00 UTC shutdown.
+
+## The final bot's onset table on 144 games (2026-09-23 07:15 UTC)
+
+`tools/scrim-study.sh` over the three most recent `g_iter13` blocks, merged into
+`gauntlet/g13-combined` (1,569 rows, 123 games with a full r200 row after the locked-tier skips);
+`progress/ONSET.md` and `onset-ladder.png` regenerated on it. Noise floor ~0.19 instead of ~0.29.
+At r200, within-pair: **coverage lead +0.49** (loss median -107 tiles), **muckraker-count lead
++0.47** (loss median -20), navigation moves +0.36, slanderer lead +0.28, centre lead +0.28,
+politician lead +0.26 (its ~avg form rises from r50). The earliest risers are the same two as
+on 48 games -- coverage and muckrakers -- now well clear of the floor: against the field the
+final bot is beaten when the opponent has the map and the muckrakers by r200, before the
+economy or the centres separate. That is the next competitor's first hypothesis, with the
+caveat from Iteration 38: more scouts alone did not win games (51.7%); it is what the
+muckrakers *do* on the map that the swarm bots have and we do not.

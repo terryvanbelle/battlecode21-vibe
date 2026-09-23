@@ -188,6 +188,17 @@ All read from the engine source or measured in logged games; none guessed.
   to 1 and lost the mirror on votes to a hoarder. Read the two together, and pre-register
   which one decides.
 
+### What predicts a win for the final bot
+
+On 144 games of `g_iter13` against the field (noise floor ~0.19), the earliest and strongest
+r200 correlates of the result, within opponent-and-map pairs, are the **coverage lead** (+0.49;
+loss median -107 tiles) and the **muckraker-count lead** (+0.47; loss median -20), then moves,
+slanderer lead and centre lead (+0.28 each). The final bot is beaten when the opponent has the
+map and the muckrakers by r200, before the economy or the centres separate. Iteration 38
+showed more scouts alone do not win (51.7%); what the swarm bots' muckrakers *do* -- hunt
+slanderers, dilute speeches, block spawns -- is the difference, and `arch_hunt`/`arch_lemon`
+reproduce it. `progress/ONSET.md` has the full table.
+
 ## 7. What did not work
 
 - Holding fresh centres with influence floors, capture banks or dilution sentinels (Iteration

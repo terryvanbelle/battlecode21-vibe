@@ -143,6 +143,15 @@ against the previous accepted build unless stated otherwise.
   at 53-55% against a twin that shares every other line, then took the ladder from 38/48 to 40/48
   and the Elo from 1752 to 1798; a board-strength candidate (sentinels) beat the fixed-seed
   baseline 5 centres to 1 and still lost that mirror on votes to a hoarder.
+- **The guard-for-muckraker trade is the defence, and its price is the lever.** Against the
+  hunting archetype we built 108 politicians in 250 rounds to kill 83 influence of muckrakers;
+  refusing the trade lost the slanderers (55 exposures by r250), making it at 15 instead of
+  20-60 -- and only under a real swarm -- took rzhan11 from 42% to 53% (`g_iter13`). Buying
+  the swarm's answer unit-for-unit is still the whole economy by r250; that is the open problem.
+- **Our slanderers were hunted and theirs were not**: against rzhan11, 12 of 16 and 47 died in
+  r250-500 against 2 and 6 of theirs, while they built 5-8x the slanderer influence. `arch_hunt`
+  reproduces it; `arch_lemon` adds attackers sized to our centres and reproduces awesomelemonade's
+  annihilations (0 centres to 8 by r500 on Arena). Both are in the regression set.
 - **Coverage is the earliest honest predictor of the result** (onset r150,
   rising to +0.58), ahead of centres (r400) and centre influence (r350). But
   scouts sweeping more **did not** win games (51.7% over 240): coverage marks a

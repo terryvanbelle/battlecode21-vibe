@@ -172,7 +172,9 @@ indistinguishable from an excuse. The rule that keeps it honest:
   ground the team already held -- and lost 65-79.
 - **Instead, pre-register a second arm against an archetype that HAS the
   property**, decided before the gate runs, not after seeing the number. Keep
-  one sparring archetype per thing the opponents do to you; `src/arch_expand`
+  one sparring archetype per thing the opponents do to you; `src/arch_expand`,
+  `src/arch_hunt` (muckrakers that patrol the ring where slanderers live) and `src/arch_lemon`
+  (the hunt plus attackers sized to your centres) are the ones that beat the current build;
   exists for exactly this and is verified to take 6 centres to our 2-3.
 - **State the comparison as an A/B**: does the candidate beat that archetype
   more often than the incumbent does? A null in the mirror plus a win in that

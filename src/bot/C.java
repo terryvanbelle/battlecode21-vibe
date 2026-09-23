@@ -159,7 +159,11 @@ public final class C {
     // single remembered bucket, one that threw the whole bank (38 politicians aborting at a contested tile in one
     // game). Enemy centres now carry their last SIGHTED influence; the cheapest known one is bought like a neutral,
     // priced at influence x margin + tax, claimed per target, subject to the capturer cap and the flip presumption.
-    public static final int ATTACK = 0;                 // 0 = g_iter13 (the branch also runs for ARCHETYPE 7, the awesomelemonade-like sparring partner)
+    // Iteration 61: the target-aware attack, never tested against the swarm partners. arch_lemon's four centres hold
+    // 708 influence between them at r250 and arch_hunt's 859: sized attacks (1.5x + 14) are cheap while they are
+    // poor, and their bodies at home are muckrakers, which a speech kills wholesale. Against the mirror (53) it was
+    // a shell tug-of-war, 4 centres to 4 -- neutral. Read against the partners first.
+    public static final int ATTACK = 1;                 // 0 = g_iter13 (the branch also runs for ARCHETYPE 7, the awesomelemonade-like sparring partner)
     public static final int ATTACK_MARGIN_NUM = 3, ATTACK_MARGIN_DEN = 2;   // conviction bought per point of the centre's influence (their bodies dilute the speech)
     public static final int ATTACK_INF_AGE = 200;       // a sighting older than this is not a price
     public static final int ATTACK_CAP = 1000;          // the old "rich and idle" branch no longer empties the bank into one politician

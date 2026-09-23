@@ -86,6 +86,10 @@ public final class C {
     // this many camps; the rest keep sweeping. (Iteration 33 tried this at 51.7%, when the channel was blocked
     // and scouts rarely learned the enemy centre at all, so it could barely act.)
     public static final int CAMP_ONE_IN = 4;
+    // Iteration 62: the scouts that used to camp beside the enemy centre (one in CAMP_ONE_IN) patrol the ring 3-8 tiles
+    // around it instead -- arch_hunt's behaviour, which exposed 39-55 of our slanderers in 250 rounds when we did not
+    // answer it. Our exposures of theirs also buff every politician of ours by 0.001 x the influence exposed.
+    public static final int HUNT_PATROL = 1;            // 0 = camp (g_iter13)
     public static final int MAX_CAPTURERS = 4;          // dose 1 (was 2)
     public static final int MAX_SLANDERER_SIZE = 463;   // largest breakpoint we buy
     public static final int BID_CAP_DIV = 6;            // (unused) historical cap

@@ -5956,3 +5956,17 @@ scouts alone (Iteration 38 said the same at 51.7%). Recorded as `iter63-rejected
 
 **Candidate work ends.** Eleven arms since g_iter12; one accept (g_iter13). The partners
 `arch_hunt` and `arch_lemon` are the instruments for the next competitor.
+
+## `g_iter13` eighth ladder block: 37/48 (awesomelemonade 4/6); eight blocks (2026-09-23 10:05 UTC)
+
+    g_iter13 code over 8 blocks: 298/384 (77.6%)
+      awesomelemonade.sprint1bot         17/48 (35%)
+      rzhan11.sprint2                    24/48 (50%)
+      iliao2345.attacker                 32/48 (67%)
+      Scott-Poole.spright8               37/48 (77%)
+      max-titov.sprintplayer             46/48 (96%)
+      123kevinlee.atomFinalQualifier     47/48 (98%)
+      arya-k.quals_v1                    47/48 (98%)
+      jmerle.camel_case_v7_sprint_2      48/48 (100%)
+
+Ladder after recording: 1200 scrimmages (ours only); K=32 from 1500; our team is **us**: rank 3 of 21 rated bots, Elo 1771, 1200 games
